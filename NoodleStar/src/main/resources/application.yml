@@ -1,0 +1,40 @@
+server.port: 8080
+
+logging:
+  level:
+    root: INFO
+    com.noodlestar: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.springframework.data.mongodb.core.MongoTemplate: DEBUG
+
+
+spring:
+  data:
+    mongodb:
+      username: user
+      password: pwd
+      host: localhost
+      port: 0
+      database: noodlestar-db
+      authentication-database: admin
+      auto-index-creation: true
+de:
+  flapdoodle:
+    mongodb:
+      embedded:
+        version: 5.0.5
+
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+
+  server.port: 8080
+
+  spring.datasource.hikari.initializationFailTimeout: 60000
+
+  spring.data.mongodb.host: mongodb
+  spring.data.mongodb.port: 27017
