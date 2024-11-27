@@ -1,15 +1,17 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
-import { AppRoutePaths } from './AppRoutePaths';
+import { PathRoutes } from './path.routes';
+import HomePage from './pages/HomePage';
+import AboutUsPage from './pages/AboutUsPage';
 
 
 const router = createBrowserRouter([
     {
-        path: AppRoutePaths.HomePage,
-        element: <Navigate to={AppRoutePaths.HomePage} replace />,
+        path: PathRoutes.HomePage,
+        element: <HomePage />,
         },
     {
-        path: AppRoutePaths.AboutUsPage,
-        element: <Navigate to={AppRoutePaths.AboutUsPage} replace />,
+        path: PathRoutes.AboutUsPage,
+        element: <AboutUsPage />,
     },
 
 ]);

@@ -25,7 +25,7 @@ export const AboutUs: React.FC = () => {
                 <div className={styles.titleSection}>
                     <h2 className={styles.mainTitle}>About Us</h2>
                     <img
-                        src="https://your-image-url-here"
+                        src="https://png.pngtree.com/png-vector/20240322/ourmid/pngtree-instant-fried-noodles-png-image_12178744.png"
                         alt="About Us decorative icon"
                         className={styles.titleIcon}
                     />
