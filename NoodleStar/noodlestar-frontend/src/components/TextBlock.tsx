@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './AboutUs.module.css';
+import styles from './css/AboutUs.module.css';
 import { TextBlockProps } from './types';
 
 export const TextBlock: React.FC<TextBlockProps> = ({ title, content }) => {
