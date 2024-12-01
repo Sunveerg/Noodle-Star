@@ -1,5 +1,6 @@
 export enum PathRoutes {
     Default = '/',
     HomePage = '/home',
-    AboutUsPage = '/aboutus'
+    AboutUsPage = '/aboutus',
+    Menu = "/menu"
 }

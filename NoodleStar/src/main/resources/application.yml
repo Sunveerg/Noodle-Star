@@ -14,8 +14,8 @@ spring:
       username: user
       password: pwd
       host: localhost
-      port: 0
-      database: noodlestar-db
+      port: 27017
+      database: noodlestar
       authentication-database: admin
       auto-index-creation: true
 de:
@@ -31,10 +31,12 @@ spring:
     activate:
       on-profile: docker
 
+  data:
+    mongodb:
+      host: mongodb
+      port: 27017
+      database: noodlestar
+      username: root
+      password: password
+      authentication-database: admin
 
-  server.port: 8080
-
-  spring.datasource.hikari.initializationFailTimeout: 60000
-
-  spring.data.mongodb.host: mongodb
-  spring.data.mongodb.port: 27017
