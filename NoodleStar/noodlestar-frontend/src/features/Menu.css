@@ -53,22 +53,28 @@
     margin-top: 50px;
 
   }
-  
-  .menu-image {
+
+.menu-image {
     position: relative;
-    width: 170px; /* Increase width */
-    height: 170px; /* Increase height to match the image */
-  }
-  
-  
-  .menu-image img {
-    width: 140%; /* Increase the width of the image */
-    height: auto; /* Maintain aspect ratio automatically */
-    border-radius: 20px; /* Optional: Adjust the border radius if needed */
-    object-fit: cover; /* Ensure the image covers the container */
-    aspect-ratio: 1.02;
-  }
-  
+    width: 40%; /* Adjust as needed */
+    padding-bottom: 40%; /* Ensures a consistent aspect ratio (1:1 here) */
+    max-width: 200px; /* Optional: Upper limit for large screens */
+    max-height: 200px; /* Matches the max width for uniform size */
+    display: flex; /* Ensures the child image is centered */
+    align-items: center; /* Center the image vertically */
+    justify-content: center; /* Center the image horizontally */
+    overflow: hidden; /* Crop any overflowing content */
+    border-radius: 20px; /* Optional: Adds rounded corners */
+}
+
+
+.menu-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the image fills the container */
+    border-radius: inherit; /* Matches the container's border radius */
+}
+
   
   .menu-name {
     position: absolute;
