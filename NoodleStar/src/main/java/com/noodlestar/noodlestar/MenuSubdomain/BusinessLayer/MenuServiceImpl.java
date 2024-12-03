@@ -8,6 +8,7 @@ import com.noodlestar.noodlestar.MenuSubdomain.utils.EntityDTOUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Service
 @Slf4j
@@ -22,6 +23,12 @@ private final MenuRepository menuRepository;
     @Override
     public Flux<MenuResponseModel> getAllMenu() {
         return menuRepository.findAll()
+                .map(EntityDTOUtil::toMenuResponseDTO);
+    }
+
+    @Override
+    public Mono<MenuResponseModel> getMenuById(String menuId) {
+        return menuRepository.findMenuByMenuId(menuId)
                 .map(EntityDTOUtil::toMenuResponseDTO);
     }
 }
