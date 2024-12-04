@@ -32,10 +32,9 @@ public class MenuController {
         return menuService.getAllMenu();
     }
 
-    @PostMapping(value = "", consumes = "application/json", produces = "application/json")
-    public Mono<ResponseEntity<MenuResponseModel>> addDish(@RequestBody Mono<MenuRequestModel> menuRequestModel) {
-        return menuService.addDish(menuRequestModel)
-                .map(m->ResponseEntity.status(HttpStatus.CREATED).body(m))
-                .defaultIfEmpty(ResponseEntity.badRequest().build());
+    @PostMapping("")
+    public Mono<MenuResponseModel> addDish(@RequestBody MenuRequestModel menuRequestModel) {
+        MenuResponseModel response = menuService.addDish(menuRequestModel);
+        return Mono.just(response); // Wrap in Mono to maintain reactive response
     }
 }

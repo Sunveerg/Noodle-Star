@@ -38,6 +38,8 @@ public class EntityDTOUtil {
                 .price(menuRequest.getPrice())
                 .description(menuRequest.getDescription())
                 .category(menuRequest.getCategory())
+                .itemImage(menuRequest.getItemImage())
+                .status(menuRequest.getStatus())
                 .build();
     }
 
@@ -48,6 +50,8 @@ public class EntityDTOUtil {
                 .price(menu.getPrice())
                 .description(menu.getDescription())
                 .category(menu.getCategory())
+                .itemImage(menu.getItemImage())
+                .status(menu.getStatus())
                 .build();
     }
 

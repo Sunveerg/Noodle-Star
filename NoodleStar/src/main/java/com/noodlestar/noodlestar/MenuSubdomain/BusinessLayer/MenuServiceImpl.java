@@ -4,13 +4,20 @@ package com.noodlestar.noodlestar.MenuSubdomain.BusinessLayer;
 
 import com.noodlestar.noodlestar.MenuSubdomain.DataLayer.MenuRepository;
 import com.noodlestar.noodlestar.MenuSubdomain.DataLayer.Menu;
+import com.noodlestar.noodlestar.MenuSubdomain.DataLayer.Status;
 import com.noodlestar.noodlestar.MenuSubdomain.PresentationLayer.MenuResponseModel;
 import com.noodlestar.noodlestar.MenuSubdomain.PresentationLayer.MenuRequestModel;
 import com.noodlestar.noodlestar.MenuSubdomain.utils.EntityDTOUtil;
+import com.noodlestar.noodlestar.MenuSubdomain.utils.exceptions.DishNameAlreadyExistsException;
+import com.noodlestar.noodlestar.MenuSubdomain.utils.exceptions.InvalidDishDescriptionException;
+import com.noodlestar.noodlestar.MenuSubdomain.utils.exceptions.InvalidDishNameException;
+import com.noodlestar.noodlestar.MenuSubdomain.utils.exceptions.InvalidDishPriceException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -29,29 +36,52 @@ private final MenuRepository menuRepository;
     }
 
     @Override
-    public Mono<MenuResponseModel> addDish(Mono<MenuRequestModel> menuRequestMono) {
-        return menuRequestMono
-                .flatMap(this::validateMenuRequest) // Validate the incoming request
-                .map(EntityDTOUtil::toMenuEntity) // Convert request model to entity
-                .doOnNext(menu -> menu.setMenuId(EntityDTOUtil.generateMenuIdString())) // Generate unique menu ID
-                .flatMap(menuRepository::save) // Save the entity to the repository
-                .map(EntityDTOUtil::toMenuResponseDTO) // Convert the saved entity to a response model
-                .doOnSuccess(response -> log.info("Dish added successfully with ID: {}", response.getMenuId()))
-                .doOnError(error -> log.error("Error adding dish: {}", error.getMessage()));
+    public MenuResponseModel addDish(MenuRequestModel menuRequestModel) {
+        validateMenuRequest(menuRequestModel);
+
+        menuRepository.findByName(menuRequestModel.getName())
+                .map(existingDish -> {
+                    throw new DishNameAlreadyExistsException("Dish with name '" + menuRequestModel.getName() + "' already exists.");
+                })
+                .block();
+
+        Menu menuEntity = new Menu();
+        menuEntity.setName(menuRequestModel.getName());
+        menuEntity.setDescription(menuRequestModel.getDescription());
+        menuEntity.setPrice(menuRequestModel.getPrice());
+        menuEntity.setCategory(menuRequestModel.getCategory());
+        menuEntity.setItemImage(menuRequestModel.getItemImage());
+        menuEntity.setStatus(Status.AVAILABLE);
+        menuEntity.setMenuId(UUID.randomUUID().toString());
+
+        Menu savedMenu = menuRepository.save(menuEntity).block();
+        if (savedMenu == null) {
+            throw new RuntimeException("Failed to save the dish to the database");
+        }
+
+        MenuResponseModel response = new MenuResponseModel();
+        response.setMenuId(savedMenu.getMenuId());
+        response.setName(savedMenu.getName());
+        response.setDescription(savedMenu.getDescription());
+        response.setPrice(savedMenu.getPrice());
+        response.setCategory(savedMenu.getCategory());
+        response.setItemImage(savedMenu.getItemImage());
+        response.setStatus(savedMenu.getStatus());
+
+        log.info("Dish added successfully with ID: {}", response.getMenuId());
+        return response;
     }
 
-    private Mono<MenuRequestModel> validateMenuRequest(MenuRequestModel menuRequest) {
+    private void validateMenuRequest(MenuRequestModel menuRequest) {
         if (menuRequest.getName() == null || menuRequest.getName().isEmpty()) {
-            return Mono.error(new IllegalArgumentException("Dish name cannot be null or empty"));
+            throw new InvalidDishNameException("Dish name cannot be null or empty");
         }
         if (menuRequest.getPrice() == null || menuRequest.getPrice().doubleValue() <= 0) {
-            return Mono.error(new IllegalArgumentException("Dish price must be greater than 0"));
+            throw new InvalidDishPriceException("Dish price must be greater than 0");
         }
         if (menuRequest.getDescription() == null || menuRequest.getDescription().isEmpty()) {
-            return Mono.error(new IllegalArgumentException("Dish description cannot be null or empty"));
+            throw new InvalidDishDescriptionException("Dish description cannot be null or empty");
         }
-        return Mono.just(menuRequest);
     }
-
 
 }

@@ -9,5 +9,5 @@ public interface MenuService {
 
     Flux<MenuResponseModel> getAllMenu();
 
-    Mono<MenuResponseModel> addDish(Mono<MenuRequestModel> menuRequestModel);
+    MenuResponseModel addDish(MenuRequestModel menuRequestModel);
 }

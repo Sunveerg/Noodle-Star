@@ -8,4 +8,7 @@ import reactor.core.publisher.Mono;
 public interface MenuRepository extends ReactiveMongoRepository<Menu, String> {
     Mono<Menu> findMenuByMenuId(String menuId);
 
+    Mono<Menu> findByName(String name);
+
+
 }
