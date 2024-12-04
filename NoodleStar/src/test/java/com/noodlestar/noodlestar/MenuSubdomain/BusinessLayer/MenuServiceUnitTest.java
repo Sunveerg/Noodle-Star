@@ -34,7 +34,7 @@ class MenuServiceUnitTest {
             .description("Classic Italian pasta with egg, cheese, pancetta, and pepper.")
             .price(12.99)
             .category("Pasta")
-            .ItemImage("spaghetti_carbonara.jpg")
+            .itemImage("spaghetti_carbonara.jpg")
             .status(Status.AVAILABLE)
             .build();
 
@@ -45,7 +45,7 @@ class MenuServiceUnitTest {
             .description("Classic Italian pasta with egg, cheese, pancetta, and pepper.")
             .price(12.99)
             .category("Pasta")
-            .ItemImage("spaghetti_carbonara.jpg")
+            .itemImage("spaghetti_carbonara.jpg")
             .status(Status.AVAILABLE)
             .build();
 

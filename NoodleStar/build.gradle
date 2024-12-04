@@ -49,6 +49,9 @@ dependencies {
 	testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 	testImplementation 'io.projectreactor:reactor-test'
 	testImplementation('de.flapdoodle.embed:de.flapdoodle.embed.mongo.spring3x:4.12.3')
+
+	implementation 'org.springframework.boot:spring-boot-starter-json'
+
 }
 
 jacocoTestReport {

@@ -6,10 +6,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 
 
-@Data
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Getter
+@Setter
 public class Menu {
 
 
@@ -20,7 +22,7 @@ public class Menu {
     private String description;
     private Double price;
     private String category;
-    private String ItemImage;
+    private String itemImage;
     private Status status;
 
 
