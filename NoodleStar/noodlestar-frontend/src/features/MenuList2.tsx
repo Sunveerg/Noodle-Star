@@ -4,13 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import { menuResponseModel } from './model/menuResponseModel';
 import { getAllmenu } from './api/getAllMenu';
 import noodleImg from '../components/assets/noodle.png';
-
 import './Menu.css';
-import AddDish from '../components/AddDish';
+import AddDish from '../components/AddDish'; // Ensure AddDish is properly defined
+import { Button } from 'react-bootstrap';
 
 const MenuList: React.FC = (): JSX.Element => {
     const [menuItems, setMenuItems] = useState<menuResponseModel[]>([]);
-    const [showAddDishModal, setShowAddDishModal] = useState(false);  // State for controlling modal visibility
+    const [formVisible, setFormVisible] = useState<boolean>(false);
     const navigate = useNavigate();
 
     // Fetch menu data on component mount
@@ -28,41 +28,43 @@ const MenuList: React.FC = (): JSX.Element => {
             }
         };
 
-        fetchMenuData().catch(error =>
+        fetchMenuData().catch((error) =>
             console.error('Error in fetchMenuData:', error)
         );
     }, []);
-
-    // Function to handle opening the modal
-    const handleAddDishClick = () => {
-        setShowAddDishModal(true);
-    };
-
-    // Function to handle closing the modal
-    const handleCloseModal = () => {
-        setShowAddDishModal(false);
-    };
 
     return (
         <div className="titleSection">
             <h2 className="mainTitle">
                 Our Menu{' '}
-                <img src={noodleImg} alt="Noodle" style={{ width: '50px', height: '50px' }} />
+                <img src={noodleImg} alt="Noodle" style={{width: '50px', height: '50px'}}/>
             </h2>
-            <div className="menu-list">
-                <div className="cloud-container">
-                    <div className="cloud4"></div>
-                    <div className="cloud5"></div>
-                    <div className="cloud6"></div>
-                </div>
-                <div className="topRightImage"></div>
 
+
+            <div style={{marginBottom: '20px', textAlign: 'right'}}>
+                <button
+                    onClick={() => setFormVisible(prev => !prev)}
+                    style={{
+                        backgroundColor: formVisible ? '#ff6347' : '#4CAF50',
+                    }}
+                >
+                    {formVisible ? 'Cancel' : 'Add Dish'}
+                </button>
+                {formVisible && (
+                    <AddDish
+                        onClose={() => setFormVisible(false)}
+                    />
+                )}
+            </div>
+
+
+            <div className="menu-list">
                 {menuItems.length > 0 ? (
                     menuItems.map((item) => (
                         <div className="menu-item" key={item.menuId}>
                             <div className="menu-item-content">
                                 <div className="menu-image">
-                                    <img src={item.itemImage} alt={item.name} />
+                                    <img src={item.itemImage} alt={item.name}/>
                                     <h3 className="menu-name">{item.name}</h3>
                                 </div>
                                 <div className="menu-details">
@@ -83,20 +85,6 @@ const MenuList: React.FC = (): JSX.Element => {
                     <p className="no-items">No menu items available</p>
                 )}
             </div>
-
-            {/* Add New Item Button */}
-            <button
-                className="btn-add"
-                onClick={handleAddDishClick}
-                title="Add New Item"
-            >
-                Add New Item
-            </button>
-
-            {/* AddDish Modal */}
-            {showAddDishModal && (
-                <AddDish closeModal={handleCloseModal} />
-            )}
         </div>
     );
 };
