@@ -3,6 +3,8 @@ import { PathRoutes } from './path.routes';
 import HomePage from './pages/HomePage';
 import AboutUsPage from './pages/AboutUsPage';
 import MenuPage from './pages/MenuPage';
+import MenuOrderPage from './pages/MenuOrderPage';
+
 
 
 
@@ -20,6 +22,10 @@ const router = createBrowserRouter([
     {
         path: PathRoutes.Menu,
         element: <MenuPage />,
+    },
+    {
+        path: PathRoutes.MenuOrder,
+        element: <MenuOrderPage />,
     },
 
 ]);

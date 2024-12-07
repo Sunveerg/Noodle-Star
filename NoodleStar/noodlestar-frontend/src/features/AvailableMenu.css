@@ -1,0 +1,373 @@
+.orderPage {
+  background-color: rgba(166, 0, 7, 1);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow: hidden;
+  padding-bottom: 67px;
+  padding-left: 0; /* Set to zero or positive value */
+  margin-left: 0; /* Add this to ensure the page is aligned correctly */
+}
+
+  
+  .navBackground {
+    background-color: rgba(83, 9, 9, 1);
+    padding: 22px 70px 14px;
+  }
+  
+  .navContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1203px;
+    margin: 0 auto;
+    gap: 20px;
+  }
+  
+  .logo {
+    font: 400 36px 'Baloo Bhaijaan', sans-serif;
+    color: #fff;
+  }
+  
+  .navLinks {
+    display: flex;
+    gap: 60px;
+    color: rgba(201, 160, 22, 1);
+    font: 500 20px Inter, sans-serif;
+  }
+  
+  .navLink {
+    background: none;
+    border: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    padding: 0;
+  }
+  
+  .mainContent {
+    max-width: 1317px;
+    margin: 5px auto 0;
+    padding: 0 37px;
+  }
+  
+  .contentWrapper {
+    display: grid;
+    grid-template-columns: 73% 27%;
+    gap: 20px;
+  }
+  
+  .menuSection {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  
+  .headerSection {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+  
+  .pageTitle {
+    color: rgba(255, 193, 101, 1);
+    font: 400 80px/1 system-ui;
+  }
+  
+  .headerIcon {
+    width: 60px;
+    height: auto;
+  }
+  
+  .menuGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 60px;
+  }
+  
+  .menuCard {
+    background-color: rgba(255, 197, 97, 1);
+    border-radius: 20px;
+    padding: 12px; /* Reduced padding */
+    max-width: 450px; /* Adjust width */
+    max-height: 155px; /* Adjust height */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Optional for better appearance */
+  }
+  
+  
+  .cardContent {
+    display: flex;
+    align-items: center; /* Align content vertically */
+    gap: 0px; /* Reduce spacing between elements */
+  }
+  
+  .dishImage {
+    width: 140%; /* Reduced width */
+    height: 140%; /* Reduced height */
+    border-radius: 20px; /* Maintain consistent border radius */
+    object-fit: cover;
+    top: -70px;
+  }
+ 
+  .cardDetails {
+    display: flex;
+    flex-direction: column; /* Reduced gap between details */
+    margin-left: 60px; /* Adjust spacing */
+    gap: 3px;
+  }
+  
+  .dishTitle {
+    font: 800 20px Mulish, sans-serif; /* Smaller font size */
+    text-transform: uppercase;
+    letter-spacing: 0.5px; /* Adjusted letter spacing */
+    color: #000;
+    margin-left: 140px; /* Remove bottom margin */
+    white-space: nowrap;
+  }
+  
+  .dishDescription {
+    color: rgba(118, 109, 109, 1);
+    font: 800 18px/1 Mulish, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.75px;
+    margin-bottom: 300px; 
+    margin-top: -30px;
+  }
+  
+  .price {
+    font: 800 16px/1 Mulish, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.75px;
+    margin-bottom: 100px; 
+    margin-top: -300px;
+  }
+  
+  .addButton {
+    display: flex;
+    align-items: center;
+    background-color: #e86a12;
+    border: none;
+    border-radius: 13px 0 0 0;
+    color: #fff;
+    font: 800 13px Mulish, sans-serif;
+    padding: 8px 14px;
+    margin-top: -55px;
+    margin-left: auto;
+    cursor: pointer;
+    bottom: 50px;
+    position: relative; /* Ensure positioning is relative to its container */
+    left: 12px; /* Adjust this value to move it to the right */
+}
+
+  
+  .addIcon {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .orderDetailsContainer {
+    background-color: rgba(175, 5, 5, 1);
+    padding: 5px 0 13px;
+  }
+  
+  .orderSummary {
+    color: rgba(255, 193, 101, 1);
+  }
+  
+  .orderDetailsTitle {
+    font: 400 30px system-ui;
+  }
+  
+  .productList {
+    margin-top: 13px;
+  }
+  
+  .productLabel {
+    font: 400 15px system-ui;
+    line-height: 40px;
+  }
+  
+  .productItem {
+    color: #000;
+    font: 800 14px Mulish, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.75px;
+    margin-top: 34px;
+  }
+  
+  .quantity {
+    font-size: 10px;
+  }
+  
+  .subtotalSection {
+    margin-top: 52px;
+  }
+  
+  .subtotalLabel {
+    font: 400 15px system-ui;
+    line-height: 40px;
+  }
+  
+  .divider {
+    width: 100%;
+    margin: 6px 0;
+  }
+  
+  .totalSection {
+    display: flex;
+    justify-content: space-between;
+    margin-top: -8px;
+    padding: 0 20px;
+  }
+  
+  .totalLabel {
+    font: 400 25px/1.6 system-ui;
+  }
+  
+  .totalAmount {
+    color: #000;
+    font: 800 14px Mulish, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.75px;
+  }
+  
+  .checkoutButton {
+    background-color: rgba(201, 160, 22, 1);
+    border: none;
+    border-radius: 30px;
+    color: #000;
+    font: 400 20px system-ui;
+    padding: 7px 38px;
+    margin: 137px auto 0;
+    cursor: pointer;
+    display: block;
+  }
+  
+  .chineseLogo {
+    font: 400 36px system-ui;
+    margin-top: 20px;
+  }
+  
+  @media (max-width: 991px) {
+    .navBackground {
+      padding: 0 20px;
+    }
+  
+    .contentWrapper {
+      grid-template-columns: 1fr;
+    }
+  
+    .pageTitle {
+      font-size: 40px;
+    }
+  
+    .menuGrid {
+      grid-template-columns: 1fr;
+    }
+  
+    .checkoutButton {
+      margin-top: 40px;
+      padding: 7px 20px;
+    }
+  }
+
+  .orderDetailsBox {
+    background-color: rgba(175, 5, 5, 1);/* Dark red */ /* Bright red background */
+    color: rgba(255, 193, 101, 1); /* White text for better contrast */
+    padding-right: 145px; /* Padding inside the box */
+    border-radius: 10px; /* Rounded corners */
+    max-width: 300px; /* Width of the box */
+    height: fit-content; /* Adjust height based on content */
+    position: fixed; /* Stick to the right side of the page */
+    top: 100px; /* Adjust vertical position */
+    right: 175px; /* Space from the right edge */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional shadow for better appearance */
+    z-index: 1000; /* Keep it above other elements */
+    display: flex;
+    bottom: 60px;
+  }
+  
+  .orderDetailsBox h2 {
+    font: 700 24px system-ui; /* Font size and weight */
+    margin-bottom: 10px; /* Space below the heading */
+    text-align: center; /* Center the title */
+    margin-left: 100px;
+  }
+  
+
+
+
+
+
+  .orderDetailsBox {
+    background-color: rgba(175, 5, 5, 1); /* Dark red */ 
+    color: rgba(255, 193, 101, 1); /* White text for better contrast */
+    padding-right: 145px; /* Padding inside the box */
+    border-radius: 10px; /* Rounded corners */
+    max-width: 200px; /* Width of the box */
+    height: fit-content; /* Adjust height based on content */
+    position: fixed; /* Stick to the right side of the page */
+    top: 100px; /* Adjust vertical position */
+    right: 175px; /* Space from the right edge */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional shadow for better appearance */
+    z-index: 1000; /* Keep it above other elements */
+    display: flex;
+    bottom: 60px;
+    flex-direction: column;
+}
+
+.orderDetailsBox h2 {
+    font: 700 24px system-ui; /* Font size and weight */
+    margin-bottom: 10px; /* Space below the heading */
+    text-align: center; /* Center the title */
+    margin-left: 115px;
+    white-space: nowrap;
+}
+
+.productDetails {
+    display: flex;
+    justify-content: space-between;
+    margin: 15px 0;
+}
+
+.productLabel,
+.totalLabel {
+    font: 600 16px 'Mulish', sans-serif;
+    color: rgba(255, 193, 101, 1); /* Small gold color */
+}
+
+.totalLabel{
+  padding-left: 245px;
+}
+.totalDetails .total {
+    font: 700 20px system-ui;
+    text-align: center;
+    margin-top: 10px;
+    color: rgba(255, 193, 101, 1); /* Small gold color */
+    padding-right: 400px;
+    padding-top: 300px;
+}
+
+
+.totalLabel::after {
+  content: '';
+  position: absolute;
+  top: 25%; /* Position the line below the product details */
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: black; /* Line color */
+}
+
+.totalLabel::before {
+  content: '';
+  position: absolute;
+  top: 90%; /* Position the line below the product details */
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: black; /* Line color */
+}
