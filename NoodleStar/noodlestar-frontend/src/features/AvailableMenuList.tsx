@@ -61,6 +61,9 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
               <div className="totalDetails">
                 <div className="total">Total</div>
               </div>
+              <button className="checkoutButton">
+                          Checkout
+                        </button>
             </div>
 
             {menuItems.length > 0 ? (
