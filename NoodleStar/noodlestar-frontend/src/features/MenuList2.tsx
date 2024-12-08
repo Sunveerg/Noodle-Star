@@ -4,16 +4,15 @@ import { useNavigate } from 'react-router-dom';
 import { menuResponseModel } from './model/menuResponseModel';
 import { getAllmenu } from './api/getAllMenu';
 import noodleImg from '../components/assets/noodle.png';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import './Menu.css';
-import AddDish from '../components/AddDish'; // Ensure AddDish is properly defined
-import { Button } from 'react-bootstrap';
+import AddDish from "../components/AddDish.tsx";
 
 const MenuList: React.FC = (): JSX.Element => {
     const [menuItems, setMenuItems] = useState<menuResponseModel[]>([]);
-    const [formVisible, setFormVisible] = useState<boolean>(false);
     const navigate = useNavigate();
 
-    // Fetch menu data on component mount
     useEffect(() => {
         const fetchMenuData = async (): Promise<void> => {
             try {
@@ -28,55 +27,34 @@ const MenuList: React.FC = (): JSX.Element => {
             }
         };
 
-        fetchMenuData().catch((error) =>
+        fetchMenuData().catch(error =>
             console.error('Error in fetchMenuData:', error)
         );
     }, []);
 
     return (
         <div className="titleSection">
-            <h2 className="mainTitle">
-                Our Menu{' '}
-                <img src={noodleImg} alt="Noodle" style={{width: '50px', height: '50px'}}/>
-            </h2>
 
+            <h2 className="mainTitle">Our Menu <img src={noodleImg} alt="Noodle"
+                                                    style={{width: '50px', height: '50px', paddingBottom: '50px'}}/></h2>
 
-            <div className="vet-details-container" style={{marginBottom: '20px', textAlign: 'right'}}>
-                <button
-                    onClick={() => setFormVisible(prev => !prev)}
-                    style={{
-                        backgroundColor: formVisible ? '#ff6347' : '#4CAF50',
-                        padding: '10px 20px',
-                        borderRadius: '5px',
-                        border: 'none',
-                        color: 'white',
-                    }}
-                >
-                    {formVisible ? 'Cancel' : 'Add Dish'}
-                </button>
+            <AddDish/>
 
-                {formVisible && (
-                    <div onClick={() => setFormVisible(false)}>
-                        <div onClick={(e) => e.stopPropagation()}>
-                            <button
-                                onClick={() => setFormVisible(false)}
-                            >
-                                &times;
-                            </button>
-
-                            <h2>Add a New Dish</h2>
-                            <AddDish onClose={() => setFormVisible(false)}/>
-                        </div>
-                    </div>
-                )}
-            </div>
             <div className="menu-list">
+
+                <div className="cloud-container">
+                    <div className="cloud4"></div>
+                    <div className= "cloud5"></div>
+                    <div className="cloud6"></div>
+                </div>
+                <div className="topRightImage"></div>
+
                 {menuItems.length > 0 ? (
-                    menuItems.map((item) => (
+                    menuItems.map(item => (
                         <div className="menu-item" key={item.menuId}>
                             <div className="menu-item-content">
                                 <div className="menu-image">
-                                    <img src={item.itemImage} alt={item.name}/>
+                                    <img src={item.itemImage} alt={item.name} />
                                     <h3 className="menu-name">{item.name}</h3>
                                 </div>
                                 <div className="menu-details">

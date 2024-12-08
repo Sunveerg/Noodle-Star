@@ -4,11 +4,7 @@ import axios from 'axios';
 import { Status } from '../features/model/Status.ts'; // Ensure this is correctly imported
 import { menuRequestModel } from '../features/model/menuRequestModel.ts'; // Ensure this is correctly imported
 
-interface AddDishProps {
-    onClose: () => void;
-}
-
-const AddDish: React.FC<AddDishProps> = ({ onClose }) => {
+const AddDish: React.FC = () => {
     const [dish, setDish] = useState<menuRequestModel>({
         name: '',
         description: '',
@@ -18,6 +14,7 @@ const AddDish: React.FC<AddDishProps> = ({ onClose }) => {
         status: Status.AVAILABLE,
     });
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
+    const [showModal, setShowModal] = useState(false);
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
         const { name, value } = e.target;
@@ -49,88 +46,98 @@ const AddDish: React.FC<AddDishProps> = ({ onClose }) => {
 
         try {
             await axios.post(`http://localhost:8080/api/v1/menu`, dishPayload);
-            onClose(); // Close the modal
-            window.location.reload(); // Reload the page to show updated data
+            setShowModal(false); // Close the modal
+            window.location.reload(); // Reload the page to reflect the changes
         } catch (error) {
             console.error('Failed to add dish:', error);
         }
     };
 
     return (
-        <Modal show onHide={onClose} backdrop="static" keyboard={false}>
-            <Modal.Header closeButton>
-                <Modal.Title>Add Dish</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <Form id="addDishForm" onSubmit={handleSubmit}>
-                    <Form.Group className="mb-3">
-                        <Form.Label>Dish Name</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="name"
-                            value={dish.name}
-                            onChange={handleChange}
-                            isInvalid={!!errors.name}
-                        />
-                        <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
-                    </Form.Group>
+        <>
+            <Button
+                onClick={() => setShowModal(true)}
+                variant="primary"
+                style={{ marginBottom: '20px' }}
+            >
+                Add Dish
+            </Button>
 
-                    <Form.Group className="mb-3">
-                        <Form.Label>Description</Form.Label>
-                        <Form.Control
-                            as="textarea"
-                            name="description"
-                            value={dish.description}
-                            onChange={handleChange}
-                            isInvalid={!!errors.description}
-                        />
-                        <Form.Control.Feedback type="invalid">{errors.description}</Form.Control.Feedback>
-                    </Form.Group>
+            <Modal show={showModal} onHide={() => setShowModal(false)} backdrop="static" keyboard={false}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Add Dish</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form id="addDishForm" onSubmit={handleSubmit}>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Dish Name</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="name"
+                                value={dish.name}
+                                onChange={handleChange}
+                                isInvalid={!!errors.name}
+                            />
+                            <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
+                        </Form.Group>
 
-                    <Form.Group className="mb-3">
-                        <Form.Label>Price</Form.Label>
-                        <Form.Control
-                            type="number"
-                            name="price"
-                            value={dish.price}
-                            onChange={handleChange}
-                            isInvalid={!!errors.price}
-                        />
-                        <Form.Control.Feedback type="invalid">{errors.price}</Form.Control.Feedback>
-                    </Form.Group>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Description</Form.Label>
+                            <Form.Control
+                                as="textarea"
+                                name="description"
+                                value={dish.description}
+                                onChange={handleChange}
+                                isInvalid={!!errors.description}
+                            />
+                            <Form.Control.Feedback type="invalid">{errors.description}</Form.Control.Feedback>
+                        </Form.Group>
 
-                    <Form.Group className="mb-3">
-                        <Form.Label>Category</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="category"
-                            value={dish.category}
-                            onChange={handleChange}
-                            isInvalid={!!errors.category}
-                        />
-                        <Form.Control.Feedback type="invalid">{errors.category}</Form.Control.Feedback>
-                    </Form.Group>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Price</Form.Label>
+                            <Form.Control
+                                type="number"
+                                name="price"
+                                value={dish.price}
+                                onChange={handleChange}
+                                isInvalid={!!errors.price}
+                            />
+                            <Form.Control.Feedback type="invalid">{errors.price}</Form.Control.Feedback>
+                        </Form.Group>
 
-                    <Form.Group className="mb-3">
-                        <Form.Label>Image URL</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="itemImage"
-                            value={dish.itemImage}
-                            onChange={handleChange}
-                        />
-                    </Form.Group>
-                </Form>
-            </Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" onClick={onClose}>
-                    Close
-                </Button>
-                <Button form="addDishForm" variant="primary" type="submit">
-                    Add Dish
-                </Button>
-            </Modal.Footer>
-        </Modal>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Category</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="category"
+                                value={dish.category}
+                                onChange={handleChange}
+                                isInvalid={!!errors.category}
+                            />
+                            <Form.Control.Feedback type="invalid">{errors.category}</Form.Control.Feedback>
+                        </Form.Group>
+
+                        <Form.Group className="mb-3">
+                            <Form.Label>Image URL</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="itemImage"
+                                value={dish.itemImage}
+                                onChange={handleChange}
+                            />
+                        </Form.Group>
+                    </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setShowModal(false)}>
+                        Close
+                    </Button>
+                    <Button form="addDishForm" variant="primary" type="submit">
+                        Add Dish
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+        </>
     );
 };
 
