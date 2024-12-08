@@ -27,6 +27,8 @@ const router = createBrowserRouter([
     {
         path: `${PathRoutes.Menu}/:menuId`,
         element: <MenuDetails />,
+    },
+    {
         path: PathRoutes.MenuOrder,
         element: <MenuOrderPage />,
     },
