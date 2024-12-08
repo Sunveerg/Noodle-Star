@@ -1,5 +1,5 @@
 export enum Status {
     AVAILABLE = 'AVAILABLE',
-    NON_AVAILABLE = 'NON_AVAILABLE',
+    NOT_AVAILABLE = 'NOT_AVAILABLE',
   }
   

@@ -2,8 +2,7 @@ package com.noodlestar.noodlestar.MenuSubdomain.utils;
 
 
 
-import com.noodlestar.noodlestar.MenuSubdomain.utils.exceptions.InvalidInputException;
-import com.noodlestar.noodlestar.MenuSubdomain.utils.exceptions.NotFoundException;
+import com.noodlestar.noodlestar.MenuSubdomain.utils.exceptions.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -23,10 +22,28 @@ public class GlobalControllerExceptionHandler {
         return createHttpErrorInfo(NOT_FOUND, request, ex);
     }
 
-    @ResponseStatus(BAD_REQUEST)
-    @ExceptionHandler(InvalidInputException.class)
-    public HttpErrorInfo handleInvalidInputException(ServerHttpRequest request, Exception ex) {
-        return createHttpErrorInfo(BAD_REQUEST, request, ex);
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(InvalidDishNameException.class)
+    public HttpErrorInfo handleInvalidDishNameException(ServerHttpRequest request, Exception ex) {
+        return createHttpErrorInfo(HttpStatus.BAD_REQUEST, request, ex);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(InvalidDishPriceException.class)
+    public HttpErrorInfo handleInvalidDishPriceException(ServerHttpRequest request, Exception ex) {
+        return createHttpErrorInfo(HttpStatus.BAD_REQUEST, request, ex);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(InvalidDishDescriptionException.class)
+    public HttpErrorInfo handleInvalidDishDescriptionException(ServerHttpRequest request, Exception ex) {
+        return createHttpErrorInfo(HttpStatus.BAD_REQUEST, request, ex);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(DishNameAlreadyExistsException.class)
+    public HttpErrorInfo handleDishNameAlreadyExistsException(ServerHttpRequest request, Exception ex) {
+        return createHttpErrorInfo(HttpStatus.BAD_REQUEST, request, ex);
     }
 
 
