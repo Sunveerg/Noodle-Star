@@ -22,7 +22,7 @@ import java.util.UUID;
 @Service
 @Slf4j
 public class MenuServiceImpl implements MenuService {
-private final MenuRepository menuRepository;
+    private final MenuRepository menuRepository;
 
     public MenuServiceImpl(MenuRepository menuRepository) {
         this.menuRepository = menuRepository;
@@ -84,4 +84,9 @@ private final MenuRepository menuRepository;
         }
     }
 
+}
+public Mono<MenuResponseModel> getMenuById(String menuId) {
+    return menuRepository.findMenuByMenuId(menuId)
+            .map(EntityDTOUtil::toMenuResponseDTO);
+}
 }
