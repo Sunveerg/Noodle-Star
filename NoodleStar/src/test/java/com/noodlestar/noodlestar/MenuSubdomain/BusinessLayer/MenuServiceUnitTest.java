@@ -3,7 +3,9 @@ package com.noodlestar.noodlestar.MenuSubdomain.BusinessLayer;
 import com.noodlestar.noodlestar.MenuSubdomain.DataLayer.Menu;
 import com.noodlestar.noodlestar.MenuSubdomain.DataLayer.MenuRepository;
 import com.noodlestar.noodlestar.MenuSubdomain.DataLayer.Status;
+import com.noodlestar.noodlestar.MenuSubdomain.PresentationLayer.MenuRequestModel;
 import com.noodlestar.noodlestar.MenuSubdomain.PresentationLayer.MenuResponseModel;
+import com.noodlestar.noodlestar.MenuSubdomain.utils.exceptions.NotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -108,6 +110,62 @@ class MenuServiceUnitTest {
                 .verifyComplete();
     }
 
+    @Test
+    public void whenUpdateMenu_thenReturnUpdatedMenu() {
+        // Arrange
+        String menuId = menu1.getMenuId();
+        MenuRequestModel menuRequestModel = new MenuRequestModel();
+        menuRequestModel.setName("Updated Spaghetti Carbonara");
+        menuRequestModel.setDescription("Updated classic Italian pasta with egg, cheese, pancetta, and pepper.");
+        menuRequestModel.setPrice(14.99);
+        menuRequestModel.setCategory("Updated Pasta");
+        menuRequestModel.setItemImage("updated_spaghetti_carbonara.jpg");
+        menuRequestModel.setStatus(Status.AVAILABLE);
 
+        when(menuRepository.findMenuByMenuId(menuId)).thenReturn(Mono.just(menu1));
+        when(menuRepository.save(menu1)).thenReturn(Mono.just(menu1));
+
+        // Act
+        Mono<MenuResponseModel> result = menuService.updateMenu(Mono.just(menuRequestModel), menuId);
+
+        // Assert
+        StepVerifier
+                .create(result)
+                .assertNext(menuResponseModel -> {
+                    assertNotNull(menuResponseModel);
+                    assertEquals(menu1.getMenuId(), menuResponseModel.getMenuId());
+                    assertEquals("Updated Spaghetti Carbonara", menuResponseModel.getName());
+                    assertEquals("Updated classic Italian pasta with egg, cheese, pancetta, and pepper.", menuResponseModel.getDescription());
+                    assertEquals(14.99, menuResponseModel.getPrice());
+                    assertEquals("Updated Pasta", menuResponseModel.getCategory());
+                    assertEquals("updated_spaghetti_carbonara.jpg", menuResponseModel.getItemImage());
+                    assertEquals(Status.AVAILABLE, menuResponseModel.getStatus());
+                })
+                .verifyComplete();
+    }
+
+    @Test
+    public void whenUpdateMenuNotFound_thenReturnNotFoundException() {
+        // Arrange
+        String menuId = "nonExistingMenuId";  // Using a non-existing menu ID
+        MenuRequestModel menuRequestModel = new MenuRequestModel();
+        menuRequestModel.setName("Non-existent Menu");
+        menuRequestModel.setDescription("This menu does not exist.");
+        menuRequestModel.setPrice(20.99);
+        menuRequestModel.setCategory("Non-existent Category");
+        menuRequestModel.setItemImage("non_existent_image.jpg");
+        menuRequestModel.setStatus(Status.AVAILABLE);
+
+        when(menuRepository.findMenuByMenuId(menuId)).thenReturn(Mono.empty());
+
+        // Act
+        Mono<MenuResponseModel> result = menuService.updateMenu(Mono.just(menuRequestModel), menuId);
+
+        // Assert
+        StepVerifier
+                .create(result)
+                .expectError(NotFoundException.class) // Expect a NotFoundException to be thrown
+                .verify();
+    }
 
 }

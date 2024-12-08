@@ -34,4 +34,11 @@ public class MenuController {
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
+    @PutMapping( "/{menuId}")
+    public Mono<ResponseEntity<MenuResponseModel>> updateMenu(@RequestBody Mono<MenuRequestModel> menuRequestModel, @PathVariable String menuId){
+        return menuService.updateMenu(menuRequestModel, menuId)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
+
+    }
 }
