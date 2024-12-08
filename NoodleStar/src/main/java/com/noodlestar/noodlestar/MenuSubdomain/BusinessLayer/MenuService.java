@@ -10,5 +10,5 @@ public interface MenuService {
     Flux<MenuResponseModel> getAllMenu();
     MenuResponseModel addDish(MenuRequestModel menuRequestModel);
     Mono<MenuResponseModel> getMenuItemById(String menuId);
-    Mono<Object> deleteMenuItem(String menuId);
+    Mono<Void> deleteMenuItem(String menuId);
 }

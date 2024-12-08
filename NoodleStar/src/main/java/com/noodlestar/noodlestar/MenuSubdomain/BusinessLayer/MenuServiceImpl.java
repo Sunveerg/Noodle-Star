@@ -8,15 +8,13 @@ import com.noodlestar.noodlestar.MenuSubdomain.DataLayer.Status;
 import com.noodlestar.noodlestar.MenuSubdomain.PresentationLayer.MenuRequestModel;
 import com.noodlestar.noodlestar.MenuSubdomain.PresentationLayer.MenuResponseModel;
 import com.noodlestar.noodlestar.MenuSubdomain.utils.EntityDTOUtil;
-import com.noodlestar.noodlestar.MenuSubdomain.utils.exceptions.DishNameAlreadyExistsException;
-import com.noodlestar.noodlestar.MenuSubdomain.utils.exceptions.InvalidDishDescriptionException;
-import com.noodlestar.noodlestar.MenuSubdomain.utils.exceptions.InvalidDishNameException;
-import com.noodlestar.noodlestar.MenuSubdomain.utils.exceptions.InvalidDishPriceException;
+import com.noodlestar.noodlestar.MenuSubdomain.utils.exceptions.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
@@ -39,6 +37,13 @@ private final MenuRepository menuRepository;
     public Mono<MenuResponseModel> getMenuItemById(String menuId) {
         return menuRepository.findMenuByMenuId(menuId)
                 .map(EntityDTOUtil::toMenuResponseDTO);
+    }
+
+    @Override
+    public Mono<Void> deleteMenuItem(String menuId) {
+        return menuRepository.findMenuByMenuId(menuId)
+                .switchIfEmpty(Mono.error(new NotFoundException("Dish with ID '" + menuId + "' not found.")))
+                .flatMap(menuRepository::delete);
     }
 
     @Override

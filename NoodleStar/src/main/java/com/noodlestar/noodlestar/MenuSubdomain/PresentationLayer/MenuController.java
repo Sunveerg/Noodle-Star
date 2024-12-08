@@ -1,6 +1,8 @@
 package com.noodlestar.noodlestar.MenuSubdomain.PresentationLayer;
 
 import com.noodlestar.noodlestar.MenuSubdomain.BusinessLayer.MenuService;
+import com.noodlestar.noodlestar.MenuSubdomain.utils.exceptions.NotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -38,4 +40,11 @@ public class MenuController {
         MenuResponseModel response = menuService.addDish(menuRequestModel);
         return Mono.just(response);
     }
+    @DeleteMapping("/{menuId}")
+    public Mono<ResponseEntity<Void>> deleteMenuItem(@PathVariable String menuId) {
+        return menuService.deleteMenuItem(menuId)
+                .then(Mono.just(new ResponseEntity<Void>(HttpStatus.NO_CONTENT)))
+                .onErrorResume(NotFoundException.class, e -> Mono.just(new ResponseEntity<Void>(HttpStatus.NOT_FOUND)));
+    }
+
 }
