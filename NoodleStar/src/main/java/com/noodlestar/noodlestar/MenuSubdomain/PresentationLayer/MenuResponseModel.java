@@ -15,7 +15,7 @@ public class MenuResponseModel {
      String description;
      Double price;
      String category;
-     String ItemImage;
+     String itemImage;
 
      Status status;
 }

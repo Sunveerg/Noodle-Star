@@ -20,18 +20,21 @@ public class MenuController {
         this.menuService = menuService;
     }
 
-
     @GetMapping(value="")
     public Flux<MenuResponseModel> getAllMenu(){
 
         return menuService.getAllMenu();
     }
 
+    @PostMapping("")
+    public Mono<MenuResponseModel> addDish(@RequestBody MenuRequestModel menuRequestModel) {
+        MenuResponseModel response = menuService.addDish(menuRequestModel);
+        return Mono.just(response); // Wrap in Mono to maintain reactive response
+    }
+
     @GetMapping(value = "/{menuId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<MenuResponseModel>> getMenuById(@PathVariable String menuId) {
-        return menuService.getMenuById(menuId)
-                .map(ResponseEntity::ok)
-                .defaultIfEmpty(ResponseEntity.notFound().build());
-    }
+        return menuService.getMenuById(menuId);
+        }
 
 }

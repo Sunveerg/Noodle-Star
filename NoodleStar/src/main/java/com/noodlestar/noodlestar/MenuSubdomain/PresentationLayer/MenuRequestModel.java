@@ -14,7 +14,7 @@ public class MenuRequestModel {
     String description;
     Double price;
     String category;
-    String ItemImage;
+    String itemImage;
 
     Status status;
 }

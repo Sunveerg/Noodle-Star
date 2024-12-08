@@ -4,8 +4,6 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,8 +18,6 @@ public class Menu {
     private String description;
     private Double price;
     private String category;
-    private String ItemImage;
+    private String itemImage;
     private Status status;
-
-
 }
