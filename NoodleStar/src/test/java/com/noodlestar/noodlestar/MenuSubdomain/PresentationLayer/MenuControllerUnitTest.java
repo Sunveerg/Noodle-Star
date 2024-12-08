@@ -46,7 +46,7 @@ class MenuControllerUnitTest {
                 .description("Cheese and tomato pizza")
                 .price(10.99)
                 .category("Main Course")
-                .ItemImage("pizza.jpg")
+                .itemImage("pizza.jpg")
                 .status(Status.AVAILABLE)
                 .build();
 
@@ -56,7 +56,7 @@ class MenuControllerUnitTest {
                 .description("Beef burger with lettuce")
                 .price(8.99)
                 .category("Main Course")
-                .ItemImage("burger.jpg")
+                .itemImage("burger.jpg")
                 .status(Status.NOT_AVAILABLE)
                 .build();
 
@@ -90,7 +90,7 @@ class MenuControllerUnitTest {
                 .description("Cheese and tomato pizza")
                 .price(10.99)
                 .category("Main Course")
-                .ItemImage("pizza.jpg")
+                .itemImage("pizza.jpg")
                 .status(Status.AVAILABLE)
                 .build();
 
