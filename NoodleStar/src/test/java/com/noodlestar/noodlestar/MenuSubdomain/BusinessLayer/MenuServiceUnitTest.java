@@ -5,6 +5,7 @@ import com.noodlestar.noodlestar.MenuSubdomain.DataLayer.MenuRepository;
 import com.noodlestar.noodlestar.MenuSubdomain.DataLayer.Status;
 import com.noodlestar.noodlestar.MenuSubdomain.PresentationLayer.MenuRequestModel;
 import com.noodlestar.noodlestar.MenuSubdomain.PresentationLayer.MenuResponseModel;
+import com.noodlestar.noodlestar.MenuSubdomain.utils.exceptions.*;
 import com.noodlestar.noodlestar.MenuSubdomain.utils.exceptions.NotFoundException;
 import com.noodlestar.noodlestar.MenuSubdomain.utils.exceptions.DishNameAlreadyExistsException;
 import com.noodlestar.noodlestar.MenuSubdomain.utils.exceptions.InvalidDishDescriptionException;
@@ -20,6 +21,7 @@ import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 import java.time.LocalDateTime;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -113,7 +115,7 @@ class MenuServiceUnitTest {
         when(menuRepository.findMenuByMenuId(menuId)).thenReturn(Mono.just(menu1));
 
         // Act
-        Mono<MenuResponseModel> result = menuService.getMenuById(menuId);
+        Mono<MenuResponseModel> result = menuService.getMenuItemById(menuId);
 
         // Assert
         StepVerifier
@@ -136,7 +138,7 @@ class MenuServiceUnitTest {
         when(menuRepository.findMenuByMenuId(menuId)).thenReturn(Mono.empty());
 
         // Act
-        Mono<MenuResponseModel> result = menuService.getMenuById(menuId);
+        Mono<MenuResponseModel> result = menuService.getMenuItemById(menuId);
 
         // Assert
         StepVerifier
@@ -374,6 +376,46 @@ class MenuServiceUnitTest {
 
         verify(menuRepository, times(1)).findByName(menuRequest.getName());
         verify(menuRepository, never()).save(any(Menu.class));
+    }
+
+    @Test
+    void whenDeleteMenuItem_thenDeletesMenuItem() {
+        // Arrange
+        String menuId = menu1.getMenuId();
+
+        when(menuRepository.findMenuByMenuId(menuId)).thenReturn(Mono.just(menu1));
+
+        when(menuRepository.delete(menu1)).thenReturn(Mono.empty());
+
+        // Act
+        Mono<Void> result = menuService.deleteMenuItem(menuId);
+
+        // Assert
+        result.subscribe();
+
+        // Verify
+        verify(menuRepository, times(1)).findMenuByMenuId(menuId);
+        verify(menuRepository, times(1)).delete(menu1);
+
+        StepVerifier.create(result)
+                .verifyComplete();
+    }
+
+    @Test
+    void whenDeleteMenuItemNotFound_thenThrowException() {
+        // Arrange
+        String menuId = "nonexistentId";
+
+        when(menuRepository.findMenuByMenuId(menuId)).thenReturn(Mono.empty());
+
+        // Act & Assert
+        StepVerifier.create(menuService.deleteMenuItem(menuId))
+                .expectError(NotFoundException.class)
+                .verify();
+
+        // Verify
+        verify(menuRepository, times(1)).findMenuByMenuId(menuId);
+        verify(menuRepository, times(0)).delete(any());
     }
 
 }

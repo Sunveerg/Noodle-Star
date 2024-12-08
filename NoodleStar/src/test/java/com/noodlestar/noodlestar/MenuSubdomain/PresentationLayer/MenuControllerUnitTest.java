@@ -2,6 +2,7 @@ package com.noodlestar.noodlestar.MenuSubdomain.PresentationLayer;
 
 import com.noodlestar.noodlestar.MenuSubdomain.BusinessLayer.MenuService;
 import com.noodlestar.noodlestar.MenuSubdomain.DataLayer.Status;
+import com.noodlestar.noodlestar.MenuSubdomain.utils.exceptions.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -15,6 +16,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -94,7 +97,7 @@ class MenuControllerUnitTest {
                 .status(Status.AVAILABLE)
                 .build();
 
-        when(menuService.getMenuById(menuId)).thenReturn(Mono.just(menu));
+        when(menuService.getMenuItemById(menuId)).thenReturn(Mono.just(menu));
 
         // Act & Assert
         webTestClient.get()
@@ -114,14 +117,14 @@ class MenuControllerUnitTest {
                 });
 
         // Verify
-        verify(menuService, times(1)).getMenuById(menuId);
+        verify(menuService, times(1)).getMenuItemById(menuId);
     }
 
     @Test
     void getMenuByIdNotFound() {
         // Arrange
         String menuId = "nonExistingId";
-        when(menuService.getMenuById(menuId)).thenReturn(Mono.empty());
+        when(menuService.getMenuItemById(menuId)).thenReturn(Mono.empty());
 
         // Act & Assert
         webTestClient.get()
@@ -130,6 +133,42 @@ class MenuControllerUnitTest {
                 .exchange()
                 .expectStatus().isNotFound();
     }
+
+    @Test
+    void deleteMenuItemSuccessfully() {
+        // Arrange
+        String menuId = "menuId1";
+
+        when(menuService.deleteMenuItem(menuId)).thenReturn(Mono.empty());
+
+        // Act & Assert
+        webTestClient.delete()
+                .uri("/api/v1/menu/{menuId}", menuId)
+                .exchange()
+                .expectStatus().isNoContent();
+
+        // Verify
+        verify(menuService, times(1)).deleteMenuItem(menuId);
+    }
+
+    @Test
+    void deleteMenuItemNotFound() {
+        // Arrange
+        String menuId = "nonExistentId";
+
+        when(menuService.deleteMenuItem(menuId))
+                .thenReturn(Mono.error(new NotFoundException("Menu item not found")));
+
+        // Act & Assert
+        webTestClient.delete()
+                .uri("/api/v1/menu/{menuId}", menuId)
+                .exchange()
+                .expectStatus().isNotFound();
+
+        // Verify
+        verify(menuService, times(1)).deleteMenuItem(menuId);
+    }
+
 
     @Test
     void updateMenu_ValidRequest_ShouldReturnOk() {
@@ -209,6 +248,5 @@ class MenuControllerUnitTest {
         verify(menuService, times(1))
                 .updateMenu(any(Mono.class), eq(nonExistentMenuId));
     }
-
 
 }
