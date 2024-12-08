@@ -1,14 +1,12 @@
 import React from 'react';
+import {Home} from "../components/Home";
+import {NavBar} from "../components/NavBar";
 
-const HomePage: React.FC = () => {
+export default function HomePage(): JSX.Element {
     return (
-        <>
-            <div style={{padding: '20px'}}>
-                <h1>Welcome to the Home Page</h1>
-                <p>This is the homepage of your app!</p>
-            </div>
-        </>
+        <div>
+            <NavBar/>
+            <Home />
+        </div>
     );
 };
-
-export default HomePage;

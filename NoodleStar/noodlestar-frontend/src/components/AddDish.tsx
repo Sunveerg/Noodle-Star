@@ -1,10 +1,8 @@
-import * as React from 'react';
-import { FormEvent, useState, ChangeEvent } from 'react';
-import { Button, Modal, Form } from 'react-bootstrap';
-import { Status } from '../features/model/Status.ts';
-import { addDish } from '../features/api/addDish.ts';
-import { menuRequestModel } from '../features/model/menuRequestModel.ts';
+import React, { useState, ChangeEvent, FormEvent } from 'react';
+import { Modal, Button, Form } from 'react-bootstrap';
 import axios from 'axios';
+import { Status } from '../features/model/Status.ts'; // Ensure this is correctly imported
+import { menuRequestModel } from '../features/model/menuRequestModel.ts'; // Ensure this is correctly imported
 
 interface AddDishProps {
     onClose: () => void;
@@ -20,15 +18,23 @@ const AddDish: React.FC<AddDishProps> = ({ onClose }) => {
         status: Status.AVAILABLE,
     });
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
-    const handleShow = () => setShow(true);
-    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-    const handleClose = () => {
-        setShow(false);
-        onClose();
-    };  const [show, setShow] = useState(false);
 
+    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
+        const { name, value } = e.target;
+        setDish({ ...dish, [name]: value });
+    };
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    const validate = (): boolean => {
+        const newErrors: { [key: string]: string } = {};
+        if (!dish.name) newErrors.name = 'Dish name is required';
+        if (!dish.description) newErrors.description = 'Description is required';
+        if (!dish.price || dish.price <= 0) newErrors.price = 'Price must be a positive number';
+        if (!dish.category) newErrors.category = 'Category is required';
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (!validate()) return;
 
@@ -43,45 +49,19 @@ const AddDish: React.FC<AddDishProps> = ({ onClose }) => {
 
         try {
             await axios.post(`http://localhost:8080/api/v1/menu`, dishPayload);
-            handleClose();
-            window.location.reload();
+            onClose(); // Close the modal
+            window.location.reload(); // Reload the page to show updated data
         } catch (error) {
             console.error('Failed to add dish:', error);
         }
     };
 
-    const validate = (): boolean => {
-        const newErrors: { [key: string]: string } = {};
-        if (!dish.name) newErrors.name = 'Dish name is required';
-        if (!dish.description) newErrors.description = 'Description is required';
-        if (!dish.price || dish.price <= 0) newErrors.price = 'Price must be a positive number';
-        if (!dish.category) newErrors.category = 'Category is required';
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    };
-
-    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
-        const { name, value } = e.target;
-        setDish({ ...dish, [name]: value });
-    };
-
     return (
-        <>
-        <Button variant="primary" onClick={handleShow}>
-            Add Dish
-        </Button>
-
-            <Modal
-                show={show}
-                onHide={handleClose}
-                backdrop="static"
-                keyboard={false}
-            >
-                <Modal.Header closeButton>
-                    <Modal.Title>Add Dish</Modal.Title>
-                </Modal.Header>
-
-                <Modal.Body>
+        <Modal show onHide={onClose} backdrop="static" keyboard={false}>
+            <Modal.Header closeButton>
+                <Modal.Title>Add Dish</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
                 <Form id="addDishForm" onSubmit={handleSubmit}>
                     <Form.Group className="mb-3">
                         <Form.Label>Dish Name</Form.Label>
@@ -142,9 +122,8 @@ const AddDish: React.FC<AddDishProps> = ({ onClose }) => {
                     </Form.Group>
                 </Form>
             </Modal.Body>
-
             <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
+                <Button variant="secondary" onClick={onClose}>
                     Close
                 </Button>
                 <Button form="addDishForm" variant="primary" type="submit">
@@ -152,7 +131,6 @@ const AddDish: React.FC<AddDishProps> = ({ onClose }) => {
                 </Button>
             </Modal.Footer>
         </Modal>
-    </>
     );
 };
 

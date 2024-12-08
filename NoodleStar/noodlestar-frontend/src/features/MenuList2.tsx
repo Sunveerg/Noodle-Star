@@ -41,23 +41,35 @@ const MenuList: React.FC = (): JSX.Element => {
             </h2>
 
 
-            <div style={{marginBottom: '20px', textAlign: 'right'}}>
+            <div className="vet-details-container" style={{marginBottom: '20px', textAlign: 'right'}}>
                 <button
                     onClick={() => setFormVisible(prev => !prev)}
                     style={{
                         backgroundColor: formVisible ? '#ff6347' : '#4CAF50',
+                        padding: '10px 20px',
+                        borderRadius: '5px',
+                        border: 'none',
+                        color: 'white',
                     }}
                 >
                     {formVisible ? 'Cancel' : 'Add Dish'}
                 </button>
+
                 {formVisible && (
-                    <AddDish
-                        onClose={() => setFormVisible(false)}
-                    />
+                    <div onClick={() => setFormVisible(false)}>
+                        <div onClick={(e) => e.stopPropagation()}>
+                            <button
+                                onClick={() => setFormVisible(false)}
+                            >
+                                &times;
+                            </button>
+
+                            <h2>Add a New Dish</h2>
+                            <AddDish onClose={() => setFormVisible(false)}/>
+                        </div>
+                    </div>
                 )}
             </div>
-
-
             <div className="menu-list">
                 {menuItems.length > 0 ? (
                     menuItems.map((item) => (
