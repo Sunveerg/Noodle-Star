@@ -14,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -77,6 +78,57 @@ class MenuControllerUnitTest {
 
         // Verify that the service method was called once
         verify(menuService, times(1)).getAllMenu();
+    }
+
+    @Test
+    void getMenuById() {
+        // Arrange
+        String menuId = "1";
+        MenuResponseModel menu = MenuResponseModel.builder()
+                .menuId(menuId)
+                .name("Pizza")
+                .description("Cheese and tomato pizza")
+                .price(10.99)
+                .category("Main Course")
+                .ItemImage("pizza.jpg")
+                .status(Status.AVAILABLE)
+                .build();
+
+        when(menuService.getMenuById(menuId)).thenReturn(Mono.just(menu));
+
+        // Act & Assert
+        webTestClient.get()
+                .uri("/api/v1/menu/{menuId}", menuId)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(MenuResponseModel.class)
+                .value(response -> {
+                    assertEquals(menu.getMenuId(), response.getMenuId());
+                    assertEquals(menu.getName(), response.getName());
+                    assertEquals(menu.getDescription(), response.getDescription());
+                    assertEquals(menu.getPrice(), response.getPrice());
+                    assertEquals(menu.getCategory(), response.getCategory());
+                    assertEquals(menu.getItemImage(), response.getItemImage());
+                    assertEquals(menu.getStatus(), response.getStatus());
+                });
+
+        // Verify
+        verify(menuService, times(1)).getMenuById(menuId);
+    }
+
+    @Test
+    void getMenuByIdNotFound() {
+        // Arrange
+        String menuId = "nonExistingId";
+        when(menuService.getMenuById(menuId)).thenReturn(Mono.empty());
+
+        // Act & Assert
+        webTestClient.get()
+                .uri("/api/v1/menu/{menuId}", menuId)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isNotFound();
     }
 
 

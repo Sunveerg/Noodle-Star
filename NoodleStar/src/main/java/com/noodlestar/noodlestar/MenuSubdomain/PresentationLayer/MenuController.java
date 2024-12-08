@@ -27,11 +27,11 @@ public class MenuController {
         return menuService.getAllMenu();
     }
 
-    @GetMapping(value="/{menuId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<ResponseEntity<MenuResponseModel>> getMenuById(@PathVariable String menuId){
-        return Mono.just(menuId)
-                .flatMap(menuService::getMenuById)
-                .map(ResponseEntity::ok);
+    @GetMapping(value = "/{menuId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Mono<ResponseEntity<MenuResponseModel>> getMenuById(@PathVariable String menuId) {
+        return menuService.getMenuById(menuId)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
 }
