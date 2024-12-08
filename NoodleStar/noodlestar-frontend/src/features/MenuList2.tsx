@@ -30,6 +30,10 @@ const MenuList: React.FC = (): JSX.Element => {
     );
   }, []);
 
+    const handleMenuItemClick = (menuId: number): void => {
+        navigate(`/menu/${menuId}`);  // Navigate to the detail page
+    };
+
   return (
     <div className="titleSection">
        
@@ -45,7 +49,7 @@ const MenuList: React.FC = (): JSX.Element => {
 
         {menuItems.length > 0 ? (
           menuItems.map(item => (
-            <div className="menu-item" key={item.menuId}>
+            <div className="menu-item" key={item.menuId} onClick={() => handleMenuItemClick(item.menuId)}>
               <div className="menu-item-content">
                 <div className="menu-image">
                   <img src={item.itemImage} alt={item.name} />

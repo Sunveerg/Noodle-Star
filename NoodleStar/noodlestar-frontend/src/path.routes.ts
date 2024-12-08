@@ -3,5 +3,6 @@ export enum PathRoutes {
     HomePage = '/home',
     AboutUsPage = '/aboutus',
     Menu = "/menu",
+    MenuDetails = "/menu/:menuId",
     MenuOrder = "/menuOrder"
 }
