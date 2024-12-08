@@ -4,6 +4,7 @@ package com.noodlestar.noodlestar.MenuSubdomain.BusinessLayer;
 
 import com.noodlestar.noodlestar.MenuSubdomain.DataLayer.Menu;
 import com.noodlestar.noodlestar.MenuSubdomain.DataLayer.MenuRepository;
+import com.noodlestar.noodlestar.MenuSubdomain.utils.exceptions.NotFoundException;
 import com.noodlestar.noodlestar.MenuSubdomain.DataLayer.Status;
 import com.noodlestar.noodlestar.MenuSubdomain.PresentationLayer.MenuRequestModel;
 import com.noodlestar.noodlestar.MenuSubdomain.PresentationLayer.MenuResponseModel;
@@ -44,6 +45,23 @@ private final MenuRepository menuRepository;
         return menuRepository.findMenuByMenuId(menuId)
                 .switchIfEmpty(Mono.error(new NotFoundException("Dish with ID '" + menuId + "' not found.")))
                 .flatMap(menuRepository::delete);
+    }
+    
+    @Override
+    public Mono<MenuResponseModel> updateMenu(Mono<MenuRequestModel> menuRequestModel, String menuId) {
+        return menuRepository.findMenuByMenuId(menuId)
+                .flatMap(existingMenu -> menuRequestModel.map(requestModel -> {
+                    existingMenu.setName(requestModel.getName());
+                    existingMenu.setDescription(requestModel.getDescription());
+                    existingMenu.setPrice(requestModel.getPrice());
+                    existingMenu.setCategory(requestModel.getCategory());
+                    existingMenu.setItemImage(requestModel.getItemImage());
+                    existingMenu.setStatus(requestModel.getStatus());
+                    return existingMenu;
+                }))
+                .switchIfEmpty(Mono.error(new NotFoundException("Menu not found with id: " + menuId)))
+                .flatMap(menuRepository::save)
+                .map(EntityDTOUtil::toMenuResponseDTO);
     }
 
     @Override

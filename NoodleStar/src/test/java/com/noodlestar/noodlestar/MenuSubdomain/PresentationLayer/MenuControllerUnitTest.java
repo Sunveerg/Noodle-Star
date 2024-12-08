@@ -170,5 +170,83 @@ class MenuControllerUnitTest {
     }
 
 
+    @Test
+    void updateMenu_ValidRequest_ShouldReturnOk() {
+        // Arrange
+        String menuId = "1";
+        MenuRequestModel menuRequestModel = MenuRequestModel.builder()
+                .name("Updated Pizza")
+                .description("Updated description")
+                .price(12.99)
+                .category("Main Course")
+                .ItemImage("updated_pizza.jpg")
+                .status(Status.AVAILABLE)
+                .build();
+
+        MenuResponseModel updatedMenu = MenuResponseModel.builder()
+                .menuId(menuId)
+                .name("Updated Pizza")
+                .description("Updated description")
+                .price(12.99)
+                .category("Main Course")
+                .ItemImage("updated_pizza.jpg")
+                .status(Status.AVAILABLE)
+                .build();
+
+        when(menuService.updateMenu(any(Mono.class), eq(menuId)))
+                .thenReturn(Mono.just(updatedMenu));
+
+        // Act and Assert
+        webTestClient.put()
+                .uri("/api/v1/menu/{menuId}", menuId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(menuRequestModel) // WebTestClient automatically wraps the body in a Mono
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(MenuResponseModel.class)
+                .value(response -> {
+                    assertNotNull(response);
+                    assertEquals(updatedMenu.getMenuId(), response.getMenuId());
+                    assertEquals(updatedMenu.getName(), response.getName());
+                    assertEquals(updatedMenu.getDescription(), response.getDescription());
+                    assertEquals(updatedMenu.getPrice(), response.getPrice());
+                    assertEquals(updatedMenu.getCategory(), response.getCategory());
+                    assertEquals(updatedMenu.getItemImage(), response.getItemImage());
+                    assertEquals(updatedMenu.getStatus(), response.getStatus());
+                });
+
+        // Verify
+        verify(menuService, times(1))
+                .updateMenu(any(Mono.class), eq(menuId));
+    }
+
+    @Test
+    void updateMenu_NonExistentMenu_ShouldReturnNotFound() {
+        // Arrange
+        String nonExistentMenuId = "999";
+        MenuRequestModel menuRequestModel = MenuRequestModel.builder()
+                .name("Non-existent Item")
+                .description("This menu does not exist")
+                .price(15.99)
+                .category("Main Course")
+                .ItemImage("non_existent.jpg")
+                .status(Status.NOT_AVAILABLE)
+                .build();
+
+        when(menuService.updateMenu(any(Mono.class), eq(nonExistentMenuId)))
+                .thenReturn(Mono.empty());
+
+        // Act and Assert
+        webTestClient.put()
+                .uri("/api/v1/menu/{menuId}", nonExistentMenuId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(menuRequestModel) // WebTestClient automatically wraps the body in a Mono
+                .exchange()
+                .expectStatus().isNotFound(); // Expect a 404 Not Found status
+
+        // Verify
+        verify(menuService, times(1))
+                .updateMenu(any(Mono.class), eq(nonExistentMenuId));
+    }
 
 }

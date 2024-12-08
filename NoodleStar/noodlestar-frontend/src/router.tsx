@@ -5,6 +5,7 @@ import AboutUsPage from './pages/AboutUsPage';
 import MenuPage from './pages/MenuPage';
 import MenuDetails from './pages/MenuDetailsPage';
 import MenuOrderPage from './pages/MenuOrderPage';
+import UpdateMenu from "./features/UpdateMenu.tsx";
 
 
 
@@ -32,7 +33,10 @@ const router = createBrowserRouter([
         path: PathRoutes.MenuOrder,
         element: <MenuOrderPage />,
     },
-
+    {
+        path: PathRoutes.UpdateMenu,
+        element: <UpdateMenu />,
+    },
 ]);
 
 export default router;
