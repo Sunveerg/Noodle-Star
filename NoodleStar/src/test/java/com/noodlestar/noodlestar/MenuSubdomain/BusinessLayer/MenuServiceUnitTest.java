@@ -112,7 +112,7 @@ class MenuServiceUnitTest {
         when(menuRepository.findMenuByMenuId(menuId)).thenReturn(Mono.just(menu1));
 
         // Act
-        Mono<MenuResponseModel> result = menuService.getMenuById(menuId);
+        Mono<MenuResponseModel> result = menuService.getMenuItemById(menuId);
 
         // Assert
         StepVerifier
@@ -135,7 +135,7 @@ class MenuServiceUnitTest {
         when(menuRepository.findMenuByMenuId(menuId)).thenReturn(Mono.empty());
 
         // Act
-        Mono<MenuResponseModel> result = menuService.getMenuById(menuId);
+        Mono<MenuResponseModel> result = menuService.getMenuItemById(menuId);
 
         // Assert
         StepVerifier

@@ -28,8 +28,8 @@ public class MenuController {
     }
 
     @GetMapping(value = "/{menuId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<ResponseEntity<MenuResponseModel>> getMenuById(@PathVariable String menuId) {
-        return menuService.getMenuById(menuId)
+    public Mono<ResponseEntity<MenuResponseModel>> getMenuItemById(@PathVariable String menuId) {
+        return menuService.getMenuItemById(menuId)
                 .map(ResponseEntity::ok)
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }

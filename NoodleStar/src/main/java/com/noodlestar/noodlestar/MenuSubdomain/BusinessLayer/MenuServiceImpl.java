@@ -36,7 +36,7 @@ private final MenuRepository menuRepository;
     }
 
     @Override
-    public Mono<MenuResponseModel> getMenuById(String menuId) {
+    public Mono<MenuResponseModel> getMenuItemById(String menuId) {
         return menuRepository.findMenuByMenuId(menuId)
                 .map(EntityDTOUtil::toMenuResponseDTO);
     }

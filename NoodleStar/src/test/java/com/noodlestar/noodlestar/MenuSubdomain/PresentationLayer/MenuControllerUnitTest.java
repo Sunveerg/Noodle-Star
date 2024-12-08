@@ -94,7 +94,7 @@ class MenuControllerUnitTest {
                 .status(Status.AVAILABLE)
                 .build();
 
-        when(menuService.getMenuById(menuId)).thenReturn(Mono.just(menu));
+        when(menuService.getMenuItemById(menuId)).thenReturn(Mono.just(menu));
 
         // Act & Assert
         webTestClient.get()
@@ -114,14 +114,14 @@ class MenuControllerUnitTest {
                 });
 
         // Verify
-        verify(menuService, times(1)).getMenuById(menuId);
+        verify(menuService, times(1)).getMenuItemById(menuId);
     }
 
     @Test
     void getMenuByIdNotFound() {
         // Arrange
         String menuId = "nonExistingId";
-        when(menuService.getMenuById(menuId)).thenReturn(Mono.empty());
+        when(menuService.getMenuItemById(menuId)).thenReturn(Mono.empty());
 
         // Act & Assert
         webTestClient.get()
