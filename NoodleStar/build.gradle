@@ -41,7 +41,6 @@ dependencies {
 	implementation 'org.apache.httpcomponents.client5:httpclient5'
 	implementation "org.mapstruct:mapstruct:${mapstructVersion}"
 	compileOnly 'org.projectlombok:lombok'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	//runtimeOnly 'com.mysql:mysql-connector-j'
 	compileOnly "org.mapstruct:mapstruct-processor:${mapstructVersion}"
