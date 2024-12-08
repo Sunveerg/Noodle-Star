@@ -57,10 +57,10 @@ const AddDish: React.FC = () => {
         <>
             <Button
                 onClick={() => setShowModal(true)}
-                variant="primary"
+                variant="warning"
                 style={{ marginBottom: '20px' }}
             >
-                Add Dish
+                +
             </Button>
 
             <Modal show={showModal} onHide={() => setShowModal(false)} backdrop="static" keyboard={false}>

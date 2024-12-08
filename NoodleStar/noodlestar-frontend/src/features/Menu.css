@@ -45,7 +45,9 @@ body{
     display: flex;
     flex-direction: column;
     gap: 20px;
+    position: relative; /* Ensure the name is positioned relative to the menu item */
 }
+
 
 .menu-item-content {
     display: flex;
@@ -55,35 +57,27 @@ body{
     margin-top: 50px;
 
 }
-
-.menu-image {
-    position: relative;
-    width: 170px; /* Increase width */
-    height: 170px; /* Increase height to match the image */
-}
-
-
-.menu-image img {
-    width: 140%; /* Increase the width of the image */
-    height: auto; /* Maintain aspect ratio automatically */
-    border-radius: 20px; /* Optional: Adjust the border radius if needed */
-    object-fit: cover; /* Ensure the image covers the container */
-    aspect-ratio: 1.02;
+.menu-item img {
+    width: 100%;  /* Set width to 100% of the parent container */
+    height: auto;  /* Height adjusts automatically to maintain aspect ratio */
+    object-fit: cover;  /* Ensure the image covers the container without distorting */
+    border-radius: 8px;  /* Optional for rounded corners */
 }
 
 
 .menu-name {
     position: absolute;
-    top: -60px; /* Move the name above the image */
+    top: 10px;
     left: 50%;
     transform: translateX(-50%);
     font-size: 23px;
     font-weight: bold;
     color: rgba(255, 193, 101, 1);
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
-    z-index: 4; /* Ensure it's above the image */
+    z-index: 10; /* Ensure it's above the image */
     white-space: nowrap;
 }
+
 
 .menu-details {
     flex-grow: 1;

@@ -36,7 +36,7 @@ const MenuList: React.FC = (): JSX.Element => {
         <div className="titleSection">
 
             <h2 className="mainTitle">Our Menu <img src={noodleImg} alt="Noodle"
-                                                    style={{width: '50px', height: '50px', paddingBottom: '50px'}}/></h2>
+                                                    style={{width: '50px', height: '50px', paddingBottom: '100px'}}/></h2>
 
             <AddDish/>
 
@@ -53,7 +53,7 @@ const MenuList: React.FC = (): JSX.Element => {
                     menuItems.map(item => (
                         <div className="menu-item" key={item.menuId}>
                             <div className="menu-item-content">
-                                <div className="menu-image">
+                                <div>
                                     <img src={item.itemImage} alt={item.name} />
                                     <h3 className="menu-name">{item.name}</h3>
                                 </div>
