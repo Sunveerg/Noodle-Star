@@ -33,5 +33,9 @@ public class MenuController {
                 .map(ResponseEntity::ok)
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }
-
+    @PostMapping("")
+    public Mono<MenuResponseModel> addDish(@RequestBody MenuRequestModel menuRequestModel) {
+        MenuResponseModel response = menuService.addDish(menuRequestModel);
+        return Mono.just(response);
+    }
 }
