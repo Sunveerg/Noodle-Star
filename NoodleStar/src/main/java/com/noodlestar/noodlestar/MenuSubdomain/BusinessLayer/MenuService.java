@@ -10,4 +10,7 @@ public interface MenuService {
     Flux<MenuResponseModel> getAllMenu();
     MenuResponseModel addDish(MenuRequestModel menuRequestModel);
     Mono<MenuResponseModel> getMenuById(String menuId);
+
+    Mono<MenuResponseModel> updateMenu(Mono<MenuRequestModel> menuRequestModel, String menuId);
+
 }

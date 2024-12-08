@@ -53,7 +53,10 @@ const MenuList: React.FC = (): JSX.Element => {
 
                 {menuItems.length > 0 ? (
                     menuItems.map(item => (
-                        <div className="menu-item" key={item.menuId} onClick={() => handleMenuItemClick(item.menuId)}>
+                        <div className="menu-item" key={item.menuId} onClick={e => {
+                          e.stopPropagation();
+                          handleMenuItemClick(item.menuId);
+                        }}>
                             <div className="menu-item-content">
                                 <div className="menu-image">
                                     <img src={item.itemImage} alt={item.name} />
@@ -70,6 +73,15 @@ const MenuList: React.FC = (): JSX.Element => {
                                         {item.status}
                                     </p>
                                 </div>
+                                <button
+                                    onClick={e => {
+                                        e.stopPropagation();
+                                        navigate(`${item.menuId}/update`);
+                                    }}
+                                    className="btn-edit"
+                                >
+                                    Edit
+                                </button>
                             </div>
                         </div>
                     ))
