@@ -113,7 +113,7 @@ class MenuServiceUnitTest {
         when(menuRepository.findMenuByMenuId(menuId)).thenReturn(Mono.just(menu1));
 
         // Act
-        Mono<MenuResponseModel> result = menuService.getMenuById(menuId);
+        Mono<MenuResponseModel> result = menuService.getMenuItemById(menuId);
 
         // Assert
         StepVerifier
@@ -136,7 +136,7 @@ class MenuServiceUnitTest {
         when(menuRepository.findMenuByMenuId(menuId)).thenReturn(Mono.empty());
 
         // Act
-        Mono<MenuResponseModel> result = menuService.getMenuById(menuId);
+        Mono<MenuResponseModel> result = menuService.getMenuItemById(menuId);
 
         // Assert
         StepVerifier
@@ -209,6 +209,9 @@ class MenuServiceUnitTest {
         when(menuRepository.insert(any(Menu.class)))
                 .thenReturn(Mono.just(menuEntity));
 
+        when(menuRepository.findByName(menuEntity.getName()))
+                .thenReturn(Mono.just(menuEntity));
+
         // Act
         Mono<MenuResponseModel> resultMono = menuService.addDish(Mono.just(menuRequest));
 
@@ -224,6 +227,7 @@ class MenuServiceUnitTest {
         assertEquals(menuEntity.getStatus(), result.getStatus());
 
         verify(menuRepository, times(1)).insert(any(Menu.class));
+        verify(menuRepository, times(1)).findByName(menuEntity.getName());
     }
 
     @Test
@@ -350,6 +354,45 @@ class MenuServiceUnitTest {
         );
 
         assertEquals("Dish description cannot be null or empty.", exception.getMessage());
+    }
+    @Test
+    void whenDeleteMenuItem_thenDeletesMenuItem() {
+        // Arrange
+        String menuId = menu1.getMenuId();
+
+        when(menuRepository.findMenuByMenuId(menuId)).thenReturn(Mono.just(menu1));
+
+        when(menuRepository.delete(menu1)).thenReturn(Mono.empty());
+
+        // Act
+        Mono<Void> result = menuService.deleteMenuItem(menuId);
+
+        // Assert
+        result.subscribe();
+
+        // Verify
+        verify(menuRepository, times(1)).findMenuByMenuId(menuId);
+        verify(menuRepository, times(1)).delete(menu1);
+
+        StepVerifier.create(result)
+                .verifyComplete();
+    }
+
+    @Test
+    void whenDeleteMenuItemNotFound_thenThrowException() {
+        // Arrange
+        String menuId = "nonexistentId";
+
+        when(menuRepository.findMenuByMenuId(menuId)).thenReturn(Mono.empty());
+
+        // Act & Assert
+        StepVerifier.create(menuService.deleteMenuItem(menuId))
+                .expectError(NotFoundException.class)
+                .verify();
+
+        // Verify
+        verify(menuRepository, times(1)).findMenuByMenuId(menuId);
+        verify(menuRepository, times(0)).delete(any());
     }
 
 }
