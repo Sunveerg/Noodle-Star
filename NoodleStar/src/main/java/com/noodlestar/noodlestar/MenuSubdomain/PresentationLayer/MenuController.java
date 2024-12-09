@@ -21,8 +21,8 @@ public class MenuController {
     }
 
 
-    @GetMapping(value="")
-    public Flux<MenuResponseModel> getAllMenu(){
+    @GetMapping(value = "")
+    public Flux<MenuResponseModel> getAllMenu() {
 
         return menuService.getAllMenu();
     }
@@ -34,7 +34,8 @@ public class MenuController {
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
-    @PutMapping( "/{menuId}")
+
+    @PutMapping("/{menuId}")
     public Mono<ResponseEntity<MenuResponseModel>> updateMenu(@RequestBody Mono<MenuRequestModel> menuRequestModel, @PathVariable String menuId) {
         return menuService.updateMenu(menuRequestModel, menuId)
                 .map(ResponseEntity::ok)
@@ -42,8 +43,8 @@ public class MenuController {
     }
 
     @PostMapping("")
-    public Mono<MenuResponseModel> addDish(@RequestBody MenuRequestModel menuRequestModel) {
-        MenuResponseModel response = menuService.addDish(menuRequestModel);
-        return Mono.just(response);
+    public Mono<MenuResponseModel> addDish(@RequestBody Mono<MenuRequestModel> menuRequestModel) {
+        return menuService.addDish(menuRequestModel);
     }
+
 }
