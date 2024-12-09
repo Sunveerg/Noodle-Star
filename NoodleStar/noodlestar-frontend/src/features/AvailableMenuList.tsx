@@ -41,7 +41,7 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
         <div className="mainContent">
           <div className="titleSection">
             <h2 className="pageTitle">
-              Order Now{' '}
+              Order Now
               <img
                   src={noodleImg}
                   alt="Noodle"

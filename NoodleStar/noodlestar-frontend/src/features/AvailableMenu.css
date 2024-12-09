@@ -6,8 +6,15 @@
   min-height: 100vh;
   overflow: hidden;
   padding-bottom: 67px;
-  padding-left: 0;
   margin-left: 0;
+  justify-content: space-between; /* Space out text and image */
+  font-family: 'Inter', 'Abhaya Libre', sans-serif;
+
+}
+.mainContent {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
 }
 
 .navBackground {
@@ -45,11 +52,6 @@
   padding: 0;
 }
 
-.mainContent {
-  width: 100%;
-  margin: 0 auto;
-  padding: 0;
-}
 
 .contentWrapper {
   display: flex;
@@ -62,11 +64,16 @@
 
 /* Header Section */
 .titleSection .pageTitle {
-  color: rgba(255, 193, 101, 1);
-  font: 400 80px/1 system-ui;
+  font-size: 50px;
+  font-family: 'Abhaya Libre', serif;
+  font-weight: 700;
+  line-height: 1.2;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 30px;
+  color: rgba(255, 193, 101, 1);
+  padding-left: 3.5%;
+  padidng-top: 7%;
 }
 
 .headerIcon {

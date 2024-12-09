@@ -37,7 +37,7 @@ const MenuList: React.FC = (): JSX.Element => {
 
     return (
         <div className="titleSection">
-            <h2 className="mainTitle">Our Menu <img
+            <h2 className="pageTitle">Our Menu <img
                 src={noodleImg}
                 alt="Noodle"
                 style={{width: '100px', height: '100px'}}
