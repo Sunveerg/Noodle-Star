@@ -58,7 +58,7 @@ body{
 
 }
 .menu-item img {
-    width: 100%;  /* Set width to 100% of the parent container */
+    width: 30%;  /* Set width to 100% of the parent container */
     height: auto;  /* Height adjusts automatically to maintain aspect ratio */
     object-fit: cover;  /* Ensure the image covers the container without distorting */
     border-radius: 8px;  /* Optional for rounded corners */

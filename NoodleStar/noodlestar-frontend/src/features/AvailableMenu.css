@@ -1,3 +1,4 @@
+/* General Styles */
 .orderPage {
   background-color: rgba(166, 0, 7, 1);
   display: flex;
@@ -5,417 +6,220 @@
   min-height: 100vh;
   overflow: hidden;
   padding-bottom: 67px;
-  padding-left: 0; /* Set to zero or positive value */
-  margin-left: 0; /* Add this to ensure the page is aligned correctly */
+  padding-left: 0;
+  margin-left: 0;
 }
 
-  
-  .navBackground {
-    background-color: rgba(83, 9, 9, 1);
-    padding: 22px 70px 14px;
-  }
-  
-  .navContent {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1203px;
-    margin: 0 auto;
-    gap: 20px;
-  }
-  
-  .logo {
-    font: 400 36px 'Baloo Bhaijaan', sans-serif;
-    color: #fff;
-  }
-  
-  .navLinks {
-    display: flex;
-    gap: 60px;
-    color: rgba(201, 160, 22, 1);
-    font: 500 20px Inter, sans-serif;
-  }
-  
-  .navLink {
-    background: none;
-    border: none;
-    color: inherit;
-    font: inherit;
-    cursor: pointer;
-    padding: 0;
-  }
-  
-  .mainContent {
-    max-width: 1317px;
-    margin: 5px auto 0;
-    padding: 0 37px;
-  }
-  
-  .contentWrapper {
-    display: grid;
-    grid-template-columns: 73% 27%;
-    gap: 20px;
-  }
-  
-  .menuSection {
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-  }
-  
-  .headerSection {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-  }
-  
-  .pageTitle {
-    color: rgba(255, 193, 101, 1);
-    font: 400 80px/1 system-ui;
-  }
-  
-  .headerIcon {
-    width: 60px;
-    height: auto;
-  }
-  
-  .menuGrid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 60px;
-  }
-  
-  .menuCard {
-    background-color: rgba(255, 197, 97, 1);
-    border-radius: 20px;
-    padding: 12px; /* Reduced padding */
-    max-width: 450px; /* Adjust width */
-    max-height: 155px; /* Adjust height */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Optional for better appearance */
-  }
-  
-  
-  .cardContent {
-    display: flex;
-    align-items: center; /* Align content vertically */
-    gap: 0px; /* Reduce spacing between elements */
-  }
-  
-  .dishImage {
-    width: 140%; /* Reduced width */
-    height: 140%; /* Reduced height */
-    border-radius: 20px; /* Maintain consistent border radius */
-    object-fit: cover;
-    top: -70px;
-  }
- 
-  .cardDetails {
-    display: flex;
-    flex-direction: column; /* Reduced gap between details */
-    margin-left: 60px; /* Adjust spacing */
-    gap: 3px;
-  }
-  
-  .dishTitle {
-    font: 800 20px Mulish, sans-serif; /* Smaller font size */
-    text-transform: uppercase;
-    letter-spacing: 0.5px; /* Adjusted letter spacing */
-    color: #000;
-    margin-left: 140px; /* Remove bottom margin */
-    white-space: nowrap;
-  }
-  
-  .dishDescription {
-    color: rgba(118, 109, 109, 1);
-    font: 800 18px/1 Mulish, sans-serif;
-    text-transform: uppercase;
-    letter-spacing: 0.75px;
-    margin-bottom: 300px; 
-    margin-top: -30px;
-  }
-  
-  .price {
-    font: 800 16px/1 Mulish, sans-serif;
-    text-transform: uppercase;
-    letter-spacing: 0.75px;
-    margin-bottom: 100px; 
-    margin-top: -300px;
-  }
-  
-  .addButton {
-    display: flex;
-    align-items: center;
-    background-color: #e86a12;
-    border: none;
-    border-radius: 13px 0 0 0;
-    color: #fff;
-    font: 800 13px Mulish, sans-serif;
-    padding: 8px 14px;
-    margin-top: -55px;
-    margin-left: auto;
-    cursor: pointer;
-    bottom: 50px;
-    position: relative; /* Ensure positioning is relative to its container */
-    left: 12px; /* Adjust this value to move it to the right */
+.navBackground {
+  background-color: rgba(83, 9, 9, 1);
+  padding: 22px 70px 14px;
 }
 
-  
-  .addIcon {
-    width: 18px;
-    height: 18px;
-  }
-  
-  .orderDetailsContainer {
-    background-color: rgba(175, 5, 5, 1);
-    padding: 5px 0 13px;
-  }
-  
-  .orderSummary {
-    color: rgba(255, 193, 101, 1);
-  }
-  
-  .orderDetailsTitle {
-    font: 400 30px system-ui;
-  }
-  
-  .productList {
-    margin-top: 13px;
-  }
-  
-  .productLabel {
-    font: 400 15px system-ui;
-    line-height: 40px;
-  }
-  
-  .productItem {
-    color: #000;
-    font: 800 14px Mulish, sans-serif;
-    text-transform: uppercase;
-    letter-spacing: 0.75px;
-    margin-top: 34px;
-  }
-  
-  .quantity {
-    font-size: 10px;
-  }
-  
-  .subtotalSection {
-    margin-top: 52px;
-  }
-  
-  .subtotalLabel {
-    font: 400 15px system-ui;
-    line-height: 40px;
-  }
-  
-  .divider {
-    width: 100%;
-    margin: 6px 0;
-  }
-  
-  .totalSection {
-    display: flex;
-    justify-content: space-between;
-    margin-top: -8px;
-    padding: 0 20px;
-  }
-  
-  .totalLabel {
-    font: 400 25px/1.6 system-ui;
-  }
-  
-  .totalAmount {
-    color: #000;
-    font: 800 14px Mulish, sans-serif;
-    text-transform: uppercase;
-    letter-spacing: 0.75px;
-  }
-  
-  .checkoutButton {
-    background-color: rgba(201, 160, 22, 1);
-    border: none;
-    border-radius: 30px;
-    color: #000;
-    font: 400 20px system-ui;
-    padding: 7px 38px;
-    margin: 137px auto 0;
-    cursor: pointer;
-    display: block;
-    margin-left: 100px;
-  }
-  
-  .chineseLogo {
-    font: 400 36px system-ui;
-    margin-top: 20px;
-  }
-  
-  @media (max-width: 991px) {
-    .navBackground {
-      padding: 0 20px;
-    }
-  
-    .contentWrapper {
-      grid-template-columns: 1fr;
-    }
-  
-    .pageTitle {
-      font-size: 40px;
-    }
-  
-    .menuGrid {
-      grid-template-columns: 1fr;
-    }
-  
-    .checkoutButton {
-      margin-top: 40px;
-      padding: 7px 20px;
-    }
-  }
-
-  .orderDetailsBox {
-    background-color: rgba(128, 0, 0, 1);/* Dark red */ /* Bright red background */
-    color: rgba(255, 193, 101, 1); /* White text for better contrast */
-    padding-right: 145px; /* Padding inside the box */
-    border-radius: 10px; /* Rounded corners */
-    max-width: 300px; /* Width of the box */
-    height: fit-content; /* Adjust height based on content */
-    position: fixed; /* Stick to the right side of the page */
-    top: 100px; /* Adjust vertical position */
-    right: 175px; /* Space from the right edge */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional shadow for better appearance */
-    z-index: 1000; /* Keep it above other elements */
-    display: flex;
-    bottom: 60px;
-  }
-  
-  .orderDetailsBox h2 {
-    font: 700 24px system-ui; /* Font size and weight */
-    margin-bottom: 10px; /* Space below the heading */
-    text-align: center; /* Center the title */
-    margin-left: 100px;
-  }
-  
-
-
-
-
-
-  .orderDetailsBox {
-    background-color: rgba(150, 0, 0, 1); /* Dark red */ 
-    color: rgba(255, 193, 101, 1); /* White text for better contrast */
-    padding-right: 145px; /* Padding inside the box */
-    border-radius: 10px; /* Rounded corners */
-    max-width: 200px; /* Width of the box */
-    height: fit-content; /* Adjust height based on content */
-    position: fixed; /* Stick to the right side of the page */
-    top: 100px; /* Adjust vertical position */
-    right: 175px; /* Space from the right edge */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional shadow for better appearance */
-    z-index: 1000; /* Keep it above other elements */
-    display: flex;
-    bottom: 60px;
-    flex-direction: column;
+.navContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1203px;
+  margin: 0 auto;
+  gap: 20px;
 }
 
-.orderDetailsBox h2 {
-    font: 700 24px system-ui; /* Font size and weight */
-    margin-bottom: 10px; /* Space below the heading */
-    text-align: center; /* Center the title */
-    margin-left: 115px;
-    white-space: nowrap;
+.logo {
+  font: 400 36px 'Baloo Bhaijaan', sans-serif;
+  color: #fff;
+}
+
+.navLinks {
+  display: flex;
+  gap: 60px;
+  color: rgba(201, 160, 22, 1);
+  font: 500 20px Inter, sans-serif;
+}
+
+.navLink {
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  padding: 0;
+}
+
+.mainContent {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 100%;
+  width: 100%;
+  padding: 0 20px;
+}
+
+/* Header Section */
+.titleSection .pageTitle {
+  color: rgba(255, 193, 101, 1);
+  font: 400 80px/1 system-ui;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.headerIcon {
+  width: 60px;
+  height: auto;
+}
+
+/* Menu Grid */
+.menuGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 40px;
+  width: 100%;
+}
+
+/* Menu Card */
+.menuCard {
+  background-color: rgba(255, 197, 97, 1);
+  border-radius: 15px;
+  padding: 15px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.addButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e86a12;
+  border: none;
+  border-radius: 13px 0 0 0;
+  color: #fff;
+  font: 800 13px Mulish, sans-serif;
+  padding: 10px 15px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  cursor: pointer;
+}
+
+.addIcon {
+  width: 18px;
+  height: 18px;
+}
+
+.addButton:hover {
+  background-color: #d05b10;
+}
+
+.cardContent {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.dish-image {
+  flex: 0 0 100px;
+  height: 100px;
+}
+
+.dishImage {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.cardDetails {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.dishTitle {
+  font: 700 20px 'Mulish', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #000;
+  margin-bottom: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dishDescription {
+  color: rgba(118, 109, 109, 1);
+  font: 400 14px/1.5 'Mulish', sans-serif;
+  margin-bottom: 10px;
+}
+
+.price {
+  font: 700 16px 'Mulish', sans-serif;
+  color: #000;
+  margin-bottom: 10px;
+}
+
+
+/* Order Details */
+.orderDetailsBox {
+  background-color: rgba(128, 0, 0, 1);
+  color: rgba(255, 193, 101, 1);
+  padding: 15px;
+  border-radius: 10px;
+  max-width: 300px;
+  position: fixed;
+  top: 100px; /* Increased top margin to lower the box */
+  right: 20px; /* Reduced right margin */
+  width: 100%;
+  height: 300px; /* Reduced height */
+  overflow: hidden;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .productDetails {
-    display: flex;
-    justify-content: space-between;
-    margin: 15px 0;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
 }
 
 .productLabel,
 .totalLabel {
-    font: 600 16px 'Mulish', sans-serif;
-    color: rgba(255, 193, 101, 1); /* Small gold color */
+  font: 500 14px Inter, sans-serif;
 }
 
-.totalLabel{
-  padding-left: 245px;
-}
-.totalDetails .total {
-    font: 700 20px system-ui;
-    text-align: center;
-    margin-top: 10px;
-    color: rgba(255, 193, 101, 1); /* Small gold color */
-    padding-right: 400px;
-    padding-top: 150px;
+.totalDetails {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
 }
 
-
-.totalLabel::after {
-  content: '';
-  position: absolute;
-  top: 25%; /* Position the line below the product details */
-  left: 0;
+.checkoutButton {
   width: 100%;
-  height: 1px;
-  background-color: black; /* Line color */
+  padding: 10px;
+  background-color: #e86a12;
+  border: none;
+  border-radius: 5px;
+  font: 700 16px/1 'Mulish', sans-serif;
+  color: #fff;
+  cursor: pointer;
 }
 
-.totalLabel::before {
-  content: '';
-  position: absolute;
-  top: 50%; /* Position the line below the product details */
-  left: 0;
-  width: 100%;
-  height: 1px;
-  background-color: black; /* Line color */
+.checkoutButton:hover {
+  background-color: #d05b10;
 }
 
-
-
-.cloud5,
-.cloud4 {
-    position: absolute;
-    background-image: url('../components/assets/yellowcloud.png');
-    background-repeat: no-repeat;
-    background-size: contain;
-    opacity: 0.7;
-}
-
-.cloud6 {
-    position: absolute;
-    background-image: url('../components/assets/darkcloud.png');
-    background-repeat: no-repeat;
-    background-size: contain;
-    opacity: 0.7;
-}
-
-
-.cloud4 {
-    width: 290px; /* Increased size */
-    height: 300px; /* Increased size */
-    bottom: 150px; /* Positioned higher */
-    right: 55%; /* Spread horizontally */
-}
-
-.cloud5 {
-    width: 290px; /* Increased size */
-    height: 200px; /* Increased size */
-    bottom: 290px; /* Positioned higher */
-    right: 90%; /* Spread horizontally */
-}
-
-.cloud6 {
-    width: 250px; /* Increased size */
-    height: 170px; /* Increased size */
-    bottom: 420px; /* Positioned higher */
-    right: 36%; /* Spread horizontally */
-}
-
-.cloud-container {
-    position: fixed; /* Allow child elements to position relative to this container */
-    width: 100%;
-    height: 100%;
+.no-items {
+  color: #fff;
+  font-size: 18px;
+  text-align: center;
+  margin-top: 20px;
 }

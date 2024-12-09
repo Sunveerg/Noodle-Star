@@ -33,6 +33,12 @@
     right: 10%; /* Spread horizontally */
 }
 
+.cloud7 {
+    width: 270px; /* Size of cloud */
+    height: 180px; /* Size of cloud */
+    bottom: 15%; /* Slightly higher than cloud3 */
+    right: 25%; /* More to the left than cloud3 */
+}
 .cloud4 {
     width: 320px; /* Increased size */
     height: 210px; /* Increased size */
