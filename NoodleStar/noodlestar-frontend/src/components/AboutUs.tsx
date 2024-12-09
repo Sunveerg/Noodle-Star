@@ -31,7 +31,7 @@ export const AboutUs: React.FC = () => {
            <div className={styles.topRightImage}></div>
 
             <section className={styles.content}>
-                <div className={styles.titleSection}>
+                <div className={styles.titlePart}>
                     <h2 className={styles.mainTitle}>About Us <img src={noodleImg} alt="Noodle"
                                                                    style={{width: '100px', height: '100px'}}/>
                     </h2>

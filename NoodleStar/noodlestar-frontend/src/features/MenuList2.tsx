@@ -37,10 +37,13 @@ const MenuList: React.FC = (): JSX.Element => {
 
     return (
         <div className="titleSection">
-            <h2 className="mainTitle">Our Menu <img src={noodleImg} alt="Noodle"
-                                                    style={{ width: '50px', height: '50px', paddingBottom: '100px' }} /></h2>
+            <h2 className="pageTitle">Our Menu <img
+                src={noodleImg}
+                alt="Noodle"
+                style={{width: '100px', height: '100px'}}
+            /></h2>
 
-            <AddDish />
+            <AddDish/>
 
             <div className="menu-list">
                 <div className="cloud-container">
@@ -59,11 +62,11 @@ const MenuList: React.FC = (): JSX.Element => {
                         }}>
                             <div className="menu-item-content">
                                 <div className="menu-image">
-                                    <img src={item.itemImage} alt={item.name} />
                                     <h3 className="menu-name">{item.name}</h3>
+                                    <img src={item.itemImage} alt={item.name}/>
                                 </div>
                                 <div className="menu-details">
-                                    <p className="menu-price">{item.price}$</p>
+                                <p className="menu-price">{item.price}$</p>
                                     <p className="menu-description">{item.description}</p>
                                     <p
                                         className={`menu-status ${

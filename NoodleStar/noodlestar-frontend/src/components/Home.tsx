@@ -1,8 +1,14 @@
 import React from 'react';
 import styles from './css/HomePage.module.css';
 import dragonImg from './assets/dragon.png';
+import {useNavigate} from "react-router-dom";
 
 export const Home: React.FC = () => {
+    const navigate = useNavigate();  
+
+    const handleClick = () => {
+        navigate('/menuOrder');
+    };
     return (
         <main className={styles.homePage}>
             {/* Left Section: Text Content */}
@@ -14,7 +20,9 @@ export const Home: React.FC = () => {
                 <p className={styles.paragraph}>
                     Delve into the rich flavors of authentic Chinese cuisine, ready for you to savor and enjoy.
                 </p>
-                <button className={styles.button}>Order Now</button>
+                <button className={styles.button} onClick={handleClick}>
+                    Order Now
+                </button>
             </div>
 
             {/* Right Section: Dragon Image */}

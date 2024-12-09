@@ -1,8 +1,3 @@
-.titleSection {
-    padding: 20px 40px; /* 40px on the left to push content to the right */
-    background: rgba(166, 0, 7, 1);
-}
-
 
 body{
     background: rgba(166, 0, 7, 1);
@@ -20,45 +15,60 @@ body{
     opacity: 0.9; /* Optional: Adjust transparency */
 }
 
-.mainTitle {
+/* Header Section */
+.titleSection .pageTitle {
+    font-size: 50px;
+    font-family: 'Abhaya Libre', serif;
+    font-weight: 700;
+    line-height: 1.2;
+    display: flex;
+    align-items: center;
+    gap: 20px;
     color: rgba(255, 193, 101, 1);
-    font: 400 80px/1 system-ui;
-    margin: 0;
-    padding-left: 40px; /* Adjust this value to move the title to the right */
+    padding-left: 3.5%;
+    padidng-top: 7%;
 }
 
 
-.mainTitle img {
-    width: 60px; /* Adjust the width as needed */
-    height: 60px; /* Adjust the height to keep the aspect ratio */
-    margin-left: 10px; /* Adds some space between the title and the image */
-}
 
 .menu-list {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 40px 100px; /* First value (20px) is for column spacing, second value (40px) is for row spacing */
+    grid-template-columns: repeat(2, 1fr); /* 2 equal-width columns */
+    gap: 20px 40px; /* Reduced gap between columns and rows */
+    padding: 0 20px; /* Added left and right padding to create space between the cards and borders */
 }
 
 
 .menu-item {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    position: relative; /* Ensure the name is positioned relative to the menu item */
+    gap: 10px;
+    position: relative;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-left: 10px; /* Optional: Additional margin on left */
+    margin-right: 10px; /* Optional: Additional margin on right */
+    overflow: hidden; /* Ensure content is clipped inside */
+    background: rgba(0, 0, 0, 0.8) url('../components/assets/clouds.png') no-repeat;
+    background-size: 100% 50%; /* Ensure the image covers the full width and has a fixed height */
+    background-position: bottom;
 }
+
+
+
 
 
 .menu-item-content {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    margin-top: 50px;
-
+    justify-content: flex-start; /* Align items to the left instead of centered */
+    gap: 15px; /* Reduced gap between image and details */
+    margin-top: 0; /* Removed margin to reduce space */
 }
+
 .menu-item img {
-    width: 100%;  /* Set width to 100% of the parent container */
+    width: 30%;  /* Set width to 100% of the parent container */
     height: auto;  /* Height adjusts automatically to maintain aspect ratio */
     object-fit: cover;  /* Ensure the image covers the container without distorting */
     border-radius: 8px;  /* Optional for rounded corners */
@@ -66,15 +76,11 @@ body{
 
 
 .menu-name {
-    position: absolute;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 23px;
+    font-size: 24px;
     font-weight: bold;
-    color: rgba(255, 193, 101, 1);
+    color: gold; /* Updated color to gold */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
-    z-index: 10; /* Ensure it's above the image */
+    margin-bottom: 10px; /* Added margin to space out name from the image */
     white-space: nowrap;
 }
 
@@ -88,34 +94,45 @@ body{
 }
 
 .menu-price {
-    font-size: 36px;
-    color: rgba(255, 193, 101, 1);
-    margin-top: 50px; /* Push it further down */
-    position: relative; /* Add fine-tuning with relative positioning */
-    top: 10px; /* Additional downward adjustment */
+    font-size: 30px; /* Reduced size for better spacing */
+    margin-top: 10px;
+    color: #FFD700; /* Gold color */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6); /* Soft shadow for readability */
 }
-
 
 .menu-description {
-    font: 400 24px 'Abhaya Libre', serif;
-    color: rgba(255, 193, 101, 1);
-    margin: 0;
+    font-size: 20px;
+    margin-top: 10px; /* Adjusted margin for better spacing */
+    color: #E3C27E; /* Pale gold color */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4); /* Subtle shadow for contrast */
 }
-
+/* Menu Status - General Styling */
 .menu-status {
     font-size: 16px;
     font-weight: bold;
     margin: 5px 0;
     text-transform: uppercase;
+    padding: 5px 15px; /* Add padding around the status text for better readability */
+    border-radius: 4px; /* Rounded corners for better look */
+    display: inline-block; /* Ensures the background and padding apply properly */
+    font-family: 'Abhaya Libre', serif; /* Optional: Use a specific font family for the status */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8); /* Strong text shadow for better visibility */
 }
 
+/* Available Status */
 .menu-status.available {
-    color: green;
+    color: white; /* White text for better contrast */
+    background-color: rgba(1, 31, 1, 0.8); /* Semi-transparent green for better readability */
+    border: 2px solid darkgreen; /* Darker border for a subtle effect */
 }
 
+/* Not Available Status */
 .menu-status.not-available {
-    color: red;
+    color: white; /* White text for better contrast */
+    background-color: rgba(63, 0, 0, 0.8); /* Semi-transparent red for better readability */
+    border: 2px solid darkred; /* Darker border for a subtle effect */
 }
+
 
 .no-items {
     font-size: 18px;
