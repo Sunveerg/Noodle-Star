@@ -28,12 +28,6 @@ body{
 }
 
 
-.mainTitle img {
-    width: 60px; /* Adjust the width as needed */
-    height: 60px; /* Adjust the height to keep the aspect ratio */
-    margin-left: 10px; /* Adds some space between the title and the image */
-}
-
 .menu-list {
     display: grid;
     grid-template-columns: repeat(2, 1fr);

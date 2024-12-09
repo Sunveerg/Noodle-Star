@@ -72,18 +72,6 @@
     opacity: 0.9; /* Optional: Adjust transparency */
 }
 
-.noodleImage {
-    flex: 1;
-    background-image: url('../assets/noodle.png');
-    background-position: center;
-    background-size: cover; /* Fills the container without stretching */
-    background-repeat: no-repeat;
-    height: 100px; /* Set a fixed height */
-    width: 100px; /* Set a fixed width */
-    border-radius: 8px;
-    margin-top: 20px;
-}
-
 
 .content {
     flex: 1; /* Allow content to take the remaining space */

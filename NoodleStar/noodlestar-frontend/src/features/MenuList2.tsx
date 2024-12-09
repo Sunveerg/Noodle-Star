@@ -37,10 +37,13 @@ const MenuList: React.FC = (): JSX.Element => {
 
     return (
         <div className="titleSection">
-            <h2 className="mainTitle">Our Menu <img src={noodleImg} alt="Noodle"
-                                                    style={{ width: '50px', height: '50px', paddingBottom: '100px' }} /></h2>
+            <h2 className="mainTitle">Our Menu <img
+                src={noodleImg}
+                alt="Noodle"
+                style={{width: '100px', height: '100px'}}
+            /></h2>
 
-            <AddDish />
+            <AddDish/>
 
             <div className="menu-list">
                 <div className="cloud-container">

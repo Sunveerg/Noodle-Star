@@ -45,7 +45,7 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
               <img
                   src={noodleImg}
                   alt="Noodle"
-                  style={{width: '50px', height: '50px'}}
+                  style={{width: '100px', height: '100px'}}
               />
             </h2>
             <div className="menu-list">
