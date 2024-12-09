@@ -60,51 +60,25 @@ private final MenuRepository menuRepository;
     }
 
     @Override
-    public MenuResponseModel addDish(MenuRequestModel menuRequestModel) {
-        validateMenuRequest(menuRequestModel);
-
-        menuRepository.findByName(menuRequestModel.getName())
-                .map(existingDish -> {
-                    throw new DishNameAlreadyExistsException("Dish with name '" + menuRequestModel.getName() + "' already exists.");
+    public Mono<MenuResponseModel> addDish(Mono<MenuRequestModel> menuRequestModel) {
+        return menuRequestModel
+                .map(EntityDTOUtil::toMenuEntity)
+                .doOnNext(menu -> {
+                    if (menu.getName() == null || menu.getName().isEmpty()) {
+                        throw new InvalidDishNameException("Dish name cannot be null or empty.");
+                    }
+                    if (menu.getPrice() == null || menu.getPrice().doubleValue() <= 0) {
+                        throw new InvalidDishPriceException("Dish price must be greater than 0.");
+                    }
+                    if (menu.getDescription() == null || menu.getDescription().isEmpty()) {
+                        throw new InvalidDishDescriptionException("Dish description cannot be null or empty.");
+                    }
+                    menu.setMenuId(UUID.randomUUID().toString());
+                    menu.setStatus(Status.AVAILABLE);
                 })
-                .block();
-
-        Menu menuEntity = new Menu();
-        menuEntity.setName(menuRequestModel.getName());
-        menuEntity.setDescription(menuRequestModel.getDescription());
-        menuEntity.setPrice(menuRequestModel.getPrice());
-        menuEntity.setCategory(menuRequestModel.getCategory());
-        menuEntity.setItemImage(menuRequestModel.getItemImage());
-        menuEntity.setStatus(Status.AVAILABLE);
-        menuEntity.setMenuId(UUID.randomUUID().toString());
-
-        Menu savedMenu = menuRepository.save(menuEntity).block();
-        if (savedMenu == null) {
-            throw new RuntimeException("Failed to save the dish to the database");
-        }
-
-        MenuResponseModel response = new MenuResponseModel();
-        response.setMenuId(savedMenu.getMenuId());
-        response.setName(savedMenu.getName());
-        response.setDescription(savedMenu.getDescription());
-        response.setPrice(savedMenu.getPrice());
-        response.setCategory(savedMenu.getCategory());
-        response.setItemImage(savedMenu.getItemImage());
-        response.setStatus(savedMenu.getStatus());
-
-        log.info("Dish added successfully with ID: {}", response.getMenuId());
-        return response;
-    }
-
-    private void validateMenuRequest(MenuRequestModel menuRequest) {
-        if (menuRequest.getName() == null || menuRequest.getName().isEmpty()) {
-            throw new InvalidDishNameException("Dish name cannot be null or empty");
-        }
-        if (menuRequest.getPrice() == null || menuRequest.getPrice().doubleValue() <= 0) {
-            throw new InvalidDishPriceException("Dish price must be greater than 0");
-        }
-        if (menuRequest.getDescription() == null || menuRequest.getDescription().isEmpty()) {
-            throw new InvalidDishDescriptionException("Dish description cannot be null or empty");
-        }
+                .flatMap(menuRepository::insert)
+                .flatMap(savedMenu -> menuRepository.findByName(savedMenu.getName())
+                        .map(EntityDTOUtil::toMenuResponseDTO))
+                .doOnSuccess(response -> log.info("Dish added successfully with ID: {}", response.getMenuId()));
     }
 }

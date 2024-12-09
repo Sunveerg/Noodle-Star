@@ -140,7 +140,7 @@ class MenuControllerUnitTest {
                 .description("Updated description")
                 .price(12.99)
                 .category("Main Course")
-                .ItemImage("updated_pizza.jpg")
+                .itemImage("updated_pizza.jpg")
                 .status(Status.AVAILABLE)
                 .build();
 
@@ -150,7 +150,7 @@ class MenuControllerUnitTest {
                 .description("Updated description")
                 .price(12.99)
                 .category("Main Course")
-                .ItemImage("updated_pizza.jpg")
+                .itemImage("updated_pizza.jpg")
                 .status(Status.AVAILABLE)
                 .build();
 
@@ -190,7 +190,7 @@ class MenuControllerUnitTest {
                 .description("This menu does not exist")
                 .price(15.99)
                 .category("Main Course")
-                .ItemImage("non_existent.jpg")
+                .itemImage("non_existent.jpg")
                 .status(Status.NOT_AVAILABLE)
                 .build();
 
