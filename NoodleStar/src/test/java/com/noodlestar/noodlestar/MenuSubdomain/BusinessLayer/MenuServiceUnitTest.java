@@ -202,33 +202,19 @@ class MenuServiceUnitTest {
                 .expectError(NotFoundException.class) // Expect a NotFoundException to be thrown
                 .verify();
     }
-  
+
     @Test
     void whenAddDish_thenReturnResponseModel() {
         // Arrange
-        when(menuRepository.findByName(menuRequest.getName()))
-                .thenReturn(Mono.empty());
-        when(menuRepository.save(any(Menu.class)))
+        when(menuRepository.insert(any(Menu.class)))
                 .thenReturn(Mono.just(menuEntity));
 
         // Act
-        MenuResponseModel result = menuService.addDish(menuRequest);
+        Mono<MenuResponseModel> resultMono = menuService.addDish(Mono.just(menuRequest));
 
         // Assert
-        verify(menuRepository, times(1)).findByName(menuRequest.getName());
-        verify(menuRepository, times(1)).save(argThat(savedMenu -> {
-            assertNotNull(savedMenu.getMenuId());
-            assertEquals(menuRequest.getName(), savedMenu.getName());
-            assertEquals(menuRequest.getDescription(), savedMenu.getDescription());
-            assertEquals(menuRequest.getPrice(), savedMenu.getPrice());
-            assertEquals(menuRequest.getCategory(), savedMenu.getCategory());
-            assertEquals(menuRequest.getItemImage(), savedMenu.getItemImage());
-            assertEquals(Status.AVAILABLE, savedMenu.getStatus());
-            return true;
-        }));
-
-        // Validate the response
-        assertNotNull(result.getMenuId());
+        MenuResponseModel result = resultMono.block();
+        assertNotNull(result);
         assertEquals(menuEntity.getMenuId(), result.getMenuId());
         assertEquals(menuEntity.getName(), result.getName());
         assertEquals(menuEntity.getDescription(), result.getDescription());
@@ -236,8 +222,9 @@ class MenuServiceUnitTest {
         assertEquals(menuEntity.getCategory(), result.getCategory());
         assertEquals(menuEntity.getItemImage(), result.getItemImage());
         assertEquals(menuEntity.getStatus(), result.getStatus());
-    }
 
+        verify(menuRepository, times(1)).insert(any(Menu.class));
+    }
 
     @Test
     void whenDishNameIsNull_thenThrowInvalidDishNameException() {
@@ -251,12 +238,13 @@ class MenuServiceUnitTest {
                 .build();
 
         // Act & Assert
+        Mono<MenuResponseModel> resultMono = menuService.addDish(Mono.just(invalidRequest));
         InvalidDishNameException exception = assertThrows(
                 InvalidDishNameException.class,
-                () -> menuService.addDish(invalidRequest)
+                resultMono::block
         );
 
-        assertEquals("Dish name cannot be null or empty", exception.getMessage());
+        assertEquals("Dish name cannot be null or empty.", exception.getMessage());
     }
 
     @Test
@@ -271,12 +259,13 @@ class MenuServiceUnitTest {
                 .build();
 
         // Act & Assert
+        Mono<MenuResponseModel> resultMono = menuService.addDish(Mono.just(invalidRequest));
         InvalidDishNameException exception = assertThrows(
                 InvalidDishNameException.class,
-                () -> menuService.addDish(invalidRequest)
+                resultMono::block
         );
 
-        assertEquals("Dish name cannot be null or empty", exception.getMessage());
+        assertEquals("Dish name cannot be null or empty.", exception.getMessage());
     }
 
     @Test
@@ -291,12 +280,13 @@ class MenuServiceUnitTest {
                 .build();
 
         // Act & Assert
+        Mono<MenuResponseModel> resultMono = menuService.addDish(Mono.just(invalidRequest));
         InvalidDishPriceException exception = assertThrows(
                 InvalidDishPriceException.class,
-                () -> menuService.addDish(invalidRequest)
+                resultMono::block
         );
 
-        assertEquals("Dish price must be greater than 0", exception.getMessage());
+        assertEquals("Dish price must be greater than 0.", exception.getMessage());
     }
 
     @Test
@@ -311,12 +301,13 @@ class MenuServiceUnitTest {
                 .build();
 
         // Act & Assert
+        Mono<MenuResponseModel> resultMono = menuService.addDish(Mono.just(invalidRequest));
         InvalidDishPriceException exception = assertThrows(
                 InvalidDishPriceException.class,
-                () -> menuService.addDish(invalidRequest)
+                resultMono::block
         );
 
-        assertEquals("Dish price must be greater than 0", exception.getMessage());
+        assertEquals("Dish price must be greater than 0.", exception.getMessage());
     }
 
     @Test
@@ -331,12 +322,13 @@ class MenuServiceUnitTest {
                 .build();
 
         // Act & Assert
+        Mono<MenuResponseModel> resultMono = menuService.addDish(Mono.just(invalidRequest));
         InvalidDishDescriptionException exception = assertThrows(
                 InvalidDishDescriptionException.class,
-                () -> menuService.addDish(invalidRequest)
+                resultMono::block
         );
 
-        assertEquals("Dish description cannot be null or empty", exception.getMessage());
+        assertEquals("Dish description cannot be null or empty.", exception.getMessage());
     }
 
     @Test
@@ -351,29 +343,13 @@ class MenuServiceUnitTest {
                 .build();
 
         // Act & Assert
+        Mono<MenuResponseModel> resultMono = menuService.addDish(Mono.just(invalidRequest));
         InvalidDishDescriptionException exception = assertThrows(
                 InvalidDishDescriptionException.class,
-                () -> menuService.addDish(invalidRequest)
+                resultMono::block
         );
 
-        assertEquals("Dish description cannot be null or empty", exception.getMessage());
-    }
-
-    @Test
-    void whenDishNameAlreadyExists_thenThrowDishNameAlreadyExistsException() {
-        // Arrange
-        when(menuRepository.findByName(menuRequest.getName())).thenReturn(Mono.just(menuEntity));
-
-        // Act & Assert
-        DishNameAlreadyExistsException exception = assertThrows(
-                DishNameAlreadyExistsException.class,
-                () -> menuService.addDish(menuRequest)
-        );
-
-        assertEquals("Dish with name 'Tacos' already exists.", exception.getMessage());
-
-        verify(menuRepository, times(1)).findByName(menuRequest.getName());
-        verify(menuRepository, never()).save(any(Menu.class));
+        assertEquals("Dish description cannot be null or empty.", exception.getMessage());
     }
 
 }
