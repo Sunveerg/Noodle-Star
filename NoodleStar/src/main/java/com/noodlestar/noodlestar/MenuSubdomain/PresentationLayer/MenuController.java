@@ -41,6 +41,7 @@ public class MenuController {
         return menuService.updateMenu(menuRequestModel, menuId)
                 .map(ResponseEntity::ok)
                 .defaultIfEmpty(ResponseEntity.notFound().build());
+    }
 
     @PostMapping("")
     public Mono<MenuResponseModel> addDish(@RequestBody MenuRequestModel menuRequestModel) {
