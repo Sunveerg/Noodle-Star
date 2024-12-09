@@ -42,7 +42,8 @@ body{
     display: flex;
     flex-direction: column;
     gap: 20px;
-    position: relative; /* Ensure the name is positioned relative to the menu item */
+    margin-left: 5%;
+    position: relative;
 }
 
 

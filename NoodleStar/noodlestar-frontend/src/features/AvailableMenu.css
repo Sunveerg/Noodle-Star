@@ -6,7 +6,7 @@
   min-height: 100vh;
   overflow: hidden;
   padding-bottom: 67px;
-  margin-left: 0;
+  margin-left: 5%;
   justify-content: space-between; /* Space out text and image */
   font-family: 'Inter', 'Abhaya Libre', sans-serif;
 
@@ -62,8 +62,12 @@
   padding: 0 20px;
 }
 
+.btnAdd{
+  padding-left: 4%;
+}
+
 /* Header Section */
-.titleSection .pageTitle {
+.titleSectionO .pageTitleO {
   font-size: 50px;
   font-family: 'Abhaya Libre', serif;
   font-weight: 700;
@@ -72,7 +76,6 @@
   align-items: center;
   gap: 30px;
   color: rgba(255, 193, 101, 1);
-  padding-left: 3.5%;
   padidng-top: 7%;
 }
 

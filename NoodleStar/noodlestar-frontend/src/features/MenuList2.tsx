@@ -43,7 +43,7 @@ const MenuList: React.FC = (): JSX.Element => {
                 style={{width: '100px', height: '100px'}}
             /></h2>
 
-            <AddDish/>
+            <AddDish style={{ paddingLeft: '5%' }} />
 
             <div className="menu-list">
                 <div className="cloud-container">

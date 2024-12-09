@@ -39,8 +39,8 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
         <div className={styles.cloud3}></div>
 
         <div className="mainContent">
-          <div className="titleSection">
-            <h2 className="pageTitle">
+          <div className="titleSectionO">
+            <h2 className="pageTitleO">
               Order Now
               <img
                   src={noodleImg}
