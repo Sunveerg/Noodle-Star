@@ -37,7 +37,7 @@ private final MenuRepository menuRepository;
     }
 
     @Override
-    public Mono<MenuResponseModel> getMenuById(String menuId) {
+    public Mono<MenuResponseModel> getMenuItemById(String menuId) {
         return menuRepository.findMenuByMenuId(menuId)
                 .map(EntityDTOUtil::toMenuResponseDTO);
     }
@@ -80,5 +80,12 @@ private final MenuRepository menuRepository;
                 .flatMap(savedMenu -> menuRepository.findByName(savedMenu.getName())
                         .map(EntityDTOUtil::toMenuResponseDTO))
                 .doOnSuccess(response -> log.info("Dish added successfully with ID: {}", response.getMenuId()));
+    }
+
+    @Override
+    public Mono<Void> deleteMenuItem(String menuId) {
+        return menuRepository.findMenuByMenuId(menuId)
+                .switchIfEmpty(Mono.error(new NotFoundException("Dish with ID '" + menuId + "' not found.")))
+                .flatMap(menuRepository::delete);
     }
 }

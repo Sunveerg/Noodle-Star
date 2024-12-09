@@ -7,6 +7,7 @@ import noodleImg from '../components/assets/noodle.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Menu.css';
 import AddDish from "../components/AddDish.tsx";
+import {deleteMenuItem} from "./api/deleteMenuItem.ts";
 
 const MenuList: React.FC = (): JSX.Element => {
     const [menuItems, setMenuItems] = useState<menuResponseModel[]>([]);
@@ -33,6 +34,25 @@ const MenuList: React.FC = (): JSX.Element => {
 
     const handleMenuItemClick = (menuId: number): void => {
         navigate(`/menu/${menuId}`);
+    };
+
+    const handleDelete = async (menuId: number) => {
+        const confirmDelete = window.confirm(
+            "Are you sure you want to delete this menu item?"
+        );
+
+        if (!confirmDelete) return;
+
+        try {
+            await deleteMenuItem(menuId);
+            setMenuItems((prevItems) =>
+                prevItems.filter((item) => item.menuId !== menuId)
+            );
+            alert("Menu item deleted successfully!");
+        } catch (error) {
+            console.error("Error deleting menu item:", error);
+            alert("Failed to delete the menu item. Please try again.");
+        }
     };
 
     return (
@@ -75,6 +95,15 @@ const MenuList: React.FC = (): JSX.Element => {
                                     >
                                         {item.status}
                                     </p>
+                                    <button
+                                        className="btn-delete"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleDelete(item.menuId);
+                                        }}
+                                    >
+                                        Delete
+                                    </button>
                                 </div>
                                 <button
                                     onClick={e => {
