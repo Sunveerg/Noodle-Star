@@ -43,7 +43,7 @@ const MenuList: React.FC = (): JSX.Element => {
                 style={{width: '100px', height: '100px'}}
             /></h2>
 
-            <AddDish style={{ paddingLeft: '5%' }} />
+            <AddDish/>
 
             <div className="menu-list">
                 <div className="cloud-container">
@@ -62,11 +62,11 @@ const MenuList: React.FC = (): JSX.Element => {
                         }}>
                             <div className="menu-item-content">
                                 <div className="menu-image">
-                                    <img src={item.itemImage} alt={item.name} />
                                     <h3 className="menu-name">{item.name}</h3>
+                                    <img src={item.itemImage} alt={item.name}/>
                                 </div>
                                 <div className="menu-details">
-                                    <p className="menu-price">{item.price}$</p>
+                                <p className="menu-price">{item.price}$</p>
                                     <p className="menu-description">{item.description}</p>
                                     <p
                                         className={`menu-status ${
