@@ -77,7 +77,6 @@ public class DataSetupServiceReview implements CommandLineRunner {
                 .subscribe();
     }
     private void setupOrders() {
-        // Create the order details with proper reactive flow
         Mono<Order> order1 = buildOrder("orderId1", "11111111-1111-1111-1111-111111111111", "Pending", LocalDate.now(),
                 buildOrderDetails("menuId1", 2), buildOrderDetails("menuId2", 1));
         Mono<Order> order2 = buildOrder("orderId2", "22222222-2222-2222-2222-222222222222", "Completed", LocalDate.now().minusDays(1),
@@ -89,7 +88,6 @@ public class DataSetupServiceReview implements CommandLineRunner {
         Mono<Order> order5 = buildOrder("orderId5", "55555555-5555-5555-5555-555555555555", "Pending", LocalDate.now(),
                 buildOrderDetails("menuId9", 5), buildOrderDetails("menuId10", 3));
 
-        // Insert the orders into the repository
         Flux.just(order1, order2, order3, order4, order5)
                 .flatMap(order -> order.flatMap(orderRepository::insert))
                 .subscribe();
@@ -116,8 +114,6 @@ public class DataSetupServiceReview implements CommandLineRunner {
                 });
     }
 
-
-    // Helper method to build OrderDetails and fetch prices from the menu
     private Mono<OrderDetails> buildOrderDetails(String menuId, int quantity) {
         return menuRepository.findMenuByMenuId(menuId)
                 .map(menuItem -> {
@@ -128,6 +124,7 @@ public class DataSetupServiceReview implements CommandLineRunner {
                     return orderDetails;
                 });
     }
+
 
     private Menu buildMenu(String menuId, String name, String description, Double price, String category, String itemImage, Status status) {
         Menu menu = new Menu();
