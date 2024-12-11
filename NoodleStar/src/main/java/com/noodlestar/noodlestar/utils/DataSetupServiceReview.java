@@ -1,20 +1,31 @@
-package com.noodlestar.noodlestar.MenuSubdomain.DataLayer;
+package com.noodlestar.noodlestar.utils;
 
+import com.noodlestar.noodlestar.MenuSubdomain.DataLayer.Menu;
+import com.noodlestar.noodlestar.MenuSubdomain.DataLayer.MenuRepository;
+import com.noodlestar.noodlestar.MenuSubdomain.DataLayer.Status;
+import com.noodlestar.noodlestar.ReviewSubdomain.DataLayer.Review;
+import com.noodlestar.noodlestar.ReviewSubdomain.DataLayer.ReviewRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @Service
 @RequiredArgsConstructor
-public class DataSetupService implements CommandLineRunner {
-
+public class DataSetupServiceReview implements CommandLineRunner {
+    private final ReviewRepo reviewRepo;
     private final MenuRepository menuRepository;
 
     @Override
     public void run(String... args) throws Exception {
+        setupReviews();
         setupMenu();
     }
+
+
 
     private void setupMenu() {
         Menu menu1 = buildMenu("menuId1", "Fried Rice", "Stir-frying rice with eggs and seafood.", 11.99, "Main Course", "https://cookingmadehealthy.com/wp-content/uploads/2021/03/Ratio-1-1-Baked-Chinese-Honey-Chicken-640x640.jpg", Status.AVAILABLE);
@@ -70,4 +81,33 @@ public class DataSetupService implements CommandLineRunner {
         return menu;
     }
 
+
+    private void setupReviews() {
+        Review review1 = buildReview("reviewId1", 5, "zako", "very good", "2022-11-24 13:00");
+        Review review2 = buildReview("reviewId2", 3, "Christian", "very good", "2022-11-24 13:00");
+        Review review3 = buildReview("reviewId3", 4, "Leopold", "very good", "2022-11-24 13:00");
+        Review review4 = buildReview("reviewId4", 1, "Samuel", "very good", "2022-11-24 13:00");
+        Review review5 = buildReview("reviewId5", 5, "Samantha", "very good", "2022-11-24 13:00");
+        Review review6 = buildReview("reviewId6", 5, "zako", "very good", "2024-11-24 13:00");
+        Review review7 = buildReview("reviewId7", 3, "Christian", "very good", "2023-11-24 13:00");
+        Review review8 = buildReview("reviewId8", 4, "Leopold", "very good", "2025-11-24 13:00");
+        Review review9 = buildReview("reviewId9", 1, "Samuel", "very good", "2023-11-24 13:00");
+        Review review10 = buildReview("reviewId10", 5, "Samantha", "very good", "2024-11-24 13:00");
+        // Add more reviews...
+        Flux.just(review1, review2, review3, review4, review5,review6,review7,review8,review9,review10)
+                .flatMap(reviewRepo::insert)
+                .subscribe();
+    }
+
+    private Review buildReview(String reviewId, int rating, String reviewerName, String review, String dateSub) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime parsedReviewDate = LocalDateTime.parse(dateSub, formatter);
+        return Review.builder()
+                .reviewId(reviewId)
+                .rating(rating)
+                .reviewerName(reviewerName)
+                .review(review)
+                .dateSubmitted(parsedReviewDate)
+                .build();
+    }
 }

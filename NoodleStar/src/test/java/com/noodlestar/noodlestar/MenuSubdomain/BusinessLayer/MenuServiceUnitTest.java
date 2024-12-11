@@ -5,11 +5,11 @@ import com.noodlestar.noodlestar.MenuSubdomain.DataLayer.MenuRepository;
 import com.noodlestar.noodlestar.MenuSubdomain.DataLayer.Status;
 import com.noodlestar.noodlestar.MenuSubdomain.PresentationLayer.MenuRequestModel;
 import com.noodlestar.noodlestar.MenuSubdomain.PresentationLayer.MenuResponseModel;
-import com.noodlestar.noodlestar.MenuSubdomain.utils.exceptions.NotFoundException;
-import com.noodlestar.noodlestar.MenuSubdomain.utils.exceptions.DishNameAlreadyExistsException;
-import com.noodlestar.noodlestar.MenuSubdomain.utils.exceptions.InvalidDishDescriptionException;
-import com.noodlestar.noodlestar.MenuSubdomain.utils.exceptions.InvalidDishNameException;
-import com.noodlestar.noodlestar.MenuSubdomain.utils.exceptions.InvalidDishPriceException;
+
+import com.noodlestar.noodlestar.utils.exceptions.InvalidDishDescriptionException;
+import com.noodlestar.noodlestar.utils.exceptions.InvalidDishNameException;
+import com.noodlestar.noodlestar.utils.exceptions.InvalidDishPriceException;
+import com.noodlestar.noodlestar.utils.exceptions.NotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

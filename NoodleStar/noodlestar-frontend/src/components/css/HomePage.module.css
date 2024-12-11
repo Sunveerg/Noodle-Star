@@ -122,3 +122,27 @@ img {
 .welcomeText {
     margin-left: 10%;
 }
+
+
+.reviewButton {
+    position: fixed; /* Fixed position relative to the viewport */
+    bottom: 20px; /* 20px from the bottom */
+    right: 20px; /* 20px from the right */
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    background-color: #f1c40f; /* Gold color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+.reviewButton:hover {
+    background-color: #e0a900; /* Darker gold on hover */
+}
+
+.reviewButton:focus {
+    outline: none;
+}

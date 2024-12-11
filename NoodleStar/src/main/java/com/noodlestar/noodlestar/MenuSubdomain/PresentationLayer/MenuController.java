@@ -1,7 +1,8 @@
 package com.noodlestar.noodlestar.MenuSubdomain.PresentationLayer;
 
 import com.noodlestar.noodlestar.MenuSubdomain.BusinessLayer.MenuService;
-import com.noodlestar.noodlestar.MenuSubdomain.utils.exceptions.NotFoundException;
+
+import com.noodlestar.noodlestar.utils.exceptions.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

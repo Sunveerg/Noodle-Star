@@ -4,6 +4,7 @@ import com.noodlestar.noodlestar.MenuSubdomain.DataLayer.Menu;
 import com.noodlestar.noodlestar.MenuSubdomain.DataLayer.Status;
 import com.noodlestar.noodlestar.MenuSubdomain.PresentationLayer.MenuRequestModel;
 import com.noodlestar.noodlestar.MenuSubdomain.PresentationLayer.MenuResponseModel;
+import com.noodlestar.noodlestar.utils.EntityDTOUtil;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
