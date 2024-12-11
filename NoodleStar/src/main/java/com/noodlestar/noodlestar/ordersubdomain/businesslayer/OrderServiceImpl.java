@@ -1,9 +1,9 @@
 package com.noodlestar.noodlestar.ordersubdomain.businesslayer;
 
+import com.noodlestar.noodlestar.MenuSubdomain.DataLayer.MenuRepository;
+import com.noodlestar.noodlestar.MenuSubdomain.utils.EntityDTOUtil;
 import com.noodlestar.noodlestar.ordersubdomain.datalayer.Order;
-import com.noodlestar.noodlestar.ordersubdomain.datalayer.OrderDetails;
 import com.noodlestar.noodlestar.ordersubdomain.datalayer.OrderRepository;
-import com.noodlestar.noodlestar.ordersubdomain.presentationlayer.OrderDetailsResponseModel;
 import com.noodlestar.noodlestar.ordersubdomain.presentationlayer.OrderRequestModel;
 import com.noodlestar.noodlestar.ordersubdomain.presentationlayer.OrderResponseModel;
 import org.springframework.stereotype.Service;
@@ -11,82 +11,47 @@ import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
+    private final MenuRepository menuRepository;
 
-    public OrderServiceImpl(OrderRepository orderRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository, MenuRepository menuRepository) {
         this.orderRepository = orderRepository;
+        this.menuRepository = menuRepository;
     }
 
     @Override
     public Flux<OrderResponseModel> getAllOrders() {
         return orderRepository.findAll()
-                .map(order -> {
-                    List<OrderDetailsResponseModel> orderDetailsResponseModels = order.getOrderDetails().stream()
-                            .map(orderDetails -> new OrderDetailsResponseModel(
-                                    UUID.randomUUID(),
-                                    orderDetails.getMenuId(),
-                                    orderDetails.getQuantity(),
-                                    orderDetails.getPrice()))
-                            .collect(Collectors.toList());
+                .map(EntityDTOUtil::toOrderResponseModel);
+    }
 
-                    return new OrderResponseModel(
-                            order.getOrderId(),
-                            order.getCustomerId(),
-                            order.getStatus(),
-                            order.getOrderDate(),
-                            orderDetailsResponseModels,
-                            order.getTotal()
-                    );
+    @Override
+    public Mono<OrderResponseModel> createOrder(Mono<OrderRequestModel> orderRequestModel) {
+        return orderRequestModel
+                .flatMap(request -> {
+                    Order order = EntityDTOUtil.toOrderEntity(request);
+                    order.setOrderId(EntityDTOUtil.generateOrderIdString());
+                    order.setOrderDate(LocalDate.now());
+                    order.setStatus(request.getStatus() != null ? request.getStatus() : "Pending");
+
+                    return calculateTotal(request).flatMap(total -> {
+                        order.setTotal(total);
+                        return orderRepository.insert(order)
+                                .map(EntityDTOUtil::toOrderResponseModel);
+                    });
                 });
     }
-    
-    @Override
-    public Mono<OrderResponseModel> createOrder(OrderRequestModel orderRequestModel) {
-        List<OrderDetails> orderDetailsList = orderRequestModel.getOrderDetails().stream()
-                .map(details -> new OrderDetails(
-                        details.getMenuId(),
-                        details.getQuantity(),
-                        details.getPrice()))
-                .collect(Collectors.toList());
 
-        Order order = new Order(
-                UUID.randomUUID(),
-                orderRequestModel.getCustomerId(),
-                "Pending",
-                LocalDate.now(),
-                orderDetailsList,
-                0
-        );
+    private Mono<Double> calculateTotal(OrderRequestModel request) {
+        Flux<Mono<Double>> priceMonoFlux = Flux.fromIterable(request.getOrderDetails())
+                .map(details -> menuRepository.findMenuByMenuId(details.getMenuId())
+                        .map(menuItem -> menuItem.getPrice() * details.getQuantity()));
 
-        return orderRepository.save(order)
-                .map(savedOrder -> {
-                    double total = savedOrder.getOrderDetails().stream()
-                            .mapToDouble(orderDetails -> orderDetails.getPrice() * orderDetails.getQuantity())
-                            .sum();
-                    savedOrder.setTotal(total);
-
-                    return new OrderResponseModel(
-                            savedOrder.getOrderId(),
-                            savedOrder.getCustomerId(),
-                            savedOrder.getStatus(),
-                            savedOrder.getOrderDate(),
-                            savedOrder.getOrderDetails().stream()
-                                    .map(details -> new OrderDetailsResponseModel(
-                                            UUID.randomUUID(),
-                                            details.getMenuId(),
-                                            details.getQuantity(),
-                                            details.getPrice()))
-                                    .collect(Collectors.toList()),
-                            total
-                    );
-                });
+        return Flux.merge(priceMonoFlux)
+                .reduce(0.0, Double::sum);
     }
 }
-

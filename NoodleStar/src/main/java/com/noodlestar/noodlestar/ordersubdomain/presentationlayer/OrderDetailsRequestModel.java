@@ -10,7 +10,6 @@ import java.util.UUID;
 @Builder
 @EqualsAndHashCode
 public class OrderDetailsRequestModel {
-    private UUID menuId;
+    private String menuId;
     private int quantity;
-    private double price;
 }

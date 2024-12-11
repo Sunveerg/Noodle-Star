@@ -12,8 +12,8 @@ import java.util.UUID;
 @Builder
 @EqualsAndHashCode
 public class OrderResponseModel {
-    private UUID orderId;
-    private UUID customerId;
+    private String orderId;
+    private String customerId;
     private String status;
     private LocalDate orderDate;
     private List<OrderDetailsResponseModel> orderDetails;

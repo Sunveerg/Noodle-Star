@@ -2,6 +2,7 @@ package com.noodlestar.noodlestar.ordersubdomain.presentationlayer;
 
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,6 +12,9 @@ import java.util.UUID;
 @Builder
 @EqualsAndHashCode
 public class OrderRequestModel {
-    private UUID customerId;
+    private String customerId;
+    private String status;
+    private LocalDate orderDate;
     private List<OrderDetailsRequestModel> orderDetails;
+    private double total;
 }
