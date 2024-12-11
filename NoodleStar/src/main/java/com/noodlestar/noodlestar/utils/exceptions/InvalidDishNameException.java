@@ -1,4 +1,4 @@
-package com.noodlestar.noodlestar.MenuSubdomain.utils.exceptions;
+package com.noodlestar.noodlestar.utils.exceptions;
 
 public class InvalidDishNameException extends RuntimeException {
     public InvalidDishNameException(String message) {

@@ -1,4 +1,4 @@
-package com.noodlestar.noodlestar.MenuSubdomain.utils;
+package com.noodlestar.noodlestar.utils;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

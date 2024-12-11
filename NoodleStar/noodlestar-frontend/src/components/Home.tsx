@@ -9,6 +9,11 @@ export const Home: React.FC = () => {
     const handleClick = () => {
         navigate('/menuOrder');
     };
+
+    const handleReviewClick = () => {
+        navigate('/review');
+    };
+
     return (
         <main className={styles.homePage}>
             {/* Left Section: Text Content */}
@@ -33,6 +38,13 @@ export const Home: React.FC = () => {
             <div className={styles.cloudFive}></div>
             <div className={styles.cloudSix}></div>
             <div className={styles.topRightImage}></div>
+
+            <button
+                className={styles.reviewButton}
+                onClick={handleReviewClick}
+            >
+                Go to Reviews
+            </button>
         </main>
     );
 };

@@ -1,8 +1,9 @@
-package com.noodlestar.noodlestar.MenuSubdomain.utils;
+package com.noodlestar.noodlestar.utils;
 
 
 
-import com.noodlestar.noodlestar.MenuSubdomain.utils.exceptions.*;
+
+import com.noodlestar.noodlestar.utils.exceptions.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Slf4j

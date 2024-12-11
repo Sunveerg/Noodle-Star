@@ -1,9 +1,12 @@
-package com.noodlestar.noodlestar.MenuSubdomain.utils;
+package com.noodlestar.noodlestar.utils;
 
 
 import com.noodlestar.noodlestar.MenuSubdomain.DataLayer.Menu;
 import com.noodlestar.noodlestar.MenuSubdomain.PresentationLayer.MenuRequestModel;
 import com.noodlestar.noodlestar.MenuSubdomain.PresentationLayer.MenuResponseModel;
+import com.noodlestar.noodlestar.ReviewSubdomain.DataLayer.Review;
+import com.noodlestar.noodlestar.ReviewSubdomain.PresentationLayer.ReviewRequestModel;
+import com.noodlestar.noodlestar.ReviewSubdomain.PresentationLayer.ReviewResponseModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
@@ -14,7 +17,25 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class EntityDTOUtil {
 
-//    public static MenuResponseModel toMenuResponseDTO(Menu menu) {
+
+    public static ReviewResponseModel toReviewResponseDTO(Review review) {
+        ReviewResponseModel reviewResponseDTO  = new ReviewResponseModel ();
+        BeanUtils.copyProperties(review, reviewResponseDTO);
+        return reviewResponseDTO;
+    }
+
+    public static Review toReviewEntity(ReviewRequestModel reviewRequestModel){
+        return Review.builder()
+                .reviewId(generateReviewIdString())
+                .rating(reviewRequestModel.getRating())
+                .reviewerName(reviewRequestModel.getReviewerName())
+                .review(reviewRequestModel.getReview())
+                .dateSubmitted(reviewRequestModel.getDateSubmitted())
+                .build();
+    }
+
+
+    //    public static MenuResponseModel toMenuResponseDTO(Menu menu) {
 //        MenuResponseModel menuResponseModel  = new MenuResponseModel ();
 //        BeanUtils.copyProperties(menu, menuResponseModel);
 //        return menuResponseModel;
@@ -80,6 +101,11 @@ public class EntityDTOUtil {
     }
 
     public static String generateMenuIdString() {
+        return UUID.randomUUID().toString();
+    }
+
+
+    public static String generateReviewIdString() {
         return UUID.randomUUID().toString();
     }
 }

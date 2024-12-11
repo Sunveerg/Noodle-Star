@@ -2,7 +2,7 @@ package com.noodlestar.noodlestar.MenuSubdomain.PresentationLayer;
 
 import com.noodlestar.noodlestar.MenuSubdomain.BusinessLayer.MenuService;
 import com.noodlestar.noodlestar.MenuSubdomain.DataLayer.Status;
-import com.noodlestar.noodlestar.MenuSubdomain.utils.exceptions.NotFoundException;
+import com.noodlestar.noodlestar.utils.exceptions.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
