@@ -5,11 +5,16 @@ import com.noodlestar.noodlestar.MenuSubdomain.DataLayer.MenuRepository;
 import com.noodlestar.noodlestar.MenuSubdomain.DataLayer.Status;
 import com.noodlestar.noodlestar.ReviewSubdomain.DataLayer.Review;
 import com.noodlestar.noodlestar.ReviewSubdomain.DataLayer.ReviewRepo;
+import com.noodlestar.noodlestar.ordersubdomain.datalayer.Order;
+import com.noodlestar.noodlestar.ordersubdomain.datalayer.OrderDetails;
+import com.noodlestar.noodlestar.ordersubdomain.datalayer.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -18,11 +23,14 @@ import java.time.format.DateTimeFormatter;
 public class DataSetupServiceReview implements CommandLineRunner {
     private final ReviewRepo reviewRepo;
     private final MenuRepository menuRepository;
+    private final OrderRepository orderRepository;
+
 
     @Override
     public void run(String... args) throws Exception {
         setupReviews();
         setupMenu();
+        setupOrders();
     }
 
 
@@ -67,6 +75,58 @@ public class DataSetupServiceReview implements CommandLineRunner {
         Flux.just(menu1, menu2, menu3, menu4, menu5, menu6, menu7, menu8, menu9, menu10)
                 .flatMap(menuRepository::insert)
                 .subscribe();
+    }
+    private void setupOrders() {
+        // Create the order details with proper reactive flow
+        Mono<Order> order1 = buildOrder("orderId1", "11111111-1111-1111-1111-111111111111", "Pending", LocalDate.now(),
+                buildOrderDetails("menuId1", 2), buildOrderDetails("menuId2", 1));
+        Mono<Order> order2 = buildOrder("orderId2", "22222222-2222-2222-2222-222222222222", "Completed", LocalDate.now().minusDays(1),
+                buildOrderDetails("menuId3", 1), buildOrderDetails("menuId4", 3));
+        Mono<Order> order3 = buildOrder("orderId3", "33333333-3333-3333-3333-333333333333", "Pending", LocalDate.now().minusDays(2),
+                buildOrderDetails("menuId5", 1), buildOrderDetails("menuId6", 4));
+        Mono<Order> order4 = buildOrder("orderId4", "44444444-4444-4444-4444-444444444444", "Canceled", LocalDate.now().minusDays(3),
+                buildOrderDetails("menuId7", 2), buildOrderDetails("menuId8", 1));
+        Mono<Order> order5 = buildOrder("orderId5", "55555555-5555-5555-5555-555555555555", "Pending", LocalDate.now(),
+                buildOrderDetails("menuId9", 5), buildOrderDetails("menuId10", 3));
+
+        // Insert the orders into the repository
+        Flux.just(order1, order2, order3, order4, order5)
+                .flatMap(order -> order.flatMap(orderRepository::insert))
+                .subscribe();
+    }
+
+    private Mono<Order> buildOrder(String orderId, String customerId, String status, LocalDate orderDate, Mono<OrderDetails>... orderDetails) {
+        Flux<OrderDetails> orderDetailsFlux = Flux.just(orderDetails)
+                .flatMap(mono -> mono);
+
+        return orderDetailsFlux.collectList()
+                .map(orderDetailsList -> {
+                    double total = orderDetailsList.stream()
+                            .mapToDouble(od -> od.getPrice() * od.getQuantity())
+                            .sum();
+
+                    return Order.builder()
+                            .orderId(orderId)
+                            .customerId(customerId)
+                            .status(status)
+                            .orderDate(orderDate)
+                            .orderDetails(orderDetailsList)
+                            .total(total)
+                            .build();
+                });
+    }
+
+
+    // Helper method to build OrderDetails and fetch prices from the menu
+    private Mono<OrderDetails> buildOrderDetails(String menuId, int quantity) {
+        return menuRepository.findMenuByMenuId(menuId)
+                .map(menuItem -> {
+                    OrderDetails orderDetails = new OrderDetails();
+                    orderDetails.setMenuId(menuId);
+                    orderDetails.setQuantity(quantity);
+                    orderDetails.setPrice(menuItem.getPrice());
+                    return orderDetails;
+                });
     }
 
     private Menu buildMenu(String menuId, String name, String description, Double price, String category, String itemImage, Status status) {
