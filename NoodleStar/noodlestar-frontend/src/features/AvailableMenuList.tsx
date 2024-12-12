@@ -4,12 +4,20 @@ import { menuResponseModel } from './model/menuResponseModel';
 import { getAllmenu } from './api/getAllMenu';
 import noodleImg from '../components/assets/noodle.png';
 import styles from '../components/css/AboutUs.module.css';
-import goldenLine from '../components/assets/goldenLine.png';  // Adjust the path as needed
 
 import './AvailableMenu.css';
 
+interface CartItem {
+  menuId: string;
+  name: string;
+  price: number;
+  quantity: number;
+}
+
 const AvailableMenuList: React.FC = (): JSX.Element => {
   const [menuItems, setMenuItems] = useState<menuResponseModel[]>([]);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [totalPrice, setTotalPrice] = useState<number>(0);
 
   useEffect(() => {
     const fetchMenuData = async (): Promise<void> => {
@@ -34,6 +42,32 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
     );
   }, []);
 
+  const handleAddToCart = (menuItem: menuResponseModel) => {
+    setCartItems((prevCartItems: CartItem[]) => {
+      const existingItem = prevCartItems.find(item => item.menuId === menuItem.menuId);
+      if (existingItem) {
+        return prevCartItems.map(item =>
+            item.menuId === menuItem.menuId
+                ? { ...item, quantity: item.quantity + 1 }
+                : item
+        ) as CartItem[];
+      } else {
+        return [
+          ...prevCartItems,
+          {
+            menuId: menuItem.menuId,
+            name: menuItem.name,
+            price: menuItem.price,
+            quantity: 1,
+          } as CartItem,
+        ];
+      }
+    });
+
+
+    setTotalPrice(prevTotal => prevTotal + menuItem.price);
+  };
+
   return (
       <div className="orderPage">
         <div className={styles.cloud3}></div>
@@ -45,7 +79,7 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
               <img
                   src={noodleImg}
                   alt="Noodle"
-                  style={{width: '100px', height: '100px'}}
+                  style={{ width: '100px', height: '100px' }}
               />
             </h2>
             <div className="menu-list">
@@ -56,8 +90,19 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
                   <div className="productLabel">Product</div>
                   <div className="totalLabel">Total</div>
                 </div>
+                {cartItems.length > 0 ? (
+                    cartItems.map(item => (
+                        <div className="productDetails" key={item.menuId}>
+                          <div className="productLabel">{item.name} x {item.quantity}</div>
+                          <div className="totalLabel">{(item.price * item.quantity).toFixed(2)}$</div>
+                        </div>
+                    ))
+                ) : (
+                    <p className="no-items">No items in cart</p>
+                )}
                 <div className="totalDetails">
                   <div className="total">Total</div>
+                  <div className="totalLabel">{totalPrice.toFixed(2)}$</div>
                 </div>
                 <button className="checkoutButton">
                   Checkout
@@ -82,7 +127,7 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
                               <p className="price">{item.price}$</p>
                             </div>
                           </div>
-                          <button className="addButton">
+                          <button className="addButton" onClick={() => handleAddToCart(item)}>
                             <img
                                 src="https://pngbasket.com/wp-content/uploads/2021/08/plus-icon-png-design.png" // Use the appropriate icon path
                                 alt="Add"

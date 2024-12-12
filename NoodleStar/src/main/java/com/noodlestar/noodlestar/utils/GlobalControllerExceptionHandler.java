@@ -22,6 +22,12 @@ public class GlobalControllerExceptionHandler {
         return createHttpErrorInfo(NOT_FOUND, request, ex);
     }
 
+    @ResponseStatus(NOT_FOUND)
+    @ExceptionHandler(MenuItemDoesNotExistException.class)
+    public HttpErrorInfo handleMenuItemDoesNotExistException(ServerHttpRequest request, Exception ex) {
+        return createHttpErrorInfo(NOT_FOUND, request, ex);
+    }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(InvalidDishNameException.class)
     public HttpErrorInfo handleInvalidDishNameException(ServerHttpRequest request, Exception ex) {
