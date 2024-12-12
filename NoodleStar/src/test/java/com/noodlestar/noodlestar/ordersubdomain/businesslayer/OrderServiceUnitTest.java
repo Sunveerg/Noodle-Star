@@ -14,10 +14,7 @@ import com.noodlestar.noodlestar.ordersubdomain.presentationlayer.OrderDetailsRe
 import com.noodlestar.noodlestar.ordersubdomain.presentationlayer.OrderRequestModel;
 import com.noodlestar.noodlestar.ordersubdomain.presentationlayer.OrderResponseModel;
 import com.noodlestar.noodlestar.utils.EntityDTOUtil;
-import com.noodlestar.noodlestar.utils.exceptions.InvalidDishDescriptionException;
-import com.noodlestar.noodlestar.utils.exceptions.InvalidDishNameException;
-import com.noodlestar.noodlestar.utils.exceptions.InvalidDishPriceException;
-import com.noodlestar.noodlestar.utils.exceptions.NotFoundException;
+import com.noodlestar.noodlestar.utils.exceptions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -89,6 +86,25 @@ class OrderServiceUnitTest {
                 .verifyComplete();
     }
 
+    @Test
+    public void testCreateOrderMenuItemDoesNotExist() {
+        OrderDetailsRequestModel orderDetailsRequestModel = new OrderDetailsRequestModel();
+        orderDetailsRequestModel.setMenuId("invalidMenuId");
+        orderDetailsRequestModel.setQuantity(2);
+
+        OrderRequestModel orderRequestModel = new OrderRequestModel();
+        orderRequestModel.setCustomerId("customer1");
+        orderRequestModel.setOrderDetails(Collections.singletonList(orderDetailsRequestModel));
+
+        when(menuRepository.findMenuByMenuId("invalidMenuId")).thenReturn(Mono.empty());
+
+        Mono<OrderResponseModel> result = orderService.createOrder(Mono.just(orderRequestModel));
+
+        StepVerifier.create(result)
+                .expectErrorMatches(throwable -> throwable instanceof MenuItemDoesNotExistException &&
+                        throwable.getMessage().equals("Menu item with ID invalidMenuId does not exist"))
+                .verify();
+    }
     @Test
     public void whenGetAllOrders_thenReturnOrders() {
         Order order1 = new Order();
