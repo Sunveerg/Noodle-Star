@@ -8,6 +8,7 @@ import MenuOrderPage from './pages/MenuOrderPage';
 import UpdateMenu from "./features/UpdateMenu.tsx";
 import ReviewPage from './pages/ReviewPage.tsx';
 import AddReview from "./features/Review/AddReview.tsx";
+import OrderSummary from "./pages/OrderSummaryPage.tsx";
 
 
 
@@ -28,7 +29,7 @@ const router = createBrowserRouter([
         element: <MenuPage />,
     },
     {
-        path: `${PathRoutes.Menu}/:menuId`,
+        path: `${PathRoutes.MenuDetails}/:menuId`,
         element: <MenuDetails />,
     },
     {
@@ -45,7 +46,11 @@ const router = createBrowserRouter([
     },
     {
         path: PathRoutes.AddReview,
-        element: <AddReview />,
+        element: <AddReview/>,
+        path: PathRoutes.OrderSummary,
+    },
+    {
+        element: <OrderSummary />,
     },
 ]);
 
