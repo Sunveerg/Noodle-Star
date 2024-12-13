@@ -5,9 +5,11 @@ import './ReviewList.css';
 import { reviewResponseModel } from '../model/reviewResponseModel';
 import { getAllReview } from '../api/Review/getAllReview';
 import noodleImg from '../../components/assets/noodle.png';
+import {useNavigate} from "react-router-dom";
 
 const ReviewList: React.FC = (): JSX.Element => {
     const [reviews, setReviews] = useState<reviewResponseModel[]>([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchReviewData = async (): Promise<void> => {
@@ -77,6 +79,15 @@ const ReviewList: React.FC = (): JSX.Element => {
                 ) : (
                     <p className="no-items">No reviews available</p>
                 )}
+                <button
+                    onClick={e => {
+                        e.stopPropagation();
+                        navigate(`add`);
+                    }}
+                    className="btn-add"
+                >
+                    Add
+                </button>
             </div>
         </div>
     );
