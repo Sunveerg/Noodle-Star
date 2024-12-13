@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import { menuResponseModel } from './model/menuResponseModel';
 import { getAllmenu } from './api/getAllMenu';
 import noodleImg from '../components/assets/noodle.png';
@@ -18,6 +19,7 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
   const [menuItems, setMenuItems] = useState<menuResponseModel[]>([]);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [totalPrice, setTotalPrice] = useState<number>(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchMenuData = async (): Promise<void> => {
@@ -64,8 +66,16 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
       }
     });
 
-
     setTotalPrice(prevTotal => prevTotal + menuItem.price);
+  };
+
+  const handleOrderSummary = () => {
+    console.log("Cart Items:", cartItems.length);
+    if (cartItems.length === 0) {
+      alert("Your cart is empty! Please add items before proceeding to checkout.");
+      return;
+    }
+    navigate('/orderSummary', { state: { cartItems, totalPrice } });
   };
 
   return (
@@ -104,7 +114,11 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
                   <div className="total">Total</div>
                   <div className="totalLabel">{totalPrice.toFixed(2)}$</div>
                 </div>
-                <button className="checkoutButton">
+                <button
+                    className="checkoutButton"
+                    onClick={handleOrderSummary}
+                    disabled={cartItems.length === 0}
+                >
                   Checkout
                 </button>
               </div>
