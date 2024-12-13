@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { getAllOrders } from '../features/api/getAllOrders.ts';
-import { createOrder } from '../features/api/createOrder.ts';
-import { OrderResponseModel } from '../features/model/orderResponseModel';
-import {OrderRequestModel} from "../features/model/orderRequestModel.ts";
+import React, { useState } from "react";
+import { createOrder } from "../features/api/createOrder.ts";
+import { OrderResponseModel } from "../features/model/orderResponseModel";
+import { OrderRequestModel } from "../features/model/orderRequestModel.ts";
+
+
 
 const OrderComponent: React.FC = () => {
     const [orders, setOrders] = useState<OrderResponseModel[]>([]);
@@ -11,20 +12,16 @@ const OrderComponent: React.FC = () => {
         orderDetails: []
     });
 
-    useEffect(() => {
-        const fetchOrders = async () => {
-            try {
-                const orders = await getAllOrders();
-                setOrders(orders);
-            } catch (error) {
-                console.error('Failed to fetch orders:', error);
-            }
-        };
-
-        fetchOrders();
-    }, []);
-
     const handleCreateOrder = async () => {
+        // Assuming newOrder.orderDetails is an array of OrderDetailsRequestModel
+        setNewOrder(prev => ({
+            ...prev,
+            orderDetails: [
+                { menuId: 'someMenuId', quantity: 2 }, // Adjust to use menuId instead of productId
+                ...prev.orderDetails
+            ]
+        }));
+
         try {
             const response = await createOrder(newOrder);
             setOrders([...orders, response.data]);
