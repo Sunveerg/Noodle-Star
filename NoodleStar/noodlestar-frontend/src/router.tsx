@@ -7,6 +7,7 @@ import MenuDetails from './pages/MenuDetailsPage';
 import MenuOrderPage from './pages/MenuOrderPage';
 import UpdateMenu from "./features/UpdateMenu.tsx";
 import ReviewPage from './pages/ReviewPage.tsx';
+import AddReview from "./features/Review/AddReview.tsx";
 
 
 
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
     {
         path: PathRoutes.Review,
         element: <ReviewPage />,
+    },
+    {
+        path: PathRoutes.AddReview,
+        element: <AddReview />,
     },
 ]);
 
