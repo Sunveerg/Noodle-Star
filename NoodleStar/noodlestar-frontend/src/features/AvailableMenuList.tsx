@@ -99,7 +99,7 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
 
     try {
       await createOrder(orderRequest);
-      setCheckoutMessage("Order successfully placed! Thank you for your purchase.");
+      setCheckoutMessage("Order has been placed!");
       console.log("Order placed successfully:", orderRequest);
 
       setCartItems({});
