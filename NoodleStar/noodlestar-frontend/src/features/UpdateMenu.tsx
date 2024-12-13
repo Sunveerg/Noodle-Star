@@ -244,11 +244,10 @@ const UpdateMenu: React.FC = (): JSX.Element => {
                     </div>
                 </form>
             </div>
-            {successMessage && <p className="success-message">{successMessage}</p>}
             {errorMessage && <p className="error-message">{errorMessage}</p>}
             {showNotification && (
                 <div className="notification">
-                    <p>Menu updated successfully</p>
+                    <p>{successMessage}</p>
                 </div>
             )}
         </div>

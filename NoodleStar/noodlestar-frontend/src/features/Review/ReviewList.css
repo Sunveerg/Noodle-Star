@@ -89,3 +89,33 @@
     background-repeat: no-repeat; /* Prevent repeating the image */
     opacity: 0.9; /* Optional: Adjust transparency */
 }
+
+.btn-add {
+    background-color: rgb(250, 178, 71); /* Matches the border color of review items */
+    color: white; /* Text color */
+    font-size: 1rem; /* Standard font size */
+    font-weight: bold;
+    padding: 10px 20px; /* Padding for spacing */
+    border: none; /* No border */
+    border-radius: 5px; /* Slightly rounded corners */
+    cursor: pointer; /* Pointer cursor for clickability */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+    margin-top: 20px; /* Space above the button */
+    align-self: center; /* Center the button */
+    justify-self: center;
+}
+
+.btn-add:hover {
+    background-color: rgba(250, 178, 71, 0.8); /* Slightly darker shade on hover */
+    transform: translateY(-2px); /* Lift effect */
+}
+
+.btn-add:active {
+    background-color: rgba(250, 178, 71, 0.6); /* Even darker when clicked */
+    transform: translateY(0); /* Reset lift effect */
+}
+
+.btn-add:focus {
+    outline: 2px solid rgba(250, 178, 71, 0.7); /* Focus outline for accessibility */
+    outline-offset: 2px;
+}

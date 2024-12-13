@@ -6,5 +6,6 @@ export enum PathRoutes {
     MenuDetails = "/menu/:menuId",
     MenuOrder = "/menuOrder",
     UpdateMenu = "/menu/:menuId/update",
-    Review = "/review"
+    Review = "/review",
+    AddReview = "review/add"
 }
