@@ -87,10 +87,11 @@ app.post("/create-delivery" , async (req, res) =>{
 
   const response = await client.deliveryQuoteAccept(externalDeliveryId);
 
-  const clothingTotal = (response.data.order_value / 100).toFixed(2)
+  const clothingTotal = (response.data.order_value).toFixed(2)
   const feeTotal = (response.data.fee / 100).toFixed(2)
   const orderTotal = Number(clothingTotal) + Number(feeTotal)
-  
+  const trackingUrl = response.data.tracking_url;
+
   const data = {
     clothingTotal: clothingTotal,
     feeTotal: feeTotal,
@@ -100,7 +101,8 @@ app.post("/create-delivery" , async (req, res) =>{
   res.render("order2", {
   clothingTotal : data.clothingTotal,
   feeTotal : data.feeTotal,
-  orderTotal : data.orderTotal
+  orderTotal : data.orderTotal,
+  trackingUrl: trackingUrl,
   }
   );
   console.log("ACCEPT", response);

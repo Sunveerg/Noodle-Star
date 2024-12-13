@@ -12,82 +12,62 @@
       <div class="container">
         <div class="input-forms">
           <div class="address-details">
-            <h1>Top Clothing</h1>
+            <h1>Noodle Star</h1>
             <p>11 Madison Ave, New York, NY 10010</p>
             <p>+1 (650) 5555555</p>
             <p id="address-label">Enter your address below</p>
           </div>
           <form onsubmit="return false">
-          <div class="address-wrap"> 
-            <input type="text" placeholder="Street" id="street" name="street" required />
-            <input type="text" placeholder="City" id="city" name="city" required/>
-            <input
-              type="text"
-              placeholder="Zipcode"
-              id="zipcode"
-              name="zipcode"
-              required
-            />
-          </div>
-          <div class="customer-info">
-            <p>Contact Details</p>
-            <input
-              type="text"
-              placeholder="First Name"
-              id="name"
-              name="dropoff_contact_given_name"
-              required
-            />
-            <input
-              type="text"
-              placeholder="Last Name"
-              id="lastname"
-              name="dropoff_contact_family_name"
-              required
-            />
-            <input
-              type="text"
-              placeholder="Phone Number"
-              id="phonenumber"
-              name="dropoff_phone_number"
-              type="number"
-              required
-            />
-          </div>
+            <div class="address-wrap"> 
+              <input type="text" placeholder="Street" id="street" name="street" required />
+              <input type="text" placeholder="City" id="city" name="city" required/>
+              <input
+                type="text"
+                placeholder="Zipcode"
+                id="zipcode"
+                name="zipcode"
+                required
+              />
+            </div>
+            <div class="customer-info">
+              <p>Contact Details</p>
+              <input
+                type="text"
+                placeholder="First Name"
+                id="name"
+                name="dropoff_contact_given_name"
+                required
+              />
+              <input
+                type="text"
+                placeholder="Last Name"
+                id="lastname"
+                name="dropoff_contact_family_name"
+                required
+              />
+              <input
+                type="text"
+                placeholder="Phone Number"
+                id="phonenumber"
+                name="dropoff_phone_number"
+                type="number"
+                required
+              />
+            </div>
+          </form>
         </div>
-        <div class="menu-items">
+
+        <!-- Container for dynamic menu items -->
+        <div class="menu-items" id="menu-items-container">
           <h2>Menu Items</h2>
-          <div class="clothing-option">
-            <input
-              type="checkbox"
-              name="items"
-              value="9900"
-              class="clothing"
-          
-            />
-            <label for="items">Brown Leather Jacket $999</label>
-          </div>
-          <div class="clothing-option">
-            <input type="checkbox" name="items" value="9900" class="clothing"    />
-            <label for="items">Black Leather Jacket $99</label>
-          </div>
-          <div class="clothing-option">
-            <input type="checkbox" name="items" value="4900" class="clothing"     />
-            <label for="items">Gray Hooded Jacket $49</label>
-          </div>
-          <div class="clothing-option">
-            <input type="checkbox" name="items" value="7900" class="clothing" />
-            <label for="items">Fitted Denim Jeans $79</label>
-          </div>
-          <div class="clothing-option">
-            <input type="checkbox" name="items" value="2900" class="clothing" />
-            <label for="items">Slim Fit T-Shirt $29</label>
-          </div>
-          <div class="clothing-option">
-            <input type="checkbox" name="items" value="1900" class="clothing" />
-            <label for="items">Premium Dress Socks $19</label>
-          </div>
+          <input
+          type="checkbox"
+          name="items"
+          value="9900"
+        />
+          <!-- Menu items will be dynamically added here -->
         </div>
+
         <div class="payment">
           <div>
             <h2>Payment Summary</h2>
@@ -109,18 +89,24 @@
             </table>
           </div>
           <div class="btns">
-             <!-- <button id="feeBtn" onclick="getFee()">
-              Get Fee
-            </button> -->
             <button id="orderBtn" onclick="createDelivery()">
               Place Order
             </button>
+
+            <button id="backBtn" onclick="goBack()" style="background-color: black; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+              Back
+            </button>
+            
           </div>
-          </form>
         </div>
       </div>
     </div>
     <script src="order.js"></script>
     <script src="delivery.js"></script>
+    <script>
+      function goBack() {
+        window.location.href = 'http://localhost:3000/home';
+      }
+    </script>
   </body>
 </html>

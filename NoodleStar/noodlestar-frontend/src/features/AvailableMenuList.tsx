@@ -14,10 +14,16 @@ interface CartItem {
   quantity: number;
 }
 
+
 const AvailableMenuList: React.FC = (): JSX.Element => {
   const [menuItems, setMenuItems] = useState<menuResponseModel[]>([]);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [totalPrice, setTotalPrice] = useState<number>(0);
+
+  const handleReviewClick = () => {
+    window.location.href = 'http://localhost:3001';
+  };
+  
 
   useEffect(() => {
     const fetchMenuData = async (): Promise<void> => {
@@ -104,7 +110,9 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
                   <div className="total">Total</div>
                   <div className="totalLabel">{totalPrice.toFixed(2)}$</div>
                 </div>
-                <button className="checkoutButton">
+                <button className="checkoutButton"
+                  onClick={handleReviewClick}
+                  >
                   Checkout
                 </button>
               </div>

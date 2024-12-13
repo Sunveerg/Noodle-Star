@@ -1,23 +1,23 @@
-function getFormValues(){
+function getFormValues() {
     const inputContainer = document.getElementById("order-details");
-    const fieldList = inputContainer.querySelectorAll("input")
+    const fieldList = inputContainer.querySelectorAll("input");
     const fieldArray = Array.from(fieldList);
 
-    const payload = fieldArray.reduce(
-        (obj,field) => {
-            if(field.name === "items"){
-                if(field.checked){
-                    obj["order_value"] +=parseInt(field.value)
-                }
-            }else{
-                obj[field.name] = field.value
-            }
-            return obj
-        }, {order_value:0}
-    )
-    console.log(payload);
-    return payload
+    const payload = fieldArray.reduce((obj, field) => {
+        if (field.type === "checkbox" && field.checked) {
+            // Add checkbox value to order_value
+            obj["order_value"] += parseFloat(field.value) || 0;
+        } else if (field.name) { // Ensure only valid fields are added
+            obj[field.name] = field.value;
+        }
+        return obj;
+    }, { order_value: 0 });
+
+    console.log("payload", JSON.stringify(payload)); // Log the complete payload
+    return payload;
 }
+
+
 
 async function getFee() {
     const payload = getFormValues()
@@ -41,8 +41,9 @@ async function getFee() {
         const clothingTotal = document.getElementById ("price");
         const orderTotal= document.getElementById("total");
 
-        clothingTotal.textContent = `$${(window.menuItems / 100).toFixed(2)}`;
-        deliveryFee.textContent = `$${(response.data.fee/ 100).toFixed(2)}`;
+        console.log("Menu items value:", window.menuItems);
+        clothingTotal.textContent = `$${(window.menuItems).toFixed(2)}`;
+        deliveryFee.textContent = `$${(response.data.fee / 100).toFixed(2)}`;
         orderTotal.textContent = `$${((Number(window.menuItems) + response.data.fee) / 100).toFixed(2)}`;
 
         return response;

@@ -1,7 +1,7 @@
 html
   head
     title= "Top Clothing Order Confirmed!"
-    link(rel='stylesheet' href='../styles.css')
+    link(rel='stylesheet' href='../style.css')
   body
   div.order-container
    div.order-wrap
@@ -12,13 +12,16 @@ html
      tbody 
       tr
        th Subtotal:
-        td $#{clothingTotal}
+        td $#{clothingTotal} 
       tr
        th Delivery Fee:
         td $#{feeTotal}
       tr
        th Order Total:
         td $#{orderTotal}
+    div.tracking-wrap
+      h3.heading Your Tracking Link:
+      a(href=trackingUrl target="_blank") Click here to track your order  
     div.btn-wrap
       a(href="/")#btn-link
        button#btn Return Home

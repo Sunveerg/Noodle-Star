@@ -56,8 +56,7 @@ input[type="radio"] {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-image: url("images/clothing-bg-1.jpg");
-  background-color: var(--black);
+  background-color: rgba(166, 0, 7, 1);
   background-size: cover;
 }
 
