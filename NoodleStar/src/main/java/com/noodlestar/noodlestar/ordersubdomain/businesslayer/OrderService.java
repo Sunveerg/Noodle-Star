@@ -10,5 +10,7 @@ public interface OrderService {
     Flux<OrderResponseModel> getAllOrders();
 
     Mono<OrderResponseModel> createOrder(Mono<OrderRequestModel> orderRequestDTO);
+
+    Mono<OrderResponseModel> getOrderById(String orderId);
 }
 
