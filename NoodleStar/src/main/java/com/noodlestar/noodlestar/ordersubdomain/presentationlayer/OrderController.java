@@ -10,6 +10,7 @@ import reactor.core.publisher.Flux;
 @RequestMapping("api/v1/orders")
 @Validated
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+
 public class OrderController {
 
     private final OrderService orderService;
