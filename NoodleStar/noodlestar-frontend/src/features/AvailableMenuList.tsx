@@ -14,11 +14,17 @@ interface CartItem {
   quantity: number;
 }
 
+
 const AvailableMenuList: React.FC = (): JSX.Element => {
   const [menuItems, setMenuItems] = useState<menuResponseModel[]>([]);
   const [cartItems, setCartItems] = useState<Record<string, CartItem>>({});
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [checkoutMessage, setCheckoutMessage] = useState<string>("");
+
+  const handleReviewClick = () => {
+    window.location.href = 'http://localhost:3001';
+  };
+  
 
   useEffect(() => {
     const fetchMenuData = async (): Promise<void> => {
@@ -111,8 +117,52 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
   };
 
   return (
+
+      <div className="orderPage">
+        <div className={styles.cloud3}></div>
+
+        <div className="mainContent">
+          <div className="titleSectionO">
+            <h2 className="pageTitleO">
+              Order Now
+              <img
+                  src={noodleImg}
+                  alt="Noodle"
+                  style={{ width: '100px', height: '100px' }}
+              />
+            </h2>
+            <div className="menu-list">
+              <div className="topRightImage"></div>
+              <div className="orderDetailsBox">
+                <h2>Order Details</h2>
+                <div className="productDetails">
+                  <div className="productLabel">Product</div>
+                  <div className="totalLabel">Total</div>
+                </div>
+                {cartItems.length > 0 ? (
+                    cartItems.map(item => (
+                        <div className="productDetails" key={item.menuId}>
+                          <div className="productLabel">{item.name} x {item.quantity}</div>
+                          <div className="totalLabel">{(item.price * item.quantity).toFixed(2)}$</div>
+                        </div>
+                    ))
+                ) : (
+                    <p className="no-items">No items in cart</p>
+                )}
+                <div className="totalDetails">
+                  <div className="total">Total</div>
+                  <div className="totalLabel">{totalPrice.toFixed(2)}$</div>
+                </div>
+                <button className="checkoutButton"
+                  onClick={handleReviewClick}
+                  >
+                  Checkout
+                </button>
+              </div>
+
     <div className="orderPage">
       <div className={styles.cloud3}></div>
+
 
       <div className="mainContent">
         <div className="titleSectionO">
