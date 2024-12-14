@@ -14,6 +14,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -83,5 +84,39 @@ class ReviewControllerUnitTest {
         verify(reviewService, times(1)).getAllReview();
     }
 
+    @Test
+    void addReview() {
+        LocalDateTime fixedDate = LocalDateTime.of(2024, 12, 10, 18, 38, 9, 0);
+
+        // Create mock request and response data
+        ReviewRequestModel requestModel = new ReviewRequestModel();
+        requestModel.setReviewerName("John Doe");
+        requestModel.setReview("Great experience");
+        requestModel.setRating(5);
+
+        ReviewResponseModel responseModel = ReviewResponseModel.builder()
+                .reviewId("1")
+                .rating(5)
+                .reviewerName("John Doe")
+                .review("Great experience")
+                .dateSubmitted(fixedDate)
+                .build();
+
+        // Mock the service to return the mock response
+        when(reviewService.addReview(any(Mono.class))).thenReturn(Mono.just(responseModel));
+
+        // Perform the actual test using WebTestClient
+        webTestClient.post()
+                .uri("/api/v1/review")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(requestModel)
+                .exchange()
+                .expectStatus().isCreated()  // Assert that the status is CREATED
+                .expectBody(ReviewResponseModel.class)
+                .isEqualTo(responseModel);
+
+        // Verify that the reviewService method was called once
+        verify(reviewService, times(1)).addReview(any(Mono.class));
+    }
 
 }
