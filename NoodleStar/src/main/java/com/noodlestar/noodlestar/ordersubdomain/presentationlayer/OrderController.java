@@ -24,6 +24,11 @@ public class OrderController {
         return orderService.getAllOrders();
     }
 
+    @GetMapping("/{orderId}")
+    public Mono<OrderResponseModel> getOrderById(@PathVariable String orderId) {
+        return orderService.getOrderById(orderId);
+    }
+
     @PostMapping
     public Mono<OrderResponseModel> createOrder(@RequestBody Mono<OrderRequestModel> orderRequestDTO) {
         return orderService.createOrder(orderRequestDTO);

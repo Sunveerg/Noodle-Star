@@ -6,6 +6,7 @@ import styles from "../components/css/AboutUs.module.css";
 import "./AvailableMenu.css";
 import { createOrder } from "../features/api/createOrder.ts";
 import {getAllmenu} from "../features/api/getAllMenu.ts";
+import {useNavigate} from "react-router-dom";
 
 interface CartItem {
   menuId: string;
@@ -19,6 +20,7 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
   const [cartItems, setCartItems] = useState<Record<string, CartItem>>({});
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [checkoutMessage, setCheckoutMessage] = useState<string>("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchMenuData = async (): Promise<void> => {
@@ -45,27 +47,26 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
   const handleAddToCart = (menuItem: menuResponseModel) => {
     setCartItems((prevCartItems) => {
       const updatedCartItems = { ...prevCartItems };
-      const existingItem = updatedCartItems[String(menuItem.menuId)];
+      const menuIdKey = String(menuItem.menuId);
 
-      if (existingItem) {
-        updatedCartItems[String(menuItem.menuId)].quantity += 1;
+      if (updatedCartItems[menuIdKey]) {
+        updatedCartItems[menuIdKey] = {
+          ...updatedCartItems[menuIdKey],
+          quantity: updatedCartItems[menuIdKey].quantity + 1,
+        };
       } else {
-        updatedCartItems[String(menuItem.menuId)] = {
-          menuId: String(menuItem.menuId),
+        updatedCartItems[menuIdKey] = {
+          menuId: menuIdKey,
           name: menuItem.name,
           price: menuItem.price,
           quantity: 1,
         };
       }
 
-      const newTotalPrice = Object.values(updatedCartItems).reduce(
-        (total, item) => total + item.price * item.quantity,
-        0
-      );
-
-      setTotalPrice(newTotalPrice);
       return updatedCartItems;
     });
+
+    setTotalPrice((prevTotal) => prevTotal + menuItem.price);
   };
 
   const handleCheckout = async () => {
@@ -104,6 +105,8 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
 
       setCartItems({});
       setTotalPrice(0);
+
+      navigate("/orderSummary", { state: { cartItems: Object.values(cartItems), totalPrice } });
     } catch (error) {
       console.error("Failed to create order:", error);
       setCheckoutMessage("Failed to place the order. Please try again.");
@@ -113,7 +116,6 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
   return (
     <div className="orderPage">
       <div className={styles.cloud3}></div>
-
       <div className="mainContent">
         <div className="titleSectionO">
           <h2 className="pageTitleO">

@@ -47,9 +47,9 @@ const router = createBrowserRouter([
     {
         path: PathRoutes.AddReview,
         element: <AddReview/>,
-        path: PathRoutes.OrderSummary,
     },
     {
+        path: PathRoutes.OrderSummary,
         element: <OrderSummary />,
     },
 ]);
