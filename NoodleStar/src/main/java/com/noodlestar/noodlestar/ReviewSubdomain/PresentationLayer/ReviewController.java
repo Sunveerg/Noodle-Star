@@ -29,9 +29,7 @@ public class ReviewController {
     @PostMapping("")
     public Mono<ResponseEntity<ReviewResponseModel>> addDish(@RequestBody Mono<ReviewRequestModel> reviewRequestModel) {
         return reviewService.addReview(reviewRequestModel)
-                .map(response -> ResponseEntity.status(HttpStatus.CREATED).body(response))
-                .onErrorResume(IllegalArgumentException.class, e -> Mono.just(
-                ResponseEntity.badRequest().body(new ReviewResponseModel("Error", 0, "", e.getMessage(), null)))
+                .map(response -> ResponseEntity.status(HttpStatus.CREATED).body(response));
         );
     }
 }
