@@ -27,7 +27,7 @@ public class ReviewController {
     }
 
     @PostMapping("")
-    public Mono<ResponseEntity<ReviewResponseModel>> addDish(@RequestBody Mono<ReviewRequestModel> reviewRequestModel) {
+    public Mono<ResponseEntity<ReviewResponseModel>> addReview(@RequestBody Mono<ReviewRequestModel> reviewRequestModel) {
         return reviewService.addReview(reviewRequestModel)
                 .map(response -> ResponseEntity.status(HttpStatus.CREATED).body(response));
     }
