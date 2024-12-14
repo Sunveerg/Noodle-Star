@@ -72,28 +72,6 @@ class OrderControllerUnitTest {
     }
 
     @Test
-    void getOrderById() {
-        OrderResponseModel order = new OrderResponseModel();
-        order.setOrderId("order1");
-        order.setCustomerId("customer1");
-        order.setOrderDate(LocalDate.now());
-        order.setOrderDetails(Collections.singletonList(new OrderDetailsResponseModel("menu1", 2)));
-        order.setTotal(20.0);
-
-        when(orderService.getOrderById("order1")).thenReturn(Mono.just(order));
-
-        webTestClient.get()
-                .uri("/api/v1/orders/order1")
-                .accept(MediaType.APPLICATION_JSON)
-                .exchange()
-                .expectStatus().isOk()
-                .expectBody(OrderResponseModel.class)
-                .isEqualTo(order);
-
-        verify(orderService, times(1)).getOrderById("order1");
-    }
-
-    @Test
     void createOrder() {
         OrderRequestModel orderRequest = new OrderRequestModel();
         orderRequest.setCustomerId("customer1");

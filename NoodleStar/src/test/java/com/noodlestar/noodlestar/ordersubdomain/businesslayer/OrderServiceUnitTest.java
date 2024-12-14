@@ -138,35 +138,4 @@ class OrderServiceUnitTest {
                 .expectNextMatches(response -> response.getOrderId().equals("order3") && response.getTotal() == 15.0)
                 .verifyComplete();
     }
-    @Test
-    public void whenGetOrderById_thenReturnOrderResponseModel() {
-        // Arrange
-        String orderId = "order1";
-        Order order = new Order();
-        order.setOrderId(orderId);
-        order.setCustomerId("customer1");
-        order.setOrderDate(LocalDate.now());
-        order.setOrderDetails(Collections.singletonList(new OrderDetails("menu1", 2, 10.0)));
-        order.setTotal(20.0);
-
-        when(orderRepository.findByOrderId(orderId)).thenReturn(Mono.just(order));
-
-        // Act
-        Mono<OrderResponseModel> result = orderService.getOrderById(orderId);
-
-        // Assert
-        StepVerifier.create(result)
-                .expectNextMatches(orderResponse ->
-                        orderResponse.getOrderId().equals(orderId) &&
-                                orderResponse.getCustomerId().equals("customer1") &&
-                                orderResponse.getTotal() == 20.0 &&
-                                orderResponse.getOrderDetails().size() == 1 &&
-                                orderResponse.getOrderDetails().get(0).getMenuId().equals("menu1") &&
-                                orderResponse.getOrderDetails().get(0).getQuantity() == 2
-                )
-                .verifyComplete();
-
-        verify(orderRepository, times(1)).findByOrderId(orderId);
-    }
-
 }
