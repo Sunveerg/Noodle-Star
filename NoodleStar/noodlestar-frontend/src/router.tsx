@@ -9,6 +9,7 @@ import UpdateMenu from "./features/UpdateMenu.tsx";
 import ReviewPage from './pages/ReviewPage.tsx';
 import AddReview from "./features/Review/AddReview.tsx";
 import OrderSummary from "./pages/OrderSummaryPage.tsx";
+import EmailSentPage from "./pages/EmailSentPage.tsx";
 
 
 
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
     {
         path: PathRoutes.OrderSummary,
         element: <OrderSummary />,
+    },
+    {
+        path: PathRoutes.EmailSent,
+        element: <EmailSentPage />,
     },
 ]);
 
