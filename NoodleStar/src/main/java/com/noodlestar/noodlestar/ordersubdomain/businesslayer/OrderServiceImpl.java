@@ -7,6 +7,7 @@ import com.noodlestar.noodlestar.ordersubdomain.presentationlayer.OrderRequestMo
 import com.noodlestar.noodlestar.ordersubdomain.presentationlayer.OrderResponseModel;
 import com.noodlestar.noodlestar.utils.EntityDTOUtil;
 import com.noodlestar.noodlestar.utils.exceptions.MenuItemDoesNotExistException;
+import com.noodlestar.noodlestar.utils.exceptions.NotFoundException;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
@@ -54,6 +55,16 @@ public class OrderServiceImpl implements OrderService {
                             });
                 });
     }
+
+    @Override
+    public Mono<Void> cancelOrder(String orderId) {
+        return orderRepository.findByOrderId(orderId)
+                .switchIfEmpty(Mono.error(new NotFoundException("Order with ID " + orderId + " not found")))
+                .flatMap(orderRepository::delete)
+                .then();
+    }
+
+
 
     private Mono<Void> validateMenuItems(OrderRequestModel request) {
         return Flux.fromIterable(request.getOrderDetails())

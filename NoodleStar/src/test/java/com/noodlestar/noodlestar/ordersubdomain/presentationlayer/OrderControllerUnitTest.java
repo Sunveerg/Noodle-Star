@@ -2,6 +2,7 @@ package com.noodlestar.noodlestar.ordersubdomain.presentationlayer;
 
 import com.noodlestar.noodlestar.ordersubdomain.businesslayer.OrderService;
 import com.noodlestar.noodlestar.ordersubdomain.datalayer.OrderDetails;
+import com.noodlestar.noodlestar.utils.exceptions.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -119,4 +120,20 @@ class OrderControllerUnitTest {
 
         verify(orderService, times(1)).createOrder(any(Mono.class));
     }
+
+    @Test
+    void cancelOrder() {
+        String orderId = "order1";
+
+        when(orderService.cancelOrder(orderId)).thenReturn(Mono.empty());
+
+        webTestClient.delete()
+                .uri("/api/v1/orders/{orderId}", orderId)
+                .exchange()
+                .expectStatus().isOk();
+
+        verify(orderService, times(1)).cancelOrder(orderId);
+    }
+
+
 }
