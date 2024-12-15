@@ -33,4 +33,10 @@ public class OrderController {
     public Mono<OrderResponseModel> createOrder(@RequestBody Mono<OrderRequestModel> orderRequestDTO) {
         return orderService.createOrder(orderRequestDTO);
     }
+
+    @DeleteMapping("/{orderId}")
+    public Mono<Void> cancelOrder(@PathVariable String orderId) {
+        return orderService.cancelOrder(orderId);
+    }
+
 }

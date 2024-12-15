@@ -12,5 +12,8 @@ public interface OrderService {
     Mono<OrderResponseModel> createOrder(Mono<OrderRequestModel> orderRequestDTO);
 
     Mono<OrderResponseModel> getOrderById(String orderId);
+
+    Mono<Void> cancelOrder(String orderId);
+
 }
 

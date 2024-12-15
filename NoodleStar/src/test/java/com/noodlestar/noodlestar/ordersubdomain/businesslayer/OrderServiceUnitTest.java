@@ -169,4 +169,50 @@ class OrderServiceUnitTest {
         verify(orderRepository, times(1)).findByOrderId(orderId);
     }
 
+    @Test
+    public void whenCancelOrder_thenOrderDeletedSuccessfully() {
+        // Arrange
+        String orderId = "order1";
+        Order order = new Order();
+        order.setOrderId(orderId);
+        order.setCustomerId("customer1");
+        order.setOrderDate(LocalDate.now());
+        order.setOrderDetails(Collections.singletonList(new OrderDetails("menu1", 2, 10.0)));
+        order.setTotal(20.0);
+
+        when(orderRepository.findByOrderId(orderId)).thenReturn(Mono.just(order));
+        when(orderRepository.delete(order)).thenReturn(Mono.empty());
+
+        // Act
+        Mono<Void> result = orderService.cancelOrder(orderId);
+
+        // Assert
+        StepVerifier.create(result)
+                .verifyComplete();
+
+        verify(orderRepository, times(1)).findByOrderId(orderId);
+        verify(orderRepository, times(1)).delete(order);
+    }
+
+    @Test
+    public void whenCancelOrderOrderNotFound_thenThrowException() {
+        // Arrange
+        String orderId = "nonExistentOrderId";
+
+        when(orderRepository.findByOrderId(orderId)).thenReturn(Mono.empty());
+
+        // Act
+        Mono<Void> result = orderService.cancelOrder(orderId);
+
+        // Assert
+        StepVerifier.create(result)
+                .expectErrorMatches(throwable -> throwable instanceof NotFoundException &&
+                        throwable.getMessage().equals("Order with ID " + orderId + " not found"))
+                .verify();
+
+        verify(orderRepository, times(1)).findByOrderId(orderId);
+        verify(orderRepository, never()).delete(any(Order.class));
+    }
+
+
 }

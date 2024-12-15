@@ -73,7 +73,7 @@
     margin-top: 20px;
 }
 
-.btn-delivery, .btn-pickup {
+.btn-delivery, .btn-pickup, .btn-cancel-order {
     background-color: #d9a52e;
     border: none;
     padding: 10px 20px;
@@ -84,6 +84,6 @@
     cursor: pointer;
 }
 
-.btn-delivery:hover, .btn-pickup:hover {
+.btn-delivery:hover, .btn-pickup:hover, .btn-cancel-order:hover {
     background-color: #bf9028;
 }
