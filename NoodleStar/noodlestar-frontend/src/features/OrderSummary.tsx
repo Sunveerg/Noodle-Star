@@ -19,6 +19,10 @@ const OrderSummary: React.FC = (): JSX.Element => {
     const taxes = totalPrice * TAX_RATE;
     const grandTotal = totalPrice + taxes;
 
+    const handleReviewClick = () => {
+    window.location.href = 'http://localhost:3001';
+  };
+
     return (
         <>
             <div className="checkout-section">
@@ -65,7 +69,7 @@ const OrderSummary: React.FC = (): JSX.Element => {
                             </div>
                         </div>
                         <div className="order-actions">
-                            <button className="btn-delivery">Delivery</button>
+                            <button className="btn-delivery" onClick={handleReviewClick}>Delivery</button>
                             <button className="btn-pickup">Pickup</button>
                         </div>
                     </div>
