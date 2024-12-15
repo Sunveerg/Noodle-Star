@@ -1,0 +1,161 @@
+@startuml
+hide footbox
+actor Client
+
+participant OrderPage as "<<View>>\nOrderPage"
+participant OrderFeature as "<<View>>\nOrderFeature"
+participant AxiosInstance as "<<Utility>>\nAxiosInstance"
+participant OrderController as "<<Controller>>\nOrderController"
+participant OrderService as "<<Service>>\nOrderService"
+participant OrderRepository as "<<Repository>>\nOrderRepository"
+participant Database as "<<Database>>\nDatabase"
+participant UberEatsAPI as "<<API>>\nUberEatsAPI"
+participant EmailService as "<<Service>>\nEmailService"
+participant Order as "<<Entity>>\nOrder"
+
+' Placing a new order
+
+Client -> OrderPage: Create Order
+activate OrderPage
+OrderPage -> OrderFeature: createOrder(orderDetails)
+activate OrderFeature
+OrderFeature -> OrderFeature: map orderDetails to OrderRequestDTO
+OrderFeature -> AxiosInstance: POST /order
+activate AxiosInstance
+AxiosInstance -> OrderController: POST /order
+activate OrderController
+OrderController -> OrderService: createOrder(OrderRequestDTO)
+activate OrderService
+OrderService -> Order: initializeOrder(OrderRequestDTO)
+activate Order
+Order --> OrderService: Order object
+deactivate Order
+OrderService -> OrderRepository: addOrder(Order)
+activate OrderRepository
+OrderRepository -> Database: insertOrder(orderDetails)
+activate Database
+Database --> OrderRepository: confirmInsert()
+deactivate Database
+OrderRepository --> OrderService: confirmInsert()
+deactivate OrderRepository
+OrderService -> UberEatsAPI: POST /uber-eats/order
+activate UberEatsAPI
+UberEatsAPI --> OrderService: confirmUberOrder()
+deactivate UberEatsAPI
+OrderService -> EmailService: sendOrderEmail(clientEmail)
+activate EmailService
+EmailService --> OrderService: emailSent()
+deactivate EmailService
+OrderService --> OrderController: return OrderResponseDTO
+deactivate OrderService
+OrderController --> AxiosInstance: return OrderResponseDTO
+deactivate OrderController
+AxiosInstance --> OrderFeature: return OrderResponseDTO
+deactivate AxiosInstance
+OrderFeature --> OrderPage: showOrderCreated()
+deactivate OrderFeature
+deactivate OrderPage
+
+
+' Fetching order details
+opt View Order Details
+    Client -> OrderPage: View Order Details
+    activate OrderPage
+    OrderPage -> OrderFeature: loadOrderDetails(orderId)
+    activate OrderFeature
+    OrderFeature -> AxiosInstance: GET /order/${orderId}
+    activate AxiosInstance
+    AxiosInstance -> OrderController: GET /order/${orderId}
+    activate OrderController
+    OrderController -> OrderService: getOrderById(orderId)
+    activate OrderService
+    OrderService -> OrderRepository: fetchOrder(orderId)
+    activate OrderRepository
+    OrderRepository -> Database: getOrderById(orderId)
+    activate Database
+    Database --> OrderRepository: return OrderData
+    deactivate Database
+    OrderRepository --> OrderService: return OrderData
+    deactivate OrderRepository
+    OrderService --> OrderController: return OrderResponseDTO
+    deactivate OrderService
+    OrderController --> AxiosInstance: return OrderResponseDTO
+    deactivate OrderController
+    AxiosInstance --> OrderFeature: return OrderResponseDTO
+    deactivate AxiosInstance
+    OrderFeature --> OrderPage: renderOrderDetails()
+    deactivate OrderFeature
+    deactivate OrderPage
+end opt
+
+' Updating an order
+opt Update Order
+    Client -> OrderPage: Update Order
+    activate OrderPage
+    OrderPage -> OrderFeature: updateOrder(orderId, updatedDetails)
+    activate OrderFeature
+    OrderFeature -> OrderFeature: map updatedDetails to OrderRequestDTO
+    OrderFeature -> AxiosInstance: PUT /order/${orderId}
+    activate AxiosInstance
+    AxiosInstance -> OrderController: PUT /order/${orderId}
+    activate OrderController
+    OrderController -> OrderService: updateOrder(orderId, OrderRequestDTO)
+    activate OrderService
+    OrderService -> OrderRepository: updateOrder(orderId, OrderRequestDTO)
+    activate OrderRepository
+    OrderRepository -> Database: updateOrder(orderId, updatedDetails)
+    activate Database
+    Database --> OrderRepository: confirmUpdate()
+    deactivate Database
+    OrderRepository --> OrderService: confirmUpdate()
+    deactivate OrderRepository
+    OrderService -> EmailService: sendOrderUpdateEmail(clientEmail)
+    activate EmailService
+    EmailService --> OrderService: emailSent()
+    deactivate EmailService
+    OrderService --> OrderController: return OrderResponseDTO
+    deactivate OrderService
+    OrderController --> AxiosInstance: return OrderResponseDTO
+    deactivate OrderController
+    AxiosInstance --> OrderFeature: return OrderResponseDTO
+    deactivate AxiosInstance
+    OrderFeature --> OrderPage: showOrderUpdated()
+    deactivate OrderFeature
+    deactivate OrderPage
+end opt
+
+' Deleting an order
+opt Delete Order
+    Client -> OrderPage: Delete Order
+    activate OrderPage
+    OrderPage -> OrderFeature: deleteOrder(orderId)
+    activate OrderFeature
+    OrderFeature -> AxiosInstance: DELETE /order/${orderId}
+    activate AxiosInstance
+    AxiosInstance -> OrderController: DELETE /order/${orderId}
+    activate OrderController
+    OrderController -> OrderService: deleteOrder(orderId)
+    activate OrderService
+    OrderService -> OrderRepository: deleteOrder(orderId)
+    activate OrderRepository
+    OrderRepository -> Database: deleteOrder(orderId)
+    activate Database
+    Database --> OrderRepository: confirmDelete()
+    deactivate Database
+    OrderRepository --> OrderService: confirmDelete()
+    deactivate OrderRepository
+    OrderService -> EmailService: sendOrderDeleteEmail(clientEmail)
+    activate EmailService
+    EmailService --> OrderService: emailSent()
+    deactivate EmailService
+    OrderService --> OrderController: return ConfirmationDTO
+    deactivate OrderService
+    OrderController --> AxiosInstance: return ConfirmationDTO
+    deactivate OrderController
+    AxiosInstance --> OrderFeature: return ConfirmationDTO
+    deactivate AxiosInstance
+    OrderFeature --> OrderPage: showOrderDeleted()
+    deactivate OrderFeature
+    deactivate OrderPage
+end opt
+@enduml

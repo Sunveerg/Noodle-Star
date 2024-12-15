@@ -1,0 +1,15 @@
+@startuml
+hide footbox
+actor Customer
+participant "Noodle Star System" as System
+
+ref over Customer, System : Login.puml
+
+Customer -> System: getAllReservations()
+System --> Customer: returnAvailableReservations()
+
+Customer -> System: addReservation(reservationDate, numOfPeople)
+System -> System: saveReservation(reservationDate, numOfPeople)
+System --> Customer: reservationConfirmation
+
+@enduml

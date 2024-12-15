@@ -1,0 +1,19 @@
+@startuml
+hide footbox
+actor Customer
+participant "Noodle Star System" as System
+
+
+
+ref over Customer, System : Login.puml
+
+Customer -> System: getAllOrder()
+Customer -> System: getOrderhistoryById(orderHistoryId)
+System --> System: fetchOrderHistoryData(customerId)
+System --> Customer: displayOrderHistory(orderHistoryData,orderHistoryId)
+
+@enduml
+
+
+
+

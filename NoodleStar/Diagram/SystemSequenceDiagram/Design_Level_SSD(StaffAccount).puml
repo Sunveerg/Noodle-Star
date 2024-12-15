@@ -1,0 +1,66 @@
+@startuml
+hide footbox
+actor Staff
+
+participant StaffPage as "<<View>>\nStaffPage"
+participant StaffFeature as "<<View>>\nStaffFeature"
+participant AxiosInstance as "<<Utility>>\nAxiosInstance"
+participant StaffController as "<<Controller>>\nStaffController"
+participant StaffService as "<<Service>>\nStaffService"
+participant StaffRepository as "<<Repository>>\nStaffRepository"
+participant Database as "<<Database>>\nDatabase"
+participant StaffEntity as "<<Entity>>\nStaffEntity"
+
+' Update staff account details
+Staff -> StaffPage: Update Account Information
+activate StaffPage
+StaffPage -> StaffFeature: updateAccountDetails(staffId, updatedDetails)
+activate StaffFeature
+StaffFeature -> StaffFeature: map updatedDetails to StaffRequestDTO
+StaffFeature -> AxiosInstance: PUT /staff/${staffId}
+activate AxiosInstance
+AxiosInstance -> StaffController: PUT /staff/${staffId}
+activate StaffController
+StaffController -> StaffService: updateStaffAccount(staffId, StaffRequestDTO)
+activate StaffService
+
+' Retrieve existing entity
+StaffService -> StaffRepository: findStaffById(staffId)
+activate StaffRepository
+StaffRepository -> Database: SELECT * FROM staff WHERE id = staffId
+activate Database
+Database --> StaffRepository: return RawStaffData
+deactivate Database
+StaffRepository -> StaffRepository: map RawStaffData to StaffEntity
+StaffRepository --> StaffService: return StaffEntity
+deactivate StaffRepository
+
+' Update entity fields
+StaffService -> StaffEntity: update fields with StaffRequestDTO
+activate StaffEntity
+StaffEntity --> StaffService: updated StaffEntity
+deactivate StaffEntity
+
+' Persist updated entity
+StaffService -> StaffRepository: save(updated StaffEntity)
+activate StaffRepository
+StaffRepository -> Database: UPDATE staff SET fields WHERE id = staffId
+activate Database
+Database --> StaffRepository: confirmUpdate()
+deactivate Database
+StaffRepository --> StaffService: confirmUpdate()
+deactivate StaffRepository
+
+' Map response
+StaffService -> StaffService: map updated entity to StaffResponseDTO
+StaffService --> StaffController: return StaffResponseDTO
+deactivate StaffService
+
+StaffController --> AxiosInstance: return StaffResponseDTO
+deactivate StaffController
+AxiosInstance --> StaffFeature: return StaffResponseDTO
+deactivate AxiosInstance
+StaffFeature --> StaffPage: showAccountUpdated()
+deactivate StaffFeature
+deactivate StaffPage
+@enduml

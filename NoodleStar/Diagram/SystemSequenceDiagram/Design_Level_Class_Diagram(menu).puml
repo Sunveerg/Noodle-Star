@@ -1,0 +1,101 @@
+@startuml
+title Menu Class Diagram within the Restaurant Subdomain
+
+package "Menusubdomain" {
+
+    package "businesslayer" {
+        interface MenuService {
+            + getAllMenus() : Flux<MenuResponseModel>
+            + getMenu(menuId: String) : Mono<MenuResponseModel>
+            + addMenu(menuRequest: MenuRequestModel) : Mono<MenuResponseModel>
+            + updateMenu(menuId: String, menuRequest: MenuRequestModel) : Mono<MenuResponseModel>
+            + removeMenu(menuId: String) : Mono<Void>
+        }
+
+        class MenuServiceImpl {
+            - menuRepository : MenuRepository
+            + getAllMenus() : Flux<MenuResponseModel>
+            + getMenu(menuId: String) : Mono<MenuResponseModel>
+            + addMenu(menuRequest: MenuRequestModel) : Mono<MenuResponseModel>
+            + updateMenu(menuId: String, menuRequest: MenuRequestModel) : Mono<MenuResponseModel>
+            + removeMenu(menuId: String) : Mono<Void>
+        }
+    }
+
+    package "datalayer" {
+        class Menu {
+            - MenuId : String
+            - Description : String
+            - price : int
+            - Category : String
+            - ItemImage: String
+            - available: Status
+        }
+
+          enum Status {
+                    - Available
+                    - Not_Available
+                }
+
+        interface MenuRepository extends MongoRepository {
+            + findAll() : Flux<Menu>
+            + findById(menuId: String) : Mono<Menu>
+            + save(menu: Menu) : Mono<Menu>
+            + deleteById(menuId: String) : Mono<Void>
+        }
+    }
+
+    package "Utils" {
+        interface EntityDto {
+            + requestModelToEntity(menuRequest: MenuRequestModel) : Menu
+              + entityToResponseModel(menu: Menu) : MenuResponseModel
+        }
+    }
+
+    package "presentationlayer" {
+        class MenuRequestModel {
+            - Description : String
+            - price : int
+            - Category : String
+            - ItemImage: String
+            - available: Status
+        }
+
+        class MenuResponseModel {
+                - MenuId : String
+                - Description : String
+                - price : int
+                - Category : String
+                - ItemImage: String
+                - available: Status
+        }
+
+        class MenuController {
+            - menuService : MenuService
+            + getAllMenus() : ResponseEntity<Flux<MenuResponseModel>>
+            + getMenu(menuId: String) : ResponseEntity<Mono<MenuResponseModel>>
+            + addMenu(menuRequest: MenuRequestModel) : ResponseEntity<Mono<MenuResponseModel>>
+            + updateMenu(menuId: String, menuRequest: MenuRequestModel) : ResponseEntity<Mono<MenuResponseModel>>
+            + removeMenu(menuId: String) : ResponseEntity<Mono<Void>>
+        }
+    }
+
+    MenuServiceImpl -down-|> MenuService : implements
+    MenuServiceImpl -down-> MenuRepository : uses
+    MenuServiceImpl -down-> EntityDto : uses
+    MenuServiceImpl -down-> EntityDto : uses
+    MenuServiceImpl -down-> MenuRequestModel : uses
+    MenuServiceImpl -down-> MenuResponseModel : uses
+        EntityDto -left- MenuRequestModel : uses
+        EntityDto -left- MenuResponseModel : uses
+
+    EntityDto -left- Menu : data conversion
+    EntityDto -right- Menu : data conversion
+    MenuRepository -[hidden]-> Menu : data persistence
+    MenuController -right-> MenuService : uses
+    MenuController -down-> MenuRequestModel : uses
+    MenuController -down-> MenuResponseModel : uses
+    Menu -up-> Status : uses
+}
+
+@enduml

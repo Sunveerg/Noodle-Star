@@ -1,0 +1,19 @@
+@startuml
+hide footbox
+actor Staff
+participant "Noodle Star System" as System
+autonumber
+
+ref over Staff, System : Login.puml
+
+Staff -> System: getMenu()
+System -> System: retrieveMenuDetails()
+System --> Staff: ReturnMenu()
+
+Staff -> System: getDiscountsAndPromotions()
+System --> Staff: ReturnDiscounts()
+Staff -> System: editDiscountsAndPromotions(discountDetails)
+System -> System: updateDiscounts(discountDetails)
+System --> Staff: confirmDiscountUpdate
+
+@enduml

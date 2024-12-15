@@ -1,0 +1,42 @@
+@startuml
+[*] --> ViewingMenu : Open menu
+
+state ViewingMenu {
+    [*] --> MenuList : Display all menu items
+    MenuList --> ViewingDetails : Client clicks on a menu item
+    ViewingDetails --> MenuList : Return to menu list
+}
+
+ViewingMenu --> ManagingMenu : Staff logs in
+ManagingMenu --> ViewingMenu : Staff logs out
+
+state ManagingMenu {
+    [*] --> ManageOptions : Choose action
+    ManageOptions --> AddingItem : Add a new item
+    ManageOptions --> UpdatingItem : Update an existing item
+    ManageOptions --> DeletingItem : Delete an item
+
+    state AddingItem {
+        [*] --> AddingName : Enter name
+        AddingName --> AddingDescription : Enter description
+        AddingDescription --> AddingPrice : Enter price > 0
+        AddingPrice --> AddingStatus : Set availability (Available/Not Available)
+        AddingStatus --> AddingIngredients : Link ingredients
+        AddingIngredients --> AddingImage : Upload optional image
+        AddingImage --> ManageOptions : Save item
+    }
+
+    state UpdatingItem {
+        [*] --> SelectingItem : Select an item to update
+        SelectingItem --> UpdatingName : Update name
+        UpdatingName --> UpdatingDescription : Update description
+        UpdatingDescription --> UpdatingPrice : Update price > 0
+        UpdatingPrice --> UpdatingStatus : Update availability
+        UpdatingStatus --> UpdatingIngredients : Update ingredients
+        UpdatingIngredients --> UpdatingImage : Update optional image
+        UpdatingImage --> ManageOptions : Save updates
+    }
+
+    DeletingItem --> ManageOptions : Confirm deletion
+}
+@enduml

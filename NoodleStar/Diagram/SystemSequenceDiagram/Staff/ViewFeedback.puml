@@ -1,0 +1,13 @@
+@startuml
+hide footbox
+actor Staff
+participant "Noodle Star System" as System
+
+
+ref over Staff, System : Login.puml
+
+Staff -> System: getAllReviews()
+System -> System: retrieveReviewData()
+System --> Staff: returnAllReviews()
+
+@enduml

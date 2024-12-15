@@ -1,0 +1,14 @@
+@startuml
+hide footbox
+actor Owner
+participant "Noodle Star System" as System
+
+
+ref over Owner, System : Login.puml
+
+Owner -> System: createStaffAccount(staffDetails)
+System -> System: saveStaffAccount(staffDetails)
+System --> Owner: staffAccountCreationConfirmation
+
+
+@enduml

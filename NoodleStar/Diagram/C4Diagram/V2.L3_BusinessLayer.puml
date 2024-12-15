@@ -1,0 +1,156 @@
+@startuml
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!define DEVICONS https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/devicons
+!include DEVICONS/java.puml
+!include DEVICONS/react.puml
+!include DEVICONS/html5.puml
+!define DEVICONS2 https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/devicons2
+!include DEVICONS2/google.puml
+!include DEVICONS2/npm_original_wordmark.puml
+!include DEVICONS2/typescript.puml
+!include DEVICONS2/javascript.puml
+!define SPRITES https://raw.githubusercontent.com/plantuml-stdlib/gilbarbara-plantuml-sprites/v1.1/sprites
+!include SPRITES/auth0.puml
+
+
+AddElementTag("service", $shape=square(), $bgColor="#557C99", $fontColor="white", $legendText="Service\square")
+AddElementTag("ext_service", $shape=sqaure(), $bgColor="Gray", $fontColor="white" ,$legendText="External Service\square")
+AddElementTag("SPA", $shape=RoundedBoxShape(), $bgColor="#61DAFB", $fontColor="#333333", $legendText="Single-Page Application")
+AddElementTag("storage", $shape=RoundedBoxShape(), $bgColor="#f29111", $fontColor="white", $legendText="Databases")
+Container(auth, "Auth0", "SaaS", "Easy and adaptable authorisation and authentication platform.", $sprite="auth0", $tags="ext_service")
+Container(email, "Google Gmail Api System", "Email Service", "The api delivered by Google",  $tags="ext_service")
+Container(order, "Delivery Api", "", "Api that will manage orders and delivery",  $tags="ext_service")
+
+
+Container(singlePageApp, "Single-Page Application", "TypeScript, ReactJs", "Provides NoodleStar functionalities to Customer, Staff, and Owner", $sprite="react", $tags="SPA")
+Rectangle  #line.dashed{
+
+       Container(SignInController, "Sign In Controller", "Component: Spring Boot REST Controller", "Allows users to sign in to the application.", $sprite="java", $tags="service")
+       Container(SignInService, "Sign In Service", "Component: Spring Boot Service", "Provides functionalities for user authentication.", $sprite="java", $tags="service")
+
+       SignInController -[dashed]-> SignInService : "**uses**"
+       SignInController -[dashed]-> auth : "**uses**"
+
+
+            Container(ReviewController, "Review Controller", "Component: Spring Boot REST Controller", "Manages Review interactions such as add, edit, delete, and fetch.", $sprite="java", $tags="service")
+            Container(ReviewService, "Review Service", "Component: Spring Boot Service", "Handles business logic for Review functionality.", $sprite="java", $tags="service")
+            Container(ReviewRepository, "Review Repository", "Component: JPA Repository", "Communicates with MongoDB for Review data.", $sprite="java", $tags="service")
+
+            ReviewController -[dashed]-> ReviewService : "**uses**"
+            ReviewService -[dashed]-> ReviewRepository : "**uses**"
+
+
+
+
+
+
+      Container(ReportController, "Report Controller", "Component: Spring Boot REST Controller", "Provides the owner with the ability to generate and view reports.", $sprite="java", $tags="service")
+            Container(ReportService, "Report Service", "Component: Sprint Boot Service" ,"Provides the functionalities to get, update, create and delete.", $sprite="java", $tags="service")
+            Container(ReportRepository, "Report Repository","Component: JPA Repository", "Makes requests to the database to fetch or update data.", $sprite="java", $tags="service")
+            ReportController -[dashed]-> ReportService : "**uses**"
+            ReportService -[dashed]-> ReportRepository : "**uses**"
+
+          Container(MenuController, "Menu Controller", "Component: Spring Boot REST Controller", "Provides the staff and customer with the ability to view the menu and manage it", $sprite="java", $tags="service")
+             Container(MenuService, "Menu Service", "Component: Sprint Boot Service" ,"Provides the functionalities to get, update, create and delete.", $sprite="java", $tags="service")
+             Container(MenuRepository, "Menu Repository","Component: JPA Repository", "Makes requests to the database to fetch or update data.", $sprite="java", $tags="service")
+             MenuController -[dashed]-> MenuService : "**uses**"
+             MenuService -[dashed]-> MenuRepository : "**uses**"
+
+
+             Container(OrderController, "Order Controller", "Component: Spring Boot REST Controller", "Provides the customer and staff with the ability to order and manage the order", $sprite="java", $tags="service")
+             Container(OrderService, "Order Service", "Component: Sprint Boot Service" ,"Provides the functionalities to get, update, create and delete.", $sprite="java", $tags="service")
+             Container(OrderRepository, "Order Repository","Component: JPA Repository", "Makes requests to the database to fetch or update data.", $sprite="java", $tags="service")
+             OrderController -[dashed]-> OrderService : "**uses**"
+             OrderService -[dashed]-> OrderRepository : "**uses**"
+             OrderService -[dashed]-> email : "**uses**"
+
+               Container(CustomerController, "Customer Controller", "Component: Spring Boot REST Controller", "Provides the customer  with the ability to manage their account", $sprite="java", $tags="service")
+               Container(CustomerService, "Customer Service", "Component: Sprint Boot Service" ,"Provides the functionalities to get, update, create and delete.", $sprite="java", $tags="service")
+               Container(CustomerRepository, "Customer Repository","Component: JPA Repository", "Makes requests to the database to fetch or update data.", $sprite="java", $tags="service")
+               CustomerController -[dashed]-> CustomerService : "**uses**"
+               CustomerService -[dashed]-> CustomerRepository : "**uses**"
+
+
+               Container(StaffController, "Staff Controller", "Component: Spring Boot REST Controller", "Provides staff with the ability to manage their tasks", $sprite="java", $tags="service")
+               Container(StaffService, "Staff Service", "Component: Spring Boot Service", "Provides the functionalities to get, update, create, and delete staff members.", $sprite="java", $tags="service")
+               Container(StaffRepository, "Staff Repository", "Component: JPA Repository", "Makes requests to the database to fetch or update data.", $sprite="java", $tags="service")
+
+               StaffController -[dashed]-> StaffService : "**uses**"
+               StaffService -[dashed]-> StaffRepository : "**uses**"
+
+               Container(OwnerController, "Owner Controller", "Component: Spring Boot REST Controller", "Provides owners with the ability to manage their business.", $sprite="java", $tags="service")
+               Container(OwnerService, "Owner Service", "Component: Spring Boot Service", "Provides the functionalities to get, update, create, and delete owner information.", $sprite="java", $tags="service")
+               Container(OwnerRepository, "Owner Repository", "Component: JPA Repository", "Makes requests to the database to fetch or update data.", $sprite="java", $tags="service")
+
+               OwnerController -[dashed]-> OwnerService : "**uses**"
+               OwnerService -[dashed]-> OwnerRepository : "**uses**"
+
+
+            singlePageApp -[dashed]-> ReportController: "**Make api call [Json/Https]**"
+            singlePageApp -[dashed]-> MenuController: "**Make api call [Json/Https]**"
+            singlePageApp -[dashed]-> OrderController: "**Make api call [Json/Https]**"
+            singlePageApp -[dashed]-> CustomerController: "**Make api call [Json/Https]**"
+            singlePageApp -[dashed]-> StaffController: "**Make api call [Json/Https]**"
+            singlePageApp -[dashed]-> OwnerController: "**Make api call [Json/Https]**"
+            singlePageApp -[dashed]-> SignInController: "**Make api call [Json/Https]**"
+
+
+
+            }
+
+
+            ContainerDb(database, "Database", "MongoDB", "Stores all review data alongside other entities like customers, orders, etc.", $sprite="mongodb", $tags="storage")
+            ReviewRepository -[dashed]-> database : "**Makes calls via MongoDB Driver**"
+
+            singlePageApp -[dashed]-> ReviewController : "**API Calls (JSON/HTTPS)**"
+
+                ContainerDb(database, "Database", "MongoDb", "Stores customer data, staf data, owner data, orders, reservations and report data", $sprite="mysql", $tags="storage")
+                ReportRepository -[dashed]-> database: "**Makes calls via**\nMongoDB\n[MongoDB Driver]"
+                MenuRepository -[dashed]-> database: "**Makes calls via**\nMongoDB\n[MongoDB Driver]"
+                OrderRepository -[dashed]-> database: "**Makes calls via**\nMongoDB\n[MongoDB Driver]"
+                CustomerRepository -[dashed]-> database: "**Makes calls via**\nMongoDB\n[MongoDB Driver]"
+                StaffRepository -[dashed]-> database: "**Makes calls via**\nMongoDB\n[MongoDB Driver]"
+                OwnerRepository -[dashed]-> database: "**Makes calls via**\nMongoDB\n[MongoDB Driver]"
+
+                OrderService -[dashed]-> order: "**Uses**"
+
+
+         ' Correct way to apply colors to relationships
+         OwnerService -[dashed]-> StaffService : "uses"
+         OwnerService -[dashed]-> ReportService : "uses"
+         StaffService -[dashed]-> MenuService : "uses"
+         CustomerService -[dashed]-> OrderService : "uses"
+         OrderService -[dashed]-> MenuService : "uses"
+
+
+         ' Now set colors for each relation
+         ' Applying colors using 'skinparam' and 'color'
+
+         skinparam ArrowColor #red
+         OwnerService -[dashed]-> StaffService : "uses"
+
+         skinparam ArrowColor #red
+         OwnerService -[dashed]-> ReportService : "uses"
+
+         skinparam ArrowColor #blue
+         StaffService -[dashed]-> MenuService : "uses"
+
+
+
+         skinparam ArrowColor #purple
+         CustomerService -[dashed]-> OrderService : "uses"
+
+         skinparam ArrowColor #green
+         OrderService -[dashed]-> MenuService : "uses"
+
+
+
+
+
+
+
+
+
+@enduml
+

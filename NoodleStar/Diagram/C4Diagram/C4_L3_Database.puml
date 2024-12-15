@@ -1,0 +1,83 @@
+@startuml
+!define COLLECTION(name) class name << (C,#ADD8E6) >>
+!define FIELD(name, type) name : type
+skinparam class {
+    BackgroundColor #f7f4eb
+    BorderColor Black
+}
+
+Database "MongoDB" as MongoDB #f29111 {
+
+
+    COLLECTION(Orders) {
+        FIELD(order_id, ObjectId)
+        FIELD(customer, Embedded Document) // Includes customer_id, name, email
+        FIELD(order_items, Array of Documents) // Links to OrderDetails
+        FIELD(status, String)
+        FIELD(order_date, DateTime)
+    }
+
+    COLLECTION(Customers) {
+        FIELD(customer_id, ObjectId)
+        FIELD(first_name, String)
+        FIELD(last_name, String)
+        FIELD(email, String)
+        FIELD(phone_number, String)
+    }
+
+    COLLECTION(Menu) {
+        FIELD(item_id, ObjectId)
+        FIELD(name, String)
+        FIELD(description, String)
+        FIELD(price, Decimal)
+        FIELD(category, String)
+        FIELD(status, Status)
+        FIELD(item_image, String)
+    }
+
+    COLLECTION(OrderDetails) {
+        FIELD(order_detail_id, ObjectId)
+        FIELD(order_id, ObjectId) // Reference to Orders
+        FIELD(item_id, ObjectId) // Reference to Menu
+        FIELD(quantity, Integer)
+        FIELD(price, Decimal)
+    }
+
+    COLLECTION(Reports) {
+        FIELD(report_id, ObjectId)
+        FIELD(content_details, String)
+        FIELD(report_date, DateTime)
+        FIELD(report_type, String)
+    }
+
+    COLLECTION(Staff) {
+        FIELD(staff_id, ObjectId)
+        FIELD(first_name, String)
+        FIELD(last_name, String)
+        FIELD(email, String)
+        FIELD(phone_number, String)
+    }
+
+    COLLECTION(Owners) {
+        FIELD(owner_id, ObjectId)
+        FIELD(first_name, String)
+        FIELD(last_name, String)
+        FIELD(email, String)
+        FIELD(phone_number, String)
+    }
+
+      COLLECTION(Reviews) {
+            FIELD(review_id, ObjectId)
+            FIELD(reviewer_name, String)
+            FIELD(rating, Integer)
+            FIELD(review, String)
+            FIELD(date_submitted, DateTime)
+        }
+
+
+    Orders "1" --o{ Customers : contains
+    Orders "1" --o{ OrderDetails : has
+    OrderDetails "0..*" --o{ Menu : references
+
+}
+@enduml

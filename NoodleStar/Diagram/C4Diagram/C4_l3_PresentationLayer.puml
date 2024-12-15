@@ -1,0 +1,122 @@
+@startuml
+!include <archimate/Archimate>
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!define DEVICONS https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/devicons
+!include DEVICONS/react.puml
+!include DEVICONS/html5.puml
+!include DEVICONS/javascript.puml
+!include DEVICONS/mysql.puml
+!define DEVICONS2 https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/devicons2
+!include DEVICONS2/typescript.puml
+!include DEVICONS2/tailwindcss.puml
+!include DEVICONS2/npm_original_wordmark.puml
+
+AddElementTag("webApp", $shape=RoundedBoxShape(), $bgColor="#f06529", $fontColor="white", $legendText="Web Application")
+AddElementTag("webPage", $shape=RoundedBoxShape(), $bgColor="#61DAFB", $fontColor="#333333", $legendText="SPA Page")
+AddElementTag("service", $shape=square(), $bgColor="#557C99", $fontColor="white", $legendText="Service")
+AddElementTag("httpClient", $shape=cloud(), $bgColor="#6DB33F", $fontColor="white", $legendText="HTTP Client")
+
+System_Boundary(NoodleStar, "NoodleStar Application") {
+    Container(indexPage, "Web Application", "React,TypeScript", "Main entry point.", $sprite="html5", $tags="webApp")
+
+    rectangle "src" as src {
+        rectangle "Assets" as assets {
+            Container(images, "Images", "", "Static images for the application.")
+            Container(icons, "Icons", "", "Icon assets.")
+        }
+
+        rectangle "Context" as context {
+            Container(userContext, "User Context", "", "Provides user-related context data.")
+        }
+
+        rectangle "Environments" as environments {
+            Container(envConfig, "Environment Config", "", "Environment-specific configuration.")
+        }
+
+        rectangle "Features" as features {
+            Container(menuFeature, "MenuList", "TSX", "Handle to retrieve all the menu.", $tags="service")
+            Container(menuFeature2, "Update Menu", "TSX", "Handle the update menu details.", $tags="service")
+            Container(menuFeature3, "AddDish", "TSX", "Handle to add a menu item", $tags="service")
+            Container(menuFeature4, "MenuDetails", "TSX", "Handle to retrieve one item from menu.", $tags="service")
+            Container(menuFeature5, "ReviewList", "TSX", "Handle to retrieve all the reviews", $tags="service")
+            Container(orderFeature, "Order Feature", "TSX", "Handles order-related functionality.", $tags="service")
+            Container(profileFeature, "Profile Feature", "TSX", "User profile management.", $tags="service")
+            Container(cartFeature, "Cart Feature", "TSX", "Handles cart management.", $tags="service")
+            Container(reportFeature, "Report Feature", "TSX", "Handles reports management", $tags="service")
+        }
+
+        rectangle "Layouts" as layouts {
+            Container(AppNavBar, "App Nav Bar", "", "Layout for the nav bar")
+        }
+
+        rectangle "Pages" as Pages {
+            Container(home, "Home Page", "TSX", "Displays the home page.", $sprite="typescript", $tags="webPage")
+            Container(menuPage, "Menu Page", "TSX", "Displays restaurant menu items.", $sprite="typescript", $tags="webPage")
+            Container(cartPage, "Cart Page", "TSX", "Shows items in user's cart.", $sprite="typescript", $tags="webPage")
+            Container(orderStatusPage, "Menu Order page", "TSX", "SHow the available menu", $sprite="typescript", $tags="webPage")
+             Container(orderStatusPage2, "Menu Details page", "TSX", "Show one menu item", $sprite="typescript", $tags="webPage")
+             Container(orderStatusPage3, "About us page", "TSX", "Show the about us page", $sprite="typescript", $tags="webPage")
+             Container(orderStatusPage4, "ReviewPage", "TSX", "Show the review page", $sprite="typescript", $tags="webPage")
+
+            Container(profilePage, "Profile Page", "TSX", "Manages user information.", $sprite="typescript", $tags="webPage")
+            Container(contactUsPage, "Contact Us Page", "TSX", "Provides contact information.", $sprite="typescript", $tags="webPage")
+            Container(checkoutPage, "Checkout Page", "TSX", "Provides payment options.", $sprite="typescript", $tags="webPage")
+            Container(reportPage, "report Page", "TSX", "Shows reports generated", $sprite="typescript", $tags="webPage")
+        }
+
+        rectangle "Shared" as shared {
+            Container(axiosInstance, "Axios", "JavaScript", "HTTP client for API requests.", $tags="httpClient")
+            Container(router, "Router Component", "TSX", "Handles application routing.", $sprite="react", $tags="webApp")
+        }
+
+
+
+
+    }
+
+
+
+    rectangle "Backend Services" as Services {
+        Container(deliveryAPI, "NoodleStar Application", "Java,SpringBoot", "Coordinates order deliveries.", $sprite="java", $tags="service")
+    }
+}
+
+Rel_L(router, home, "Route to Home Page")
+Rel_L(router, menuPage, "Route to Menu Page")
+Rel_L(router, cartPage, "Route to Cart Page")
+Rel_L(router, orderStatusPage, "Route to Menu Order  Page")
+Rel_L(router, orderStatusPage2, "Route to Menu details  Page")
+Rel_L(router, orderStatusPage3, "Route to about us Page")
+Rel_L(router, orderStatusPage4, "Route to review page")
+Rel_L(router, profilePage, "Route to Profile Page")
+Rel_L(router, contactUsPage, "Route to Contact Us Page")
+Rel_L(router, checkoutPage, "Route to Checkout Page")
+Rel_L(router, reportPage, "Route to report Page")
+
+Rel_L(axiosInstance, deliveryAPI, "Fetch data from", $tags="httpClient")
+Rel(router, userContext, "Authenticate user", $tags="httpClient")
+
+Rel_D(menuFeature, axiosInstance, "Fetch menu items using Axios", $tags="httpClient")
+Rel_D(menuFeature2, axiosInstance, "Fetch menu items using Axios", $tags="httpClient")
+Rel_D(menuFeature3, axiosInstance, "Fetch menu items using Axios", $tags="httpClient")
+Rel_D(menuFeature4, axiosInstance, "Fetch menu items using Axios", $tags="httpClient")
+Rel_D(menuFeature5, axiosInstance, "Fetch all reviews using Axios", $tags="httpClient")
+Rel_D(orderFeature, axiosInstance, "fetch order info using Axios", $tags="httpClient")
+Rel_D(cartFeature, axiosInstance, "fetch cart info using Axios", $tags="httpClient")
+Rel_D(reportFeature, axiosInstance, "generate report using Axios", $tags="httpClient")
+Rel_D(profileFeature, axiosInstance, "fetch user information with Axios", $tags="httpClient")
+
+Rel_R(menuPage, menuFeature, "Displays menu items", $tags="webPage")
+Rel_R(cartPage, cartFeature, "Displays cart contents", $tags="webPage")
+Rel_R(orderStatusPage, orderFeature, "Displays order status", $tags="webPage")
+Rel_R(profilePage, profileFeature, "Displays user profile", $tags="webPage")
+Rel_R(reportPage, reportFeature, "Displays reports", $tags="webPage")
+Rel_R(orderStatusPage4, menuFeature5, "Displays reviews", $tags="webPage")
+
+
+
+Rel(indexPage, home, "Starts with", $tags="a_rel")
+Rel(AppNavBar, router, "Uses to handle navigation",$tags="a_rel")
+
+SHOW_LEGEND()
+@enduml

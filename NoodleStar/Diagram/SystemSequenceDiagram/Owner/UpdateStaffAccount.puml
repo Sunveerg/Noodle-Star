@@ -1,0 +1,16 @@
+@startuml
+hide footbox
+actor Owner
+participant "Noodle Star System" as System
+
+
+ref over Owner, System : Login.puml
+Owner -> System: getStaffInfo(staffId)
+System --> Owner: returnStaffInfo(staffId)
+
+
+Owner -> System: updateStaffAccount(staffId, updatedDetails)
+System -> System: saveUpdatedStaffAccount(staffId, updatedDetails)
+System --> Owner: staffAccountUpdateConfirmation
+
+@enduml

@@ -1,0 +1,91 @@
+@startuml
+title Review Class Diagram within the Pet Clinic Subdomain
+
+package "ReviewSubdomain" {
+
+    package "businesslayer" {
+        interface ReviewService {
+            + getAllReviews() : Flux<ReviewResponseModel>
+            + getReview(reviewId: String) : Mono<ReviewResponseModel>
+            + addReview(reviewRequest: ReviewRequestModel) : Mono<ReviewResponseModel>
+            + updateReview(reviewId: String, reviewRequest: ReviewRequestModel) : Mono<ReviewResponseModel>
+            + removeReview(reviewId: String) : Mono<Void>
+        }
+
+        class ReviewServiceImpl {
+            - reviewRepository : ReviewRepository
+            + getAllReviews() : Flux<ReviewResponseModel>
+            + getReview(reviewId: String) : Mono<ReviewResponseModel>
+            + addReview(reviewRequest: ReviewRequestModel) : Mono<ReviewResponseModel>
+            + updateReview(reviewId: String, reviewRequest: ReviewRequestModel) : Mono<ReviewResponseModel>
+            + removeReview(reviewId: String) : Mono<Void>
+        }
+    }
+
+    package "datalayer" {
+        class Review {
+            - reviewId : String
+            - rating : int
+            - reviewerName : String
+            - review : String
+            - dateSubmitted : LocalDateTime
+        }
+
+        interface ReviewRepository extends MongoRepository {
+            + findAll() : Flux<Review>
+            + findById(reviewId: String) : Mono<Review>
+            + save(review: Review) : Mono<Review>
+            + deleteById(reviewId: String) : Mono<Void>
+        }
+    }
+
+    package "Utils" {
+        interface EntityDto {
+            + requestModelToEntity(reviewRequest: ReviewRequestModel) : Review
+            + entityToResponseModel(review: Review) : ReviewResponseModel
+        }
+    }
+
+    package "presentationlayer" {
+        class ReviewRequestModel {
+            - rating : int
+            - reviewerName : String
+            - review : String
+            - dateSubmitted : LocalDateTime
+        }
+
+        class ReviewResponseModel {
+            - reviewId : String
+            - rating : int
+            - reviewerName : String
+            - review : String
+            - dateSubmitted : LocalDateTime
+        }
+
+        class ReviewController {
+            - reviewService : ReviewService
+            + getAllReviews() : ResponseEntity<Flux<ReviewResponseModel>>
+            + getReview(reviewId: String) : ResponseEntity<Mono<ReviewResponseModel>>
+            + addReview(reviewRequest: ReviewRequestModel) : ResponseEntity<Mono<ReviewResponseModel>>
+            + updateReview(reviewId: String, reviewRequest: ReviewRequestModel) : ResponseEntity<Mono<ReviewResponseModel>>
+            + removeReview(reviewId: String) : ResponseEntity<Mono<Void>>
+        }
+    }
+
+    ReviewServiceImpl -down-|> ReviewService : implements
+    ReviewServiceImpl -down-> ReviewRepository : uses
+    ReviewServiceImpl -down-> EntityDto : uses
+    ReviewServiceImpl -down-> ReviewRequestModel : uses
+    ReviewServiceImpl -down-> ReviewResponseModel : uses
+    EntityDto -left- ReviewRequestModel : uses
+    EntityDto -left- ReviewResponseModel : uses
+
+    EntityDto -left- Review : data conversion
+    EntityDto -right- Review : data conversion
+    ReviewRepository -[hidden]-> Review : data persistence
+    ReviewController -right-> ReviewService : uses
+    ReviewController -down-> ReviewRequestModel : uses
+    ReviewController -down-> ReviewResponseModel : uses
+}
+
+@enduml

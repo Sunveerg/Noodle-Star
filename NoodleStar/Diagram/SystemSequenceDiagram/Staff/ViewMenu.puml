@@ -1,0 +1,38 @@
+@startuml
+hide footbox
+actor Staff
+participant "Noodle Star System" as System
+
+
+ref over Staff, System : Login.puml
+
+Staff -> System: getAllMenu()
+System -> System: fetchAllMenuDetails()
+System --> Staff: returnAllMenuDetails()
+
+
+    Staff -> System: getDishById(dishId)
+    System --> Staff: returnDishDetails(dishId)
+
+
+' Optional: Update dish details
+opt Update Dish (optional)
+    Staff -> System: updateDish(dishId, updatedDetails)
+    System -> System: saveUpdatedDish(dishId, updatedDetails)
+    System --> Staff: dishUpdateConfirmation
+end opt
+
+opt Delete Item (optional)
+Staff -> System: deleteItem(dishId)
+System -> System: removeDishFromMenu(dishId)
+System --> Staff: confirmItemDeleted
+end opt
+
+opt Add Dish (optional)
+Staff -> System: createDish(dishDetails)
+System -> System: saveDish(dishDetails)
+System --> Staff: confirmDishAdded
+
+end opt
+
+@enduml

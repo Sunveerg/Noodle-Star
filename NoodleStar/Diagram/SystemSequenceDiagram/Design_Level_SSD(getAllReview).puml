@@ -1,0 +1,47 @@
+@startuml
+hide footbox
+actor Staff
+
+participant ReviewPage as "<<View>>\nReviewPage"
+participant ReviewFeature as "<<View>>\nReviewFeature"
+participant AxiosInstance as "<<Utility>>\nAxiosInstance"
+participant ReviewController as "<<Controller>>\nReviewController"
+participant ReviewService as "<<Service>>\nReviewService"
+participant ReviewRepository as "<<Repository>>\nReviewRepository"
+participant Database as "<<Database>>\nDatabase"
+participant Review as "<<Entity>>\nReview"
+
+' get all reviews '
+Staff -> ReviewPage: Visit Review Page
+activate ReviewPage
+ReviewPage -> ReviewFeature: loadReviewData()
+activate ReviewFeature
+ReviewFeature -> AxiosInstance: fetchReviewData()
+activate AxiosInstance
+AxiosInstance -> ReviewController: GET /reviews
+activate ReviewController
+ReviewController -> ReviewService: getAllReviews()
+activate ReviewService
+ReviewService -> ReviewRepository: fetchReviews()
+activate ReviewRepository
+ReviewRepository -> Database: getAllReviews()
+activate Database
+Database --> ReviewRepository: return RawReviewData
+deactivate Database
+ReviewRepository -> ReviewRepository: map RawReviewData to List<Review>
+ReviewRepository --> ReviewService: return List<Review>
+deactivate ReviewRepository
+ReviewService -> ReviewService: instantiate Review entity objects
+ReviewService -> Review: create instances of Review
+Review --> ReviewService: return Review Entity instances
+ReviewService -> ReviewService: map List<Review> to List<ReviewResponseDTO>
+ReviewService --> ReviewController: return List<ReviewResponseDTO>
+deactivate ReviewService
+ReviewController --> AxiosInstance: return List<ReviewResponseDTO>
+deactivate ReviewController
+AxiosInstance --> ReviewFeature: return List<ReviewResponseDTO>
+deactivate AxiosInstance
+ReviewFeature --> ReviewPage: renderReviewList()
+deactivate ReviewFeature
+deactivate ReviewPage
+@enduml

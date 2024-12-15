@@ -1,0 +1,91 @@
+@startuml
+title Staff Class Diagram within the Restaurant Subdomain
+
+package "Staffsubdomain" {
+
+    package "businesslayer" {
+        interface StaffService {
+            + getAllStaff() : Flux<StaffResponseModel>
+            + getStaff(staffId: String) : Mono<StaffResponseModel>
+            + addStaff(staffRequest: StaffRequestModel) : Mono<StaffResponseModel>
+            + updateStaff(staffId: String, staffRequest: StaffRequestModel) : Mono<StaffResponseModel>
+            + removeStaff(staffId: String) : Mono<Void>
+        }
+
+        class StaffServiceImpl {
+            - staffRepository : StaffRepository
+            + getAllStaff() : Flux<StaffResponseModel>
+            + getStaff(staffId: String) : Mono<StaffResponseModel>
+            + addStaff(staffRequest: StaffRequestModel) : Mono<StaffResponseModel>
+            + updateStaff(staffId: String, staffRequest: StaffRequestModel) : Mono<StaffResponseModel>
+            + removeStaff(staffId: String) : Mono<Void>
+        }
+    }
+
+    package "datalayer" {
+        class Staff {
+            - staffId : UUID
+            - firstName : String
+            - lastName : String
+            - email : String
+            - phoneNumber : String
+        }
+
+        interface StaffRepository extends MongoRepository {
+            + findAll() : Flux<Staff>
+            + findById(staffId: String) : Mono<Staff>
+            + save(staff: Staff) : Mono<Staff>
+            + deleteById(staffId: String) : Mono<Void>
+        }
+    }
+
+    package "Utils" {
+        interface EntityDto {
+            + requestModelToEntity(staffRequest: StaffRequestModel) : Staff
+            + entityToResponseModel(staff: Staff) : StaffResponseModel
+        }
+    }
+
+    package "presentationlayer" {
+        class StaffRequestModel {
+            - firstName : String
+            - lastName : String
+            - email : String
+            - phoneNumber : String
+        }
+
+        class StaffResponseModel {
+            - staffId : UUID
+            - firstName : String
+            - lastName : String
+            - email : String
+            - phoneNumber : String
+        }
+
+        class StaffController {
+            - staffService : StaffService
+            + getAllStaff() : ResponseEntity<Flux<StaffResponseModel>>
+            + getStaff(staffId: String) : ResponseEntity<Mono<StaffResponseModel>>
+            + addStaff(staffRequest: StaffRequestModel) : ResponseEntity<Mono<StaffResponseModel>>
+            + updateStaff(staffId: String, staffRequest: StaffRequestModel) : ResponseEntity<Mono<StaffResponseModel>>
+            + removeStaff(staffId: String) : ResponseEntity<Mono<Void>>
+        }
+    }
+
+    StaffServiceImpl -down-|> StaffService : implements
+    StaffServiceImpl -down-> StaffRepository : uses
+    StaffServiceImpl -down-> EntityDto : uses
+    StaffServiceImpl -down-> StaffRequestModel : uses
+    StaffServiceImpl -down-> StaffResponseModel : uses
+    EntityDto -left- StaffRequestModel : uses
+    EntityDto -left- StaffResponseModel : uses
+
+    EntityDto -left- Staff : data conversion
+    EntityDto -right- Staff : data conversion
+    StaffRepository -[hidden]-> Staff : data persistence
+    StaffController -right-> StaffService : uses
+    StaffController -down-> StaffRequestModel : uses
+    StaffController -down-> StaffResponseModel : uses
+}
+
+@enduml

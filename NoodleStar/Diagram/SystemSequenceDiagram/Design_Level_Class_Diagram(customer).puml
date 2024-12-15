@@ -1,0 +1,91 @@
+@startuml
+title Customer Class Diagram within the Restaurant Subdomain
+
+package "Customersubdomain" {
+
+    package "businesslayer" {
+        interface CustomerService {
+            + getAllCustomers() : Flux<CustomerResponseModel>
+            + getCustomer(userId: String) : Mono<CustomerResponseModel>
+            + addCustomer(customerRequest: CustomerRequestModel) : Mono<CustomerResponseModel>
+            + updateCustomer(userId: String, customerRequest: CustomerRequestModel) : Mono<CustomerResponseModel>
+            + removeCustomer(userId: String) : Mono<Void>
+        }
+
+        class CustomerServiceImpl {
+            - customerRepository : CustomerRepository
+            + getAllCustomers() : Flux<CustomerResponseModel>
+            + getCustomer(userId: String) : Mono<CustomerResponseModel>
+            + addCustomer(customerRequest: CustomerRequestModel) : Mono<CustomerResponseModel>
+            + updateCustomer(userId: String, customerRequest: CustomerRequestModel) : Mono<CustomerResponseModel>
+            + removeCustomer(userId: String) : Mono<Void>
+        }
+    }
+
+    package "datalayer" {
+        class Customer {
+            - userId : UUID
+            - firstName : String
+            - lastName : String
+            - email : String
+            - phoneNumber : String
+        }
+
+        interface CustomerRepository extends MongoRepository {
+            + findAll() : Flux<Customer>
+            + findById(userId: String) : Mono<Customer>
+            + save(customer: Customer) : Mono<Customer>
+            + deleteById(userId: String) : Mono<Void>
+        }
+    }
+
+    package "Utils" {
+        interface EntityDto {
+            + requestModelToEntity(customerRequest: CustomerRequestModel) : Customer
+            + entityToResponseModel(customer: Customer) : CustomerResponseModel
+        }
+    }
+
+    package "presentationlayer" {
+        class CustomerRequestModel {
+            - firstName : String
+            - lastName : String
+            - email : String
+            - phoneNumber : String
+        }
+
+        class CustomerResponseModel {
+            - userId : UUID
+            - firstName : String
+            - lastName : String
+            - email : String
+            - phoneNumber : String
+        }
+
+        class CustomerController {
+            - customerService : CustomerService
+            + getAllCustomers() : ResponseEntity<Flux<CustomerResponseModel>>
+            + getCustomer(userId: String) : ResponseEntity<Mono<CustomerResponseModel>>
+            + addCustomer(customerRequest: CustomerRequestModel) : ResponseEntity<Mono<CustomerResponseModel>>
+            + updateCustomer(userId: String, customerRequest: CustomerRequestModel) : ResponseEntity<Mono<CustomerResponseModel>>
+            + removeCustomer(userId: String) : ResponseEntity<Mono<Void>>
+        }
+    }
+
+    CustomerServiceImpl -down-|> CustomerService : implements
+    CustomerServiceImpl -down-> CustomerRepository : uses
+    CustomerServiceImpl -down-> EntityDto : uses
+    CustomerServiceImpl -down-> CustomerRequestModel : uses
+    CustomerServiceImpl -down-> CustomerResponseModel : uses
+    EntityDto -left- CustomerRequestModel : uses
+    EntityDto -left- CustomerResponseModel : uses
+
+    EntityDto -left- Customer : data conversion
+    EntityDto -right- Customer : data conversion
+    CustomerRepository -[hidden]-> Customer : data persistence
+    CustomerController -right-> CustomerService : uses
+    CustomerController -down-> CustomerRequestModel : uses
+    CustomerController -down-> CustomerResponseModel : uses
+}
+
+@enduml
