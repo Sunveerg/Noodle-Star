@@ -13,38 +13,30 @@ const clothingTotal = document.getElementById("price");
 const orderTotal = document.getElementById("total");
 const menuItemsContainer = document.getElementById('menu-items-container'); // Ensure this exists in your HTML
 
-async function fetchMenuItems() {
-  try {
-    const response = await fetch('http://localhost:8080/api/v1/menu', {
-      method: 'GET',
-    });
+function fetchMenuItemsFromCookies() {
+  // Retrieve menu items from cookies
+  const menuItems = JSON.parse(Cookies.get('cartItems') || '[]');
+  console.log("Cart Items from Cookies:", Cookies.get('cartItems'));
 
-    if (!response.ok) {
-      throw new Error(`Failed to fetch menu items: ${response.status}`);
-    }
+  // Clear any existing menu items in the container
+  menuItemsContainer.innerHTML = "";
 
-    const menuItems = await response.json();
-    
-    // Clear any existing menu items in the container
-    menuItemsContainer.innerHTML = "";
+  // Dynamically create and add menu items to the container
+  menuItems.forEach(item => {
+    // Validate that price exists and is a valid number
+    const price = item.price && !isNaN(item.price) ? item.price : 0;
 
-    // Dynamically create and add menu items to the container
-    menuItems.forEach(item => {
-      const menuItemHTML = `
-        <div class="clothing-option">
-          <input type="checkbox" class="clothing" value="${item.price}" />
-          <label>${item.name} - $${(item.price).toFixed(2)}</label>
-        </div>
-      `;
-      menuItemsContainer.innerHTML += menuItemHTML;
-    });
+    const menuItemHTML = `
+      <div class="clothing-option">
+        <input type="checkbox" class="clothing" value="${price}" />
+        <label>${item.name || "Unknown Item"} - $${price.toFixed(2)}</label>
+      </div>
+    `;
+    menuItemsContainer.innerHTML += menuItemHTML;
+  });
 
-    // Bind event listeners to newly created checkboxes
-    bindMenuItemEventListeners();
-
-  } catch (error) {
-    console.error('Error fetching menu items:', error);
-  }
+  // Bind event listeners to newly created checkboxes
+  bindMenuItemEventListeners();
 }
 
 function bindMenuItemEventListeners() {
@@ -92,6 +84,27 @@ async function callfeeAPI({ target }) {
 
     // Update the price text
     clothingTotal.textContent = `$${(window.menuItems).toFixed(2)}`;
+
+    // Save updated cart items in cookies
+    saveMenuItemsToCookies();
+}
+
+// Save menu items to cookies
+function saveMenuItemsToCookies() {
+  const menuItems = [];
+  const foodItems = document.getElementsByClassName("clothing");
+  
+  for (const clothing of foodItems) {
+    if (clothing.checked) {
+      menuItems.push({
+        name: clothing.nextElementSibling.textContent.split(" - ")[0], // Extract name
+        price: parseFloat(clothing.value),
+      });
+    }
+  }
+
+  // Store the menu items in cookies
+  Cookies.set('cartItems', JSON.stringify(menuItems), { expires: 7, path: '' }); // Expires in 7 days
 }
 
 // Event listeners for form inputs
@@ -102,5 +115,5 @@ fname.addEventListener("focusout", callfeeAPI);
 lastname.addEventListener("focusout", callfeeAPI);
 phonenumber.addEventListener("focusout", callfeeAPI);
 
-// Fetch menu items when the page loads
-window.addEventListener("load", fetchMenuItems);
+// Fetch menu items from cookies when the page loads
+window.addEventListener("load", fetchMenuItemsFromCookies);

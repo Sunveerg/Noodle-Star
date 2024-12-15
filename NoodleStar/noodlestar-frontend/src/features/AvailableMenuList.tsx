@@ -17,7 +17,7 @@ interface CartItem {
 
 const AvailableMenuList: React.FC = (): JSX.Element => {
   const [menuItems, setMenuItems] = useState<menuResponseModel[]>([]);
-  const [cartItems, setCartItems] = useState<Record<string, CartItem>>({});
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [checkoutMessage, setCheckoutMessage] = useState<string>("");
   const navigate = useNavigate();
@@ -49,29 +49,67 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
   }, []);
 
   const handleAddToCart = (menuItem: menuResponseModel) => {
+    setCartItems((prevCartItems: CartItem[]) => {
+      const existingItem = prevCartItems.find(item => item.menuId === menuItem.menuId);
+      let updatedCartItems;
+      if (existingItem) {
+        updatedCartItems = prevCartItems.map(item =>
+          item.menuId === menuItem.menuId
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        ) as CartItem[];
+      } else {
+        updatedCartItems = [
+          ...prevCartItems,
+          {
+            menuId: menuItem.menuId,
+            name: menuItem.name,
+            price: menuItem.price,
+            quantity: 1,
+          } as CartItem,
+        ];
+      }
+  
+      // Save updated cart items to a cookie
+      document.cookie = `cartItems=${JSON.stringify(updatedCartItems)}; path=/;`;
+  
+      // Log the cookie to see its value
+      console.log('Updated Cart Items Cookie:', document.cookie);
+  
+      return updatedCartItems;
+    });
+  
+    setTotalPrice(prevTotal => prevTotal + menuItem.price);
+  };
+
+  const handleRemoveFromCart = (menuId: string) => {
     setCartItems((prevCartItems) => {
       const updatedCartItems = { ...prevCartItems };
-      const menuIdKey = String(menuItem.menuId);
+      const itemToUpdate = updatedCartItems[menuId];
 
-      if (updatedCartItems[menuIdKey]) {
-        updatedCartItems[menuIdKey] = {
-          ...updatedCartItems[menuIdKey],
-          quantity: updatedCartItems[menuIdKey].quantity + 1,
-        };
-      } else {
-        updatedCartItems[menuIdKey] = {
-          menuId: menuIdKey,
-          name: menuItem.name,
-          price: menuItem.price,
-          quantity: 1,
-        };
+      if (itemToUpdate) {
+        if (itemToUpdate.quantity > 1) {
+          updatedCartItems[menuId] = {
+            ...itemToUpdate,
+            quantity: itemToUpdate.quantity - 1,
+          };
+          setTotalPrice((prevTotal) => prevTotal - itemToUpdate.price);
+        } else {
+          setTotalPrice((prevTotal) => prevTotal - itemToUpdate.price);
+          delete updatedCartItems[menuId];
+        }
       }
 
       return updatedCartItems;
     });
-
-    setTotalPrice((prevTotal) => prevTotal + menuItem.price);
   };
+
+  const handleClearAll = () => {
+    setCartItems([]);
+    setTotalPrice(0);
+    setCheckoutMessage("All items have been cleared from the cart.");
+  };
+
 
   const handleCheckout = async () => {
     if (Object.keys(cartItems).length === 0) {
@@ -96,7 +134,7 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
     try {
       await createOrder(orderRequest);
       setCheckoutMessage("Order has been placed!");
-      setCartItems({});
+      setCartItems([]);
       setTotalPrice(0);
       navigate("/orderSummary", {
         state: { cartItems: Object.values(cartItems), totalPrice },
@@ -132,7 +170,13 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
                     Object.values(cartItems).map((item) => (
                         <div className="productDetails" key={item.menuId}>
                           <div className="productLabel">
-                            {item.name} x {item.quantity}
+                            {item.name} x {item.quantity}{" "}
+                            <button
+                                className="removeButton"
+                                onClick={() => handleRemoveFromCart(item.menuId)}
+                            >
+                              -
+                            </button>
                           </div>
                           <div className="totalLabel">
                             {(item.price * item.quantity).toFixed(2)}$
@@ -148,6 +192,9 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
                 </div>
                 <button className="checkoutButton" onClick={handleCheckout}>
                   Checkout
+                </button>
+                <button className="clearAllButton" onClick={handleClearAll}>
+                  Clear All
                 </button>
                 {checkoutMessage && (
                     <p className="checkoutMessage">{checkoutMessage}</p>
