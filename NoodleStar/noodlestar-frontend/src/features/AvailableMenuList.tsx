@@ -5,8 +5,8 @@ import styles from "../components/css/AboutUs.module.css";
 
 import "./AvailableMenu.css";
 import { createOrder } from "../features/api/createOrder.ts";
-import {getAllmenu} from "../features/api/getAllMenu.ts";
-import {useNavigate} from "react-router-dom";
+import { getAllmenu } from "../features/api/getAllMenu.ts";
+import { useNavigate } from "react-router-dom";
 
 interface CartItem {
   menuId: string;
@@ -14,7 +14,6 @@ interface CartItem {
   price: number;
   quantity: number;
 }
-
 
 const AvailableMenuList: React.FC = (): JSX.Element => {
   const [menuItems, setMenuItems] = useState<menuResponseModel[]>([]);
@@ -24,9 +23,8 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
   const navigate = useNavigate();
 
   const handleReviewClick = () => {
-    window.location.href = 'http://localhost:3001';
+    window.location.href = "http://localhost:3001";
   };
-  
 
   useEffect(() => {
     const fetchMenuData = async (): Promise<void> => {
@@ -34,19 +32,19 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
         const response = await getAllmenu();
         if (Array.isArray(response)) {
           const availableItems = response.filter(
-              (item: menuResponseModel) => item.status === 'AVAILABLE'
+              (item: menuResponseModel) => item.status === "AVAILABLE"
           );
           setMenuItems(availableItems);
         } else {
-          console.error('Fetched data is not an array:', response);
+          console.error("Fetched data is not an array:", response);
         }
       } catch (error) {
-        console.error('Error fetching menu items:', error);
+        console.error("Error fetching menu items:", error);
       }
     };
 
-    fetchMenuData().catch(error =>
-        console.error('Error in fetchMenuData:', error)
+    fetchMenuData().catch((error) =>
+        console.error("Error in fetchMenuData:", error)
     );
   }, []);
 
@@ -86,14 +84,7 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
       quantity: item.quantity,
     }));
 
-    const orderRequest: {
-      orderDetails: { quantity: number; menuId: string }[];
-      total: number;
-      orderId: string;
-      customerId: string;
-      orderDate: string;
-      status: string;
-    } = {
+    const orderRequest = {
       orderId: `orderId-${Date.now()}`,
       customerId: "guestCustomerId",
       status: "Pending",
@@ -102,17 +93,14 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
       total: totalPrice,
     };
 
-    console.log("Submitting order request:", orderRequest);
-
     try {
       await createOrder(orderRequest);
       setCheckoutMessage("Order has been placed!");
-      console.log("Order placed successfully:", orderRequest);
-
       setCartItems({});
       setTotalPrice(0);
-
-      navigate("/orderSummary", { state: { cartItems: Object.values(cartItems), totalPrice } });
+      navigate("/orderSummary", {
+        state: { cartItems: Object.values(cartItems), totalPrice },
+      });
     } catch (error) {
       console.error("Failed to create order:", error);
       setCheckoutMessage("Failed to place the order. Please try again.");
@@ -120,10 +108,8 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
   };
 
   return (
-
       <div className="orderPage">
         <div className={styles.cloud3}></div>
-
         <div className="mainContent">
           <div className="titleSectionO">
             <h2 className="pageTitleO">
@@ -131,7 +117,7 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
               <img
                   src={noodleImg}
                   alt="Noodle"
-                  style={{ width: '100px', height: '100px' }}
+                  style={{ width: "100px", height: "100px" }}
               />
             </h2>
             <div className="menu-list">
@@ -142,11 +128,15 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
                   <div className="productLabel">Product</div>
                   <div className="totalLabel">Total</div>
                 </div>
-                {cartItems.length > 0 ? (
-                    cartItems.map(item => (
+                {Object.values(cartItems).length > 0 ? (
+                    Object.values(cartItems).map((item) => (
                         <div className="productDetails" key={item.menuId}>
-                          <div className="productLabel">{item.name} x {item.quantity}</div>
-                          <div className="totalLabel">{(item.price * item.quantity).toFixed(2)}$</div>
+                          <div className="productLabel">
+                            {item.name} x {item.quantity}
+                          </div>
+                          <div className="totalLabel">
+                            {(item.price * item.quantity).toFixed(2)}$
+                          </div>
                         </div>
                     ))
                 ) : (
@@ -156,98 +146,52 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
                   <div className="total">Total</div>
                   <div className="totalLabel">{totalPrice.toFixed(2)}$</div>
                 </div>
-                <button className="checkoutButton"
-                  onClick={handleReviewClick}
-                  >
+                <button className="checkoutButton" onClick={handleCheckout}>
                   Checkout
                 </button>
+                {checkoutMessage && (
+                    <p className="checkoutMessage">{checkoutMessage}</p>
+                )}
               </div>
-
-    <div className="orderPage">
-      <div className={styles.cloud3}></div>
-      <div className="mainContent">
-        <div className="titleSectionO">
-          <h2 className="pageTitleO">
-            Order Now
-            <img
-              src={noodleImg}
-              alt="Noodle"
-              style={{ width: "100px", height: "100px" }}
-            />
-          </h2>
-          <div className="menu-list">
-            <div className="topRightImage"></div>
-            <div className="orderDetailsBox">
-              <h2>Order Details</h2>
-              <div className="productDetails">
-                <div className="productLabel">Product</div>
-                <div className="totalLabel">Total</div>
-              </div>
-              {Object.values(cartItems).length > 0 ? (
-                Object.values(cartItems).map((item) => (
-                  <div className="productDetails" key={item.menuId}>
-                    <div className="productLabel">
-                      {item.name} x {item.quantity}
-                    </div>
-                    <div className="totalLabel">
-                      {(item.price * item.quantity).toFixed(2)}$
-                    </div>
+              {menuItems.length > 0 ? (
+                  <div className="menuGrid">
+                    {menuItems.map((item) => (
+                        <div className="menuCard" key={item.menuId}>
+                          <h3 className="dishTitle">{item.name}</h3>
+                          <div className="cardContent">
+                            <div className="dish-image">
+                              <img
+                                  src={item.itemImage}
+                                  alt={item.name}
+                                  className="dishImage"
+                              />
+                            </div>
+                            <div className="cardDetails">
+                              <p className="dishDescription">{item.description}</p>
+                              <p className="price">{item.price}$</p>
+                            </div>
+                          </div>
+                          <button
+                              className="addButton"
+                              onClick={() => handleAddToCart(item)}
+                          >
+                            <img
+                                src="https://pngbasket.com/wp-content/uploads/2021/08/plus-icon-png-design.png"
+                                alt="Add"
+                                className="addIcon"
+                            />
+                            Add
+                          </button>
+                        </div>
+                    ))}
                   </div>
-                ))
               ) : (
-                <p className="no-items">No items in cart</p>
-              )}
-              <div className="totalDetails">
-                <div className="total">Total</div>
-                <div className="totalLabel">{totalPrice.toFixed(2)}$</div>
-              </div>
-              <button className="checkoutButton" onClick={handleCheckout}>
-                Checkout
-              </button>
-              {checkoutMessage && (
-                <p className="checkoutMessage">{checkoutMessage}</p>
+                  <p className="no-items">No available menu items</p>
               )}
             </div>
-
-            {menuItems.length > 0 ? (
-              <div className="menuGrid">
-                {menuItems.map((item) => (
-                  <div className="menuCard" key={item.menuId}>
-                    <h3 className="dishTitle">{item.name}</h3>
-                    <div className="cardContent">
-                      <div className="dish-image">
-                        <img
-                          src={item.itemImage}
-                          alt={item.name}
-                          className="dishImage"
-                        />
-                      </div>
-                      <div className="cardDetails">
-                        <p className="dishDescription">{item.description}</p>
-                        <p className="price">{item.price}$</p>
-                      </div>
-                    </div>
-                    <button
-                      className="addButton"
-                      onClick={() => handleAddToCart(item)}
-                    >
-                      <img
-                        src="https://pngbasket.com/wp-content/uploads/2021/08/plus-icon-png-design.png"
-                        alt="Add"
-                        className="addIcon"
-                      />
-                      Add
-                    </button>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className="no-items">No available menu items</p>
-            )}
           </div>
         </div>
       </div>
-    </div>
   );
 };
 

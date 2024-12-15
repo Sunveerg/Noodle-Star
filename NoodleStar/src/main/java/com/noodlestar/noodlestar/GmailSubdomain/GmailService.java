@@ -91,7 +91,7 @@ public class GmailService {
         email.setFrom(new InternetAddress(from));
         email.addRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(to));
         email.setSubject(subject);
-        email.setText(bodyText);
+        email.setContent(bodyText, "text/html; charset=UTF-8");
         return email;
     }
 
