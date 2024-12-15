@@ -1,0 +1,135 @@
+@startuml
+hide circle
+top to bottom direction
+
+!define ENTITY(entityName) class entityName << Entity >>
+!define AGGREGATE(aggregateName) class aggregateName << Aggregate >>
+!define AGGREGATE_ROOT(aggregateRootName) class aggregateRootName << Aggregate Root >>
+!define VALUE_OBJECT(valueObjectName) class valueObjectName << Value Object >>
+!pragma useVerticalIf on
+skinparam dpi 350
+skinparam packageStyle rectangle
+skinparam rectangle {
+    BackgroundColor #f7f4eb
+    BorderColor Black
+}
+
+rectangle "Noodle Star Domain" as BoundedContextNoodleStar #line.dashed {
+    Package "Order Management" <<Rectangle>> #E0F7FA {
+        ENTITY(Order) #90CAF9 {
+            orderId: UUID
+            customerId: UUID
+            status: String
+            orderDate: Date
+        }
+note right of Order
+    "Uses API"
+end note
+
+        VALUE_OBJECT(OrderDetails) #FFF9C4 {
+            orderDetailsId: UUID
+            itemId: UUID
+            orderId: UUID
+            quantity: Integer
+            price: Decimal
+
+        }
+
+
+
+        OrderDetails *-- "1..*" Order
+
+    }
+
+    Package "Menu Management" <<Rectangle>> #FFECB3 {
+        ENTITY(Menu) #90CAF9 {
+            name: String
+            description: String
+            price: Double
+            category: String
+            itemImage: String
+            status: Status
+            menuId: UUID
+        }
+
+    }
+
+
+
+
+
+    Package "Customer Management" <<Rectangle>> #B3E5FC {
+        AGGREGATE_ROOT(Customer) #A5D6A7 {
+            firstName: String
+            lastName: String
+            email: String
+            phoneNumber: String
+            userId: UUID
+        }
+
+
+
+        Order *-- "1..*" Customer
+        Menu o-- "1..*" Customer
+
+
+    }
+
+     Package "Staff Management" <<Rectangle>> #B3E5FC {
+            ENTITY(Staff) #90CAF9 {
+                firstName: String
+                lastName: String
+                email: String
+                phoneNumber: String
+                 staffId: UUID
+            }
+
+
+            Order o-- "1..*" Staff
+            Menu o-- "1..*" Staff
+
+        }
+
+           Package "Owner Management" <<Rectangle>> #B3E5FC {
+                    ENTITY(Owner) #90CAF9 {
+                        firstName: String
+                        lastName: String
+                        email: String
+                        phoneNumber: String
+                         ownerId: UUID
+                    }
+
+
+
+                    Staff o-- "1..*" Owner
+
+
+                }
+
+    Package "Report Management" <<Rectangle>> #FFF59D {
+        ENTITY(Report) #90CAF9 {
+            reportDate: Date
+            reportType: String
+            contentDetails: String
+            reportId: UUID
+        }
+
+
+        Report *-- "1..*" Owner
+    }
+
+
+      Package "Review Management" <<Rectangle>> #FFC0CB {
+            ENTITY(Review) #90CAF9 {
+                reviewId: String
+                rating: Integer
+                reviewerName: String
+                review: String
+                dateSubmitted: LocalDateTime
+            }
+
+            Review *-- "1..*" Customer
+        }
+}
+
+@enduml

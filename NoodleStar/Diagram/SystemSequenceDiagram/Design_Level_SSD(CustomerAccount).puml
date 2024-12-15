@@ -1,0 +1,66 @@
+@startuml
+hide footbox
+actor Customer
+
+participant CustomerPage as "<<View>>\nCustomerPage"
+participant CustomerFeature as "<<View>>\nCustomerFeature"
+participant AxiosInstance as "<<Utility>>\nAxiosInstance"
+participant CustomerController as "<<Controller>>\nCustomerController"
+participant CustomerService as "<<Service>>\nCustomerService"
+participant CustomerRepository as "<<Repository>>\nCustomerRepository"
+participant Database as "<<Database>>\nDatabase"
+participant CustomerEntity as "<<Entity>>\nCustomerEntity"
+
+' Update customer account details
+Customer -> CustomerPage: Update Account Information
+activate CustomerPage
+CustomerPage -> CustomerFeature: updateAccountDetails(customerId, updatedDetails)
+activate CustomerFeature
+CustomerFeature -> CustomerFeature: map updatedDetails to CustomerRequestDTO
+CustomerFeature -> AxiosInstance: PUT /customer/${customerId}
+activate AxiosInstance
+AxiosInstance -> CustomerController: PUT /customer/${customerId}
+activate CustomerController
+CustomerController -> CustomerService: updateCustomerAccount(customerId, CustomerRequestDTO)
+activate CustomerService
+
+' Retrieve existing entity
+CustomerService -> CustomerRepository: findCustomerById(customerId)
+activate CustomerRepository
+CustomerRepository -> Database: SELECT * FROM customer WHERE id = customerId
+activate Database
+Database --> CustomerRepository: return RawCustomerData
+deactivate Database
+CustomerRepository -> CustomerRepository: map RawCustomerData to CustomerEntity
+CustomerRepository --> CustomerService: return CustomerEntity
+deactivate CustomerRepository
+
+' Update entity fields
+CustomerService -> CustomerEntity: update fields with CustomerRequestDTO
+activate CustomerEntity
+CustomerEntity --> CustomerService: updated CustomerEntity
+deactivate CustomerEntity
+
+' Persist updated entity
+CustomerService -> CustomerRepository: save(updated CustomerEntity)
+activate CustomerRepository
+CustomerRepository -> Database: UPDATE customer SET fields WHERE id = customerId
+activate Database
+Database --> CustomerRepository: confirmUpdate()
+deactivate Database
+CustomerRepository --> CustomerService: confirmUpdate()
+deactivate CustomerRepository
+
+' Map response
+CustomerService -> CustomerService: map updated entity to CustomerResponseDTO
+CustomerService --> CustomerController: return CustomerResponseDTO
+deactivate CustomerService
+
+CustomerController --> AxiosInstance: return CustomerResponseDTO
+deactivate CustomerController
+AxiosInstance --> CustomerFeature: return CustomerResponseDTO
+deactivate AxiosInstance
+CustomerFeature --> CustomerPage: showAccountUpdated()
+deactivate CustomerFeature
+deactivate CustomerPage
+@enduml

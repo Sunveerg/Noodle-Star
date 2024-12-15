@@ -1,0 +1,13 @@
+@startuml
+hide footbox
+actor Customer
+participant "Noodle Star System" as System
+
+
+Customer -> System: getAllMenu()
+System --> Customer: returnMenu()
+
+Customer -> System: getFoodItemDetails(foodItemId)
+System --> Customer: returnFoodItemDetails(foodItemDetails)
+
+@enduml

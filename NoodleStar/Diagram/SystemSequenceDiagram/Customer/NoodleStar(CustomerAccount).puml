@@ -1,0 +1,13 @@
+@startuml
+hide footbox
+actor Customer
+participant "Noodle Star System" as System
+
+
+ref over Customer, System : Login.puml
+
+Customer -> System: updateAccountInfo(updatedAccountInfo, customerId)
+System -> System: validateAndSave(updatedAccountInfo, customerId)
+System --> Customer: returnAccountUpdateConfirmation()
+
+@enduml

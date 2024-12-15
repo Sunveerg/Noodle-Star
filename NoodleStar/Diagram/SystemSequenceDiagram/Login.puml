@@ -1,0 +1,9 @@
+@startuml
+hide footbox
+actor User
+participant "Noodle Star System" as System
+
+
+User -> System: login(username, password)
+System --> User: authenticationSuccess
+@enduml

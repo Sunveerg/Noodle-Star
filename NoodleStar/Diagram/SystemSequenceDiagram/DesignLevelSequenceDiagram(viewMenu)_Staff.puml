@@ -1,0 +1,177 @@
+@startuml
+hide footbox
+actor Staff
+
+participant MenuPage as "<<View>>\nMenuPage"
+participant MenuFeature as "<<View>>\nMenuFeature"
+participant AxiosInstance as "<<Utility>>\nAxiosInstance"
+participant MenuController as "<<Controller>>\nMenuController"
+participant MenuService as "<<Service>>\nMenuService"
+participant MenuRepository as "<<Repository>>\nMenuRepository"
+participant Database as "<<Database>>\nDatabase"
+participant Menu as "<<Entity>>\nMenu"
+
+' get all menu '
+Staff -> MenuPage: Visit Menu Page
+activate MenuPage
+MenuPage -> MenuFeature: loadMenuData()
+activate MenuFeature
+MenuFeature -> AxiosInstance: fetchMenuData()
+activate AxiosInstance
+AxiosInstance -> MenuController: GET /menu
+activate MenuController
+MenuController -> MenuService: getAllMenuDetails()
+activate MenuService
+MenuService -> MenuRepository: fetchMenu()
+activate MenuRepository
+MenuRepository -> Database: getAllMenu()
+activate Database
+Database --> MenuRepository: return RawMenuData
+deactivate Database
+MenuRepository -> MenuRepository: map RawMenuData to List<Menu>
+MenuRepository --> MenuService: return List<Menu
+deactivate MenuRepository
+MenuService -> MenuService: map List<Menu> to List<MenuResponseDTO>
+MenuService --> MenuController: return List<MenuResponseDTO>
+deactivate MenuService
+MenuController --> AxiosInstance: return List<MenuResponseDTO
+deactivate MenuController
+AxiosInstance --> MenuFeature: return List<MenuResponseDTO
+deactivate AxiosInstance
+MenuFeature --> MenuPage: renderMenuList()
+deactivate MenuFeature
+deactivate MenuPage
+
+' Fetch details of a specific dish
+Staff -> MenuPage: Click on Dish Details
+activate MenuPage
+MenuPage -> MenuFeature: loadDishDetails(dishId)
+activate MenuFeature
+MenuFeature -> AxiosInstance: fetchDishDetails(dishId)
+activate AxiosInstance
+AxiosInstance -> MenuController: GET /menu/dish/${dishId}
+activate MenuController
+MenuController -> MenuService: getDishById(dishId)
+activate MenuService
+MenuService -> MenuRepository: fetchDish(dishId)
+activate MenuRepository
+MenuRepository -> Database: getDishById(dishId)
+activate Database
+Database --> MenuRepository: return RawDishData
+deactivate Database
+MenuRepository -> MenuRepository: map RawDishData to DishDetails
+MenuRepository --> MenuService: return DishDetails
+deactivate MenuRepository
+MenuService -> MenuService: map DishDetails to MenuResponseDTO
+MenuService --> MenuController: return MenuResponseDTO
+deactivate MenuService
+MenuController --> AxiosInstance: return MenuResponseDTO
+deactivate MenuController
+AxiosInstance --> MenuFeature: return MenuResponseDTO
+deactivate AxiosInstance
+MenuFeature --> MenuPage: renderDishDetails()
+deactivate MenuFeature
+deactivate MenuPage
+
+' Add a new menu item
+opt Add Menu Item
+    Staff -> MenuPage: Add Menu Item
+    activate MenuPage
+    MenuPage -> MenuFeature: addMenuItem(menuItemDetails)
+    activate MenuFeature
+    MenuFeature -> MenuFeature: map menuItemDetails to MenuRequestDTO
+    MenuFeature -> AxiosInstance: POST /menu
+    activate AxiosInstance
+    AxiosInstance -> MenuController: POST /menu
+    activate MenuController
+    MenuController -> MenuService: addMenuItem(MenuRequestDTO)
+    activate MenuService
+    MenuService -> Menu: create Menu Entity from MenuRequestDTO
+    activate Menu
+    Menu --> MenuService: return Menu Entity
+    deactivate Menu
+    MenuService -> MenuRepository: addMenu(Menu)
+    activate MenuRepository
+    MenuRepository -> Database: insertMenuItem(Menu)
+    activate Database
+    Database --> MenuRepository: confirmInsert()
+    deactivate Database
+    MenuRepository --> MenuService: confirmInsert()
+    deactivate MenuRepository
+    MenuService -> MenuService: map confirmation to MenuResponseDTO
+    MenuService --> MenuController: return MenuResponseDTO
+    deactivate MenuService
+    MenuController --> AxiosInstance: return MenuResponseDTO
+    deactivate MenuController
+    AxiosInstance --> MenuFeature: return MenuResponseDTO
+    deactivate AxiosInstance
+    MenuFeature --> MenuPage: showMenuItemAdded()
+    deactivate MenuFeature
+    deactivate MenuPage
+end opt
+
+' Update an existing dish
+opt Update Dish
+    Staff -> MenuPage: Update Dish Details
+    activate MenuPage
+    MenuPage -> MenuFeature: updateDish(dishId, updatedDetails)
+    activate MenuFeature
+    MenuFeature -> MenuFeature: map updatedDetails to MenuRequestDTO
+    MenuFeature -> AxiosInstance: PUT /menu/dish/${dishId}
+    activate AxiosInstance
+    AxiosInstance -> MenuController: PUT /menu/dish/${dishId}
+    activate MenuController
+    MenuController -> MenuService: updateDish(dishId, MenuRequestDTO)
+    activate MenuService
+    MenuService -> MenuRepository: updateDish(dishId, MenuRequestDTO)
+    activate MenuRepository
+    MenuRepository -> Database: updateDish(dishId, MenuRequestDTO)
+    activate Database
+    Database --> MenuRepository: confirmUpdate()
+    deactivate Database
+    MenuRepository --> MenuService: confirmUpdate()
+    deactivate MenuRepository
+    MenuService -> MenuService: map confirmation to MenuResponseDTO
+    MenuService --> MenuController: return MenuResponseDTO
+    deactivate MenuService
+    MenuController --> AxiosInstance: return MenuResponseDTO
+    deactivate MenuController
+    AxiosInstance --> MenuFeature: return MenuResponseDTO
+    deactivate AxiosInstance
+    MenuFeature --> MenuPage: showDishUpdated()
+    deactivate MenuFeature
+    deactivate MenuPage
+end opt
+
+' Delete a menu item
+opt Delete Menu Item
+    Staff -> MenuPage: Delete Menu Item
+    activate MenuPage
+    MenuPage -> MenuFeature: deleteMenuItem(dishId)
+    activate MenuFeature
+    MenuFeature -> AxiosInstance: DELETE /menu/dish/${dishId}
+    activate AxiosInstance
+    AxiosInstance -> MenuController: DELETE /menu/dish/${dishId}
+    activate MenuController
+    MenuController -> MenuService: deleteDish(dishId)
+    activate MenuService
+    MenuService -> MenuRepository: deleteDish(dishId)
+    activate MenuRepository
+    MenuRepository -> Database: deleteDish(dishId)
+    activate Database
+    Database --> MenuRepository: confirmDelete()
+    deactivate Database
+    MenuRepository --> MenuService: confirmDelete()
+    deactivate MenuRepository
+    MenuService -> MenuService: map confirmation to MenuResponseDTO
+    MenuService --> MenuController: return MenuResponseDTO
+    deactivate MenuService
+    MenuController --> AxiosInstance: return MenuResponseDTO
+    deactivate MenuController
+    AxiosInstance --> MenuFeature: return MenuResponseDTO
+    deactivate AxiosInstance
+    MenuFeature --> MenuPage: showMenuItemDeleted()
+    deactivate MenuFeature
+    deactivate MenuPage
+end opt
+@enduml

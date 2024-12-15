@@ -1,0 +1,113 @@
+@startuml
+title Order Class Diagram within the Noodle Star Domain
+
+package "Order Management" <<Rectangle>> {
+
+    package "businesslayer" {
+        interface OrderService {
+            + getAllOrders() : Flux<OrderResponseModel>
+            + getOrder(orderId: UUID) : Mono<OrderResponseModel>
+            + addOrder(orderRequest: OrderRequestModel) : Mono<OrderResponseModel>
+            + updateOrder(orderId: UUID, orderRequest: OrderRequestModel) : Mono<OrderResponseModel>
+            + cancelOrder(orderId: UUID) : Mono<Void>
+        }
+
+        class OrderServiceImpl {
+            - orderRepository : OrderRepository
+            - orderRequestMapper : EntityDtoUitls
+            - orderResponseMapper : EntityDtoUitls
+            + getAllOrders() : Flux<OrderResponseModel>
+            + getOrder(orderId: UUID) : Mono<OrderResponseModel>
+            + addOrder(orderRequest: OrderRequestModel) : Mono<OrderResponseModel>
+            + updateOrder(orderId: UUID, orderRequest: OrderRequestModel) : Mono<OrderResponseModel>
+            + cancelOrder(orderId: UUID) : Mono<Void>
+        }
+    }
+
+    package "datalayer" {
+        class Order {
+            - orderId : UUID
+            - customerId : UUID
+            - status : String
+            - orderDate : Date
+            - orderDetails : List<OrderDetails>
+        }
+
+        class OrderDetails {
+            - orderDetailsId : UUID
+            - itemId : UUID
+            - quantity : Integer
+            - price : Decimal
+            - orderId: UUID
+        }
+
+        interface OrderRepository {
+            + findAll() : Flux<Order>
+            + findById(orderId: UUID) : Mono<Order>
+            + save(order: Order) : Mono<Order>
+            + deleteById(orderId: UUID) : Mono<Void>
+        }
+    }
+
+    package "Utils" {
+        interface EntityDtoUitls {
+            + requestModelToEntity(orderRequest: OrderRequestModel) : Order
+            + entityToResponseModel(order: Order) : OrderResponseModel
+        }
+
+
+    }
+
+    package "presentationlayer" {
+        class OrderRequestModel {
+            - customerId : UUID
+            - itemId : UUID
+            - quantity : int
+            - orderDate : Date
+            - status : Status
+            - price: int
+        }
+
+
+
+        class OrderResponseModel {
+            - orderId : UUID
+            - customerId : UUID
+            - itemId : UUID
+            - quantity : int
+            - orderDate : Date
+            - status : Status
+            - price: int
+        }
+
+
+
+        class OrderController {
+            - orderService : OrderService
+            + getAllOrders() : ResponseEntity<Flux<OrderResponseModel>>
+            + getOrder(orderId: UUID) : ResponseEntity<Mono<OrderResponseModel>>
+            + addOrder(orderRequest: OrderRequestModel) : ResponseEntity<Mono<OrderResponseModel>>
+            + updateOrder(orderId: UUID, orderRequest: OrderRequestModel) : ResponseEntity<Mono<OrderResponseModel>>
+            + cancelOrder(orderId: UUID) : ResponseEntity<Mono<Void>>
+        }
+    }
+
+       OrderServiceImpl -down-> OrderRequestModel : uses
+        OrderServiceImpl -down-> OrderResponseModel : uses
+            EntityDtoUitls -left- OrderRequestModel : uses
+            EntityDtoUitls -left- OrderResponseModel : uses
+
+    OrderServiceImpl -down-|> OrderService : implements
+    OrderServiceImpl -down-> OrderRepository : uses
+    OrderServiceImpl -down-> EntityDtoUitls : uses
+    OrderServiceImpl -down-> EntityDtoUitls : uses
+    EntityDtoUitls -left- Order : data conversion
+    EntityDtoUitls -right- Order : data conversion
+    OrderRepository -[hidden]-> Order : data persistence
+    OrderController -right-> OrderService : uses
+    OrderController -down-> OrderRequestModel : uses
+    OrderController -down-> OrderResponseModel : uses
+    Order *-- "1..*" OrderDetails : contains
+}
+
+@enduml

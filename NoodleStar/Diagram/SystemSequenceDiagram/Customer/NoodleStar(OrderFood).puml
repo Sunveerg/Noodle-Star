@@ -1,0 +1,28 @@
+@startuml
+hide footbox
+actor Customer
+participant "Noodle Star System" as System
+participant "DeliveryApi" as UberEat
+
+ref over Customer, System : Login.puml
+Customer -> System: getMenu()
+System --> Customer: returnMenu()
+
+Customer -> System: getFoodItem(foodItemId)
+System -> System: addItemToOrder(foodItemId)
+
+' Include: Viewing the order summary is a required action after selecting food
+Customer -> System: getOrderSummary()
+System --> Customer: returnOrderSummary()
+
+' Extend: Modify order is optional before confirming
+opt Modify Order (optional)
+    Customer -> System: modifyOrder(orderId)
+    System --> Customer: updateOrderSummary()
+end opt
+
+System -> System: processOrder(OrderId)
+System --> Customer: orderConfirmation
+System --> UberEat: sendOrder(OrderId)
+
+@enduml

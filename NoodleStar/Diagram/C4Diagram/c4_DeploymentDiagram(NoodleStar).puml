@@ -1,0 +1,67 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Deployment.puml
+!define DEVICONS https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/devicons
+!define FONTAWESOME https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/font-awesome-5
+
+!include FONTAWESOME/users.puml
+
+AddElementTag("component", $shape=RoundedBoxShape(), $bgColor="CornflowerBlue", $fontColor="white", $legendText="Component")
+AddElementTag("storage", $shape=RoundedBoxShape(), $bgColor="lightSkyBlue", $fontColor="white")
+AddRelTag(aggregate_root, $lineColor="red")
+AddRelTag(api_root, $lineColor="green")
+
+LAYOUT_TOP_DOWN()
+SHOW_PERSON_OUTLINE()
+rectangle  "Deployment Diagram for NoodleStar System"{
+
+
+    Deployment_Node(dn, "Docker Container - Web Server", "deployment Node: Docker") {
+        Deployment_Node(apache, "Apache Tomcat", "Apache Tomcat 8.x") {
+            Container(api, "API Application", "Java SpringBoot", "Provides NoodleStar functionality via a JSON/HTTPS API.")
+            Container(web, "Web Application", "React, TypeScript", "Delivers the static content and the Noodle Star single-page app.")
+        }
+
+    }
+    Deployment_Node(noodlestar_db, "Docker Container - Database Server", "deployment Node: Docker") {
+        Deployment_Node(mongo, "Database Server", "MongoDB 4.x") {
+            ContainerDb(db, "Database", "MongoDB", "Stores user data, orders, reservations, and reports.")
+        }
+    }
+
+
+
+
+
+    Deployment_Node(browser, "Web Browser", "Google Chrome, Mozilla Firefox, Apple Safari or Microsoft Edge") {
+        Container(spa, "Single Page Application", "JavaScript and TypeScript", "Provides all of the NoodleStar functionality to customers via their web browser.")
+    }
+
+
+}
+Rel(spa, api, "Makes API calls to", "json/HTTPS")
+Rel_U(web, spa, "Delivers to the customer's web browser")
+Rel(api, db, "Reads from and writes to", "JDBC")
+
+
+Deployment_Node(external_delivery, "External Delivery API", "External System") {
+    Container(DeliveryAPI, "Delivery API", "External System", "Receives client orders for delivery")
+}
+
+Deployment_Node(external_email, "External Emailing API", "External System") {
+    Container(email, "Emailing API", "External System", "Emailing API using Gmail Api")
+}
+
+Deployment_Node(external_auth, "External Authentication Service", "External System") {
+    Container(auth, "Auth0", "External System", "Security service")
+}
+
+Container_Ext(DeliveryAPI, "Delivery API", "External System", "Receives client orders for delivery")
+Container_Ext(email, "Emailing API", "External System", "Emailing API using Gmail Api")
+Container_Ext(auth, "Auth0", "External System", "Security service")
+
+Rel_L(api, DeliveryAPI, "Sends client orders", "HTTPS")
+Rel(api, email, "Send E-mail using", "HTTPS")
+Rel(api, auth, "Use for authentication", "HTTPS")
+
+
+@enduml

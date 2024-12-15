@@ -1,0 +1,56 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Container.puml
+
+!define DEVICONS https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/devicons
+!define FONTAWESOME https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/font-awesome-5
+
+!include FONTAWESOME/users.puml
+
+AddElementTag("component", $shape=RoundedBoxShape(), $bgColor="CornflowerBlue", $fontColor="white", $legendText="Component")
+AddElementTag("storage", $shape=RoundedBoxShape(), $bgColor="lightSkyBlue", $fontColor="white")
+AddRelTag(aggregate_root, $lineColor="red")
+AddRelTag(api_root, $lineColor="green")
+
+LAYOUT_TOP_DOWN()
+'LAYOUT_WITH_LEGEND()
+SHOW_PERSON_OUTLINE()
+'HIDE_STEREOTYPE()
+title Container diagram for Noodle Star System (Monolith)
+
+
+    Person(staff,"Staff", "A staff member in Noodle Star Domain")
+    Person(owner,"Owner", "The owner of the Noodle Star restaurant")
+    Person(customer,"Customer", "A customer in Noodle Star Domain")
+    Person(guest,"Unlogged User", "A visitor to Noodle Star System who is not logged in")
+
+System_Boundary(NoodleStarDomain,"Noodle Star System"){
+
+    Container(webapp, "Web Application", "React, Typescript", "Delivers the static content and the Noodle Star single page app")
+    Container(singlePageApp, "Single Page App", "JavaScript, TypeScript", "Provides NoodleStar functionalities to Customer, Staff, and Owner")
+    Container(Api, "Application", "Java SpringBoot", "Provides Internet Noodle Star functionalities via JSON/HTTP API")
+    ContainerDb(database, "Noodle Star Database", "MongoDb", "Stores all information related to orders, users, and reports", $tags="Storage")
+
+    Rel(guest, webapp, "Browse menu and visit NoodleStar.com", "HTTPS", $tags="aggregate_root")
+    Rel(customer, webapp, "Visit NoodleStar.com", "HTTPS", $tags="aggregate_root")
+    Rel(staff, webapp, "Visit NoodleStar.com", "HTTPS", $tags="aggregate_root")
+    Rel(owner, webapp, "Visit NoodleStar.com", "HTTPS", $tags="aggregate_root")
+
+    Rel(customer, singlePageApp, "Order food and browse menu", "HTTPS", $tags="api_root")
+    Rel(staff, singlePageApp, "Manage menu and orders", "HTTPS", $tags="api_root")
+    Rel(owner, singlePageApp, "Generate and manage reports", "HTTPS", $tags="api_root")
+
+    Rel(singlePageApp, Api, "Makes API Calls to", "HTTPS")
+    Rel_L(Api, database, "Reads from and writes to", "JDBC")
+    Rel_R(webapp, singlePageApp, "Delivers to the customer's web browser", "HTTPS")
+}
+
+Container_Ext(DeliveryAPI, "Delivery API", "External System", "Receives client orders for delivery")
+Container_Ext(email, "Emailing API", "External System", "Emailing api using Gmail Api")
+Container_Ext(auth, "Auth0", "External System", "Security service")
+
+Rel_R(Api, DeliveryAPI, "Sends client orders", "HTTPS")
+Rel(Api, email, "Send E-mail using")
+Rel(Api, auth, "Use")
+Rel_L(email,customer, "Send E-mail")
+
+@enduml

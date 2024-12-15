@@ -1,0 +1,11 @@
+@startuml
+hide footbox
+actor Owner
+participant "Noodle Star System" as System
+
+ref over Owner, System : Login.puml
+Owner -> System: generateReports()
+System -> System: gatherFinancialData()
+System -> System: processFinancialReports()
+System --> Owner: returnFinancialReport()
+@enduml

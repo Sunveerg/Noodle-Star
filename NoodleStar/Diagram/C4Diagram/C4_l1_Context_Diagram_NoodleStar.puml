@@ -1,0 +1,24 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Context.puml
+title System context diagram for NoodleStar
+
+Person(staff, "Staff", "Staff member who manage the menu and views incoming orders.")
+Person(customer, "Customer", "User who browses the menu, places orders, and manages their account.")
+Person(owner, "Owner", "Responsible for managing the Noodle Star restaurant and system administration.")
+
+System_Boundary(NoodleStarBoundary, "Noodle Star System") {
+    System(NoodleStar, "Noodle Star System", "Allows users to order food. Enables the owner and staff to manage orders and generate reports.")
+}
+
+System_Ext(PaymentAPI, "Payment API", "Processes customer payments and provides transaction details.")
+System_Ext(EmailService, "Emailing Service", "Sends notifications and order confirmations to customers.")
+System_Ext(AuthService, "Auth0", "Handle security for NoodleStarSystem")
+
+Rel(staff, NoodleStar, "Manage menu, orders, and reservations", "Uses")
+Rel(customer, NoodleStar, "Order food and make reservations", "Uses")
+Rel(owner, NoodleStar, "Keep track of reports", "Uses")
+Rel(NoodleStar, PaymentAPI, "Communicates with", "Uses")
+Rel(NoodleStar, EmailService, "Sends order confirmations and notifications", "Uses")
+Rel(NoodleStar, AuthService, "Use for authentication and authorization", "Uses")
+
+@enduml

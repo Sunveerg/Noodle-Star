@@ -1,0 +1,23 @@
+@startuml
+hide footbox
+actor Customer
+participant "Noodle Star System" as System
+
+
+
+ref over Customer, System : Login.puml
+
+Customer -> System: getAllReservations()
+System --> Customer: returnExistingReservations(reservationList)
+
+' Extend: Deleting a reservation is optional
+opt Delete Reservation (optional)
+    Customer -> System: deleteReservation(reservationId)
+    System -> System: deleteReservation(reservationId)
+    System --> Customer: cancellationConfirmation
+end opt
+
+Customer -> System: getReservationDetails(reservationId)
+System --> Customer: returnReservationDetails(reservationDetails)
+
+@enduml

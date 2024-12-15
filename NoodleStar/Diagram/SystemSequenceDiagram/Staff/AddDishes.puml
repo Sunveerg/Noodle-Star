@@ -1,0 +1,14 @@
+@startuml
+hide footbox
+actor Staff
+participant "Noodle Star System" as System
+
+
+ref over Staff, System : Login.puml
+Staff -> System: getMenuManagement()
+System --> Staff: returnMenuOptions()
+Staff -> System: createDish(dishDetails)
+System -> System: saveDish(dishDetails)
+System --> Staff: confirmDishAdded
+
+@enduml

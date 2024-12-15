@@ -1,0 +1,16 @@
+@startuml
+hide footbox
+actor Staff
+participant "Noodle Star System" as System
+
+ref over Staff, System : Login.puml
+
+Staff -> System: getAccountDetails(staffId)
+System -> System: retrieveAccountDetails(staffId)
+System --> Staff: returnAccountDetails()
+
+Staff -> System: updateAccount(staffId, updatedDetails)
+System -> System: saveUpdatedAccount(staffId, updatedDetails)
+System --> Staff: confirmAccountUpdate
+
+@enduml

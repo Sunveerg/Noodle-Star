@@ -1,0 +1,19 @@
+@startuml
+hide footbox
+actor Staff
+participant "Noodle Star System" as System
+
+
+ref over Staff, System : Login.puml
+
+Staff -> System: getAllOrders()
+System -> System: retrieveIncomingOrders()
+System --> Staff: returnIncomingOrders()
+
+opt Edit Order Status (extends)
+    Staff -> System: editOrderStatus(orderId, newStatus)
+    System -> System: updateOrderStatus(orderId, newStatus)
+    System --> Staff: confirmOrderStatusUpdate
+end opt
+
+@enduml

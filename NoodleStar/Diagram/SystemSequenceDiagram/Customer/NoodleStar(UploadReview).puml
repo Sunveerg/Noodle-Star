@@ -1,0 +1,17 @@
+@startuml
+hide footbox
+actor Customer
+participant "Noodle Star System" as System
+
+ref over Customer, System : Login.puml
+Customer -> System: getallOrderHistory()
+System --> Customer: returnOrderHistory(orderHistoryData)
+
+Customer -> System: getOrder(orderId)
+Customer -> System: addReview(orderId)
+System --> Customer: returnReviewForm()
+
+Customer -> System: submitReview(orderId, reviewContent, rating)
+System -> System: saveReviewToDatabase(orderId, reviewContent, rating)
+
+@enduml

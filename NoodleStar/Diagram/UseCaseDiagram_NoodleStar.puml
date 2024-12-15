@@ -1,0 +1,69 @@
+@startuml
+!$ICONURL = "https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/v3.0.0/icons"
+!include $ICONURL/common.puml
+!include $ICONURL/font-awesome-6/hourglass_end.puml
+FA6_HOURGLASS_END(time)
+
+left to right direction
+actor Owner #LightBlue
+actor Staff #LightGreen
+actor Customer #LightCoral
+
+rectangle "Noodle Star Restaurant System" {
+    usecase (Add dish to the menu) #LightGreen
+    usecase (Delete Item) #LightGreen
+    usecase (View feedback) #LightGreen
+    usecase (Modify Order) #LightCoral
+    usecase (Generate Reports) as GR #LightBlue
+    usecase (Manage Orders) as MO #LightGreen
+    usecase (View Incoming Orders) as VIO #LightGreen
+    usecase (Order Food) as OF #LightCoral
+    usecase (Browse menu) as BM #LightCoral
+    usecase (Upload review) as UR #LightCoral
+    usecase (Manage account information) as MA #LightCoral
+    usecase (View previous order history) as VOH #LightCoral
+    usecase (Manage Staff Accounts) as MSA #LightBlue-LightGreen
+    usecase (Update Dish Details) as UDD #LightGreen
+    usecase (View Financial Reports) as VFR #LightBlue
+    usecase (View Menu) as VM2 #LightGreen
+    usecase (ViewOrder) as VO #LightCoral
+    usecase "Generate Weekly Report" as GWR
+    usecase "Generate Monthly Financial Report" as GMFR
+    usecase "Generate Daily Order Summary" as GDOR
+    usecase "Track Inventory Levels" as TIL
+
+}
+
+
+Owner -- GR
+Owner -- MSA
+GR <.. VFR : <<extends>>
+MO ..> VIO : <<includes>>
+
+
+Staff -- MO
+Staff -- VM2
+VM2 <.. (Delete Item): <<Extends>>
+VM2 <.. (Add dish to the menu): <<Extends>>
+VM2 <.. UDD: <<Extends>>
+Staff -- (View feedback)
+Staff -- MSA
+
+
+
+
+Customer -- OF
+OF ..> VO : <<Include>>
+OF <.. (Modify Order): <<Extends>>
+OF ..> BM : <<Extends>>
+Customer -- UR
+Customer -- MA
+Customer -- VOH
+
+
+time -- GWR
+time -- GMFR
+time -- GDOR
+time -- TIL
+
+@enduml
