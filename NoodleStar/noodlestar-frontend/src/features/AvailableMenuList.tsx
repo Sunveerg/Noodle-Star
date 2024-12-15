@@ -73,6 +73,35 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
     setTotalPrice((prevTotal) => prevTotal + menuItem.price);
   };
 
+  const handleRemoveFromCart = (menuId: string) => {
+    setCartItems((prevCartItems) => {
+      const updatedCartItems = { ...prevCartItems };
+      const itemToUpdate = updatedCartItems[menuId];
+
+      if (itemToUpdate) {
+        if (itemToUpdate.quantity > 1) {
+          updatedCartItems[menuId] = {
+            ...itemToUpdate,
+            quantity: itemToUpdate.quantity - 1,
+          };
+          setTotalPrice((prevTotal) => prevTotal - itemToUpdate.price);
+        } else {
+          setTotalPrice((prevTotal) => prevTotal - itemToUpdate.price);
+          delete updatedCartItems[menuId];
+        }
+      }
+
+      return updatedCartItems;
+    });
+  };
+
+  const handleClearAll = () => {
+    setCartItems({});
+    setTotalPrice(0);
+    setCheckoutMessage("All items have been cleared from the cart.");
+  };
+
+
   const handleCheckout = async () => {
     if (Object.keys(cartItems).length === 0) {
       setCheckoutMessage("Your cart is empty. Please add items to proceed.");
@@ -132,7 +161,13 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
                     Object.values(cartItems).map((item) => (
                         <div className="productDetails" key={item.menuId}>
                           <div className="productLabel">
-                            {item.name} x {item.quantity}
+                            {item.name} x {item.quantity}{" "}
+                            <button
+                                className="removeButton"
+                                onClick={() => handleRemoveFromCart(item.menuId)}
+                            >
+                              -
+                            </button>
                           </div>
                           <div className="totalLabel">
                             {(item.price * item.quantity).toFixed(2)}$
@@ -148,6 +183,9 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
                 </div>
                 <button className="checkoutButton" onClick={handleCheckout}>
                   Checkout
+                </button>
+                <button className="clearAllButton" onClick={handleClearAll}>
+                  Clear All
                 </button>
                 {checkoutMessage && (
                     <p className="checkoutMessage">{checkoutMessage}</p>
