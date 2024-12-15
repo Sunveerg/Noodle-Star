@@ -31,6 +31,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public Mono<OrderResponseModel> getOrderById(String orderId) {
+        return orderRepository.findByOrderId(orderId)
+                .map(EntityDTOUtil::toOrderResponseModel);
+    }
+
+    @Override
     public Mono<OrderResponseModel> createOrder(Mono<OrderRequestModel> orderRequestModel) {
         return orderRequestModel
                 .flatMap(request -> {
