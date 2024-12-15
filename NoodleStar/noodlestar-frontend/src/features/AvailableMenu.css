@@ -233,3 +233,46 @@
   text-align: center;
   margin-top: 20px;
 }
+
+.clearAllButton {
+  width: 100%;
+  padding: 10px;
+  background-color: rgba(201, 0, 0, 1);
+  border: none;
+  border-radius: 5px;
+  font: 700 16px/1 'Mulish', sans-serif;
+  color: #fff;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.clearAllButton:hover {
+  background-color: rgba(166, 0, 0, 1);
+}
+
+.removeButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e63946;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 5px 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-left: 8px;
+}
+
+.removeButton:hover {
+  background-color: #d62828;
+  transform: scale(1.05);
+}
+
+.removeButton:disabled {
+  background-color: #c4c4c4;
+  cursor: not-allowed;
+  transform: none;
+}
