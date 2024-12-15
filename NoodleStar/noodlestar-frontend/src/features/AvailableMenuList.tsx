@@ -17,7 +17,7 @@ interface CartItem {
 
 const AvailableMenuList: React.FC = (): JSX.Element => {
   const [menuItems, setMenuItems] = useState<menuResponseModel[]>([]);
-  const [cartItems, setCartItems] = useState<Record<string, CartItem>>({});
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [checkoutMessage, setCheckoutMessage] = useState<string>("");
   const navigate = useNavigate();
@@ -49,28 +49,37 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
   }, []);
 
   const handleAddToCart = (menuItem: menuResponseModel) => {
-    setCartItems((prevCartItems) => {
-      const updatedCartItems = { ...prevCartItems };
-      const menuIdKey = String(menuItem.menuId);
-
-      if (updatedCartItems[menuIdKey]) {
-        updatedCartItems[menuIdKey] = {
-          ...updatedCartItems[menuIdKey],
-          quantity: updatedCartItems[menuIdKey].quantity + 1,
-        };
+    setCartItems((prevCartItems: CartItem[]) => {
+      const existingItem = prevCartItems.find(item => item.menuId === menuItem.menuId);
+      let updatedCartItems;
+      if (existingItem) {
+        updatedCartItems = prevCartItems.map(item =>
+          item.menuId === menuItem.menuId
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        ) as CartItem[];
       } else {
-        updatedCartItems[menuIdKey] = {
-          menuId: menuIdKey,
-          name: menuItem.name,
-          price: menuItem.price,
-          quantity: 1,
-        };
+        updatedCartItems = [
+          ...prevCartItems,
+          {
+            menuId: menuItem.menuId,
+            name: menuItem.name,
+            price: menuItem.price,
+            quantity: 1,
+          } as CartItem,
+        ];
       }
-
+  
+      // Save updated cart items to a cookie
+      document.cookie = `cartItems=${JSON.stringify(updatedCartItems)}; path=/;`;
+  
+      // Log the cookie to see its value
+      console.log('Updated Cart Items Cookie:', document.cookie);
+  
       return updatedCartItems;
     });
-
-    setTotalPrice((prevTotal) => prevTotal + menuItem.price);
+  
+    setTotalPrice(prevTotal => prevTotal + menuItem.price);
   };
 
   const handleRemoveFromCart = (menuId: string) => {
@@ -96,7 +105,7 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
   };
 
   const handleClearAll = () => {
-    setCartItems({});
+    setCartItems([]);
     setTotalPrice(0);
     setCheckoutMessage("All items have been cleared from the cart.");
   };
@@ -125,7 +134,7 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
     try {
       await createOrder(orderRequest);
       setCheckoutMessage("Order has been placed!");
-      setCartItems({});
+      setCartItems([]);
       setTotalPrice(0);
       navigate("/orderSummary", {
         state: { cartItems: Object.values(cartItems), totalPrice },
