@@ -57,3 +57,7 @@
     font-weight: bold;
     border-bottom: 2px solid rgba(201, 160, 22, 1);
 }
+
+button {
+    background-color: transparent; /* Avoid overriding buttons globally */
+}

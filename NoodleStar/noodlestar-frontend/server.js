@@ -5,9 +5,13 @@ import { DoorDashClient } from "@doordash/sdk";
 import { v4 as uuidv4 } from "uuid";
 import "dotenv/config";
 
+
+
+
 // Create an Express application
 const app = express();
 const port = 3001;
+
 
 let externalDeliveryId = null;
 // Use express.json() to parse JSON body
@@ -31,6 +35,30 @@ app.post('/test-post', (req, res) => {
 
 app.get("/test-get", (req, res) => {
   res.send("GET request received!");
+});
+
+
+app.post('/auth/token', async (req, res) => {
+  try {
+    const response = await axios.post(
+      'https://dev-5kbvxb8zgblo1by3.us.auth0.com/oauth/token',
+      {
+        grant_type: 'password',
+        username: req.body.email,
+        password: req.body.password,
+        client_id: 'Pr9b4hkdMFcmkjKK2dpbLimUJplCuwSM',
+        client_secret: 'GyxnjU36qFE3xf0dOOT8Fq_yqCfNCy-zbh_9D8p2RVPznckkeuzVwb3V2fB5WgHF',
+        audience: 'https://dev-5kbvxb8zgblo1by3.us.auth0.com/api/v2/',
+        scope: 'openid profile email',
+      },
+      { headers: { 'Content-Type': 'application/json' } }
+    );
+
+    res.json(response.data);
+  } catch (err) {
+    console.error('Error:', err);
+    res.status(500).send('Authentication failed');
+  }
 });
 
 // Start the Express server

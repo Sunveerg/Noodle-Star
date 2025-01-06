@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './css/HomePage.module.css';
 import dragonImg from './assets/dragon.png';
 import {useNavigate} from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export const Home: React.FC = () => {
     const navigate = useNavigate();  
@@ -12,6 +13,18 @@ export const Home: React.FC = () => {
 
     const handleReviewClick = () => {
         navigate('/review');
+    };
+    const { loginWithRedirect } = useAuth0();
+
+    const handleLogin = async () => {
+      await loginWithRedirect({
+        appState: {
+          returnTo: "/profile",
+        },
+        authorizationParams: {
+          prompt: "login",
+        },
+      });
     };
 
     return (

@@ -10,4 +10,7 @@ export enum PathRoutes {
     AddReview = "review/add",
     OrderSummary = "/orderSummary",
     EmailSent = "orderSummary/emailSent",
+    Login = "/login",
+    Callback = "/callback",
+    Profile = "/profile"
 }
