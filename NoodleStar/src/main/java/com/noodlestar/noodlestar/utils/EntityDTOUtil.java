@@ -7,6 +7,8 @@ import com.noodlestar.noodlestar.MenuSubdomain.PresentationLayer.MenuResponseMod
 import com.noodlestar.noodlestar.ReviewSubdomain.DataLayer.Review;
 import com.noodlestar.noodlestar.ReviewSubdomain.PresentationLayer.ReviewRequestModel;
 import com.noodlestar.noodlestar.ReviewSubdomain.PresentationLayer.ReviewResponseModel;
+import com.noodlestar.noodlestar.UserSubdomain.DataLayer.User;
+import com.noodlestar.noodlestar.UserSubdomain.PresentationLayer.UserResponseModel;
 import com.noodlestar.noodlestar.ordersubdomain.datalayer.Order;
 import com.noodlestar.noodlestar.ordersubdomain.datalayer.OrderDetails;
 import com.noodlestar.noodlestar.ordersubdomain.presentationlayer.OrderDetailsRequestModel;
@@ -154,6 +156,18 @@ public class EntityDTOUtil {
                         .quantity(details.getQuantity())
                         .build())
                 .toList();
+    }
+
+
+    public static UserResponseModel toUserResponseModel(User user) {
+        UserResponseModel model = new UserResponseModel();
+        model.setUserId(user.getUserId());
+        model.setEmail(user.getEmail());
+        model.setFirstName(user.getFirstName());
+        model.setLastName(user.getLastName());
+        model.setRoles(user.getRoles());
+        model.setPermissions(user.getPermissions());
+        return model;
     }
 
     public static String generateOrderIdString() {

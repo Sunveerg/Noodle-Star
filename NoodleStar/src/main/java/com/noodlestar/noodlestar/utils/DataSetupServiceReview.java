@@ -5,6 +5,8 @@ import com.noodlestar.noodlestar.MenuSubdomain.DataLayer.MenuRepository;
 import com.noodlestar.noodlestar.MenuSubdomain.DataLayer.Status;
 import com.noodlestar.noodlestar.ReviewSubdomain.DataLayer.Review;
 import com.noodlestar.noodlestar.ReviewSubdomain.DataLayer.ReviewRepo;
+import com.noodlestar.noodlestar.UserSubdomain.DataLayer.User;
+import com.noodlestar.noodlestar.UserSubdomain.DataLayer.UserRepository;
 import com.noodlestar.noodlestar.ordersubdomain.datalayer.Order;
 import com.noodlestar.noodlestar.ordersubdomain.datalayer.OrderDetails;
 import com.noodlestar.noodlestar.ordersubdomain.datalayer.OrderRepository;
@@ -17,6 +19,7 @@ import reactor.core.publisher.Mono;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +27,7 @@ public class DataSetupServiceReview implements CommandLineRunner {
     private final ReviewRepo reviewRepo;
     private final MenuRepository menuRepository;
     private final OrderRepository orderRepository;
+    private final UserRepository userRepository;
 
 
     @Override
@@ -31,6 +35,7 @@ public class DataSetupServiceReview implements CommandLineRunner {
         setupReviews();
         setupMenu();
         setupOrders();
+        setupUsers();
     }
 
 
@@ -167,4 +172,32 @@ public class DataSetupServiceReview implements CommandLineRunner {
                 .dateSubmitted(parsedReviewDate)
                 .build();
     }
+
+
+
+
+    private void setupUsers() {
+        User user1 = buildUser("auth0|675f6ad19a80612ce548e0a1", "zako@example.com", "Zako", "Smith", List.of("Customer"), null);
+        User user2 = buildUser("google-oauth2|112850310681620335180", "christian@example.com", "Christian", "Johnson", List.of("Customer"), null);
+        User user3 = buildUser("userId3", "leopold@example.com", "Leopold", "Miller", List.of("Customer"),null);
+        User user4 = buildUser("userId4", "samuel@example.com", "Samuel", "Taylor", List.of("Staff"), null);
+        User user5 = buildUser("userId5", "samantha@example.com", "Samantha", "Lee", List.of("Customer"), List.of("read"));
+        // Add more users...
+
+        Flux.just(user1, user2, user3, user4, user5)
+                .flatMap(userRepository::insert)
+                .subscribe();
+    }
+
+    private User buildUser(String userId, String email, String firstName, String lastName, List<String> roles, List<String> permissions) {
+        return User.builder()
+                .userId(userId)
+                .email(email)
+                .firstName(firstName)
+                .lastName(lastName)
+                .roles(roles)
+                .permissions(permissions)
+                .build();
+    }
+
 }

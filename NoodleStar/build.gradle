@@ -40,8 +40,12 @@ dependencies {
 	implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
 	implementation 'com.sun.mail:javax.mail:1.6.2'
 
+	implementation 'com.auth0:java-jwt:3.18.2'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+	implementation 'org.springframework.security:spring-security-oauth2-jose'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
 
@@ -66,7 +70,12 @@ jacocoTestReport {
 					'**/*getErrorMessage*',
 					'**/*handleHttpClientException*',
 					'**/GlobalControllerExceptionHandler*',
-					'**/HttpErrorInfo*'
+					'**/HttpErrorInfo*',
+					'**/auth0/**',
+					'**/security/**',
+					'**/GmailSubdomain/**',
+					'**/utils/**',
+					'**/NoodleStarApplication.class'
 			])
 		}))
 	}

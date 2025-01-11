@@ -10,6 +10,9 @@ import ReviewPage from './pages/ReviewPage.tsx';
 import AddReview from "./features/Review/AddReview.tsx";
 import OrderSummary from "./pages/OrderSummaryPage.tsx";
 import EmailSentPage from "./pages/EmailSentPage.tsx";
+import LoginPage from './pages/LoginPage.tsx';
+import CallbackPage from './pages/Callbackpage.tsx';
+import ProfilePage from './pages/ProfilePage.tsx';
 
 
 
@@ -28,6 +31,19 @@ const router = createBrowserRouter([
     {
         path: PathRoutes.Menu,
         element: <MenuPage />,
+    },
+
+    {
+        path: PathRoutes.Login,
+        element: <LoginPage />,
+    },
+    {
+        path: PathRoutes.Profile,
+        element: <ProfilePage />,
+    },
+    {
+        path: PathRoutes.Callback,
+        element: <CallbackPage />,
     },
     {
         path: `${PathRoutes.MenuDetails}/:menuId`,

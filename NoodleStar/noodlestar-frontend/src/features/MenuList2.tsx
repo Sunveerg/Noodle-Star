@@ -14,6 +14,8 @@ const MenuList: React.FC = (): JSX.Element => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        const hash = window.location.hash;
+        console.log("Hash:", hash);
         const fetchMenuData = async (): Promise<void> => {
             try {
                 const response = await getAllmenu();
