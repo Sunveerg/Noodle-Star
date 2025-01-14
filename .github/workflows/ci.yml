@@ -47,7 +47,7 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Grant execute permissions to gradlew
-        working-directory: ./
+        working-directory: ./NoodleStar
         run: chmod +x gradlew
 
       # Debug environment variables at the workflow level
