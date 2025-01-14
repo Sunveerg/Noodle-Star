@@ -27,9 +27,12 @@ jobs:
           distribution: 'adopt'
           cache: 'gradle'
 
+      - name: Grant execute permissions to gradlew
+        working-directory: ./NoodleStar
+        run: chmod +x gradlew
+
       - name: Run Build
         run: ./gradlew build
-        working-directory: ./NoodleStar
 
       - name: Create coverage-data directory and copy contents
         run: |
