@@ -29,6 +29,7 @@ jobs:
 
       - name: Grant execute permissions to gradlew
         run: chmod +x gradlew
+        working-directory: ./NoodleStar
 
       - name: Run Build
         run: ./gradlew build
