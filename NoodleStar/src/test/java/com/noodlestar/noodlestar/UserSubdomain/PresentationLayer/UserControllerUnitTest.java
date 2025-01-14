@@ -8,8 +8,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -150,5 +152,41 @@ class UserControllerUnitTest {
         // Verify that the userService method was called once
         verify(userService, times(1)).syncUserWithAuth0(userId);
     }
+
+    @Test
+    void getStaff() {
+        // Create sample UserResponseModel objects
+        UserResponseModel user1 = UserResponseModel.builder()
+                .userId("1")
+                .email("john.doe@example.com")
+                .firstName("John")
+                .lastName("Doe")
+                .roles(Arrays.asList("Admin", "User"))
+                .permissions(Arrays.asList("READ", "WRITE"))
+                .build();
+
+        UserResponseModel user2 = UserResponseModel.builder()
+                .userId("2")
+                .email("jane.doe@example.com")
+                .firstName("Jane")
+                .lastName("Doe")
+                .roles(Arrays.asList("User"))
+                .permissions(Arrays.asList("READ"))
+                .build();
+
+        when(userService.getStaff()).thenReturn(Flux.just(user1, user2));
+
+        webTestClient.get()
+                .uri("/api/v1/users/staff")
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBodyList(UserResponseModel.class)
+                .hasSize(2)
+                .contains(user1, user2);
+
+        verify(userService, times(1)).getStaff();
+    }
+
 }
 

@@ -10,6 +10,7 @@ import com.noodlestar.noodlestar.utils.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.UUID;
@@ -95,6 +96,14 @@ public class UserServiceImpl implements UserService {
                 .doOnError(error -> log.error("Error fetching user with ID {}: {}", userId, error.getMessage()));
     }
 
+    @Override
+    public Flux<UserResponseModel> getStaff() {
+        return userRepository.findAll()
+                .filter(user -> user.getRoles() != null && user.getRoles().contains("Staff"))
+                .map(EntityDTOUtil::toUserResponseModel)
+                .doOnNext(user -> log.info("Fetched Staff from Database: {}", user))
+                .doOnError(error -> log.error("Error fetching staff: {}", error.getMessage()));
+    }
 
 }
 
