@@ -1,0 +1,53 @@
+@startuml
+hide footbox
+actor Customer
+
+participant AddReviewPage as "<<View>>\nAddReviewPage"
+participant ReviewFeature as "<<View>>\nReviewFeature"
+participant AxiosInstance as "<<Utility>>\nAxiosInstance"
+participant ReviewController as "<<Controller>>\nReviewController"
+participant ReviewService as "<<Service>>\nReviewService"
+participant ReviewRepository as "<<Repository>>\nReviewRepository"
+participant Database as "<<Database>>\nDatabase"
+participant Review as "<<Entity>>\nReview"
+
+' Add a new review
+Customer -> AddReviewPage: Submit Review
+activate AddReviewPage
+AddReviewPage -> ReviewFeature: submitReviewData(reviewDetails)
+activate ReviewFeature
+ReviewFeature -> ReviewFeature: map reviewDetails to ReviewRequestModel
+ReviewFeature -> AxiosInstance: POST /api/v1/review
+activate AxiosInstance
+AxiosInstance -> ReviewController: POST /api/v1/review
+activate ReviewController
+ReviewController -> ReviewService: addReview(Mono<ReviewRequestModel>)
+activate ReviewService
+
+' Map and save review
+ReviewService -> ReviewService: map ReviewRequestModel to Review entity
+ReviewService -> Review: create Review instance
+activate Review
+Review --> ReviewService: return Review instance
+deactivate Review
+ReviewService -> ReviewRepository: insert(Review)
+activate ReviewRepository
+ReviewRepository -> Database: insertReview(Review)
+activate Database
+Database --> ReviewRepository: confirm Insert
+deactivate Database
+ReviewRepository -> ReviewRepository: findById(savedReviewId)
+ReviewRepository --> ReviewService: return Saved Review Entity
+deactivate ReviewRepository
+ReviewService -> ReviewService: map Review entity to ReviewResponseModel
+ReviewService --> ReviewController: return ReviewResponseModel
+deactivate ReviewService
+
+ReviewController --> AxiosInstance: return ResponseEntity<ReviewResponseModel>
+deactivate ReviewController
+AxiosInstance --> ReviewFeature: return ResponseEntity<ReviewResponseModel>
+deactivate AxiosInstance
+ReviewFeature --> AddReviewPage: showSuccessMessage()
+deactivate ReviewFeature
+deactivate AddReviewPage
+@enduml

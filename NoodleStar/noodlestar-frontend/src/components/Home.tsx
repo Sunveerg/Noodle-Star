@@ -11,9 +11,6 @@ export const Home: React.FC = () => {
         navigate('/menuOrder');
     };
 
-    const handleReviewClick = () => {
-        navigate('/review');
-    };
     const { loginWithRedirect } = useAuth0();
 
     const handleLogin = async () => {
@@ -52,12 +49,6 @@ export const Home: React.FC = () => {
             <div className={styles.cloudSix}></div>
             <div className={styles.topRightImage}></div>
 
-            <button
-                className={styles.reviewButton}
-                onClick={handleReviewClick}
-            >
-                Go to Reviews
-            </button>
         </main>
     );
 };

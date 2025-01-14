@@ -125,11 +125,8 @@ img {
 
 
 .reviewButton {
-    position: fixed; /* Fixed position relative to the viewport */
-    bottom: 20px; /* 20px from the bottom */
-    right: 20px; /* 20px from the right */
-    padding: 10px 20px;
-    font-size: 1.2rem;
+    padding: 15px 25px; /* Larger padding for a bigger button */
+    font-size: 1.5rem; /* Increased font size */
     background-color: #f1c40f; /* Gold color */
     color: white;
     border: none;
@@ -146,3 +143,4 @@ img {
 .reviewButton:focus {
     outline: none;
 }
+

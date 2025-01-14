@@ -1,0 +1,568 @@
+@startuml
+title Menu Class Diagram within the Restaurant Subdomain
+
+package "Menusubdomain" {
+
+    package "businesslayer" {
+        interface MenuService {
+            + getAllMenus() : Flux<MenuResponseModel>
+            + getMenu(menuId: String) : Mono<MenuResponseModel>
+            + addMenu(menuRequest: MenuRequestModel) : Mono<MenuResponseModel>
+            + updateMenu(menuId: String, menuRequest: MenuRequestModel) : Mono<MenuResponseModel>
+            + removeMenu(menuId: String) : Mono<Void>
+        }
+
+        class MenuServiceImpl {
+            - menuRepository : MenuRepository
+            + getAllMenus() : Flux<MenuResponseModel>
+            + getMenu(menuId: String) : Mono<MenuResponseModel>
+            + addMenu(menuRequest: MenuRequestModel) : Mono<MenuResponseModel>
+            + updateMenu(menuId: String, menuRequest: MenuRequestModel) : Mono<MenuResponseModel>
+            + removeMenu(menuId: String) : Mono<Void>
+        }
+    }
+
+    package "datalayer" {
+        class Menu {
+            - MenuId : String
+            - Description : String
+            - price : int
+            - Category : String
+            - ItemImage: String
+            - available: Status
+        }
+
+          enum Status {
+                    - Available
+                    - Not_Available
+                }
+
+        interface MenuRepository extends MongoRepository {
+            + findAll() : Flux<Menu>
+            + findById(menuId: String) : Mono<Menu>
+            + save(menu: Menu) : Mono<Menu>
+            + deleteById(menuId: String) : Mono<Void>
+        }
+    }
+
+    package "Utils" {
+        interface EntityDto {
+            + requestModelToEntity(menuRequest: MenuRequestModel) : Menu
+              + entityToResponseModel(menu: Menu) : MenuResponseModel
+        }
+    }
+
+    package "presentationlayer" {
+        class MenuRequestModel {
+            - Description : String
+            - price : int
+            - Category : String
+            - ItemImage: String
+            - available: Status
+        }
+
+        class MenuResponseModel {
+                - MenuId : String
+                - Description : String
+                - price : int
+                - Category : String
+                - ItemImage: String
+                - available: Status
+        }
+
+        class MenuController {
+            - menuService : MenuService
+            + getAllMenus() : ResponseEntity<Flux<MenuResponseModel>>
+            + getMenu(menuId: String) : ResponseEntity<Mono<MenuResponseModel>>
+            + addMenu(menuRequest: MenuRequestModel) : ResponseEntity<Mono<MenuResponseModel>>
+            + updateMenu(menuId: String, menuRequest: MenuRequestModel) : ResponseEntity<Mono<MenuResponseModel>>
+            + removeMenu(menuId: String) : ResponseEntity<Mono<Void>>
+        }
+    }
+
+    MenuServiceImpl -down-|> MenuService : implements
+    MenuServiceImpl -down-> MenuRepository : uses
+    MenuServiceImpl -down-> EntityDto : uses
+    MenuServiceImpl -down-> EntityDto : uses
+    MenuServiceImpl -down-> MenuRequestModel : uses
+    MenuServiceImpl -down-> MenuResponseModel : uses
+        EntityDto -left- MenuRequestModel : uses
+        EntityDto -left- MenuResponseModel : uses
+
+    EntityDto -left- Menu : data conversion
+    EntityDto -right- Menu : data conversion
+    MenuRepository -[hidden]-> Menu : data persistence
+    MenuController -right-> MenuService : uses
+    MenuController -down-> MenuRequestModel : uses
+    MenuController -down-> MenuResponseModel : uses
+    Menu -up-> Status : uses
+}
+
+package "Order Management" <<Rectangle>> {
+
+    package "businesslayer" {
+        interface OrderService {
+            + getAllOrders() : Flux<OrderResponseModel>
+            + getOrder(orderId: UUID) : Mono<OrderResponseModel>
+            + addOrder(orderRequest: OrderRequestModel) : Mono<OrderResponseModel>
+            + updateOrder(orderId: UUID, orderRequest: OrderRequestModel) : Mono<OrderResponseModel>
+            + cancelOrder(orderId: UUID) : Mono<Void>
+        }
+
+        class OrderServiceImpl {
+            - orderRepository : OrderRepository
+            - orderRequestMapper : EntityDtoUitls
+            - orderResponseMapper : EntityDtoUitls
+            + getAllOrders() : Flux<OrderResponseModel>
+            + getOrder(orderId: UUID) : Mono<OrderResponseModel>
+            + addOrder(orderRequest: OrderRequestModel) : Mono<OrderResponseModel>
+            + updateOrder(orderId: UUID, orderRequest: OrderRequestModel) : Mono<OrderResponseModel>
+            + cancelOrder(orderId: UUID) : Mono<Void>
+        }
+    }
+
+    package "datalayer" {
+        class Order {
+            - orderId : UUID
+            - customerId : UUID
+            - status : String
+            - orderDate : Date
+            - orderDetails : List<OrderDetails>
+        }
+
+        class OrderDetails {
+            - orderDetailsId : UUID
+            - itemId : UUID
+            - quantity : Integer
+            - price : Decimal
+            - orderId: UUID
+        }
+
+        interface OrderRepository {
+            + findAll() : Flux<Order>
+            + findById(orderId: UUID) : Mono<Order>
+            + save(order: Order) : Mono<Order>
+            + deleteById(orderId: UUID) : Mono<Void>
+        }
+    }
+
+    package "Utils" {
+        interface EntityDtoUitls {
+            + requestModelToEntity(orderRequest: OrderRequestModel) : Order
+            + entityToResponseModel(order: Order) : OrderResponseModel
+        }
+
+
+    }
+
+    package "presentationlayer" {
+        class OrderRequestModel {
+            - customerId : UUID
+            - itemId : UUID
+            - quantity : int
+            - orderDate : Date
+            - status : Status
+            - price: int
+        }
+
+
+
+        class OrderResponseModel {
+            - orderId : UUID
+            - customerId : UUID
+            - itemId : UUID
+            - quantity : int
+            - orderDate : Date
+            - status : Status
+            - price: int
+        }
+
+
+
+        class OrderController {
+            - orderService : OrderService
+            + getAllOrders() : ResponseEntity<Flux<OrderResponseModel>>
+            + getOrder(orderId: UUID) : ResponseEntity<Mono<OrderResponseModel>>
+            + addOrder(orderRequest: OrderRequestModel) : ResponseEntity<Mono<OrderResponseModel>>
+            + updateOrder(orderId: UUID, orderRequest: OrderRequestModel) : ResponseEntity<Mono<OrderResponseModel>>
+            + cancelOrder(orderId: UUID) : ResponseEntity<Mono<Void>>
+        }
+    }
+
+       OrderServiceImpl -down-> OrderRequestModel : uses
+        OrderServiceImpl -down-> OrderResponseModel : uses
+            EntityDtoUitls -left- OrderRequestModel : uses
+            EntityDtoUitls -left- OrderResponseModel : uses
+
+    OrderServiceImpl -down-|> OrderService : implements
+    OrderServiceImpl -down-> OrderRepository : uses
+    OrderServiceImpl -down-> EntityDtoUitls : uses
+    OrderServiceImpl -down-> EntityDtoUitls : uses
+    EntityDtoUitls -left- Order : data conversion
+    EntityDtoUitls -right- Order : data conversion
+    OrderRepository -[hidden]-> Order : data persistence
+    OrderController -right-> OrderService : uses
+    OrderController -down-> OrderRequestModel : uses
+    OrderController -down-> OrderResponseModel : uses
+    Order *-- "1..*" OrderDetails : contains
+}
+
+OrderDetails -right-> Menu : references
+
+
+
+
+
+package "ReviewSubdomain" {
+
+    package "businesslayer" {
+        interface ReviewService {
+            + getAllReviews() : Flux<ReviewResponseModel>
+            + getReview(reviewId: String) : Mono<ReviewResponseModel>
+            + addReview(reviewRequest: ReviewRequestModel) : Mono<ReviewResponseModel>
+            + updateReview(reviewId: String, reviewRequest: ReviewRequestModel) : Mono<ReviewResponseModel>
+            + removeReview(reviewId: String) : Mono<Void>
+        }
+
+        class ReviewServiceImpl {
+            - reviewRepository : ReviewRepository
+            + getAllReviews() : Flux<ReviewResponseModel>
+            + getReview(reviewId: String) : Mono<ReviewResponseModel>
+            + addReview(reviewRequest: ReviewRequestModel) : Mono<ReviewResponseModel>
+            + updateReview(reviewId: String, reviewRequest: ReviewRequestModel) : Mono<ReviewResponseModel>
+            + removeReview(reviewId: String) : Mono<Void>
+        }
+    }
+
+    package "datalayer" {
+        class Review {
+            - reviewId : String
+            - rating : int
+            - reviewerName : String
+            - review : String
+            - dateSubmitted : LocalDateTime
+        }
+
+        interface ReviewRepository extends MongoRepository {
+            + findAll() : Flux<Review>
+            + findById(reviewId: String) : Mono<Review>
+            + save(review: Review) : Mono<Review>
+            + deleteById(reviewId: String) : Mono<Void>
+        }
+    }
+
+    package "Utils" {
+        interface EntityDto2 {
+            + requestModelToEntity(reviewRequest: ReviewRequestModel) : Review
+            + entityToResponseModel(review: Review) : ReviewResponseModel
+        }
+    }
+
+    package "presentationlayer" {
+        class ReviewRequestModel {
+            - rating : int
+            - reviewerName : String
+            - review : String
+            - dateSubmitted : LocalDateTime
+        }
+
+        class ReviewResponseModel {
+            - reviewId : String
+            - rating : int
+            - reviewerName : String
+            - review : String
+            - dateSubmitted : LocalDateTime
+        }
+
+        class ReviewController {
+            - reviewService : ReviewService
+            + getAllReviews() : ResponseEntity<Flux<ReviewResponseModel>>
+            + getReview(reviewId: String) : ResponseEntity<Mono<ReviewResponseModel>>
+            + addReview(reviewRequest: ReviewRequestModel) : ResponseEntity<Mono<ReviewResponseModel>>
+            + updateReview(reviewId: String, reviewRequest: ReviewRequestModel) : ResponseEntity<Mono<ReviewResponseModel>>
+            + removeReview(reviewId: String) : ResponseEntity<Mono<Void>>
+        }
+    }
+
+    ReviewServiceImpl -down-|> ReviewService : implements
+    ReviewServiceImpl -down-> ReviewRepository : uses
+    ReviewServiceImpl -down-> EntityDto2 : uses
+    ReviewServiceImpl -down-> ReviewRequestModel : uses
+    ReviewServiceImpl -down-> ReviewResponseModel : uses
+    EntityDto2 -left- ReviewRequestModel : uses
+    EntityDto2 -left- ReviewResponseModel : uses
+
+    EntityDto2 -left- Review : data conversion
+    EntityDto2 -right- Review : data conversion
+    ReviewRepository -[hidden]-> Review : data persistence
+    ReviewController -right-> ReviewService : uses
+    ReviewController -down-> ReviewRequestModel : uses
+    ReviewController -down-> ReviewResponseModel : uses
+}
+
+
+
+
+package "Customersubdomain" {
+
+    package "businesslayer" {
+        interface CustomerService {
+            + getAllCustomers() : Flux<CustomerResponseModel>
+            + getCustomer(userId: String) : Mono<CustomerResponseModel>
+            + addCustomer(customerRequest: CustomerRequestModel) : Mono<CustomerResponseModel>
+            + updateCustomer(userId: String, customerRequest: CustomerRequestModel) : Mono<CustomerResponseModel>
+            + removeCustomer(userId: String) : Mono<Void>
+        }
+
+        class CustomerServiceImpl {
+            - customerRepository : CustomerRepository
+            + getAllCustomers() : Flux<CustomerResponseModel>
+            + getCustomer(userId: String) : Mono<CustomerResponseModel>
+            + addCustomer(customerRequest: CustomerRequestModel) : Mono<CustomerResponseModel>
+            + updateCustomer(userId: String, customerRequest: CustomerRequestModel) : Mono<CustomerResponseModel>
+            + removeCustomer(userId: String) : Mono<Void>
+        }
+    }
+
+    package "datalayer" {
+        class Customer {
+            - userId : UUID
+            - firstName : String
+            - lastName : String
+            - email : String
+            - phoneNumber : String
+        }
+
+        interface CustomerRepository extends MongoRepository {
+            + findAll() : Flux<Customer>
+            + findById(userId: String) : Mono<Customer>
+            + save(customer: Customer) : Mono<Customer>
+            + deleteById(userId: String) : Mono<Void>
+        }
+    }
+
+    package "Utils" {
+        interface EntityDto3 {
+            + requestModelToEntity(customerRequest: CustomerRequestModel) : Customer
+            + entityToResponseModel(customer: Customer) : CustomerResponseModel
+        }
+    }
+
+    package "presentationlayer" {
+        class CustomerRequestModel {
+            - firstName : String
+            - lastName : String
+            - email : String
+            - phoneNumber : String
+        }
+
+        class CustomerResponseModel {
+            - userId : UUID
+            - firstName : String
+            - lastName : String
+            - email : String
+            - phoneNumber : String
+        }
+
+        class CustomerController {
+            - customerService : CustomerService
+            + getAllCustomers() : ResponseEntity<Flux<CustomerResponseModel>>
+            + getCustomer(userId: String) : ResponseEntity<Mono<CustomerResponseModel>>
+            + addCustomer(customerRequest: CustomerRequestModel) : ResponseEntity<Mono<CustomerResponseModel>>
+            + updateCustomer(userId: String, customerRequest: CustomerRequestModel) : ResponseEntity<Mono<CustomerResponseModel>>
+            + removeCustomer(userId: String) : ResponseEntity<Mono<Void>>
+        }
+    }
+
+    CustomerServiceImpl -down-|> CustomerService : implements
+     CustomerServiceImpl -down-> CustomerRepository : uses
+     CustomerServiceImpl -down-> EntityDto3 : uses
+     CustomerServiceImpl -down-> CustomerRequestModel : uses
+     CustomerServiceImpl -down-> CustomerResponseModel : uses
+     EntityDto3 -left- CustomerRequestModel : uses
+     EntityDto3 -left- CustomerResponseModel : uses
+
+     EntityDto3 -left- Customer : data conversion
+       EntityDto3 -right- Customer : data conversion
+       CustomerRepository -[hidden]-> Customer : data persistence
+       CustomerController -right-> CustomerService : uses
+
+
+}
+package "Domain"{
+package "OwnerSubdomain" {
+
+    package "businesslayer" {
+        interface OwnerService {
+            + getAllOwners() : Flux<OwnerResponseModel>
+            + getOwner(ownerId: String) : Mono<OwnerResponseModel>
+            + addOwner(ownerRequest: OwnerRequestModel) : Mono<OwnerResponseModel>
+            + updateOwner(ownerId: String, ownerRequest: OwnerRequestModel) : Mono<OwnerResponseModel>
+            + removeOwner(ownerId: String) : Mono<Void>
+        }
+
+        class OwnerServiceImpl {
+            - ownerRepository : OwnerRepository
+            + getAllOwners() : Flux<OwnerResponseModel>
+            + getOwner(ownerId: String) : Mono<OwnerResponseModel>
+            + addOwner(ownerRequest: OwnerRequestModel) : Mono<OwnerResponseModel>
+            + updateOwner(ownerId: String, ownerRequest: OwnerRequestModel) : Mono<OwnerResponseModel>
+            + removeOwner(ownerId: String) : Mono<Void>
+        }
+    }
+
+    package "datalayer" {
+        class Owner {
+            - ownerId : UUID
+            - firstName : String
+            - lastName : String
+            - email : String
+            - phoneNumber : String
+        }
+
+        interface OwnerRepository extends MongoRepository {
+            + findAll() : Flux<Owner>
+            + findById(ownerId: String) : Mono<Owner>
+            + save(owner: Owner) : Mono<Owner>
+            + deleteById(ownerId: String) : Mono<Void>
+        }
+    }
+
+    package "Utils" {
+        interface EntityDto {
+            + requestModelToEntity(ownerRequest: OwnerRequestModel) : Owner
+            + entityToResponseModel(owner: Owner) : OwnerResponseModel
+        }
+    }
+
+    package "presentationlayer" {
+        class OwnerRequestModel {
+            - firstName : String
+            - lastName : String
+            - email : String
+            - phoneNumber : String
+        }
+
+        class OwnerResponseModel {
+            - ownerId : UUID
+            - firstName : String
+            - lastName : String
+            - email : String
+            - phoneNumber : String
+        }
+
+        class OwnerController {
+            - ownerService : OwnerService
+            + getAllOwners() : ResponseEntity<Flux<OwnerResponseModel>>
+            + getOwner(ownerId: String) : ResponseEntity<Mono<OwnerResponseModel>>
+            + addOwner(ownerRequest: OwnerRequestModel) : ResponseEntity<Mono<OwnerResponseModel>>
+            + updateOwner(ownerId: String, ownerRequest: OwnerRequestModel) : ResponseEntity<Mono<OwnerResponseModel>>
+            + removeOwner(ownerId: String) : ResponseEntity<Mono<Void>>
+        }
+    }
+
+    OwnerServiceImpl -down-|> OwnerService : implements
+    OwnerServiceImpl -down-> OwnerRepository : uses
+    OwnerServiceImpl -down-> EntityDto : uses
+    OwnerServiceImpl -down-> OwnerRequestModel : uses
+    OwnerServiceImpl -down-> OwnerResponseModel : uses
+    EntityDto -left- OwnerRequestModel : uses
+    EntityDto -left- OwnerResponseModel : uses
+
+    EntityDto -left- Owner : data conversion
+    EntityDto -right- Owner : data conversion
+    OwnerRepository -[hidden]-> Owner : data persistence
+    OwnerController -right-> OwnerService : uses
+    OwnerController -down-> OwnerRequestModel : uses
+    OwnerController -down-> OwnerResponseModel : uses
+}
+
+package "Staffsubdomain" {
+
+    package "businesslayer" {
+        interface StaffService {
+            + getAllStaff() : Flux<StaffResponseModel>
+            + getStaff(staffId: String) : Mono<StaffResponseModel>
+            + addStaff(staffRequest: StaffRequestModel) : Mono<StaffResponseModel>
+            + updateStaff(staffId: String, staffRequest: StaffRequestModel) : Mono<StaffResponseModel>
+            + removeStaff(staffId: String) : Mono<Void>
+        }
+
+        class StaffServiceImpl {
+            - staffRepository : StaffRepository
+            + getAllStaff() : Flux<StaffResponseModel>
+            + getStaff(staffId: String) : Mono<StaffResponseModel>
+            + addStaff(staffRequest: StaffRequestModel) : Mono<StaffResponseModel>
+            + updateStaff(staffId: String, staffRequest: StaffRequestModel) : Mono<StaffResponseModel>
+            + removeStaff(staffId: String) : Mono<Void>
+        }
+    }
+
+    package "datalayer" {
+        class Staff {
+            - staffId : UUID
+            - firstName : String
+            - lastName : String
+            - email : String
+            - phoneNumber : String
+        }
+
+        interface StaffRepository extends MongoRepository {
+            + findAll() : Flux<Staff>
+            + findById(staffId: String) : Mono<Staff>
+            + save(staff: Staff) : Mono<Staff>
+            + deleteById(staffId: String) : Mono<Void>
+        }
+    }
+
+    package "Utils" {
+        interface EntityDto {
+            + requestModelToEntity(staffRequest: StaffRequestModel) : Staff
+            + entityToResponseModel(staff: Staff) : StaffResponseModel
+        }
+    }
+
+    package "presentationlayer" {
+        class StaffRequestModel {
+            - firstName : String
+            - lastName : String
+            - email : String
+            - phoneNumber : String
+        }
+
+        class StaffResponseModel {
+            - staffId : UUID
+            - firstName : String
+            - lastName : String
+            - email : String
+            - phoneNumber : String
+        }
+
+        class StaffController {
+            - staffService : StaffService
+            + getAllStaff() : ResponseEntity<Flux<StaffResponseModel>>
+            + getStaff(staffId: String) : ResponseEntity<Mono<StaffResponseModel>>
+            + addStaff(staffRequest: StaffRequestModel) : ResponseEntity<Mono<StaffResponseModel>>
+            + updateStaff(staffId: String, staffRequest: StaffRequestModel) : ResponseEntity<Mono<StaffResponseModel>>
+            + removeStaff(staffId: String) : ResponseEntity<Mono<Void>>
+        }
+    }
+
+    StaffServiceImpl -down-|> StaffService : implements
+    StaffServiceImpl -down-> StaffRepository : uses
+    StaffServiceImpl -down-> EntityDto : uses
+    StaffServiceImpl -down-> StaffRequestModel : uses
+    StaffServiceImpl -down-> StaffResponseModel : uses
+    EntityDto -left- StaffRequestModel : uses
+    EntityDto -left- StaffResponseModel : uses
+
+    EntityDto -left- Staff : data conversion
+    EntityDto -right- Staff : data conversion
+    StaffRepository -[hidden]-> Staff : data persistence
+    StaffController -right-> StaffService : uses
+    StaffController -down-> StaffRequestModel : uses
+    StaffController -down-> StaffResponseModel : uses
+}
+}
+
+@enduml
