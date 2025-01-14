@@ -29,6 +29,7 @@ jobs:
 
       - name: Run Build
         run: ./gradlew build
+        working-directory: ./NoodleStar
 
       - name: Create coverage-data directory and copy contents
         run: |
