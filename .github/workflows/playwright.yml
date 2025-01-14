@@ -14,6 +14,22 @@ jobs:
       # Checkout your code
       - uses: actions/checkout@v4
 
+      # Set up Node.js
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      # Install dependencies
+      - name: Install dependencies for server
+        run: npm install
+        working-directory: ./NoodleStar
+
+      # Start Node.js server
+      - name: Start Node.js server
+        run: |
+          node server.js &
+          sleep 5 # Wait for the server to start
+
       # Install Docker Compose
       - name: Install Docker Compose
         run: sudo apt-get update && sudo apt-get install -y docker-compose
@@ -26,13 +42,8 @@ jobs:
       - name: Start Docker containers
         run: docker-compose -f ./NoodleStar/docker-compose.yml up -d
 
-      # Set up Node.js
-      - uses: actions/setup-node@v4
-        with:
-          node-version: lts/*
-
-      # Install dependencies
-      - name: Install dependencies
+      # Install dependencies for frontend
+      - name: Install frontend dependencies
         run: npm ci
         working-directory: ./NoodleStar/noodlestar-frontend
 
@@ -57,3 +68,8 @@ jobs:
       # Stop and remove Docker containers
       - name: Stop and Remove Docker containers
         run: docker-compose -f ./NoodleStar/docker-compose.yml down
+
+      # Stop Node.js server
+      - name: Stop Node.js server
+        run: |
+          pkill -f server.js || true
