@@ -4,6 +4,7 @@ import axiosInstance from "../Shared/Api/axiosInstance";
 import "./Profile.css";
 import noodleImg from "../components/assets/noodle.png";
 import {useNavigate} from "react-router-dom";
+import styles from "../components/css/HomePage.module.css";
 
 
 const Profile: React.FC = () => {
@@ -12,11 +13,16 @@ const Profile: React.FC = () => {
   const [error, setError] = useState<string>("");
   const [isOwner, setIsOwner] = useState(false);
   const [isCustomer, setIsCustomer] = useState(false);
+  const [isStaff, setIsStaff] = useState(false);
   const loginCalledRef = useRef(false);
   const navigate = useNavigate();
 
 
   const { getAccessTokenSilently } = useAuth0();
+
+  const handleReviewClick = () => {
+    navigate('/review');
+  };
 
   const handleManageStaffClick = () => {
     navigate('/manageStaff');
@@ -61,6 +67,7 @@ const Profile: React.FC = () => {
 
         setIsOwner(roles.includes("Owner"));
         setIsCustomer(roles.includes("Customer"));
+        setIsStaff(roles.includes("Staff"));
 
         const response = await fetch(
             "https://dev-5kbvxb8zgblo1by3.us.auth0.com/userinfo",
@@ -140,6 +147,16 @@ const Profile: React.FC = () => {
             <div className="owner-section">
               <button className="owner-button" onClick={handleManageStaffClick}>Manage Staff</button>
             </div>
+        )}
+
+        <br></br>
+        {isStaff && (
+            <button
+                className={styles.reviewButton}
+                onClick={handleReviewClick}
+            >
+              Go to Reviews
+            </button>
         )}
       </div>
   );
