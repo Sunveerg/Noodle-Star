@@ -14,6 +14,14 @@ jobs:
       # Checkout your code
       - uses: actions/checkout@v4
 
+      # Build Docker containers
+      - name: Build Docker containers
+        run: docker-compose -f ./NoodleStar/docker-compose.yml build
+
+      # Start Docker containers
+      - name: Start Docker containers
+        run: docker-compose -f ./NoodleStar/docker-compose.yml up -d
+
       # Set up Node.js
       - uses: actions/setup-node@v4
         with:
@@ -41,3 +49,7 @@ jobs:
           name: playwright-report
           path: ./NoodleStar/noodlestar-frontend/playwright-report/
           retention-days: 30
+
+      # Stop and remove Docker containers
+      - name: Stop and Remove Docker containers
+        run: docker-compose -f ./NoodleStar/docker-compose.yml down
