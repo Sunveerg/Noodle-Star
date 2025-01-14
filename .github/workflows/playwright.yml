@@ -1,0 +1,55 @@
+name: Playwright CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  frontend-tests:
+    name: Frontend Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout your code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./NoodleStar/noodlestar-frontend
+
+      # Install Playwright browsers
+      - name: Install Playwright Browsers
+        run: npx playwright install
+        working-directory: ./NoodleStar/noodlestar-frontend
+
+      # Run Playwright tests
+      - name: Run Playwright tests
+        run: npm run test:e2e
+        working-directory: ./NoodleStar/noodlestar-frontend
+
+      # Upload Playwright test report
+      - name: Upload Test Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-test-reports
+          path: ./NoodleStar/playwright-report
+
+      # Debug logs (only on failure)
+      - name: Debug Test Logs
+        if: failure()
+        run: |
+          cat ./NoodleStar/playwright-report/index.html || echo "No report found"
