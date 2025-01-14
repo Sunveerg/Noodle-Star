@@ -1,0 +1,80 @@
+name: Ci
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  backend-tests:
+    name: Backend Tests
+    runs-on: ubuntu-latest
+
+    env:
+      AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID }}
+      AUTH0_CLIENT_SECRET: ${{ secrets.AUTH0_CLIENT_SECRET }}
+
+    services:
+      mongo:
+        image: mongo:5.0.5
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd="mongo --eval 'db.runCommand({ connectionStatus: 1 })'"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Grant execute permissions to gradlew
+        working-directory: ./
+        run: chmod +x gradlew
+
+      # Debug environment variables at the workflow level
+      - name: Debug Environment Variables
+        run: |
+          echo "AUTH0_CLIENT_ID=${AUTH0_CLIENT_ID}"
+          echo "AUTH0_CLIENT_SECRET=${AUTH0_CLIENT_SECRET}"
+
+      # Run backend tests
+      - name: Build and test backend
+        working-directory: ./Noodlestar
+        run: |
+          ./gradlew clean build \
+            -Dauth0.clientId=${AUTH0_CLIENT_ID} \
+            -Dauth0.clientSecret=${AUTH0_CLIENT_SECRET} \
+            -
+
+      # Upload test reports for review
+      - name: Upload Test Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: ./build/reports/tests/test/
+
+      # Debug spring application logs for troubleshooting
+      - name: Check Application Logs
+        if: failure()
+        run: |
+          cat NoodleStar/build/reports/tests/test/index.html || echo "No test report found"
