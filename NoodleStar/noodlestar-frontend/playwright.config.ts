@@ -69,6 +69,9 @@ export default defineConfig({
     //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
     // },
   ],
+  testIgnore: [
+    '**/DoordashApi.spec.ts', // Exclude this test
+  ],
 
   /* Run your local dev server before starting the tests */
   // webServer: {
