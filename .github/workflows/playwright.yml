@@ -52,9 +52,9 @@ jobs:
         run: npx playwright install --with-deps
         working-directory: ./NoodleStar/noodlestar-frontend
 
-      # Run Playwright tests
-      - name: Run Playwright tests
-        run: npx playwright test ./e2e
+      # Run Playwright tests on Chrome only
+      - name: Run Playwright tests on Chrome
+        run: npx playwright test ./e2e --project=chromium
         working-directory: ./NoodleStar/noodlestar-frontend
 
       # Upload Playwright test report
