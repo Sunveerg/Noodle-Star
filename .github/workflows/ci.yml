@@ -1,0 +1,73 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  backend-tests:
+    name: Backend Tests
+    runs-on: ubuntu-latest
+
+    env:
+      AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID }}
+      AUTH0_CLIENT_SECRET: ${{ secrets.AUTH0_CLIENT_SECRET }}
+
+    services:
+      mongo:
+        image: mongo:5.0.5
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd="mongo --eval 'db.runCommand({ connectionStatus: 1 })'"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Grant execute permissions to gradlew
+        working-directory: ./NoodleStar
+        run: chmod +x gradlew
+
+      - name: Debug Environment Variables
+        run: |
+          echo "AUTH0_CLIENT_ID=${AUTH0_CLIENT_ID}"
+          echo "AUTH0_CLIENT_SECRET=${AUTH0_CLIENT_SECRET}"
+
+      - name: Build and test backend
+        working-directory: ./NoodleStar
+        run: |
+          ./gradlew clean build \
+
+      - name: Upload Test Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: ./NoodleStar/build/reports/tests/test/
+
+      - name: Check Application Logs
+        if: failure()
+        run: |
+          cat NoodleStar/build/reports/tests/test/index.html || echo "No test report found"
