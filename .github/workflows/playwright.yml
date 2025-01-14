@@ -43,7 +43,7 @@ jobs:
 
       # Run Playwright tests
       - name: Run Playwright tests
-        run: npx playwright test
+        run: npx playwright test ./e2e
         working-directory: ./NoodleStar/noodlestar-frontend
 
       # Upload Playwright test report
