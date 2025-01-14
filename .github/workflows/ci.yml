@@ -1,4 +1,4 @@
-name: Ci
+name: CI
 
 on:
   push:
@@ -50,30 +50,26 @@ jobs:
         working-directory: ./NoodleStar
         run: chmod +x gradlew
 
-      # Debug environment variables at the workflow level
       - name: Debug Environment Variables
         run: |
           echo "AUTH0_CLIENT_ID=${AUTH0_CLIENT_ID}"
           echo "AUTH0_CLIENT_SECRET=${AUTH0_CLIENT_SECRET}"
 
-      # Run backend tests
       - name: Build and test backend
-        working-directory: ./Noodlestar
+        working-directory: ./NoodleStar
         run: |
           ./gradlew clean build \
             -Dauth0.clientId=${AUTH0_CLIENT_ID} \
             -Dauth0.clientSecret=${AUTH0_CLIENT_SECRET} \
             -
 
-      # Upload test reports for review
       - name: Upload Test Reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: test-reports
-          path: ./build/reports/tests/test/
+          path: ./NoodleStar/build/reports/tests/test/
 
-      # Debug spring application logs for troubleshooting
       - name: Check Application Logs
         if: failure()
         run: |
