@@ -12,6 +12,7 @@ import OrderSummary from "./pages/OrderSummaryPage.tsx";
 import EmailSentPage from "./pages/EmailSentPage.tsx";
 import CallbackPage from './pages/Callbackpage.tsx';
 import ProfilePage from './pages/ProfilePage.tsx';
+import ManageStaffPage from "./pages/ManageStaffPage.tsx";
 
 
 
@@ -68,6 +69,10 @@ const router = createBrowserRouter([
         path: PathRoutes.EmailSent,
         element: <EmailSentPage />,
     },
+    {
+        path: PathRoutes.ManageStaff,
+        element: <ManageStaffPage />,
+    }
 ]);
 
 export default router;

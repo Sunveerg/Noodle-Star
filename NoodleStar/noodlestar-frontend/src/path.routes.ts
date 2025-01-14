@@ -12,5 +12,6 @@ export enum PathRoutes {
     EmailSent = "orderSummary/emailSent",
     Login = "/login",
     Callback = "/callback",
-    Profile = "/profile"
+    Profile = "/profile",
+    ManageStaff = "/manageStaff"
 }
