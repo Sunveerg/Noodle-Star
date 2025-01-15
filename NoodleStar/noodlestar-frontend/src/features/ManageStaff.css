@@ -122,3 +122,17 @@
     bottom: 0;
     left: 30%;
 }
+
+.btn-delete-staff {
+    background-color: #ff4d4f;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-delete-staff:hover {
+    background-color: #d9363e;
+}
