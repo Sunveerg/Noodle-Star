@@ -36,8 +36,8 @@ jobs:
       - name: Run ESLint in batches
         run: |
           npx eslint src/components --ext ts,tsx --cache --report-unused-disable-directives --max-warnings 0
-          npx eslint src/utils --ext ts,tsx --cache --report-unused-disable-directives --max-warnings 0
           npx eslint src/pages --ext ts,tsx --cache --report-unused-disable-directives --max-warnings 0
+          npx eslint src/features --ext ts,tsx --cache --report-unused-disable-directives --max-warnings 0
         working-directory: ./NoodleStar/noodlestar-frontend
 
       # Step 5: Build the project
