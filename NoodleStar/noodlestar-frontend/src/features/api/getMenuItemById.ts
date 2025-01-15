@@ -1,4 +1,4 @@
-import { menuResponseModel } from '@/features/model/menuResponseModel.ts';
+import { menuResponseModel } from '@/features/model/menuResponseModel';
 
 export const getMenuItemById = async (
   menuId: string
