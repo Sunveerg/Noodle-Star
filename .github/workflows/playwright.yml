@@ -45,24 +45,24 @@ jobs:
       # Install dependencies for frontend
       - name: Install frontend dependencies
         run: npm ci
-        working-directory: ./NoodleStar/noodlestar-frontend
+        working-directory: ./noodlestar-frontend
 
       # Install Playwright browsers
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
-        working-directory: ./NoodleStar/noodlestar-frontend
+        working-directory: ./noodlestar-frontend
 
       # Run Playwright tests on Chrome only
       - name: Run Playwright tests on Chrome
         run: npx playwright test ./e2e --project=chromium
-        working-directory: ./NoodleStar/noodlestar-frontend
+        working-directory: ./noodlestar-frontend
 
       # Upload Playwright test report
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
           name: playwright-report
-          path: ./NoodleStar/noodlestar-frontend/playwright-report/
+          path: ./noodlestar-frontend/playwright-report/
           retention-days: 30
 
       # Stop and remove Docker containers

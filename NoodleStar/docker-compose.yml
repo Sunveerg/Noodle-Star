@@ -17,14 +17,14 @@ services:
     image: noodlestar-frontend
     container_name: noodlestar-frontend
     build:
-      context: ./noodlestar-frontend
+      context: ../noodlestar-frontend
       dockerfile: Dockerfile
       args:
         - BUILD_MODE=development
     ports:
       - "3000:3000"
     volumes:
-      - ./noodlestar-frontend/src:/app/src
+      - ../noodlestar-frontend/src:/app/src
 
 
   mongodb:
@@ -52,4 +52,3 @@ services:
       - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
     ports:
       - 8085:8081
-
