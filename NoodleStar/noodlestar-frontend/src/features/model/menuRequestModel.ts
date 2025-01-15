@@ -1,12 +1,11 @@
-import { Status } from "./Status";
+import { Status } from './Status';
 
 export interface menuRequestModel {
-    name: string;
-    description: string;
-    price: number;
-    category: string;
-    itemImage: string;
-  
-    status: Status;
-  }
-  
+  name: string;
+  description: string;
+  price: number;
+  category: string;
+  itemImage: string;
+
+  status: Status;
+}

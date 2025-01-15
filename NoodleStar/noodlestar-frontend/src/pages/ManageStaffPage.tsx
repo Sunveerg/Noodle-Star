@@ -1,12 +1,11 @@
-import React from 'react';
-import {NavBar} from "../components/NavBar";
-import ManageStaff from "../features/ManageStaff.tsx";
+import { NavBar } from '../components/NavBar';
+import ManageStaff from '../features/ManageStaff';
 
 export default function ManageStaffPage(): JSX.Element {
-    return (
-        <div>
-            <NavBar/>
-            <ManageStaff />
-        </div>
-    );
-};
+  return (
+    <div>
+      <NavBar />
+      <ManageStaff />
+    </div>
+  );
+}

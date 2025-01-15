@@ -1,7 +1,4 @@
-
-
 import { AxiosError } from 'axios';
-
 
 // map status codes to error pages
 const errorPageRedirects: Record<number, string> = {
@@ -22,7 +19,6 @@ export default function axiosErrorResponseHandler(
   if (redirectPath) {
     // log for easy debug
     console.error(`Redirecting to ${redirectPath} due to error:`, error);
-   
   } else {
     // log whatever that wasn't handled
     console.error('Unhandled error:', error, 'Status code:', statusCode);
