@@ -49,8 +49,9 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
   const handleAddToCart = (menuItem: menuResponseModel) => {
     setCartItems((prevCartItems: CartItem[]) => {
       const existingItem = prevCartItems.find(
-        item => item.menuId == menuItem.menuId
+        item => String(item.menuId) === String(menuItem.menuId)
       );
+
       let updatedCartItems;
       if (existingItem) {
         updatedCartItems = prevCartItems.map(item =>
