@@ -55,7 +55,7 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
       let updatedCartItems;
       if (existingItem) {
         updatedCartItems = prevCartItems.map(item =>
-          String(item.menuId) === String(menuItem.menuId) // Ensure both are strings
+          String(item.menuId) === String(menuItem.menuId)
             ? { ...item, quantity: item.quantity + 1 }
             : item
         ) as CartItem[];
