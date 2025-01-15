@@ -1,12 +1,11 @@
-import {NavBar} from "../components/NavBar";
-import Callback from "../features/Callback";
+import { NavBar } from '../components/NavBar';
+import Callback from '../features/Callback';
 
 export default function CallbackPage(): JSX.Element {
-    return (
-        <div>
-            <NavBar/>
-            <Callback />
-        </div>
-    );
-};
-
+  return (
+    <div>
+      <NavBar />
+      <Callback />
+    </div>
+  );
+}

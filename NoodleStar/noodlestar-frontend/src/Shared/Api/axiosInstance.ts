@@ -9,7 +9,9 @@ const createAxiosInstance = (): AxiosInstance => {
   console.log('Backend URL:', process.env.REACT_APP_BACKEND_URL);
 
   if (!baseURL) {
-    throw new Error("REACT_APP_BACKEND_URL is not defined in the environment variables!");
+    throw new Error(
+      'REACT_APP_BACKEND_URL is not defined in the environment variables!'
+    );
   }
 
   const instance = axios.create({
@@ -21,8 +23,8 @@ const createAxiosInstance = (): AxiosInstance => {
 
   // Add a response interceptor
   instance.interceptors.response.use(
-    (response) => response, // Pass through successful responses
-    (error) => {
+    response => response, // Pass through successful responses
+    error => {
       handleAxiosError(error); // Handle errors
       return Promise.reject(error); // Reject the error so it can be handled by callers
     }
