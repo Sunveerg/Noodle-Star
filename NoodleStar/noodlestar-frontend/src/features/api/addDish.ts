@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import { menuRequestModel } from '@/features/model/menuRequestModel.ts';
+import { menuRequestModel } from '@/features/model/menuRequestModel';
 import axiosInstance from '../../Shared/Api/axiosInstance';
 
 export const addDish = async (
