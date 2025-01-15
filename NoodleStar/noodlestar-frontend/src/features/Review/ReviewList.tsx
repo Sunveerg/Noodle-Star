@@ -30,7 +30,6 @@ const ReviewList: React.FC = (): JSX.Element => {
     );
   }, []);
 
-  // Function to generate star rating
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const generateStars = (rating: number) => {
     const stars = [];
