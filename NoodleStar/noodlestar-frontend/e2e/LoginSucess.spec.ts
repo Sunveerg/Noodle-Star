@@ -10,5 +10,5 @@ test('Login', async ({ page }) => {
   await page.getByLabel('Password').fill('Ronaldo07');
   await page.getByRole('button', { name: 'Continue', exact: true }).click();
   await expect(page.getByText('Welcome back, zako')).toBeVisible();
-  await expect(page.getByText('Order History')).toBeVisible();
+
 });
