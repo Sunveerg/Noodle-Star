@@ -13,10 +13,12 @@ jobs:
     strategy:
       matrix:
         node-version: [18.x, 20.x, 22.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
+      # Step 1: Check out the code
       - uses: actions/checkout@v4
+
+      # Step 2: Set up Node.js
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
@@ -24,14 +26,20 @@ jobs:
           cache: 'npm'
           cache-dependency-path: NoodleStar/noodlestar-frontend/package-lock.json
 
+      # Step 3: Install dependencies
       - name: Install dependencies
         run: npm install
         working-directory: ./NoodleStar/noodlestar-frontend
 
-      - name: Run npm lint to ensure frontend code is linted
-        run: node --max-old-space-size=4096 ./node_modules/.bin/eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0
+      # Step 4: Lint in batches to avoid memory issues
+      - name: Run ESLint in batches
+        run: |
+          npx eslint src/components --ext ts,tsx --cache --report-unused-disable-directives --max-warnings 0
+          npx eslint src/utils --ext ts,tsx --cache --report-unused-disable-directives --max-warnings 0
+          npx eslint src/pages --ext ts,tsx --cache --report-unused-disable-directives --max-warnings 0
         working-directory: ./NoodleStar/noodlestar-frontend
 
+      # Step 5: Build the project
       - name: Run build to ensure no build errors
         run: npm run build
         working-directory: ./NoodleStar/noodlestar-frontend
