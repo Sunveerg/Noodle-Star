@@ -1,5 +1,5 @@
 import { NavBar } from '../components/NavBar';
-import OrderSummary from '../features/OrderSummary.tsx';
+import OrderSummary from '../features/OrderSummary';
 
 export default function OrderSummaryPage(): JSX.Element {
   return (
