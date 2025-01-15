@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
@@ -17,7 +18,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceUnitTest {
@@ -150,6 +151,69 @@ class UserServiceUnitTest {
                 .verifyComplete();
     }
 
+    @Test
+    public void whenGetStaff_thenReturnStaffResponseModels() {
+        // Creating test data for staff users
+        User staffUser1 = User.builder()
+                .userId(UUID.randomUUID().toString())
+                .email("john.doe@example.com")
+                .firstName("John")
+                .lastName("Doe")
+                .roles(List.of("Staff"))
+                .permissions(List.of("read:staff"))
+                .build();
 
+        User staffUser2 = User.builder()
+                .userId(UUID.randomUUID().toString())
+                .email("jane.doe@example.com")
+                .firstName("Jane")
+                .lastName("Doe")
+                .roles(List.of("Staff"))
+                .permissions(List.of("read:staff"))
+                .build();
+
+        // Creating the expected response models
+        UserResponseModel staffResponseModel1 = UserResponseModel.builder()
+                .userId(staffUser1.getUserId())
+                .email(staffUser1.getEmail())
+                .firstName(staffUser1.getFirstName())
+                .lastName(staffUser1.getLastName())
+                .roles(staffUser1.getRoles())
+                .permissions(staffUser1.getPermissions())
+                .build();
+
+        UserResponseModel staffResponseModel2 = UserResponseModel.builder()
+                .userId(staffUser2.getUserId())
+                .email(staffUser2.getEmail())
+                .firstName(staffUser2.getFirstName())
+                .lastName(staffUser2.getLastName())
+                .roles(staffUser2.getRoles())
+                .permissions(staffUser2.getPermissions())
+                .build();
+
+        // Mocking the behavior of the repository to return staff users
+        when(userRepository.findAll()).thenReturn(Flux.just(staffUser1, staffUser2));
+
+        // Verifying the behavior of the service method
+        StepVerifier.create(userService.getStaff())
+                .expectNextMatches(response ->
+                        response.getUserId().equals(staffResponseModel1.getUserId()) &&
+                                response.getEmail().equals(staffResponseModel1.getEmail()) &&
+                                response.getFirstName().equals(staffResponseModel1.getFirstName()) &&
+                                response.getLastName().equals(staffResponseModel1.getLastName()) &&
+                                response.getRoles().equals(staffResponseModel1.getRoles()) &&
+                                response.getPermissions().equals(staffResponseModel1.getPermissions()))
+                .expectNextMatches(response ->
+                        response.getUserId().equals(staffResponseModel2.getUserId()) &&
+                                response.getEmail().equals(staffResponseModel2.getEmail()) &&
+                                response.getFirstName().equals(staffResponseModel2.getFirstName()) &&
+                                response.getLastName().equals(staffResponseModel2.getLastName()) &&
+                                response.getRoles().equals(staffResponseModel2.getRoles()) &&
+                                response.getPermissions().equals(staffResponseModel2.getPermissions()))
+                .verifyComplete();
+
+        // Verifying the repository method call
+        verify(userRepository, times(1)).findAll();
+    }
 
 }
