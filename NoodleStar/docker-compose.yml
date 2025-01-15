@@ -52,4 +52,3 @@ services:
       - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
     ports:
       - 8085:8081
-
