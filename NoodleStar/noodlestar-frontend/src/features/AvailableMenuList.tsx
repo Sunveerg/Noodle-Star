@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { menuResponseModel } from "./model/menuResponseModel";
-import noodleImg from "../components/assets/noodle.png";
-import styles from "../components/css/AboutUs.module.css";
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+import React, { useEffect, useState } from 'react';
+import { menuResponseModel } from './model/menuResponseModel';
+import noodleImg from '../components/assets/noodle.png';
+import styles from '../components/css/AboutUs.module.css';
 
 import './AvailableMenu.css';
 import { createOrder } from '../features/api/createOrder';
