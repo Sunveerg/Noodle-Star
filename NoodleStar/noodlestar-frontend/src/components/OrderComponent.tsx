@@ -12,18 +12,22 @@ const OrderComponent: React.FC = () => {
   });
 
   const handleCreateOrder = async () => {
-    // Assuming newOrder.orderDetails is an array of OrderDetailsRequestModel
     setNewOrder(prev => ({
       ...prev,
       orderDetails: [
-        { menuId: 'someMenuId', quantity: 2 }, // Adjust to use menuId instead of productId
+        { menuId: 'someMenuId', quantity: 2 },
         ...prev.orderDetails,
       ],
     }));
 
     try {
       const response = await createOrder(newOrder);
-      setOrders([...orders, response.data]);
+
+      if (response.data) {
+        setOrders([...orders, response.data]);
+      } else {
+        console.error('Order creation failed, no data received');
+      }
     } catch (error) {
       console.error('Failed to create order:', error);
     }
