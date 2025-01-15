@@ -98,6 +98,7 @@ const Profile: React.FC = () => {
       } finally {
         setLoading(false);
       }
+    };
 
     fetchUserInfo();
   }, []);
