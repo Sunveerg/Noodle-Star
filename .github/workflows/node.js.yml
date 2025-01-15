@@ -1,6 +1,3 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-
 name: Node.js CI
 
 on:
@@ -26,13 +23,15 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
           cache-dependency-path: NoodleStar/noodlestar-frontend/package-lock.json
+
       - name: Install dependencies
         run: npm install
         working-directory: ./NoodleStar/noodlestar-frontend
+
       - name: Run npm lint to ensure frontend code is linted
-        run: npm run lint
+        run: node --max-old-space-size=4096 ./node_modules/.bin/eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0
         working-directory: ./NoodleStar/noodlestar-frontend
+
       - name: Run build to ensure no build errors
         run: npm run build
         working-directory: ./NoodleStar/noodlestar-frontend
-
