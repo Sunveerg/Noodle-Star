@@ -43,7 +43,11 @@ const ManageStaff: React.FC = (): JSX.Element => {
       const staffData: StaffResponseModel[] = await response.json();
       return staffData;
     } catch (err) {
-      setError(err.message || 'Error fetching staff data');
+      if (err instanceof Error) {
+        setError(err.message || 'Error fetching staff data');
+      } else {
+        setError('An unknown error occurred');
+      }
       return [];
     }
   };
