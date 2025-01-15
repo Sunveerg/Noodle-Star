@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable no-console */
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -6,8 +8,8 @@ import { getAllmenu } from './api/getAllMenu';
 import noodleImg from '../components/assets/noodle.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Menu.css';
-import AddDish from '../components/AddDish.tsx';
-import { deleteMenuItem } from './api/deleteMenuItem.ts';
+import AddDish from '../components/AddDish';
+import { deleteMenuItem } from './api/deleteMenuItem';
 
 const MenuList: React.FC = (): JSX.Element => {
   const [menuItems, setMenuItems] = useState<menuResponseModel[]>([]);

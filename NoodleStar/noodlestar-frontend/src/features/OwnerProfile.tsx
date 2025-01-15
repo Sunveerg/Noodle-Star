@@ -4,11 +4,13 @@ import './Profile.css';
 import noodleImg from '../components/assets/noodle.png';
 
 const OwnerProfile: React.FC = () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [userData, setUserData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>('');
   const loginCalledRef = useRef(false); // Track if login has already been called
 
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const handleUserLogin = async (userId: string, accessToken: string) => {
     try {
       if (loginCalledRef.current) {
@@ -16,7 +18,9 @@ const OwnerProfile: React.FC = () => {
       }
       loginCalledRef.current = true; // Mark login as called
       const encodedUserId = encodeURIComponent(userId).replace(/\|/g, '%7C');
+      // eslint-disable-next-line no-console
       console.log('Access Token:', accessToken);
+      // eslint-disable-next-line no-console
       console.log('User ID:', encodedUserId);
 
       const response = await axiosInstance.post(
@@ -29,7 +33,9 @@ const OwnerProfile: React.FC = () => {
           },
         }
       );
+      // eslint-disable-next-line no-console
       console.log('Response data:', response.data);
+      // eslint-disable-next-line no-console
       console.log('User successfully logged in:', response.data);
     } catch (error) {
       console.error('Error during user login:', error);
@@ -37,6 +43,7 @@ const OwnerProfile: React.FC = () => {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     const fetchUserInfo = async () => {
       const accessToken = localStorage.getItem('access_token');
       if (!accessToken) {
@@ -61,6 +68,7 @@ const OwnerProfile: React.FC = () => {
         }
 
         const userInfo = await response.json();
+        // eslint-disable-next-line no-console
         console.log('User Info:', userInfo);
         setUserData(userInfo);
         handleUserLogin(userInfo.sub, accessToken); // Only called once due to flag

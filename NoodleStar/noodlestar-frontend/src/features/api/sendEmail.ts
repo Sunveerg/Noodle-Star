@@ -1,4 +1,4 @@
-import axiosInstance from '../../Shared/Api/axiosInstance.ts';
+import axiosInstance from '../../Shared/Api/axiosInstance';
 
 export const sendEmail = async (
   to: string,
@@ -10,6 +10,7 @@ export const sendEmail = async (
       params: { to, subject, body },
     });
     return response.data;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error('Failed to send email:', error);
     if (error.response) {

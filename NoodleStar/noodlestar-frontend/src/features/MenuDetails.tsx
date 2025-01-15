@@ -20,6 +20,7 @@ const MenuDetails: React.FC = (): JSX.Element => {
         setLoading(true);
         const response = await getMenuItemById(menuId);
         setMenuItem(response);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
         setError(err.message || 'Failed to fetch menu item');
       } finally {
