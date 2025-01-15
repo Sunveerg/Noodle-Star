@@ -1,9 +1,7 @@
-/* eslint-disable no-console */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-import React, { useEffect, useState } from 'react';
-import { menuResponseModel } from './model/menuResponseModel';
-import noodleImg from '../components/assets/noodle.png';
-import styles from '../components/css/AboutUs.module.css';
+import React, { useEffect, useState } from "react";
+import { menuResponseModel } from "./model/menuResponseModel";
+import noodleImg from "../components/assets/noodle.png";
+import styles from "../components/css/AboutUs.module.css";
 
 import './AvailableMenu.css';
 import { createOrder } from '../features/api/createOrder';
@@ -55,7 +53,7 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
       let updatedCartItems;
       if (existingItem) {
         updatedCartItems = prevCartItems.map(item =>
-          String(item.menuId) === String(menuItem.menuId)
+          String(item.menuId) === String(menuItem.menuId) // Ensure both are strings
             ? { ...item, quantity: item.quantity + 1 }
             : item
         ) as CartItem[];
