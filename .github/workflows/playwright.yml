@@ -22,7 +22,7 @@ jobs:
       # Install dependencies
       - name: Install dependencies for server
         run: npm install
-        working-directory: ./
+        working-directory: ./NoodleStar
 
       # Start Node.js server
       - name: Start Node.js server
