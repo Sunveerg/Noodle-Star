@@ -86,7 +86,7 @@ const Profile: React.FC = () => {
         const userInfo = await response.json();
         setUserData(userInfo);
         handleUserLogin(userInfo.sub, accessToken);
-      } catch (err) {
+      } catch (err: unknown) {
         if (err instanceof Error) {
           setError(`Error fetching user info: ${err.message}`);
           console.error('Error fetching user info:', err);
