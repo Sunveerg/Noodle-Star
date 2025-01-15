@@ -1,3 +1,6 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
 name: Node.js CI
 
 on:
@@ -9,50 +12,27 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
 
     strategy:
       matrix:
         node-version: [18.x, 20.x, 22.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
       - uses: actions/checkout@v4
-
-      # Use Node.js
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-          cache-dependency-path: './noodlestar-frontend/package-lock.json'
-
-      # Debug the package-lock.json path
-      - name: Debug package-lock.json path
-        run: ls -l ./noodlestar-frontend
-
-      # Install Docker Compose
-      - name: Install Docker Compose
-        run: sudo apt-get update && sudo apt-get install -y docker-compose
-
-      # Build Docker containers
-      - name: Build Docker containers
-        run: docker-compose -f ./NoodleStar/docker-compose.yml build
-
-      # Start Docker containers
-      - name: Start Docker containers
-        run: docker-compose -f ./NoodleStar/docker-compose.yml up -d
-
-      # Install dependencies using npm ci
+          cache-dependency-path: NoodleStar/noodlestar-frontend/package-lock.json
       - name: Install dependencies
-        run: npm ci
-        working-directory: ./noodlestar-frontend
-
-      # Run npm lint to ensure frontend code is linted
+        run: npm install
+        working-directory: ./NoodleStar/noodlestar-frontend
       - name: Run npm lint to ensure frontend code is linted
         run: npm run lint
-        working-directory: ./noodlestar-frontend
-
-      # Run build to ensure no build errors
+        working-directory: ./NoodleStar/noodlestar-frontend
       - name: Run build to ensure no build errors
         run: npm run build
-        working-directory: ./noodlestar-frontend
+        working-directory: ./NoodleStar/noodlestar-frontend
+
