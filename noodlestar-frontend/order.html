@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Top Clothing</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+  <body>
+    <div id="order-details">
+      <div class="container">
+        <div class="input-forms">
+          <div class="address-details">
+            <h1>Noodle Star</h1>
+            <p>11 Madison Ave, New York, NY 10010</p>
+            <p>+1 (650) 5555555</p>
+            <p id="address-label">Enter your address below</p>
+          </div>
+          <form onsubmit="return false">
+            <div class="address-wrap"> 
+              <input type="text" placeholder="Street" id="street" name="street" required />
+              <input type="text" placeholder="City" id="city" name="city" required/>
+              <input
+                type="text"
+                placeholder="Zipcode"
+                id="zipcode"
+                name="zipcode"
+                required
+              />
+            </div>
+            <div class="customer-info">
+              <p>Contact Details</p>
+              <input
+                type="text"
+                placeholder="First Name"
+                id="name"
+                name="dropoff_contact_given_name"
+                required
+              />
+              <input
+                type="text"
+                placeholder="Last Name"
+                id="lastname"
+                name="dropoff_contact_family_name"
+                required
+              />
+              <input
+                type="text"
+                placeholder="Phone Number"
+                id="phonenumber"
+                name="dropoff_phone_number"
+                type="number"
+                required
+              />
+            </div>
+          </form>
+        </div>
+
+        <!-- Container for dynamic menu items -->
+        <div class="menu-items" id="menu-items-container">
+          <h2>Menu Items</h2>
+          <input
+          type="checkbox"
+          name="items"
+          value="9900"
+        />
+          <!-- Menu items will be dynamically added here -->
+        </div>
+
+        <div class="payment">
+          <div>
+            <h2>Payment Summary</h2>
+            <table>
+              <tbody>
+                <tr>
+                  <th>Subtotal:</th>
+                  <td id="price">$0.00</td>
+                </tr>
+                <tr>
+                  <th>Delivery Fee:</th>
+                  <td id="fee">$0.00</td>
+                </tr>
+                <tr>
+                  <th>Order Total:</th>
+                  <td id="total">$0.00</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="btns">
+            <button id="orderBtn" onclick="createDelivery()">
+              Place Order
+            </button>
+
+            <button id="backBtn" onclick="goBack()" style="background-color: black; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+              Back
+            </button>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="order.js"></script>
+    <script src="delivery.js"></script>
+    <script>
+      function goBack() {
+        window.location.href = 'http://localhost:3000/home';
+      }
+    </script>
+  </body>
+</html>

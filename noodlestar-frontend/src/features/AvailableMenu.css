@@ -1,0 +1,278 @@
+/* General Styles */
+.orderPage {
+  background-color: rgba(166, 0, 7, 1);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow: hidden;
+  padding-bottom: 67px;
+  margin-left: 5%;
+  justify-content: flex-start; /* Allow for content to grow upwards */
+  font-family: 'Inter', 'Abhaya Libre', sans-serif;
+}
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  padding: 0 20px;
+  flex-grow: 1; /* Allow it to expand if necessary */
+}
+
+.mainContent {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.navBackground {
+  background-color: rgba(83, 9, 9, 1);
+  padding: 22px 70px 14px;
+}
+
+.navContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1203px;
+  margin: 0 auto;
+  gap: 20px;
+}
+
+.logo {
+  font: 400 36px 'Baloo Bhaijaan', sans-serif;
+  color: #fff;
+}
+
+.navLinks {
+  display: flex;
+  gap: 60px;
+  color: rgba(201, 160, 22, 1);
+  font: 500 20px Inter, sans-serif;
+}
+
+.navLink {
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  padding: 0;
+}
+
+.btnAdd{
+  padding-left: 4%;
+}
+
+/* Header Section */
+.titleSectionO .pageTitleO {
+  font-size: 50px;
+  font-family: 'Abhaya Libre', serif;
+  font-weight: 700;
+  line-height: 1.2;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  color: rgba(255, 193, 101, 1);
+  padidng-top: 7%;
+}
+
+.headerIcon {
+  width: 60px;
+  height: auto;
+}
+
+/* Menu Grid */
+.menuGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 40px;
+  width: 100%;
+}
+
+/* Menu Card */
+.menuCard {
+  background-color: rgba(255, 197, 97, 1);
+  border-radius: 15px;
+  padding: 15px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.addButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e86a12;
+  border: none;
+  border-radius: 13px 0 0 0;
+  color: #fff;
+  font: 800 13px Mulish, sans-serif;
+  padding: 10px 15px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  cursor: pointer;
+}
+
+.addIcon {
+  width: 18px;
+  height: 18px;
+}
+
+.addButton:hover {
+  background-color: #d05b10;
+}
+
+.cardContent {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.dish-image {
+  flex: 0 0 100px;
+  height: 100px;
+}
+
+.dishImage {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.cardDetails {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.dishTitle {
+  font: 700 20px 'Mulish', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #000;
+  margin-bottom: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dishDescription {
+  color: rgba(118, 109, 109, 1);
+  font: 400 14px/1.5 'Mulish', sans-serif;
+  margin-bottom: 10px;
+}
+
+.price {
+  font: 700 16px 'Mulish', sans-serif;
+  color: #000;
+  margin-bottom: 10px;
+}
+
+
+.orderDetailsBox {
+  background-color: rgba(128, 0, 0, 1);
+  color: rgba(255, 193, 101, 1);
+  padding: 15px;
+  border-radius: 10px;
+  max-width: 300px;
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  width: 100%;
+  min-height: 300px; /* Allow it to grow based on content */
+  max-height: 80vh; /* Optional: Set a maximum height relative to the viewport */
+  overflow-y: auto; /* Allow vertical scrolling if content exceeds max-height */
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+}
+
+
+.productDetails {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.productLabel,
+.totalLabel {
+  font: 500 14px Inter, sans-serif;
+}
+
+.totalDetails {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.checkoutButton {
+  width: 100%;
+  padding: 10px;
+  background-color: #e86a12;
+  border: none;
+  border-radius: 5px;
+  font: 700 16px/1 'Mulish', sans-serif;
+  color: #fff;
+  cursor: pointer;
+}
+
+.checkoutButton:hover {
+  background-color: #d05b10;
+}
+
+.no-items {
+  color: #fff;
+  font-size: 18px;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.clearAllButton {
+  width: 100%;
+  padding: 10px;
+  background-color: rgba(201, 0, 0, 1);
+  border: none;
+  border-radius: 5px;
+  font: 700 16px/1 'Mulish', sans-serif;
+  color: #fff;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.clearAllButton:hover {
+  background-color: rgba(166, 0, 0, 1);
+}
+
+.removeButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e63946;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 5px 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-left: 8px;
+}
+
+.removeButton:hover {
+  background-color: #d62828;
+  transform: scale(1.05);
+}
+
+.removeButton:disabled {
+  background-color: #c4c4c4;
+  cursor: not-allowed;
+  transform: none;
+}
