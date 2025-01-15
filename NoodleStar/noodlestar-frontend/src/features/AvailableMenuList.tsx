@@ -85,20 +85,16 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
 
   const handleRemoveFromCart = (menuId: string) => {
     setCartItems(prevCartItems => {
-      const updatedCartItems = { ...prevCartItems };
-      const itemToUpdate = updatedCartItems[menuId];
+      const updatedCartItems = prevCartItems.filter(
+        item => item.menuId !== menuId
+      );
 
-      if (itemToUpdate) {
-        if (itemToUpdate.quantity > 1) {
-          updatedCartItems[menuId] = {
-            ...itemToUpdate,
-            quantity: itemToUpdate.quantity - 1,
-          };
-          setTotalPrice(prevTotal => prevTotal - itemToUpdate.price);
-        } else {
-          setTotalPrice(prevTotal => prevTotal - itemToUpdate.price);
-          delete updatedCartItems[menuId];
-        }
+      // Recalculate the total price after removing the item
+      const removedItem = prevCartItems.find(item => item.menuId === menuId);
+      if (removedItem) {
+        setTotalPrice(
+          prevTotal => prevTotal - removedItem.price * removedItem.quantity
+        );
       }
 
       return updatedCartItems;
