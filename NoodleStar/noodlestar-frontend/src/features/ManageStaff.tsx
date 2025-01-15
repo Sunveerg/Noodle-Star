@@ -46,6 +46,43 @@ const ManageStaff: React.FC = (): JSX.Element => {
         }
     };
 
+    const handleDeleteStaff = async (userId: string) => {
+        if (!window.confirm("Are you sure you want to delete this staff member?")) {
+            return;
+        }
+
+        try {
+            const accessToken = localStorage.getItem("access_token");
+            if (!accessToken) {
+                setError("No access token found");
+                return;
+            }
+
+            const response = await fetch(`http://localhost:8080/api/v1/users/staff/${userId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+
+            if (!response.ok) {
+                if (response.status === 401) {
+                    setError("Unauthorized access. Please log in again.");
+                } else {
+                    setError("Failed to delete staff member.");
+                }
+                return;
+            }
+
+            setStaffUsers((prevStaff) => prevStaff.filter((staff) => staff.userId !== userId));
+            alert("Staff member deleted successfully.");
+        } catch (err: any) {
+            setError(err.message || "Error deleting staff member.");
+            console.error("Error deleting staff member:", err);
+        }
+    };
+
     useEffect(() => {
         const fetchUserInfo = async () => {
             const accessToken = localStorage.getItem("access_token");
@@ -106,10 +143,6 @@ const ManageStaff: React.FC = (): JSX.Element => {
         return <div className="error-message">{error}</div>;
     }
 
-    if (staffUsers.length === 0) {
-        return <div className="empty-message">No staff users found.</div>;
-    }
-
     return (
         <div className="manage-staff-container">
             <h2 className="staff-list-title">Manage Staff</h2>
@@ -124,21 +157,45 @@ const ManageStaff: React.FC = (): JSX.Element => {
             )}
 
             <div className="staff-list">
-                {staffUsers.map((user) => (
-                    <div key={user.userId} className="staff-item">
-                        <img
-                            src={`https://ui-avatars.com/api/?name=${user.firstName}+${user.lastName}`}
-                            alt={`${user.firstName} ${user.lastName}`}
-                            className="staff-avatar"
-                        />
-                        <div className="staff-info">
-                            <h3>{user.firstName} {user.lastName}</h3>
-                            <p><strong>Email:</strong> {user.email}</p>
-                            <p><strong>Roles:</strong> {user.roles ? user.roles.join(', ') : 'No roles assigned'}</p>
-                            <p><strong>Permissions:</strong> {user.permissions ? user.permissions.join(', ') : 'No permissions assigned'}</p>
+                {staffUsers.length === 0 ? (
+                    <div className="empty-message">No staff users found.</div>
+                ) : (
+                    staffUsers.map((user) => (
+                        <div key={user.userId} className="staff-item">
+                            <img
+                                src={`https://ui-avatars.com/api/?name=${user.firstName}+${user.lastName}`}
+                                alt={`${user.firstName} ${user.lastName}`}
+                                className="staff-avatar"
+                            />
+                            <div className="staff-info">
+                                <h3>
+                                    {user.firstName} {user.lastName}
+                                </h3>
+                                <p>
+                                    <strong>Email:</strong> {user.email}
+                                </p>
+                                <p>
+                                    <strong>Roles:</strong>{' '}
+                                    {user.roles ? user.roles.join(', ') : 'No roles assigned'}
+                                </p>
+                                <p>
+                                    <strong>Permissions:</strong>{' '}
+                                    {user.permissions ? user.permissions.join(', ') : 'No permissions assigned'}
+                                </p>
+                            </div>
+                            {isOwner && (
+                                <div className="staff-actions">
+                                    <button
+                                        className="btn-delete-staff"
+                                        onClick={() => handleDeleteStaff(user.userId)}
+                                    >
+                                        Delete
+                                    </button>
+                                </div>
+                            )}
                         </div>
-                    </div>
-                ))}
+                    ))
+                )}
             </div>
         </div>
     );
