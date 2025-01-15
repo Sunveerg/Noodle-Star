@@ -22,6 +22,9 @@ const OrderSummary: React.FC = (): JSX.Element => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
     orderId = 'orderId2',
   } = location.state || {};
+  // eslint-disable-next-line no-console
+  console.log(orderId); // Just for demonstration; you can replace this with actual usage.
+
   const taxes = totalPrice * TAX_RATE;
   const grandTotal = totalPrice + taxes;
   const navigate = useNavigate();
