@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import { reviewRequestModel } from '../../model/reviewRequestModel.ts';
+import { reviewRequestModel } from '../../model/reviewRequestModel';
 import axiosInstance from '../../../Shared/Api/axiosInstance';
 
 export const addReview = async (
