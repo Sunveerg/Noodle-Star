@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-/* eslint-disable no-console */
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { menuResponseModel } from './model/menuResponseModel';
