@@ -9,11 +9,11 @@ import './ManageStaff.css';
 
 const ManageStaff: React.FC = (): JSX.Element => {
   const [staffUsers, setStaffUsers] = useState<StaffResponseModel[]>([]);
-  const [userData, setUserData] = useState<any>(null);
+  const [, setUserData] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [isOwner, setIsOwner] = useState<boolean>(false);
-  const [isCustomer, setIsCustomer] = useState<boolean>(false);
+  const [, setIsCustomer] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const getStaff = async (): Promise<StaffResponseModel[]> => {
