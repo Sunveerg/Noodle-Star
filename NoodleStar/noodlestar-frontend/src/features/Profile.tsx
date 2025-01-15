@@ -87,10 +87,10 @@ const Profile: React.FC = () => {
         setUserData(userInfo);
         handleUserLogin(userInfo.sub, accessToken);
       } catch (err: unknown) {
-        if (err instanceof Error) {
-          // Now `err` is treated as an `Error` object
-          setError(`Error fetching user info: ${err.message}`);
-          console.error('Error fetching user info:', err);
+        if (err && typeof err === 'object' && 'message' in err) {
+          const error = err as { message: string };
+          setError(`Error fetching user info: ${error.message}`);
+          console.error('Error fetching user info:', error);
         } else {
           setError('An unknown error occurred');
           console.error('An unknown error occurred:', err);

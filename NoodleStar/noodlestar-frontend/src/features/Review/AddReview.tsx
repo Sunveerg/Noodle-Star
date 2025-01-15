@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { FormEvent, JSX, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { addReview } from '../api/Review/addReview.ts';
-import { reviewRequestModel } from '../model/reviewRequestModel.ts';
+import { addReview } from '../api/Review/addReview';
+import { reviewRequestModel } from '../model/reviewRequestModel';
 import '../../components/css/AddReview.css';
 
 interface ApiError {

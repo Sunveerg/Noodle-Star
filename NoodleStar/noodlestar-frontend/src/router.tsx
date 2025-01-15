@@ -5,14 +5,14 @@ import AboutUsPage from './pages/AboutUsPage';
 import MenuPage from './pages/MenuPage';
 import MenuDetails from './pages/MenuDetailsPage';
 import MenuOrderPage from './pages/MenuOrderPage';
-import UpdateMenu from './features/UpdateMenu.tsx';
-import ReviewPage from './pages/ReviewPage.tsx';
-import AddReview from './features/Review/AddReview.tsx';
-import OrderSummary from './pages/OrderSummaryPage.tsx';
-import EmailSentPage from './pages/EmailSentPage.tsx';
-import CallbackPage from './pages/Callbackpage.tsx';
-import ProfilePage from './pages/ProfilePage.tsx';
-import ManageStaffPage from './pages/ManageStaffPage.tsx';
+import UpdateMenu from './features/UpdateMenu';
+import ReviewPage from './pages/ReviewPage';
+import AddReview from './features/Review/AddReview';
+import OrderSummary from './pages/OrderSummaryPage';
+import EmailSentPage from './pages/EmailSentPage';
+import CallbackPage from './pages/Callbackpage';
+import ProfilePage from './pages/ProfilePage';
+import ManageStaffPage from './pages/ManageStaffPage';
 
 const router = createBrowserRouter([
   {
