@@ -35,13 +35,12 @@ const OrderSummary: React.FC = (): JSX.Element => {
   const handlePickupClick = async () => {
     navigate(`emailSent`);
 
-    // Build the list of ordered items with <br> for line breaks
     const orderedItems = cartItems
       .map(
-        item =>
+        (item: CartItem) =>
           `${item.name} x${item.quantity} - $${(item.price * item.quantity).toFixed(2)}`
       )
-      .join('<br>'); // Join items with <br> instead of newlines
+      .join('<br>');
 
     const hardcodedEmail = {
       to: 'sunveerghum@hotmail.com',
