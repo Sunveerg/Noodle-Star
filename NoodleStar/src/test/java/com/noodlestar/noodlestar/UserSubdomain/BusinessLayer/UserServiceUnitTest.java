@@ -4,6 +4,7 @@ import com.noodlestar.noodlestar.UserSubdomain.DataLayer.User;
 import com.noodlestar.noodlestar.UserSubdomain.DataLayer.UserRepository;
 import com.noodlestar.noodlestar.UserSubdomain.PresentationLayer.UserResponseModel;
 import com.noodlestar.noodlestar.auth0.Auth0Service;
+import com.noodlestar.noodlestar.utils.exceptions.NotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -214,6 +215,53 @@ class UserServiceUnitTest {
 
         // Verifying the repository method call
         verify(userRepository, times(1)).findAll();
+    }
+    @Test
+    public void whenDeleteStaff_thenDeleteStaff() {
+        // Arrange
+        String userId = UUID.randomUUID().toString();
+
+        User staffUser = User.builder()
+                .userId(userId)
+                .email("s")
+                .firstName("John")
+                .lastName("Doe")
+                .roles(List.of("Staff"))
+                .permissions(List.of("read:staff"))
+                .build();
+
+        when(userRepository.findByUserId(userId)).thenReturn(Mono.just(staffUser));
+        when(userRepository.delete(staffUser)).thenReturn(Mono.empty());
+
+        // Act
+        Mono<Void> result = userService.deleteStaff(userId);
+
+        // Assert
+        result.subscribe();
+
+        // Verify
+        verify(userRepository, times(1)).findByUserId(userId);
+        verify(userRepository, times(1)).delete(staffUser);
+
+        StepVerifier.create(result)
+                .verifyComplete();
+    }
+
+    @Test
+    public void whenDeleteStaffNotFound_thenThrowException() {
+        // Arrange
+        String userId = UUID.randomUUID().toString();
+
+        when(userRepository.findByUserId(userId)).thenReturn(Mono.empty());
+
+        // Act & Assert
+        StepVerifier.create(userService.deleteStaff(userId))
+                .expectError(NotFoundException.class)
+                .verify();
+
+        // Verify
+        verify(userRepository, times(1)).findByUserId(userId);
+        verify(userRepository, times(0)).delete(any());
     }
 
 }

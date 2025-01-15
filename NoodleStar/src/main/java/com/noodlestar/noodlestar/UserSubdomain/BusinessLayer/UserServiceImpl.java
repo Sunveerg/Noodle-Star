@@ -9,7 +9,9 @@ import com.noodlestar.noodlestar.utils.EntityDTOUtil;
 import com.noodlestar.noodlestar.utils.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -103,6 +105,15 @@ public class UserServiceImpl implements UserService {
                 .map(EntityDTOUtil::toUserResponseModel)
                 .doOnNext(user -> log.info("Fetched Staff from Database: {}", user))
                 .doOnError(error -> log.error("Error fetching staff: {}", error.getMessage()));
+    }
+
+    public Mono<Void> deleteStaff(String userId) {
+        return userRepository.findByUserId(userId)
+                .filter(user -> user.getRoles() != null && user.getRoles().contains("Staff"))
+                .switchIfEmpty(Mono.error(new NotFoundException("Staff member not found or not a valid staff")))
+                .flatMap(user -> userRepository.delete(user))
+                .doOnSuccess(unused -> log.info("Staff member with ID {} deleted successfully", userId))
+                .doOnError(error -> log.error("Error deleting staff member: {}", error.getMessage()));
     }
 
 }

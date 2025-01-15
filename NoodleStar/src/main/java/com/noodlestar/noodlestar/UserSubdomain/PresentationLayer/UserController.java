@@ -2,8 +2,10 @@ package com.noodlestar.noodlestar.UserSubdomain.PresentationLayer;
 
 
 import com.noodlestar.noodlestar.UserSubdomain.BusinessLayer.UserService;
+import com.noodlestar.noodlestar.utils.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -40,6 +42,13 @@ public class UserController {
     @GetMapping("/staff")
     public Flux<UserResponseModel> getStaff() {
         return userService.getStaff();
+    }
+
+    @DeleteMapping("/staff/{userId}")
+    public Mono<ResponseEntity<Void>> deleteStaff(@PathVariable String userId) {
+        return userService.deleteStaff(userId)
+                .then(Mono.just(new ResponseEntity<Void>(HttpStatus.NO_CONTENT)))
+                .onErrorResume(NotFoundException.class, e -> Mono.just(new ResponseEntity<Void>(HttpStatus.NOT_FOUND)));
     }
 
 }

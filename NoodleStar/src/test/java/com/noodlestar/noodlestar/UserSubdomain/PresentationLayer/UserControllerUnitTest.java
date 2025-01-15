@@ -1,6 +1,7 @@
 package com.noodlestar.noodlestar.UserSubdomain.PresentationLayer;
 
 import com.noodlestar.noodlestar.UserSubdomain.BusinessLayer.UserService;
+import com.noodlestar.noodlestar.utils.exceptions.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -186,6 +187,41 @@ class UserControllerUnitTest {
                 .contains(user1, user2);
 
         verify(userService, times(1)).getStaff();
+    }
+
+    @Test
+    void deleteStaff() {
+        String userId = "test-user-id";
+
+        when(userService.deleteStaff(userId)).thenReturn(Mono.empty());
+
+        // Perform the actual test using WebTestClient
+        webTestClient.delete()
+                .uri("/api/v1/users/staff/{userId}", userId)
+                .exchange()
+                .expectStatus().isNoContent()
+                .expectBody().isEmpty();
+
+        // Verify that the userService method was called once
+        verify(userService, times(1)).deleteStaff(userId);
+    }
+
+    @Test
+    void deleteStaffNotFound() {
+        String userId = "nonexistent-user-id";
+
+        when(userService.deleteStaff(userId))
+                .thenReturn(Mono.error(new NotFoundException("User not found")));
+
+        // Perform the actual test using WebTestClient
+        webTestClient.delete()
+                .uri("/api/v1/users/staff/{userId}", userId)
+                .exchange()
+                .expectStatus().isNotFound()
+                .expectBody().isEmpty();
+
+        // Verify that the userService method was called once
+        verify(userService, times(1)).deleteStaff(userId);
     }
 
 }
