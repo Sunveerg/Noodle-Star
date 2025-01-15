@@ -1,6 +1,6 @@
-import { Auth0Provider } from "@auth0/auth0-react";
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Auth0Provider } from '@auth0/auth0-react';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const Auth0ProviderWithNavigate = ({ children }) => {
   const navigate = useNavigate();
@@ -10,7 +10,7 @@ export const Auth0ProviderWithNavigate = ({ children }) => {
   const redirectUri = process.env.REACT_APP_AUTH0_CALLBACK_URL;
   const audience = process.env.REACT_APP_AUTH0_AUDIENCE;
 
-  const onRedirectCallback = (appState) => {
+  const onRedirectCallback = appState => {
     navigate(appState?.returnTo || window.location.pathname);
   };
 
