@@ -63,7 +63,7 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
         updatedCartItems = [
           ...prevCartItems,
           {
-            menuId: menuItem.menuId,
+            menuId: String(menuItem.menuId), // Convert number to string
             name: menuItem.name,
             price: menuItem.price,
             quantity: 1,
