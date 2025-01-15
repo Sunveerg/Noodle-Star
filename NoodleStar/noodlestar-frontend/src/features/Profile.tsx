@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
 import axiosInstance from '../Shared/Api/axiosInstance';
 import './Profile.css';
 import noodleImg from '../components/assets/noodle.png';
@@ -7,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import styles from '../components/css/HomePage.module.css';
 
 const Profile: React.FC = () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [userData, setUserData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>('');
@@ -16,16 +16,17 @@ const Profile: React.FC = () => {
   const loginCalledRef = useRef(false);
   const navigate = useNavigate();
 
-  const { getAccessTokenSilently } = useAuth0();
-
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const handleReviewClick = () => {
     navigate('/review');
   };
 
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const handleManageStaffClick = () => {
     navigate('/manageStaff');
   };
 
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const handleUserLogin = async (userId: string, accessToken: string) => {
     try {
       if (loginCalledRef.current) {
@@ -50,6 +51,7 @@ const Profile: React.FC = () => {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     const fetchUserInfo = async () => {
       const accessToken = localStorage.getItem('access_token');
       if (!accessToken) {

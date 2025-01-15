@@ -1,27 +1,14 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React from 'react';
 import styles from './css/HomePage.module.css';
 import dragonImg from './assets/dragon.png';
 import { useNavigate } from 'react-router-dom';
-import { useAuth0 } from '@auth0/auth0-react';
 
 export const Home: React.FC = () => {
   const navigate = useNavigate();
 
   const handleClick = () => {
     navigate('/menuOrder');
-  };
-
-  const { loginWithRedirect } = useAuth0();
-
-  const handleLogin = async () => {
-    await loginWithRedirect({
-      appState: {
-        returnTo: '/profile',
-      },
-      authorizationParams: {
-        prompt: 'login',
-      },
-    });
   };
 
   return (

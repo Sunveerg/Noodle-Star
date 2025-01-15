@@ -6,6 +6,7 @@ axios.defaults.withCredentials = true;
 const createAxiosInstance = (): AxiosInstance => {
   // Read the base URL from the environment variables
   const baseURL = process.env.REACT_APP_BACKEND_URL;
+  // eslint-disable-next-line no-console
   console.log('Backend URL:', process.env.REACT_APP_BACKEND_URL);
 
   if (!baseURL) {

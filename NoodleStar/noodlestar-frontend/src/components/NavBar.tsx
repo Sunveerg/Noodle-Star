@@ -15,6 +15,7 @@ const navigationItems = [
 export const NavBar: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const handleLoginRedirect = () => {
     setLoading(true);
     const audience = 'https://dev-5kbvxb8zgblo1by3.us.auth0.com/api/v2/';

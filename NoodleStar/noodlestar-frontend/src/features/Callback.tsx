@@ -1,4 +1,5 @@
-import axiosInstance from '../Shared/Api/axiosInstance';
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useEffect } from 'react';
 
 const Callback: React.FC = () => {

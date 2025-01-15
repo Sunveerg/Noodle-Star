@@ -1,11 +1,13 @@
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useEffect, useState } from 'react';
 import { menuResponseModel } from './model/menuResponseModel';
 import noodleImg from '../components/assets/noodle.png';
 import styles from '../components/css/AboutUs.module.css';
 
 import './AvailableMenu.css';
-import { createOrder } from '../features/api/createOrder.ts';
-import { getAllmenu } from '../features/api/getAllMenu.ts';
+import { createOrder } from '../features/api/createOrder';
+import { getAllmenu } from '../features/api/getAllMenu';
 import { useNavigate } from 'react-router-dom';
 
 interface CartItem {
@@ -21,10 +23,6 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [checkoutMessage, setCheckoutMessage] = useState<string>('');
   const navigate = useNavigate();
-
-  const handleReviewClick = () => {
-    window.location.href = 'http://localhost:3001';
-  };
 
   useEffect(() => {
     const fetchMenuData = async (): Promise<void> => {

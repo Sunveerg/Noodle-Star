@@ -8,6 +8,7 @@ export const cancelOrder = async (orderId: string): Promise<void> => {
   try {
     const url = `http://localhost:8080/api/v1/orders/${orderId}`;
     await axios.delete(url);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error(`Error occurred while canceling order: ${error}`);
     throw new Error(

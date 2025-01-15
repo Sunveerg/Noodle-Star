@@ -1,8 +1,8 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import axios from 'axios';
-import { Status } from '../features/model/Status.ts'; // Ensure this is correctly imported
-import { menuRequestModel } from '../features/model/menuRequestModel.ts'; // Ensure this is correctly imported
+import { Status } from '../features/model/Status'; // Ensure this is correctly imported
+import { menuRequestModel } from '../features/model/menuRequestModel'; // Ensure this is correctly imported
 
 const AddDish: React.FC = () => {
   const [dish, setDish] = useState<menuRequestModel>({
@@ -34,6 +34,7 @@ const AddDish: React.FC = () => {
     return Object.keys(newErrors).length === 0;
   };
 
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!validate()) return;

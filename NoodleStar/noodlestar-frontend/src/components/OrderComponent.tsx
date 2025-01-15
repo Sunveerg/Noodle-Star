@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useState } from 'react';
-import { createOrder } from '../features/api/createOrder.ts';
+import { createOrder } from '../features/api/createOrder';
 import { OrderResponseModel } from '../features/model/orderResponseModel';
-import { OrderRequestModel } from '../features/model/orderRequestModel.ts';
+import { OrderRequestModel } from '../features/model/orderRequestModel';
 
 const OrderComponent: React.FC = () => {
   const [orders, setOrders] = useState<OrderResponseModel[]>([]);

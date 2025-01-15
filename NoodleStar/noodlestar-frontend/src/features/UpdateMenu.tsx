@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { FormEvent, JSX, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getMenu, updateMenu } from '../features/api/updateMenu.ts';
-import { menuRequestModel } from '@/features/model/menuRequestModel.ts';
-import { Status } from '../features/model/Status.ts';
+import { getMenu, updateMenu } from '../features/api/updateMenu';
+import { menuRequestModel } from '@/features/model/menuRequestModel';
+import { Status } from '../features/model/Status';
 import '../components/css/UpdateMenu.css';
 
 interface ApiError {
@@ -29,6 +29,7 @@ const UpdateMenu: React.FC = (): JSX.Element => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     const fetchMenu = async () => {
       if (menuId) {
         try {
@@ -77,6 +78,7 @@ const UpdateMenu: React.FC = (): JSX.Element => {
     event: FormEvent<HTMLFormElement>
   ): Promise<void> => {
     event.preventDefault();
+    // eslint-disable-next-line no-console
     console.log('Menu being submitted:', menu);
     if (!validate()) {
       return;

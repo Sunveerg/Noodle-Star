@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { cancelOrder } from '../features/api/cancelOrder';
 import noodleImg from '../components/assets/noodle.png';
 import './OrderSummary.css';
-import { sendEmail } from '../features/api/sendEmail.ts';
+import { sendEmail } from '../features/api/sendEmail';
 
 interface CartItem {
   menuId: string;
@@ -18,6 +19,7 @@ const OrderSummary: React.FC = (): JSX.Element => {
   const {
     cartItems = [],
     totalPrice = 0,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
     orderId = 'orderId2',
   } = location.state || {};
   const taxes = totalPrice * TAX_RATE;
@@ -66,6 +68,7 @@ const OrderSummary: React.FC = (): JSX.Element => {
         hardcodedEmail.subject,
         hardcodedEmail.body
       );
+      // eslint-disable-next-line no-console
       console.log(responseMessage);
       alert('Email sent successfully!');
     } catch (error) {
