@@ -19,7 +19,6 @@ const OrderSummary: React.FC = (): JSX.Element => {
   const {
     cartItems = [],
     totalPrice = 0,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
     orderId = 'orderId2',
   } = location.state || {};
   // eslint-disable-next-line no-console
