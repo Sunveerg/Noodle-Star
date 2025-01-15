@@ -24,12 +24,12 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-          cache-dependency-path: NoodleStar/noodlestar-frontend/package-lock.json
+          cache-dependency-path: noodlestar-frontend/package-lock.json
 
       # Step 3: Install dependencies
       - name: Install dependencies
         run: npm install --legacy-peer-deps
-        working-directory: ./NoodleStar/noodlestar-frontend
+        working-directory: ./noodlestar-frontend
 
 
       # Step 4: Lint in batches to avoid memory issues
@@ -38,9 +38,9 @@ jobs:
           npx eslint src/components --ext ts,tsx --cache --report-unused-disable-directives --max-warnings 0
           npx eslint src/pages --ext ts,tsx --cache --report-unused-disable-directives --max-warnings 0
           npx eslint src/features --ext ts,tsx --cache --report-unused-disable-directives --max-warnings 0
-        working-directory: ./NoodleStar/noodlestar-frontend
+        working-directory: ./noodlestar-frontend
 
       # Step 5: Build the project
       - name: Run build to ensure no build errors
         run: npm run build
-        working-directory: ./NoodleStar/noodlestar-frontend
+        working-directory: ./noodlestar-frontend
