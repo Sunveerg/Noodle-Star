@@ -8,7 +8,7 @@ export const createOrder = async (
 ): Promise<AxiosResponse<OrderResponseModel>> => {
   try {
     const response = await axiosInstance.post<OrderResponseModel>(
-      '/orders',
+      'api/v1/orders',
       order
     );
     return response;
