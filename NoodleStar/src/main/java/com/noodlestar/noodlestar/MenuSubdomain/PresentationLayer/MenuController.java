@@ -58,4 +58,11 @@ public class MenuController {
                 .onErrorResume(NotFoundException.class, e -> Mono.just(new ResponseEntity<Void>(HttpStatus.NOT_FOUND)));
     }
 
+    @GetMapping(value = "/name/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Mono<ResponseEntity<MenuResponseModel>> getMenuByName(@PathVariable String name) {
+        return menuService.getMenuByName(name)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
+    }
+
 }

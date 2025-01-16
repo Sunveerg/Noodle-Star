@@ -12,5 +12,6 @@ public interface MenuService {
     Mono<MenuResponseModel> getMenuItemById(String menuId);
     Mono<MenuResponseModel> updateMenu(Mono<MenuRequestModel> menuRequestModel, String menuId);
     Mono<Void> deleteMenuItem(String menuId);
+    Mono<MenuResponseModel> getMenuByName(String name);
 
 }

@@ -89,4 +89,12 @@ private final MenuRepository menuRepository;
                 .switchIfEmpty(Mono.error(new NotFoundException("Dish with ID '" + menuId + "' not found.")))
                 .flatMap(menuRepository::delete);
     }
+
+    @Override
+    public Mono<MenuResponseModel> getMenuByName(String name) {
+        return menuRepository.findByName(name) // Directly using the Mono version
+                .map(EntityDTOUtil::toMenuResponseDTO)
+                .switchIfEmpty(Mono.error(new NotFoundException("No menu item found with name: " + name)));
+    }
+
 }
