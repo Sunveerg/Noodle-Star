@@ -48,8 +48,10 @@ function bindMenuItemEventListeners() {
 }
 
 async function getFee() {
+    const backendUrl = process.env.REACT_APP_BACKEND_URL;
+
   try {
-    const response = await fetch('http://localhost:8080/api/v1/fee', {
+    const response = await fetch(`${backendUrl}/api/v1/fee`, {
       method: 'GET',
     });
     if (!response.ok) {

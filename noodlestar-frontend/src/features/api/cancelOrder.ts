@@ -4,9 +4,9 @@ export const cancelOrder = async (orderId: string): Promise<void> => {
   if (!orderId) {
     throw new Error('Order ID is required to cancel an order.');
   }
-
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
   try {
-    const url = `http://localhost:8080/api/v1/orders/${orderId}`;
+    const url = `${backendUrl}/api/v1/orders/${orderId}`;
     await axios.delete(url);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {

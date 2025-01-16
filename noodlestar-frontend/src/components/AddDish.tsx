@@ -15,6 +15,7 @@ const AddDish: React.FC = () => {
   });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [showModal, setShowModal] = useState(false);
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -49,7 +50,7 @@ const AddDish: React.FC = () => {
     };
 
     try {
-      await axios.post(`http://localhost:8080/api/v1/menu`, dishPayload);
+      await axios.post(`${backendUrl}/api/v1/menu`, dishPayload);
       setShowModal(false); // Close the modal
       window.location.reload(); // Reload the page to reflect the changes
     } catch (error) {
