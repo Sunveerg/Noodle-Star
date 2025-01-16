@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono;
 @RestController
 @RequestMapping("api/v1/menu")
 @Validated
-@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001", "https://plankton-app-v6rpd.ondigitalocean.app"}, allowCredentials = "true")
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001", "https://plankton-app-v6rpd.ondigitalocean.app", "https://sea-lion-app-zdosf.ondigitalocean.app"}, allowCredentials = "true")
 public class MenuController {
 
     private final MenuService menuService;
