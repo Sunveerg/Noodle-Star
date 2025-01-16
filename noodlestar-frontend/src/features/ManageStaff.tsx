@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react';
@@ -13,6 +14,7 @@ const ManageStaff: React.FC = (): JSX.Element => {
   const [isOwner, setIsOwner] = useState<boolean>(false);
   const [, setIsCustomer] = useState<boolean>(false);
   const navigate = useNavigate();
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
   const getStaff = async (): Promise<StaffResponseModel[]> => {
     try {
@@ -23,7 +25,7 @@ const ManageStaff: React.FC = (): JSX.Element => {
         return [];
       }
 
-      const response = await fetch('http://localhost:8080/api/v1/users/staff', {
+      const response = await fetch(`${backendUrl}/api/v1/users/staff`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -63,9 +65,10 @@ const ManageStaff: React.FC = (): JSX.Element => {
         setError('No access token found');
         return;
       }
+      const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
       const response = await fetch(
-        `http://localhost:8080/api/v1/users/staff/${userId}`,
+        `${backendUrl}/api/v1/users/staff/${userId}`,
         {
           method: 'DELETE',
           headers: {

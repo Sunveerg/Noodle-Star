@@ -33,10 +33,10 @@ const Profile: React.FC = () => {
         return;
       }
       loginCalledRef.current = true;
-
+      const backendUrl = process.env.REACT_APP_BACKEND_URL;
       const encodedUserId = encodeURIComponent(userId).replace(/\|/g, '%7C');
       await axiosInstance.post(
-        `http://localhost:8080/api/v1/users/${encodedUserId}/login`,
+        `${backendUrl}/api/v1/users/${encodedUserId}/login`,
         {},
         {
           headers: {

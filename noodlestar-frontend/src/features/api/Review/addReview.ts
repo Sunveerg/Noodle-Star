@@ -5,9 +5,10 @@ import axiosInstance from '../../../Shared/Api/axiosInstance';
 export const addReview = async (
   review: reviewRequestModel
 ): Promise<AxiosResponse<void>> => {
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
   try {
     return await axiosInstance.post<void>(
-      'http://localhost:8080/api/v1/review',
+      `${backendUrl}/api/v1/review`,
       review
     );
   } catch (error) {
