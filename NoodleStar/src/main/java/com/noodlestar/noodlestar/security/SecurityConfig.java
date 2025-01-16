@@ -91,6 +91,7 @@ public class SecurityConfig {
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfig = new CorsConfiguration();
         corsConfig.addAllowedOrigin("http://localhost:3000");
+        corsConfig.addAllowedOrigin("https://plankton-app-v6rpd.ondigitalocean.app/");
         corsConfig.addAllowedOrigin("https://dev-5kbvxb8zgblo1by3.us.auth0.com/");
         corsConfig.addAllowedHeader("*");
         corsConfig.addAllowedMethod("*");
