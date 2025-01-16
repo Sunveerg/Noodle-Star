@@ -20,13 +20,14 @@ export const NavBar: React.FC = () => {
     setLoading(true);
     const audience = 'https://dev-5kbvxb8zgblo1by3.us.auth0.com/api/v2/';
     const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
+    const redirectUri = process.env.REACT_APP_AUTH0_CALLBACK_URL;
 
     // Redirect the user to the Auth0 Universal Login page
     window.location.href =
       `https://dev-5kbvxb8zgblo1by3.us.auth0.com/authorize?` +
       `response_type=token&` +
       `client_id=${clientId}&` + // Your Auth0 Client ID
-      `redirect_uri=http://localhost:3000/callback&` + // The redirect URL after login
+      `redirect_uri=${redirectUri}&` + // The redirect URL after login
       `scope=openid profile email read:current_user read:roles&` + // Scope to get user information
       `audience=${audience}&` + // Specify the audience for access token
       `prompt=login`; // Force the login page to prompt user credentials
