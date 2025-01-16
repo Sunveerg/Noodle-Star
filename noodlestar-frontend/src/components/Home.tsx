@@ -15,7 +15,7 @@ export const Home: React.FC = () => {
     <main className={styles.homePage}>
       {/* Left Section: Text Content */}
       <div className={styles.welcomeText}>
-        <h4>Welcome</h4>
+        <h4>Welcome to NoodleStar</h4>
         <h1>
           Noodle <br /> Star
         </h1>
