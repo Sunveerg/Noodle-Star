@@ -3,8 +3,9 @@ import { menuResponseModel } from '../model/menuResponseModel';
 
 export const getAllmenu = async (): Promise<menuResponseModel[]> => {
   // Use menuResponseModel[] directly in the get call
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
   const response = await axiosInstance.get<menuResponseModel[]>(
-    'http://localhost:8080/api/v1/menu'
+    `${backendUrl}/api/v1/menu`
   );
   return response.data;
 };
