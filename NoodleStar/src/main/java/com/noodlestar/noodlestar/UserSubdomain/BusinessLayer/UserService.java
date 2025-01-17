@@ -12,5 +12,7 @@ public interface UserService {
     Mono<UserResponseModel> getUserByUserId(String auth0UserId);
     Flux<UserResponseModel> getStaff();
     Mono<Void> deleteStaff(String userId);
+    Mono<UserResponseModel> addStaffRoleToUser(String auth0UserId);
+
 }
 
