@@ -13,6 +13,7 @@ import EmailSentPage from './pages/EmailSentPage';
 import CallbackPage from './pages/Callbackpage';
 import ProfilePage from './pages/ProfilePage';
 import ManageStaffPage from './pages/ManageStaffPage';
+import AddStaffPage from './pages/AddStaffPage';
 
 const router = createBrowserRouter([
   {
@@ -68,6 +69,10 @@ const router = createBrowserRouter([
   {
     path: PathRoutes.ManageStaff,
     element: <ManageStaffPage />,
+  },
+  {
+    path: PathRoutes.ManageUsers,
+    element: <AddStaffPage />,
   },
 ]);
 
