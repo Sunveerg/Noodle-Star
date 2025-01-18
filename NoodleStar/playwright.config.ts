@@ -75,8 +75,8 @@ export default defineConfig({
     '**/tests/AddMenuItemsToCart.spec.ts', // Exclude this test
     '**/tests/CancelOrder.spec.ts', // Exclude this test
     '**/tests/GetOrderSummary.spec.ts', // Exclude this test
-    '**/tests/AddStaffRole.spec.ts', // Exclude this test
-    '**/tests/GetStaff.spec.ts', // Exclude this test
+    '**/AddStaffRole.spec.ts', // Exclude this test
+    '**/GetStaff.spec.ts', // Exclude this test
   ],
 
   /* Run your local dev server before starting the tests */
