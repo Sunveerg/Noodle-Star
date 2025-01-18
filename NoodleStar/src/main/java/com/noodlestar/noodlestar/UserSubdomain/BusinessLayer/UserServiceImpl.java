@@ -88,6 +88,14 @@ public class UserServiceImpl implements UserService {
                 .doOnError(error -> log.error("Error Syncing User with ID {}: {}", auth0UserId, error.getMessage()));
     }
 
+    @Override
+    public Flux<UserResponseModel> getAllUsers() {
+        return userRepository.findAll()
+                .map(EntityDTOUtil::toUserResponseModel)
+                .doOnNext(user -> log.info("Fetched User from Database: {}", user))
+                .doOnError(error -> log.error("Error fetching users: {}", error.getMessage()));
+    }
+
 
     @Override
     public Mono<UserResponseModel> getUserByUserId(String userId) {

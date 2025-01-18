@@ -35,6 +35,14 @@ public class UserController {
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
+    @GetMapping
+    public Flux<UserResponseModel> getAllUsers() {
+        log.info("Received request to fetch all users.");
+        return userService.getAllUsers()
+                .doOnNext(user -> log.info("Fetched user: {}", user))
+                .doOnError(e -> log.error("Error fetching all users: {}", e.getMessage()));
+    }
+
     @GetMapping("/{userId}")
     public Mono<UserResponseModel> getUserByUserId(@PathVariable String userId) {
         return userService.getUserByUserId(userId);
