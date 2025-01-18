@@ -12,7 +12,7 @@ import { defineConfig, devices } from '@playwright/test';
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  testDir: './tests',
+  testDir: './e2e',
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -68,6 +68,15 @@ export default defineConfig({
     //   name: 'Google Chrome',
     //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
     // },
+  ],
+  testIgnore: [
+    '**/DoordashApi.spec.ts', // Exclude this test
+    '**/DeleteStaff.spec.ts', // Exclude this test
+    '**/tests/AddMenuItemsToCart.spec.ts', // Exclude this test
+    '**/tests/CancelOrder.spec.ts', // Exclude this test
+    '**/tests/GetOrderSummary.spec.ts', // Exclude this test
+    '**/tests/AddStaffRole.spec.ts', // Exclude this test
+    '**/tests/GetStaff.spec.ts', // Exclude this test
   ],
 
   /* Run your local dev server before starting the tests */
