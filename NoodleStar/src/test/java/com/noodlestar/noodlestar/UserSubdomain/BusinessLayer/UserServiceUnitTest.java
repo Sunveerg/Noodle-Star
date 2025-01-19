@@ -5,6 +5,7 @@ import com.noodlestar.noodlestar.UserSubdomain.DataLayer.UserRepository;
 import com.noodlestar.noodlestar.UserSubdomain.PresentationLayer.UserRequestModel;
 import com.noodlestar.noodlestar.UserSubdomain.PresentationLayer.UserResponseModel;
 import com.noodlestar.noodlestar.auth0.Auth0Service;
+import com.noodlestar.noodlestar.utils.EntityDTOUtil;
 import com.noodlestar.noodlestar.utils.exceptions.NotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,9 +16,9 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
+import static de.flapdoodle.os.Platform.logger;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -352,4 +353,97 @@ class UserServiceUnitTest {
         verify(userRepository, times(1)).findByUserId(userId);
         verify(userRepository, times(0)).save(any());
     }
+
+    void whenAddStaffRoleToUser_thenReturnUpdatedUserResponseModel() {
+        String userId = UUID.randomUUID().toString();
+
+        // Mock the existing user
+        User existingUser = User.builder()
+                .userId(userId)
+                .email("test@example.com")
+                .firstName("John")
+                .lastName("Doe")
+                .roles(new ArrayList<>(List.of("Customer"))) // Initially, the user has the "Customer" role
+                .permissions(new ArrayList<>(List.of("read:countries")))
+                .build();
+
+        // Mock the updated user after assigning "Staff" role
+        User updatedUser = User.builder()
+                .userId(userId)
+                .email("test@example.com")
+                .firstName("John")
+                .lastName("Doe")
+                .roles(new ArrayList<>(List.of("Customer", "Staff"))) // "Staff" role is added
+                .permissions(new ArrayList<>(List.of("read:countries")))
+                .build();
+
+        // Create a UserResponseModel for the expected output
+        UserResponseModel expectedResponse = UserResponseModel.builder()
+                .userId(userId)
+                .email("test@example.com")
+                .firstName("John")
+                .lastName("Doe")
+                .roles(new ArrayList<>(List.of("Customer", "Staff"))) // "Staff" role is included
+                .permissions(new ArrayList<>(List.of("read:countries")))
+                .build();
+
+        // Mock repository and service interactions
+        when(userRepository.findByUserId(userId)).thenReturn(Mono.just(existingUser));
+        when(auth0Service.assignRoleToUser(userId, "rol_1DSAOq7EC8sfW0KF")).thenReturn(Mono.empty()); // Simulate successful role assignment
+        when(userRepository.save(updatedUser)).thenReturn(Mono.just(updatedUser)); // Simulate saving the updated user
+
+        // Act and Assert: Use StepVerifier to validate the outcome
+        StepVerifier.create(userService.addStaffRoleToUser(userId))
+                .expectNextMatches(response ->
+                        response.getUserId().equals(userId) &&
+                                response.getRoles().contains("Staff") // Verify that "Staff" role is assigned
+                )
+                .verifyComplete(); // Ensure the Mono completes successfully
+
+        // Verify interactions with mocks
+        verify(userRepository, times(1)).findByUserId(userId); // Ensure the user lookup was performed once
+        verify(auth0Service, times(1)).assignRoleToUser(userId, "rol_1DSAOq7EC8sfW0KF"); // Ensure role assignment was called
+        verify(userRepository, times(1)).save(updatedUser); // Ensure the updated user was saved
+    }
+
+    @Test
+    void whenGetAllUsers_thenReturnUserList() {
+    // Given: Mock users to be returned
+    User user1 = new User();
+    user1.setUserId("auth0|675f6ad19a80612ce548e0b2");
+    user1.setRoles(List.of("Staff"));
+
+    User user2 = new User();
+    user2.setUserId("auth0|675f6ad19a80612ce548e0b3");
+    user2.setRoles(List.of("Admin"));
+
+    // Convert to UserResponseModel (DTO)
+    UserResponseModel userResponseModel1 = EntityDTOUtil.toUserResponseModel(user1);
+    UserResponseModel userResponseModel2 = EntityDTOUtil.toUserResponseModel(user2);
+
+    // Mock the userRepository's findAll() to return a Flux of users
+    when(userRepository.findAll()).thenReturn(Flux.just(user1, user2));
+
+    // When / Then: Use StepVerifier to verify the result of getAllUsers()
+    StepVerifier.create(userService.getAllUsers())
+            .expectNext(userResponseModel1)   // Expect the first user to be mapped
+            .expectNext(userResponseModel2)   // Expect the second user to be mapped
+            .verifyComplete();               // Verify that the Flux completes without errors
+
+    // Optionally, verify interactions with the mocks (e.g., checking that the repository method was called)
+    verify(userRepository, times(1)).findAll();
+}
+
+
+    @Test
+    void whenUserNotFound_thenThrowNotFoundException() {
+        String userId = "auth0|nonexistent";
+        when(userRepository.findByUserId(userId)).thenReturn(Mono.empty());
+
+        StepVerifier.create(userService.addStaffRoleToUser(userId))
+                .expectErrorMatches(throwable -> throwable instanceof NotFoundException
+                        && throwable.getMessage().contains("User not found with ID"))
+                .verify();
+    }
+
 }

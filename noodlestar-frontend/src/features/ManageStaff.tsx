@@ -96,6 +96,9 @@ const ManageStaff: React.FC = (): JSX.Element => {
       console.error('Error deleting staff member:', err);
     }
   };
+  const handleManageStaffClick = () => {
+    navigate('/addStaff');
+  };
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -166,12 +169,8 @@ const ManageStaff: React.FC = (): JSX.Element => {
 
       {isOwner && (
         <div className="owner-section">
-          <p className="owner-notice">You have owner privileges.</p>
-          <button
-            className="btn-add-staff"
-            onClick={() => navigate('/addStaff')}
-          >
-            Add New Staff
+          <button className="btn-add-staff" onClick={handleManageStaffClick}>
+            Add Staff
           </button>
         </div>
       )}

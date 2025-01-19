@@ -208,8 +208,14 @@ public class DataSetupServiceReview implements CommandLineRunner {
         User user4 = buildUser("userId4", "samuel@example.com", "Samuel", "Taylor", List.of("Staff"), null);
         User user5 = buildUser("userId5", "samantha@example.com", "Samantha", "Lee", List.of("Customer"), List.of("read"));
         User user6 = buildUser("auth0|67853224d6b220fc6b4f86d9", "felix@gmail.com", null, null, List.of("User", "Staff", "Owner"), List.of("read:admin-messages", "read:current_user", "read:customer", "read:roles", "read:users", "write:role"));
+        User user7 = buildUser("auth0|675f6ad19a80612ce548e0b2", "zako2@example.com", "Zama", "Smith", List.of("Customer"), null);
+        User user8 = buildUser("auth0|675f6ad19a80612ce548e0c3", "zako3@example.com", "Zak", "Smith", List.of("Customer"), null);
+        User user9 = buildUser("auth0|675f6ad19a80612ce548e0d4", "zako4@example.com", "Zala", "Smith", List.of("Customer"), null);
+        User user10 = buildUser("auth0|675f6ad19a80612ce548e0e5", "zako5@example.com", "Zamel", "Smith", List.of("Customer"), null);
+        User user11 = buildUser("auth0|675f6ad19a80612ce548e0i8", "zako6@example.com", "Zaba", "Smith", List.of("Customer"), null);
 
-        Flux.just(user1, user2, user3, user4, user5, user6)
+
+        Flux.just(user1, user2, user3, user4, user5, user6, user7, user8, user9, user10, user11)
                 .flatMap(user -> {
                     System.out.println("Checking if user exists: " + user.getUserId());
 

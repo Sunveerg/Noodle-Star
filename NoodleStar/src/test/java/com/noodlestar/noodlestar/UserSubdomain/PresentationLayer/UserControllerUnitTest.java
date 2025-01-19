@@ -190,6 +190,44 @@ class UserControllerUnitTest {
     }
 
     @Test
+    void getAllUsers() {
+        // Create sample UserResponseModel objects
+        UserResponseModel user1 = UserResponseModel.builder()
+                .userId("1")
+                .email("john.doe@example.com")
+                .firstName("John")
+                .lastName("Doe")
+                .roles(Arrays.asList("Admin", "User"))
+                .permissions(Arrays.asList("READ", "WRITE"))
+                .build();
+
+        UserResponseModel user2 = UserResponseModel.builder()
+                .userId("2")
+                .email("jane.doe@example.com")
+                .firstName("Jane")
+                .lastName("Doe")
+                .roles(Arrays.asList("User"))
+                .permissions(Arrays.asList("READ"))
+                .build();
+
+        // Mock the service call
+        when(userService.getAllUsers()).thenReturn(Flux.just(user1, user2));
+
+        // Perform the actual test using WebTestClient
+        webTestClient.get()
+                .uri("/api/v1/users")
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk() // Assert that the status is OK
+                .expectBodyList(UserResponseModel.class)
+                .hasSize(2) // Assert the size of the returned list
+                .contains(user1, user2); // Assert that both users are returned
+
+        // Verify that the userService method was called once
+        verify(userService, times(1)).getAllUsers();
+    }
+
+    @Test
     void deleteStaff() {
         String userId = "test-user-id";
 
@@ -283,6 +321,73 @@ class UserControllerUnitTest {
 
         verify(userService, times(1)).updateStaff(any(Mono.class), eq(userId));
     }
+
+    void addStaffMember() {
+        String userId = "test-user-id";
+
+        // Assuming the service method returns a UserResponseModel
+        UserResponseModel userResponseModel = UserResponseModel.builder()
+                .userId(userId)
+                .email("test@example.com")
+                .firstName("John")
+                .lastName("Doe")
+                .roles(Arrays.asList("Customer", "Staff"))
+                .permissions(Arrays.asList("read:users", "write:users"))
+                .build();
+
+        // Mock the service call for adding the staff role
+        when(userService.addStaffRoleToUser(userId)).thenReturn(Mono.just(userResponseModel));
+
+        // Perform the actual test using WebTestClient
+        webTestClient.post()
+                .uri("/api/v1/users/staff/{userId}", userId)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk() // Assert that the status is OK
+                .expectBody(UserResponseModel.class)
+                .isEqualTo(userResponseModel); // Assert that the response body matches the expected user
+
+        // Verify that the service method was called once
+        verify(userService, times(1)).addStaffRoleToUser(userId);
+    }
+
+    @Test
+    void addStaffMemberNotFound() {
+        String userId = "nonexistent-user-id";
+
+        // Mock the service call to simulate a NotFoundException
+        when(userService.addStaffRoleToUser(userId)).thenReturn(Mono.error(new NotFoundException("User not found")));
+
+        // Perform the actual test using WebTestClient
+        webTestClient.post()
+                .uri("/api/v1/users/staff/{userId}", userId)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isNotFound() // Assert that the status is 404 Not Found
+                .expectBody().isEmpty(); // Assert that the response body is empty
+
+        // Verify that the service method was called once
+        verify(userService, times(1)).addStaffRoleToUser(userId);
+    }
+
+//    @Test
+//    void addStaffMemberConflict() {
+//        String userId = "test-user-id";
+//
+//        // Mock the service call to simulate an IllegalStateException
+//        when(userService.addStaffRoleToUser(userId)).thenReturn(Mono.error(new IllegalStateException("Invalid operation")));
+//
+//        // Perform the actual test using WebTestClient
+//        webTestClient.post()
+//                .uri("/api/v1/users/staff/{userId}", userId)
+//                .accept(MediaType.APPLICATION_JSON)
+//                .exchange()
+//                .expectStatus().isConflict() // Assert that the status is 409 Conflict
+//                .expectBody().isEmpty(); // Assert that the response body is empty
+//
+//        // Verify that the service method was called once
+//        verify(userService, times(1)).addStaffRoleToUser(userId);
+//    }
 
 }
 
