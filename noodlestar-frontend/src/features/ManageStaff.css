@@ -136,3 +136,22 @@
 .btn-delete-staff:hover {
     background-color: #d9363e;
 }
+
+.btn-edit-staff {
+    background-color: rgba(255, 193, 101, 1);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-delete-staff:hover {
+    background-color: rgba(255, 179, 81, 1);
+}
+
+.staff-actions {
+    display: flex;
+    gap: 10px; /* Adds space between buttons */
+}

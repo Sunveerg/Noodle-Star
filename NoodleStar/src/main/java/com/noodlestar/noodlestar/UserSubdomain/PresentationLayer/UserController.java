@@ -1,6 +1,8 @@
 package com.noodlestar.noodlestar.UserSubdomain.PresentationLayer;
 
 
+import com.noodlestar.noodlestar.MenuSubdomain.PresentationLayer.MenuRequestModel;
+import com.noodlestar.noodlestar.MenuSubdomain.PresentationLayer.MenuResponseModel;
 import com.noodlestar.noodlestar.UserSubdomain.BusinessLayer.UserService;
 import com.noodlestar.noodlestar.utils.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -49,6 +51,13 @@ public class UserController {
         return userService.deleteStaff(userId)
                 .then(Mono.just(new ResponseEntity<Void>(HttpStatus.NO_CONTENT)))
                 .onErrorResume(NotFoundException.class, e -> Mono.just(new ResponseEntity<Void>(HttpStatus.NOT_FOUND)));
+    }
+
+    @PutMapping("/staff/{userId}")
+    public Mono<ResponseEntity<UserResponseModel>> updateStaff(@RequestBody Mono<UserRequestModel> userRequestModel, @PathVariable String userId) {
+        return userService.updateStaff(userRequestModel, userId)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
 }

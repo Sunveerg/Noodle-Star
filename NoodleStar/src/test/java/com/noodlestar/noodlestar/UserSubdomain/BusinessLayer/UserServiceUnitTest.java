@@ -2,6 +2,7 @@ package com.noodlestar.noodlestar.UserSubdomain.BusinessLayer;
 
 import com.noodlestar.noodlestar.UserSubdomain.DataLayer.User;
 import com.noodlestar.noodlestar.UserSubdomain.DataLayer.UserRepository;
+import com.noodlestar.noodlestar.UserSubdomain.PresentationLayer.UserRequestModel;
 import com.noodlestar.noodlestar.UserSubdomain.PresentationLayer.UserResponseModel;
 import com.noodlestar.noodlestar.auth0.Auth0Service;
 import com.noodlestar.noodlestar.utils.exceptions.NotFoundException;
@@ -264,4 +265,91 @@ class UserServiceUnitTest {
         verify(userRepository, times(0)).delete(any());
     }
 
+    @Test
+    void whenUpdateStaffWithValidData_thenReturnUpdatedUserResponseModel() {
+        // Arrange
+        String userId = UUID.randomUUID().toString();
+
+        User existingStaffUser = User.builder()
+                .userId(userId)
+                .email("old.email@example.com")
+                .firstName("OldFirstName")
+                .lastName("OldLastName")
+                .roles(List.of("Staff"))
+                .permissions(List.of("read:staff"))
+                .build();
+
+        UserRequestModel updateRequest = UserRequestModel.builder()
+                .email("new.email@example.com")
+                .firstName("NewFirstName")
+                .lastName("NewLastName")
+                .roles(List.of("Staff"))
+                .permissions(List.of("write:staff"))
+                .build();
+
+        User updatedStaffUser = User.builder()
+                .userId(userId)
+                .email("new.email@example.com")
+                .firstName("NewFirstName")
+                .lastName("NewLastName")
+                .roles(List.of("Staff"))
+                .permissions(List.of("write:staff"))
+                .build();
+
+        UserResponseModel expectedResponse = UserResponseModel.builder()
+                .userId(userId)
+                .email("new.email@example.com")
+                .firstName("NewFirstName")
+                .lastName("NewLastName")
+                .roles(List.of("Staff"))
+                .permissions(List.of("write:staff"))
+                .build();
+
+        when(userRepository.findByUserId(userId)).thenReturn(Mono.just(existingStaffUser));
+        when(userRepository.save(existingStaffUser)).thenReturn(Mono.just(updatedStaffUser));
+
+        // Act & Assert
+        StepVerifier.create(userService.updateStaff(Mono.just(updateRequest), userId))
+                .expectNextMatches(response ->
+                        response.getUserId().equals(expectedResponse.getUserId()) &&
+                                response.getEmail().equals(expectedResponse.getEmail()) &&
+                                response.getFirstName().equals(expectedResponse.getFirstName()) &&
+                                response.getLastName().equals(expectedResponse.getLastName()) &&
+                                response.getRoles().equals(expectedResponse.getRoles()) &&
+                                response.getPermissions().equals(expectedResponse.getPermissions())
+                )
+                .verifyComplete();
+
+        // Verify
+        verify(userRepository, times(1)).findByUserId(userId);
+        verify(userRepository, times(1)).save(existingStaffUser);
+    }
+
+    @Test
+    void whenUpdateStaffNotFound_thenThrowNotFoundException() {
+        // Arrange
+        String userId = UUID.randomUUID().toString();
+
+        UserRequestModel updateRequest = UserRequestModel.builder()
+                .email("new.email@example.com")
+                .firstName("NewFirstName")
+                .lastName("NewLastName")
+                .roles(List.of("Staff"))
+                .permissions(List.of("write:staff"))
+                .build();
+
+        when(userRepository.findByUserId(userId)).thenReturn(Mono.empty());
+
+        // Act & Assert
+        StepVerifier.create(userService.updateStaff(Mono.just(updateRequest), userId))
+                .expectErrorMatches(throwable ->
+                        throwable instanceof NotFoundException &&
+                                throwable.getMessage().equals("Staff not found with id: " + userId)
+                )
+                .verify();
+
+        // Verify
+        verify(userRepository, times(1)).findByUserId(userId);
+        verify(userRepository, times(0)).save(any());
+    }
 }

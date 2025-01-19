@@ -22,6 +22,20 @@ const createAxiosInstance = (): AxiosInstance => {
     },
   });
 
+  // Add a request interceptor to include the Authorization header
+  instance.interceptors.request.use(
+    config => {
+      const token = localStorage.getItem('access_token'); // Retrieve the token from localStorage
+      if (token) {
+        config.headers['Authorization'] = `Bearer ${token}`; // Set the Authorization header
+      }
+      return config;
+    },
+    error => {
+      return Promise.reject(error); // Handle request errors
+    }
+  );
+
   // Add a response interceptor
   instance.interceptors.response.use(
     response => response, // Pass through successful responses

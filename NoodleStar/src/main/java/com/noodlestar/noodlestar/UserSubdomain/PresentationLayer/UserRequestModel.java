@@ -1,10 +1,12 @@
 package com.noodlestar.noodlestar.UserSubdomain.PresentationLayer;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
+@Builder
 public class UserRequestModel {
     private String email;
     private String firstName;

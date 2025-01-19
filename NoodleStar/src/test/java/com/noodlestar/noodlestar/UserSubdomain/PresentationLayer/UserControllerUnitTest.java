@@ -224,5 +224,65 @@ class UserControllerUnitTest {
         verify(userService, times(1)).deleteStaff(userId);
     }
 
+    @Test
+    void updateStaffSuccess() {
+        String userId = "staff-user-id";
+
+        UserRequestModel userRequestModel = UserRequestModel.builder()
+                .email("updated.staff@example.com")
+                .firstName("UpdatedStaff")
+                .lastName("User")
+                .roles(List.of("Staff"))
+                .permissions(List.of("read:staff", "write:staff"))
+                .build();
+
+        UserResponseModel updatedUser = UserResponseModel.builder()
+                .userId(userId)
+                .email(userRequestModel.getEmail())
+                .firstName(userRequestModel.getFirstName())
+                .lastName(userRequestModel.getLastName())
+                .roles(userRequestModel.getRoles())
+                .permissions(userRequestModel.getPermissions())
+                .build();
+
+        when(userService.updateStaff(any(Mono.class), eq(userId))).thenReturn(Mono.just(updatedUser));
+
+        webTestClient.put()
+                .uri("/api/v1/users/staff/{userId}", userId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(userRequestModel)
+                .exchange()
+                .expectStatus().isOk() // Assert 200 OK
+                .expectBody(UserResponseModel.class)
+                .isEqualTo(updatedUser); // Assert the response matches the updated user details
+
+        verify(userService, times(1)).updateStaff(any(Mono.class), eq(userId));
+    }
+
+    @Test
+    void updateStaffNotFound() {
+        String userId = "nonexistent-user-id";
+
+        UserRequestModel userRequestModel = UserRequestModel.builder()
+                .email("nonexistent.staff@example.com")
+                .firstName("NonExistent")
+                .lastName("User")
+                .roles(List.of("Staff"))
+                .permissions(List.of("read:staff"))
+                .build();
+
+        when(userService.updateStaff(any(Mono.class), eq(userId))).thenReturn(Mono.empty());
+
+        webTestClient.put()
+                .uri("/api/v1/users/staff/{userId}", userId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(userRequestModel)
+                .exchange()
+                .expectStatus().isNotFound() // Assert 404 Not Found
+                .expectBody().isEmpty(); // Assert no response body
+
+        verify(userService, times(1)).updateStaff(any(Mono.class), eq(userId));
+    }
+
 }
 

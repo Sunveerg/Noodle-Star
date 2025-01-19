@@ -14,4 +14,5 @@ export enum PathRoutes {
   Callback = '/callback',
   Profile = '/profile',
   ManageStaff = '/manageStaff',
+  UpdateStaff = '/manageStaff/:staffId/update',
 }
