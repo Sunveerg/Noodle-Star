@@ -1,7 +1,7 @@
 @startuml
 hide footbox
 actor Customer
-participant "Noodle Star System" as System
+participant "Noodle Star Systems" as System
 
 
 
