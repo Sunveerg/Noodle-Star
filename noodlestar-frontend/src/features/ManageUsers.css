@@ -1,0 +1,64 @@
+.manage-users-container {
+    padding: 30px;
+    max-width: 900px;
+    margin: 50px auto;
+    background: rgba(166, 0, 7, 0.9);
+    border-radius: 15px;
+    color: rgba(255, 193, 101, 1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    text-align: center;
+}
+
+.user-list-title {
+    font-size: 36px;
+    color: rgba(255, 193, 101, 1);
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.user-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.user-item {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.user-item h3 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: rgba(166, 0, 7, 1);
+}
+
+.user-item p {
+    margin: 5px 0;
+    color: rgba(166, 0, 7, 1);
+}
+
+.user-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-right: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.btn-add-staff {
+    background-color: #d26a2e;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.btn-add-staff:hover {
+    background-color: #a4501f;
+}

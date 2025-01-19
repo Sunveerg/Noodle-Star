@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -34,6 +35,14 @@ public class UserController {
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
+    @GetMapping
+    public Flux<UserResponseModel> getAllUsers() {
+        log.info("Received request to fetch all users.");
+        return userService.getAllUsers()
+                .doOnNext(user -> log.info("Fetched user: {}", user))
+                .doOnError(e -> log.error("Error fetching all users: {}", e.getMessage()));
+    }
+
     @GetMapping("/{userId}")
     public Mono<UserResponseModel> getUserByUserId(@PathVariable String userId) {
         return userService.getUserByUserId(userId);
@@ -50,5 +59,23 @@ public class UserController {
                 .then(Mono.just(new ResponseEntity<Void>(HttpStatus.NO_CONTENT)))
                 .onErrorResume(NotFoundException.class, e -> Mono.just(new ResponseEntity<Void>(HttpStatus.NOT_FOUND)));
     }
+
+    @PostMapping("/staff/{userId}")
+    public Mono<ResponseEntity<UserResponseModel>> addStaffMember(@PathVariable String userId) {
+        log.info("Received request to add user with ID {} as staff", userId);
+
+        return userService.addStaffRoleToUser(userId)
+                .map(ResponseEntity::ok)
+                .onErrorResume(NotFoundException.class, e -> {
+                    log.error("User not found: {}", e.getMessage());
+                    return Mono.just(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+                })
+                .onErrorResume(IllegalStateException.class, e -> {
+                    log.error("Invalid operation: {}", e.getMessage());
+                    return Mono.just(ResponseEntity.status(HttpStatus.CONFLICT).build());
+                })
+                .doOnError(e -> log.error("Error processing addStaffMember request: {}", e.getMessage()));
+    }
+
 
 }
