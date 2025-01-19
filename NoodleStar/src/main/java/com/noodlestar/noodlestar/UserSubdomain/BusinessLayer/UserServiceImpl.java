@@ -1,8 +1,11 @@
 package com.noodlestar.noodlestar.UserSubdomain.BusinessLayer;
 
 
+import com.noodlestar.noodlestar.MenuSubdomain.PresentationLayer.MenuRequestModel;
+import com.noodlestar.noodlestar.MenuSubdomain.PresentationLayer.MenuResponseModel;
 import com.noodlestar.noodlestar.UserSubdomain.DataLayer.User;
 import com.noodlestar.noodlestar.UserSubdomain.DataLayer.UserRepository;
+import com.noodlestar.noodlestar.UserSubdomain.PresentationLayer.UserRequestModel;
 import com.noodlestar.noodlestar.UserSubdomain.PresentationLayer.UserResponseModel;
 import com.noodlestar.noodlestar.auth0.Auth0Service;
 import com.noodlestar.noodlestar.utils.EntityDTOUtil;
@@ -125,6 +128,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Mono<UserResponseModel> updateStaff(Mono<UserRequestModel> userRequestModel, String userId) {
+        return userRepository.findByUserId(userId)
+                .filter(user -> user.getRoles() != null && user.getRoles().contains("Staff"))
+                .flatMap(existingUser -> userRequestModel.map(requestModel -> {
+                    existingUser.setFirstName(requestModel.getFirstName());
+                    existingUser.setLastName(requestModel.getLastName());
+                    existingUser.setEmail(requestModel.getEmail());
+                    existingUser.setRoles(requestModel.getRoles());
+                    existingUser.setPermissions(requestModel.getPermissions());
+                    return existingUser;
+                }))
+                .switchIfEmpty(Mono.error(new NotFoundException("Staff not found with id: " + userId)))
+                .flatMap(userRepository::save)
+                .map(EntityDTOUtil::toUserResponseModel);
+    }
+
     public Mono<UserResponseModel> addStaffRoleToUser(String userId) {
         log.info("Starting process to add user with ID {} as staff", userId);
 
@@ -150,6 +169,7 @@ public class UserServiceImpl implements UserService {
                 .map(EntityDTOUtil::toUserResponseModel)
                 .doOnSuccess(user -> log.info("Final Staff Member Response: {}", user))
                 .doOnError(error -> log.error("Error adding staff member with ID {}: {}", userId, error.getMessage()));
+
     }
 
 }

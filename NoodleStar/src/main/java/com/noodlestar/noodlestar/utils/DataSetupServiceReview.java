@@ -97,9 +97,20 @@ public class DataSetupServiceReview implements CommandLineRunner {
                 buildOrderDetails("menuId9", 5), buildOrderDetails("menuId10", 3));
 
         Flux.just(order1, order2, order3, order4, order5)
-                .flatMap(orderRepository::insert)
+                .flatMap(orderMono -> orderMono
+                        .flatMap(order -> {
+                            System.out.println("Checking if order exists: " + order.getOrderId());
+                            return orderRepository.findByOrderId(order.getOrderId())
+                                    .doOnTerminate(() -> System.out.println("Terminated: " + order.getOrderId()))
+                                    .switchIfEmpty(Mono.defer(() -> {
+                                        System.out.println("Inserting order: " + order.getOrderId());
+                                        return orderRepository.insert(order);
+                                    }));
+                        }))
                 .subscribe();
     }
+
+
 
     private Mono<Order> buildOrder(String orderId, String customerId, String status, LocalDate orderDate, Mono<OrderDetails>... orderDetails) {
         Flux<OrderDetails> orderDetailsFlux = Flux.just(orderDetails)
@@ -158,11 +169,22 @@ public class DataSetupServiceReview implements CommandLineRunner {
         Review review8 = buildReview("reviewId8", 4, "Leopold", "very good", "2025-11-24 13:00");
         Review review9 = buildReview("reviewId9", 1, "Samuel", "very good", "2023-11-24 13:00");
         Review review10 = buildReview("reviewId10", 5, "Samantha", "very good", "2024-11-24 13:00");
-        // Add more reviews...
-        Flux.just(review1, review2, review3, review4, review5,review6,review7,review8,review9,review10)
-                .flatMap(reviewRepo::insert)
+
+        Flux.just(review1, review2, review3, review4, review5, review6, review7, review8, review9, review10)
+                .flatMap(review -> {
+                    System.out.println("Checking if review exists: " + review.getReviewId());
+
+                    // Ensure review does not already exist by reviewId and reviewerName
+                    return reviewRepo.findReviewByIdAndReviewerName(review.getReviewId(), review.getReviewerName())
+                            .doOnTerminate(() -> System.out.println("Terminated: " + review.getReviewId()))
+                            .switchIfEmpty(Mono.defer(() -> {
+                                System.out.println("Inserting review: " + review.getReviewId());
+                                return reviewRepo.save(review); // Save if review doesn't exist
+                            }));
+                })
                 .subscribe();
     }
+
 
     private Review buildReview(String reviewId, int rating, String reviewerName, String review, String dateSub) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -182,20 +204,32 @@ public class DataSetupServiceReview implements CommandLineRunner {
     private void setupUsers() {
         User user1 = buildUser("auth0|675f6ad19a80612ce548e0a1", "zako@example.com", "Zako", "Smith", List.of("Customer"), null);
         User user2 = buildUser("google-oauth2|112850310681620335180", "christian@example.com", "Christian", "Johnson", List.of("Customer"), null);
-        User user3 = buildUser("userId3", "leopold@example.com", "Leopold", "Miller", List.of("Customer"),null);
+        User user3 = buildUser("userId3", "leopold@example.com", "Leopold", "Miller", List.of("Customer"), null);
         User user4 = buildUser("userId4", "samuel@example.com", "Samuel", "Taylor", List.of("Staff"), null);
         User user5 = buildUser("userId5", "samantha@example.com", "Samantha", "Lee", List.of("Customer"), List.of("read"));
-        User user6 = buildUser("auth0|675f6ad19a80612ce548e0b2", "zako2@example.com", "Zama", "Smith", List.of("Customer"), null);
-        User user7 = buildUser("auth0|675f6ad19a80612ce548e0c3", "zako3@example.com", "Zak", "Smith", List.of("Customer"), null);
-        User user8 = buildUser("auth0|675f6ad19a80612ce548e0d4", "zako4@example.com", "Zala", "Smith", List.of("Customer"), null);
-        User user9 = buildUser("auth0|675f6ad19a80612ce548e0e5", "zako5@example.com", "Zamel", "Smith", List.of("Customer"), null);
-        User user10 = buildUser("auth0|675f6ad19a80612ce548e0i8", "zako6@example.com", "Zaba", "Smith", List.of("Customer"), null);
+        User user6 = buildUser("auth0|67853224d6b220fc6b4f86d9", "felix@gmail.com", null, null, List.of("User", "Staff", "Owner"), List.of("read:admin-messages", "read:current_user", "read:customer", "read:roles", "read:users", "write:role"));
+        User user7 = buildUser("auth0|675f6ad19a80612ce548e0b2", "zako2@example.com", "Zama", "Smith", List.of("Customer"), null);
+        User user8 = buildUser("auth0|675f6ad19a80612ce548e0c3", "zako3@example.com", "Zak", "Smith", List.of("Customer"), null);
+        User user9 = buildUser("auth0|675f6ad19a80612ce548e0d4", "zako4@example.com", "Zala", "Smith", List.of("Customer"), null);
+        User user10 = buildUser("auth0|675f6ad19a80612ce548e0e5", "zako5@example.com", "Zamel", "Smith", List.of("Customer"), null);
+        User user11 = buildUser("auth0|675f6ad19a80612ce548e0i8", "zako6@example.com", "Zaba", "Smith", List.of("Customer"), null);
 
 
-        Flux.just(user1, user2, user3, user4, user5, user6, user7, user8, user9, user10)
-                .flatMap(userRepository::insert)
+        Flux.just(user1, user2, user3, user4, user5, user6, user7, user8, user9, user10, user11)
+                .flatMap(user -> {
+                    System.out.println("Checking if user exists: " + user.getUserId());
+
+                    // Check if the user already exists by userId (or email)
+                    return userRepository.findByUserId(user.getUserId()) // Assuming userId is the unique identifier
+                            .doOnTerminate(() -> System.out.println("Terminated: " + user.getUserId()))
+                            .switchIfEmpty(Mono.defer(() -> {
+                                System.out.println("Inserting user: " + user.getUserId());
+                                return userRepository.save(user); // Save if user doesn't exist
+                            }));
+                })
                 .subscribe();
     }
+
 
     private User buildUser(String userId, String email, String firstName, String lastName, List<String> roles, List<String> permissions) {
         return User.builder()

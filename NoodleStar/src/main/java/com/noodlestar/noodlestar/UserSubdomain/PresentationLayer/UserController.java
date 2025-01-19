@@ -1,6 +1,8 @@
 package com.noodlestar.noodlestar.UserSubdomain.PresentationLayer;
 
 
+import com.noodlestar.noodlestar.MenuSubdomain.PresentationLayer.MenuRequestModel;
+import com.noodlestar.noodlestar.MenuSubdomain.PresentationLayer.MenuResponseModel;
 import com.noodlestar.noodlestar.UserSubdomain.BusinessLayer.UserService;
 import com.noodlestar.noodlestar.utils.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -60,6 +62,13 @@ public class UserController {
                 .onErrorResume(NotFoundException.class, e -> Mono.just(new ResponseEntity<Void>(HttpStatus.NOT_FOUND)));
     }
 
+    @PutMapping("/staff/{userId}")
+    public Mono<ResponseEntity<UserResponseModel>> updateStaff(@RequestBody Mono<UserRequestModel> userRequestModel, @PathVariable String userId) {
+        return userService.updateStaff(userRequestModel, userId)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
+    }
+
     @PostMapping("/staff/{userId}")
     public Mono<ResponseEntity<UserResponseModel>> addStaffMember(@PathVariable String userId) {
         log.info("Received request to add user with ID {} as staff", userId);
@@ -76,6 +85,5 @@ public class UserController {
                 })
                 .doOnError(e -> log.error("Error processing addStaffMember request: {}", e.getMessage()));
     }
-
 
 }

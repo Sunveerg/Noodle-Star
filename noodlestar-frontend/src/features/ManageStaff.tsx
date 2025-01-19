@@ -212,6 +212,12 @@ const ManageStaff: React.FC = (): JSX.Element => {
                   >
                     Delete
                   </button>
+                  <button
+                    className="btn-edit-staff"
+                    onClick={() => navigate(`${user.userId}/update`)}
+                  >
+                    Edit
+                  </button>
                 </div>
               )}
             </div>
