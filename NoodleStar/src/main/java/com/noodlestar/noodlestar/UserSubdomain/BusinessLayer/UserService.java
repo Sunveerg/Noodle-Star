@@ -16,5 +16,6 @@ public interface UserService {
     Mono<Void> deleteStaff(String userId);
     Mono<UserResponseModel> updateStaff(Mono<UserRequestModel> userRequestModel, String userId);
     Mono<UserResponseModel> addStaffRoleToUser(String auth0UserId);
+    Mono<UserResponseModel> updateUser(Mono<UserRequestModel> userRequestModel, String userId);
 }
 
