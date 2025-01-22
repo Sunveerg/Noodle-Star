@@ -7,6 +7,7 @@ import styles from '../components/css/HomePage.module.css';
 import { getUserById } from './api/updateUser';
 
 const Profile: React.FC = () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [userData, setUserData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>('');
