@@ -3,34 +3,34 @@
     width: 100%;
     position: relative;
     padding-bottom: 1%;
-    padding-top: 1%;
-}
+    padding-top: 1%;}
 
 .navContainer {
     display: flex;
     width: 100%;
     max-width: 1203px;
-    gap: 20px;
+    gap: 10px; /* Reduced gap between the logo and navItems */
     justify-content: space-between;
+    align-items: center; /* Ensures vertical alignment */
     margin: 0 auto;
+    flex-wrap: nowrap; /* Prevents wrapping */
 }
 
 .logo {
     font-family: 'Baloo Bhaijaan', sans-serif;
     font-weight: 400; /* Regular weight */
-    font-size: 36px; /* Set the font size */
+    font-size: 28px; /* Reduced font size */
     color: #FFD700; /* Gold color */
+    white-space: nowrap; /* Prevents text wrapping */
 }
 
 .navItems {
     display: flex;
     align-items: center;
-    gap: 60px;
+    gap: 40px; /* Reduced gap between items */
     color: rgba(201, 160, 22, 1);
-    justify-content: center;
-    flex-wrap: wrap;
-    margin: auto 0;
-    font: 500 20px Inter, sans-serif;
+    font: 500 18px Inter, sans-serif; /* Slightly reduced font size */
+    flex-wrap: nowrap; /* Prevents wrapping */
 }
 
 .navItem {
@@ -38,6 +38,7 @@
     text-decoration: none;
     cursor: pointer;
     transition: opacity 0.2s ease;
+    white-space: nowrap; /* Ensures text stays on one line */
 }
 
 .navItem:hover,
@@ -59,5 +60,38 @@
 }
 
 button {
-    background-color: transparent; /* Avoid overriding buttons globally */
+    background-color: transparent;
+    white-space: nowrap; /* Prevents text wrapping */
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdownContent {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown:hover .dropdownContent {
+    display: block;
+}
+
+.dropdownContent button {
+    color: black;
+    padding: 8px 16px;
+    text-decoration: none;
+    display: block;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdownContent button:hover {
+    background-color: #f1f1f1;
 }

@@ -3,13 +3,16 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import GoogleTranslateLoader from './utils/GoogleTranslateLoader'; // Import your component
 
 // eslint-disable-next-line import/no-named-as-default-member
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
 root.render(
   <React.StrictMode>
+    <GoogleTranslateLoader />
     <App />
   </React.StrictMode>
 );
