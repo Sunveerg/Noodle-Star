@@ -57,7 +57,7 @@ export const NavBar: React.FC = () => {
       <div id="google_translate_element" style={{ display: 'none' }}></div>{' '}
       {/* Hidden Google Translate element */}
       <div className={styles.navContainer}>
-        <div className={`${styles.logo} notranslate`}>Noodle Star</div>
+        <div className={`${styles.logo} notranslate`}>Nouilles Star</div>
         <div className={styles.navItems} role="menubar">
           {navigationItems.map(item => (
             <NavLink
