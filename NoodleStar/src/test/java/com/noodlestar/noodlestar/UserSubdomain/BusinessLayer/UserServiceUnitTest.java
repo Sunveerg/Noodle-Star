@@ -446,4 +446,66 @@ class UserServiceUnitTest {
                 .verify();
     }
 
+
+
+
+    @Test
+    void whenUpdateUserWithValidData_thenReturnUpdatedUserResponseModel() {
+        // Arrange
+        String userId = UUID.randomUUID().toString();
+
+        User existingStaffUser = User.builder()
+                .userId(userId)
+                .email("old.email@example.com")
+                .firstName("OldFirstName")
+                .lastName("OldLastName")
+                .roles(List.of("Customer"))
+                .permissions(List.of("read:staff"))
+                .build();
+
+        UserRequestModel updateRequest = UserRequestModel.builder()
+                .email("new.email@example.com")
+                .firstName("NewFirstName")
+                .lastName("NewLastName")
+                .roles(List.of("Customer"))
+                .permissions(List.of("write:staff"))
+                .build();
+
+        User updatedStaffUser = User.builder()
+                .userId(userId)
+                .email("new.email@example.com")
+                .firstName("NewFirstName")
+                .lastName("NewLastName")
+                .roles(List.of("Staff"))
+                .permissions(List.of("write:staff"))
+                .build();
+
+        UserResponseModel expectedResponse = UserResponseModel.builder()
+                .userId(userId)
+                .email("new.email@example.com")
+                .firstName("NewFirstName")
+                .lastName("NewLastName")
+                .roles(List.of("Staff"))
+                .permissions(List.of("write:staff"))
+                .build();
+
+        when(userRepository.findByUserId(userId)).thenReturn(Mono.just(existingStaffUser));
+        when(userRepository.save(existingStaffUser)).thenReturn(Mono.just(updatedStaffUser));
+
+        // Act & Assert
+        StepVerifier.create(userService.updateUser(Mono.just(updateRequest), userId))
+                .expectNextMatches(response ->
+                        response.getUserId().equals(expectedResponse.getUserId()) &&
+                                response.getEmail().equals(expectedResponse.getEmail()) &&
+                                response.getFirstName().equals(expectedResponse.getFirstName()) &&
+                                response.getLastName().equals(expectedResponse.getLastName()) &&
+                                response.getRoles().equals(expectedResponse.getRoles()) &&
+                                response.getPermissions().equals(expectedResponse.getPermissions())
+                )
+                .verifyComplete();
+
+        // Verify
+        verify(userRepository, times(1)).findByUserId(userId);
+        verify(userRepository, times(1)).save(existingStaffUser);
+    }
 }
