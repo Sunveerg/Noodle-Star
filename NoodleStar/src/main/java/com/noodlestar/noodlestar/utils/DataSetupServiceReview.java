@@ -95,8 +95,12 @@ public class DataSetupServiceReview implements CommandLineRunner {
                 buildOrderDetails("menuId7", 2), buildOrderDetails("menuId8", 1));
         Mono<Order> order5 = buildOrder("orderId5", "55555555-5555-5555-5555-555555555555", "Pending", LocalDate.now(),
                 buildOrderDetails("menuId9", 5), buildOrderDetails("menuId10", 3));
+        Mono<Order> order6 = buildOrder("orderId6", "auth0|67853224d6b220fc6b4f86d9", "Pending", LocalDate.now(),
+                buildOrderDetails("menuId10", 1), buildOrderDetails("menuId6", 1));
+        Mono<Order> order7 = buildOrder("orderId7", "auth0|67853224d6b220fc6b4f86d9", "Pending", LocalDate.now(),
+                buildOrderDetails("menuId8", 1), buildOrderDetails("menuId1", 1));
 
-        Flux.just(order1, order2, order3, order4, order5)
+        Flux.just(order1, order2, order3, order4, order5, order6, order7)
                 .flatMap(orderMono -> orderMono
                         .flatMap(order -> {
                             System.out.println("Checking if order exists: " + order.getOrderId());
@@ -135,11 +139,13 @@ public class DataSetupServiceReview implements CommandLineRunner {
 
     private Mono<OrderDetails> buildOrderDetails(String menuId, int quantity) {
         return menuRepository.findMenuByMenuId(menuId)
+                .doOnNext(menuItem -> System.out.println("Fetched menu item: " + menuItem))
                 .map(menuItem -> {
                     OrderDetails orderDetails = new OrderDetails();
                     orderDetails.setMenuId(menuId);
                     orderDetails.setQuantity(quantity);
                     orderDetails.setPrice(menuItem.getPrice());
+                    System.out.println("Setting price in OrderDetails: " + menuItem.getPrice());
                     return orderDetails;
                 });
     }
@@ -207,7 +213,7 @@ public class DataSetupServiceReview implements CommandLineRunner {
         User user3 = buildUser("userId3", "leopold@example.com", "Leopold", "Miller", List.of("Customer"), null);
         User user4 = buildUser("userId4", "samuel@example.com", "Samuel", "Taylor", List.of("Staff"), null);
         User user5 = buildUser("userId5", "samantha@example.com", "Samantha", "Lee", List.of("Customer"), List.of("read"));
-        User user6 = buildUser("auth0|67853224d6b220fc6b4f86d9", "felix@gmail.com", null, null, List.of("User", "Staff", "Owner"), List.of("read:admin-messages", "read:current_user", "read:customer", "read:roles", "read:users", "write:role"));
+        User user6 = buildUser("auth0|67853224d6b220fc6b4f86d9", "felix@gmail.com", null, null, List.of("User", "Staff", "Owner", "Customer"), List.of("read:admin-messages", "read:current_user", "read:customer", "read:roles", "read:users", "write:role"));
         User user7 = buildUser("auth0|675f6ad19a80612ce548e0b2", "zako2@example.com", "Zama", "Smith", List.of("Customer"), null);
         User user8 = buildUser("auth0|675f6ad19a80612ce548e0c3", "zako3@example.com", "Zak", "Smith", List.of("Customer"), null);
         User user9 = buildUser("auth0|675f6ad19a80612ce548e0d4", "zako4@example.com", "Zala", "Smith", List.of("Customer"), null);

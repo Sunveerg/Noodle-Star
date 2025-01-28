@@ -64,6 +64,11 @@ public class OrderServiceImpl implements OrderService {
                 .then();
     }
 
+    @Override
+    public Flux<OrderResponseModel> getOrdersByCustomerId(String customerId) {
+        return orderRepository.findAllByCustomerId(customerId)
+                .map(EntityDTOUtil::toOrderResponseModel);
+    }
 
 
     private Mono<Void> validateMenuItems(OrderRequestModel request) {

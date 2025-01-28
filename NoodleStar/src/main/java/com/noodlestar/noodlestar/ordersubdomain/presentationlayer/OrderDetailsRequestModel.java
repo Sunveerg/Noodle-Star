@@ -12,4 +12,5 @@ import java.util.UUID;
 public class OrderDetailsRequestModel {
     private String menuId;
     private int quantity;
+    private double price;
 }

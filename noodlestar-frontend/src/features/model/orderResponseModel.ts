@@ -2,6 +2,7 @@ export interface OrderDetailsResponseModel {
   menuId: string;
   quantity: number;
   price: number;
+  dishName?: string;
 }
 
 export interface OrderResponseModel {
