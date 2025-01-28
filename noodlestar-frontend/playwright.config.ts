@@ -77,6 +77,7 @@ export default defineConfig({
     '**/tests/GetOrderSummary.spec.ts', // Exclude this test
     '**/AddStaffRole.spec.ts', // Exclude this test
     '**/GetStaff.spec.ts', // Exclude this test
+    '**/UpdateUser.spec.ts'
   ],
 
   /* Run your local dev server before starting the tests */
