@@ -172,5 +172,22 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    @Override
+    public Mono<UserResponseModel> updateUser(Mono<UserRequestModel> userRequestModel, String userId) {
+        return userRepository.findByUserId(userId)
+                .flatMap(existingUser -> userRequestModel.map(requestModel ->{
+                    existingUser.setFirstName(requestModel.getFirstName());
+                    existingUser.setLastName(requestModel.getLastName());
+                    existingUser.setEmail(requestModel.getEmail());
+                    existingUser.setRoles(requestModel.getRoles());
+                    existingUser.setPermissions(requestModel.getPermissions());
+                    return existingUser;
+                }))
+                .switchIfEmpty(Mono.error(new NotFoundException("User not found with id:"  + userId)))
+                .flatMap(userRepository::save)
+                .map(EntityDTOUtil::toUserResponseModel);
+    }
+
+
 }
 

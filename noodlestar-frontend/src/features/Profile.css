@@ -48,11 +48,10 @@
   
   /* Profile Info Section */
   .profile-info-section {
-    display: inline-block;
+    display: block; /* Ensure block-level display for stacking elements */
     text-align: center;
     margin-top: -100px;
-  }
-  
+}
   .profile-image-container {
     margin-bottom: 15px;
   }
@@ -298,4 +297,54 @@
     color: #555;
     font-size: 0.9rem;
     margin: 3px 0;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column; /* Stack the buttons vertically */
+    align-items: center;
+    gap: 10px; /* Add space between buttons */
+}
+  
+
+.modify-button {
+    background-color: #f2c719a1; /* Golden Yellow */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+    margin-bottom: 10px; /* Spacing between Modify and Review buttons */
+}
+  
+.modify-button:hover {
+    background-color: #e0a900;
+}
+  
+.modify-button:focus {
+    outline: none;
+}
+
+
+  .review-Button {
+    padding: 15px 25px; /* Larger padding for a bigger button */
+    font-size: 1.5rem; /* Increased font size */
+    background-color: #f1c40f; /* Gold color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+.reviewButton:hover {
+    background-color: #e0a900; /* Darker gold on hover */
+}
+
+.reviewButton:focus {
+    outline: none;
 }

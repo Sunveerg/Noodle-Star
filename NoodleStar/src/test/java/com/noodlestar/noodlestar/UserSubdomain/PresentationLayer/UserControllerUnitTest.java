@@ -389,5 +389,42 @@ class UserControllerUnitTest {
 //        verify(userService, times(1)).addStaffRoleToUser(userId);
 //    }
 
+
+
+    @Test
+    void updateUserSuccess() {
+        String userId = "staff-user-id";
+
+        UserRequestModel userRequestModel = UserRequestModel.builder()
+                .email("updated.staff@example.com")
+                .firstName("UpdatedStaff")
+                .lastName("User")
+                .roles(List.of("Customer"))
+                .permissions(List.of("read:staff", "write:staff"))
+                .build();
+
+        UserResponseModel updatedUser = UserResponseModel.builder()
+                .userId(userId)
+                .email(userRequestModel.getEmail())
+                .firstName(userRequestModel.getFirstName())
+                .lastName(userRequestModel.getLastName())
+                .roles(userRequestModel.getRoles())
+                .permissions(userRequestModel.getPermissions())
+                .build();
+
+        when(userService.updateUser(any(Mono.class), eq(userId))).thenReturn(Mono.just(updatedUser));
+
+        webTestClient.put()
+                .uri("/api/v1/users/{userId}", userId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(userRequestModel)
+                .exchange()
+                .expectStatus().isOk() // Assert 200 OK
+                .expectBody(UserResponseModel.class)
+                .isEqualTo(updatedUser); // Assert the response matches the updated user details
+
+        verify(userService, times(1)).updateUser(any(Mono.class), eq(userId));
+    }
+
 }
 

@@ -86,4 +86,11 @@ public class UserController {
                 .doOnError(e -> log.error("Error processing addStaffMember request: {}", e.getMessage()));
     }
 
+    @PutMapping("/{userId}")
+    public Mono<ResponseEntity<UserResponseModel>> UpdateUser(@PathVariable String userId, @RequestBody Mono<UserRequestModel> userRequestModel) {
+        return userService.updateUser(userRequestModel,userId)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
+    }
+
 }

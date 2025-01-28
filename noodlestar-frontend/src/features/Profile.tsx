@@ -7,6 +7,7 @@ import styles from '../components/css/HomePage.module.css';
 import { getOrderByCustomerId } from '../features/api/getOrderByCustomerId';
 import { getMenuItemById } from '../features/api/getMenuItemById';
 import { OrderResponseModel } from '../features/model/orderResponseModel';
+import { getUserById } from './api/updateUser';
 
 const Profile: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -28,6 +29,11 @@ const Profile: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const handleManageStaffClick = () => {
     navigate('/manageStaff');
+  };
+
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  const handleUpdateClick = (userId: string) => {
+    navigate(`/updateUsers/${userId}`);
   };
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -65,14 +71,18 @@ const Profile: React.FC = () => {
       }
 
       try {
+        // Decode token to get the payload
         const base64Url = accessToken.split('.')[1];
         const decodedPayload = JSON.parse(atob(base64Url));
+
         const roles = decodedPayload['https://noodlestar/roles'] || [];
+        const userId = decodedPayload.sub;
 
         setIsOwner(roles.includes('Owner'));
         setIsCustomer(roles.includes('Customer'));
         setIsStaff(roles.includes('Staff'));
 
+        // Fetch user info from Auth0
         const response = await fetch(
           'https://dev-5kbvxb8zgblo1by3.us.auth0.com/userinfo',
           {
@@ -88,8 +98,18 @@ const Profile: React.FC = () => {
         }
 
         const userInfo = await response.json();
-        setUserData(userInfo);
-        handleUserLogin(userInfo.sub, accessToken);
+
+        // Fetch additional user data from getUserById
+        const userInfo2 = await getUserById(userId);
+
+        // Merge the user data: Use picture and nickname from Auth0 user info, and other info from getUserById
+        setUserData({
+          ...userInfo2,
+          picture: userInfo.picture,
+          nickname: userInfo.nickname,
+          userId,
+        });
+        handleUserLogin(userId, accessToken);
       } catch (err: unknown) {
         if (err && typeof err === 'object' && 'message' in err) {
           const error = err as { message: string };
@@ -279,12 +299,19 @@ const Profile: React.FC = () => {
         </div>
       )}
 
-      <br></br>
-      {isStaff && (
-        <button className={styles.reviewButton} onClick={handleReviewClick}>
-          Go to Reviews
+      <div className="button-container">
+        <button
+          className="modify-button"
+          onClick={() => handleUpdateClick(userData.userId)}
+        >
+          Modify
         </button>
-      )}
+        {isStaff && (
+          <button className={styles.reviewButton} onClick={handleReviewClick}>
+            Go to Reviews
+          </button>
+        )}
+      </div>
     </div>
   );
 };
