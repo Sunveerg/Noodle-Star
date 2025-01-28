@@ -41,21 +41,21 @@ class OrderControllerUnitTest {
         order1.setOrderId("order1");
         order1.setCustomerId("customer1");
         order1.setOrderDate(LocalDate.now());
-        order1.setOrderDetails(Collections.singletonList(new OrderDetailsResponseModel("menu1", 2)));
+        order1.setOrderDetails(Collections.singletonList(new OrderDetailsResponseModel("menu1", 2, 15.0)));
         order1.setTotal(20.0);
 
         OrderResponseModel order2 = new OrderResponseModel();
         order2.setOrderId("order2");
         order2.setCustomerId("customer2");
         order2.setOrderDate(LocalDate.now());
-        order2.setOrderDetails(Collections.singletonList(new OrderDetailsResponseModel("menu2", 1)));
+        order2.setOrderDetails(Collections.singletonList(new OrderDetailsResponseModel("menu2", 1, 15.0)));
         order2.setTotal(15.0);
 
         OrderResponseModel order3 = new OrderResponseModel();
         order3.setOrderId("order3");
         order3.setCustomerId("customer3");
         order3.setOrderDate(LocalDate.now());
-        order3.setOrderDetails(Collections.singletonList(new OrderDetailsResponseModel("menu3", 3)));
+        order3.setOrderDetails(Collections.singletonList(new OrderDetailsResponseModel("menu3", 3, 5.0)));
         order3.setTotal(15.0);
 
         when(orderService.getAllOrders()).thenReturn(Flux.just(order1, order2, order3));
@@ -78,7 +78,7 @@ class OrderControllerUnitTest {
         order.setOrderId("order1");
         order.setCustomerId("customer1");
         order.setOrderDate(LocalDate.now());
-        order.setOrderDetails(Collections.singletonList(new OrderDetailsResponseModel("menu1", 2)));
+        order.setOrderDetails(Collections.singletonList(new OrderDetailsResponseModel("menu1", 2, 10.0)));
         order.setTotal(20.0);
 
         when(orderService.getOrderById("order1")).thenReturn(Mono.just(order));
@@ -98,13 +98,13 @@ class OrderControllerUnitTest {
     void createOrder() {
         OrderRequestModel orderRequest = new OrderRequestModel();
         orderRequest.setCustomerId("customer1");
-        orderRequest.setOrderDetails(Collections.singletonList(new OrderDetailsRequestModel("menu1", 2)));
+        orderRequest.setOrderDetails(Collections.singletonList(new OrderDetailsRequestModel("menu1", 2, 10.0)));
 
         OrderResponseModel orderResponse = new OrderResponseModel();
         orderResponse.setOrderId("order1");
         orderResponse.setCustomerId("customer1");
         orderResponse.setOrderDate(LocalDate.now());
-        orderResponse.setOrderDetails(Collections.singletonList(new OrderDetailsResponseModel("menu1", 2)));
+        orderResponse.setOrderDetails(Collections.singletonList(new OrderDetailsResponseModel("menu1", 2, 10.0)));
         orderResponse.setTotal(20.0);
 
         when(orderService.createOrder(any(Mono.class))).thenReturn(Mono.just(orderResponse));
@@ -135,5 +135,56 @@ class OrderControllerUnitTest {
         verify(orderService, times(1)).cancelOrder(orderId);
     }
 
+    @Test
+    void getOrdersByCustomerId_whenOrdersExist_thenReturnOrderList() {
+        // Arrange
+        String customerId = "customer1";
+        OrderResponseModel order1 = new OrderResponseModel();
+        order1.setOrderId("order1");
+        order1.setCustomerId(customerId);
+        order1.setOrderDate(LocalDate.now());
+        order1.setOrderDetails(Collections.singletonList(new OrderDetailsResponseModel("menu1", 2, 15.0)));
+        order1.setTotal(30.0);
+
+        OrderResponseModel order2 = new OrderResponseModel();
+        order2.setOrderId("order2");
+        order2.setCustomerId(customerId);
+        order2.setOrderDate(LocalDate.now());
+        order2.setOrderDetails(Collections.singletonList(new OrderDetailsResponseModel("menu2", 1, 20.0)));
+        order2.setTotal(20.0);
+
+        when(orderService.getOrdersByCustomerId(customerId)).thenReturn(Flux.just(order1, order2));
+
+        // Act & Assert
+        webTestClient.get()
+                .uri("/api/v1/orders/orderHistory/{customerId}", customerId)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBodyList(OrderResponseModel.class)
+                .hasSize(2)
+                .contains(order1, order2);
+
+        verify(orderService, times(1)).getOrdersByCustomerId(customerId);
+    }
+
+    @Test
+    void getOrdersByCustomerId_whenNoOrdersExist_thenReturnEmptyList() {
+        // Arrange
+        String customerId = "customer2";
+
+        when(orderService.getOrdersByCustomerId(customerId)).thenReturn(Flux.empty());
+
+        // Act & Assert
+        webTestClient.get()
+                .uri("/api/v1/orders/orderHistory/{customerId}", customerId)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBodyList(OrderResponseModel.class)
+                .hasSize(0);
+
+        verify(orderService, times(1)).getOrdersByCustomerId(customerId);
+    }
 
 }

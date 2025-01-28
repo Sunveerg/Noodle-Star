@@ -214,5 +214,59 @@ class OrderServiceUnitTest {
         verify(orderRepository, never()).delete(any(Order.class));
     }
 
+    @Test
+    public void whenGetOrdersByCustomerId_thenReturnOrders() {
+        // Arrange
+        String customerId = "customer1";
+
+        Order order1 = new Order();
+        order1.setOrderId("order1");
+        order1.setCustomerId(customerId);
+        order1.setOrderDate(LocalDate.now());
+        order1.setOrderDetails(Collections.singletonList(new OrderDetails("menu1", 2, 10.0)));
+        order1.setTotal(20.0);
+
+        Order order2 = new Order();
+        order2.setOrderId("order2");
+        order2.setCustomerId(customerId);
+        order2.setOrderDate(LocalDate.now());
+        order2.setOrderDetails(Collections.singletonList(new OrderDetails("menu2", 1, 15.0)));
+        order2.setTotal(15.0);
+
+        when(orderRepository.findAllByCustomerId(customerId)).thenReturn(Flux.just(order1, order2));
+
+        // Act
+        Flux<OrderResponseModel> result = orderService.getOrdersByCustomerId(customerId);
+
+        // Assert
+        StepVerifier.create(result)
+                .expectNextMatches(orderResponse ->
+                        orderResponse.getOrderId().equals("order1") &&
+                                orderResponse.getTotal() == 20.0)
+                .expectNextMatches(orderResponse ->
+                        orderResponse.getOrderId().equals("order2") &&
+                                orderResponse.getTotal() == 15.0)
+                .verifyComplete();
+
+        verify(orderRepository, times(1)).findAllByCustomerId(customerId);
+    }
+
+    @Test
+    public void whenGetOrdersByCustomerIdAndNoOrdersExist_thenReturnEmptyFlux() {
+        // Arrange
+        String customerId = "nonExistentCustomerId";
+
+        when(orderRepository.findAllByCustomerId(customerId)).thenReturn(Flux.empty());
+
+        // Act
+        Flux<OrderResponseModel> result = orderService.getOrdersByCustomerId(customerId);
+
+        // Assert
+        StepVerifier.create(result)
+                .expectNextCount(0) // Expect no elements in the Flux
+                .verifyComplete();
+
+        verify(orderRepository, times(1)).findAllByCustomerId(customerId);
+    }
 
 }

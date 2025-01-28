@@ -12,7 +12,6 @@ import reactor.core.publisher.Flux;
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 
 public class OrderController {
-
     private final OrderService orderService;
 
     public OrderController(OrderService orderService) {
@@ -37,6 +36,11 @@ public class OrderController {
     @DeleteMapping("/{orderId}")
     public Mono<Void> cancelOrder(@PathVariable String orderId) {
         return orderService.cancelOrder(orderId);
+    }
+
+    @GetMapping("/orderHistory/{customerId}")
+    public Flux<OrderResponseModel> getOrdersByCustomerId(@PathVariable String customerId) {
+        return orderService.getOrdersByCustomerId(customerId);
     }
 
 }

@@ -197,34 +197,117 @@
     background-color: #cc5200;
 }
 
-.order-history-text {
-    font-size: 2.5rem;
-    font-weight: 600;
-    color: #f1c40f;
+/* Order History Container */
+.order-history-container {
+    background-color: #ffe0b3; /* Light golden color */
+    border: 2px solid #d8342c; /* Red border */
+    border-radius: 16px;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 900px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    font-family: "Noto Serif SC", serif; /* Add a Chinese-inspired font */
+}
+
+/* Title */
+.order-history-title {
+    font-size: 2.4rem;
+    font-weight: bold;
+    color: #d8342c; /* Deep red color */
+    text-align: center;
+    border-bottom: 2px solid #d8342c;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+/* Empty Message */
+.order-history-empty {
+    font-size: 1.2rem;
+    text-align: center;
+    color: #666;
+    font-style: italic;
+}
+
+/* Order List */
+.order-history-list {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+/* Individual Order Item */
+.order-item {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #fff7e6; /* Subtle cream color */
+    border: 1px solid #d8342c; /* Red border */
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.order-item:hover {
+    transform: scale(1.02); /* Subtle hover effect */
+}
+
+/* Order Details */
+.order-id {
+    color: #d8342c; /* Deep red */
+    font-size: 1.6rem;
+    font-weight: bold;
+}
+
+.order-status,
+.order-date,
+.order-total {
+    color: #333;
+    font-size: 1rem;
+    margin: 5px 0;
+}
+
+/* Order Details Title */
+.order-details-title {
+    color: #d8342c; /* Deep red */
+    font-size: 1.2rem;
+    margin-top: 15px;
+    border-bottom: 1px solid #d8342c;
+    padding-bottom: 5px;
+}
+
+/* Order Details List */
+.order-details-list {
+    list-style-type: none;
+    padding-left: 20px;
+    margin-top: 10px;
+}
+
+/* Order Detail Item */
+.order-detail-item {
     margin-bottom: 10px;
-  }
-  
-  .order-history-box {
-    width: 400px;
-    height: 180px;
-    border: 2px solid rgba(255, 193, 101, 1);
-    border-radius: 8px;
-    background-color: rgba(255, 193, 101, 1);
     padding: 10px;
-  }
-  
+    background-color: #fff;
+    border: 1px solid #f4a261; /* Soft orange border */
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
 
+.order-detail-menu-id,
+.order-detail-quantity,
+.order-detail-price {
+    color: #555;
+    font-size: 0.9rem;
+    margin: 3px 0;
+}
 
-  .button-container {
+.button-container {
     display: flex;
     flex-direction: column; /* Stack the buttons vertically */
     align-items: center;
     gap: 10px; /* Add space between buttons */
-  }
+}
   
 
-
-  .modify-button {
+.modify-button {
     background-color: #f2c719a1; /* Golden Yellow */
     color: white;
     border: none;
@@ -235,15 +318,15 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transition: background-color 0.3s ease;
     margin-bottom: 10px; /* Spacing between Modify and Review buttons */
-  }
+}
   
-  .modify-button:hover {
+.modify-button:hover {
     background-color: #e0a900;
-  }
+}
   
-  .modify-button:focus {
+.modify-button:focus {
     outline: none;
-  }
+}
 
 
   .review-Button {

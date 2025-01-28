@@ -145,6 +145,7 @@ public class EntityDTOUtil {
                 .map(details -> OrderDetails.builder()
                         .menuId(details.getMenuId())
                         .quantity(details.getQuantity())
+                        .price(details.getPrice())
                         .build())
                 .toList();
     }
@@ -154,6 +155,7 @@ public class EntityDTOUtil {
                 .map(details -> OrderDetailsResponseModel.builder()
                         .menuId(details.getMenuId())
                         .quantity(details.getQuantity())
+                        .price(details.getPrice())
                         .build())
                 .toList();
     }

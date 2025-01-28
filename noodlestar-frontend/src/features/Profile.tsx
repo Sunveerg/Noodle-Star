@@ -4,6 +4,9 @@ import './Profile.css';
 import noodleImg from '../components/assets/noodle.png';
 import { useNavigate } from 'react-router-dom';
 import styles from '../components/css/HomePage.module.css';
+import { getOrderByCustomerId } from '../features/api/getOrderByCustomerId';
+import { getMenuItemById } from '../features/api/getMenuItemById';
+import { OrderResponseModel } from '../features/model/orderResponseModel';
 import { getUserById } from './api/updateUser';
 
 const Profile: React.FC = () => {
@@ -14,6 +17,7 @@ const Profile: React.FC = () => {
   const [isOwner, setIsOwner] = useState(false);
   const [isCustomer, setIsCustomer] = useState(false);
   const [isStaff, setIsStaff] = useState(false);
+  const [orderHistory, setOrderHistory] = useState<OrderResponseModel[]>([]);
   const loginCalledRef = useRef(false);
   const navigate = useNavigate();
 
@@ -123,6 +127,91 @@ const Profile: React.FC = () => {
     fetchUserInfo();
   }, []);
 
+  useEffect(() => {
+    const fetchOrderHistory = async (): Promise<void> => {
+      const accessToken = localStorage.getItem('access_token');
+
+      if (!accessToken) {
+        console.error('Access token not found');
+        setError('Access token is required to fetch order history.');
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const base64Url = accessToken.split('.')[1];
+        const decodedPayload = JSON.parse(atob(base64Url));
+        const customerId = decodedPayload.sub;
+
+        if (!customerId) {
+          console.error('Customer ID not found in access token');
+          setError('Customer ID is required to fetch order history.');
+          setLoading(false);
+          return;
+        }
+
+        const orders = await getOrderByCustomerId(customerId);
+
+        const updatedOrders: Array<
+          Awaited<{
+            orderDetails: Array<
+              Awaited<{
+                quantity: number;
+                price: number;
+                menuId: string;
+                dishName: string;
+              }>
+            >;
+            total: number;
+            orderId: string;
+            customerId: string;
+            orderDate: string;
+            status: string;
+          }>
+        > = await Promise.all(
+          orders.map(async order => {
+            const updatedOrderDetails = await Promise.all(
+              order.orderDetails.map(async detail => {
+                try {
+                  const menuItem = await getMenuItemById(detail.menuId);
+                  return {
+                    ...detail,
+                    dishName: menuItem?.name || 'Unknown Dish',
+                  };
+                } catch (err) {
+                  console.error(
+                    `Error fetching menu item for menuId ${detail.menuId}:`,
+                    err
+                  );
+                  return {
+                    ...detail,
+                    dishName: 'Unknown Dish',
+                  };
+                }
+              })
+            );
+
+            return {
+              ...order,
+              orderDetails: updatedOrderDetails,
+            };
+          })
+        );
+
+        setOrderHistory(updatedOrders as OrderResponseModel[]);
+      } catch (err) {
+        console.error('Error fetching order history:', err);
+        setError('Failed to fetch order history.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (isCustomer) {
+      fetchOrderHistory();
+    }
+  }, [isCustomer]);
+
   if (loading) {
     return <div className="loading-message">Loading...</div>;
   }
@@ -159,9 +248,46 @@ const Profile: React.FC = () => {
       </div>
 
       {isCustomer && (
-        <div className="order-history-section">
-          <p className="order-history-text">Order History</p>
-          <div className="order-history-box"></div>
+        <div className="order-history-container">
+          <h2 className="order-history-title">Order History</h2>
+          {orderHistory.length === 0 ? (
+            <p className="order-history-empty">No orders found.</p>
+          ) : (
+            <ul className="order-history-list">
+              {orderHistory.map(order => (
+                <li key={order.orderId} className="order-item">
+                  <h3 className="order-id">Order ID: {order.orderId}</h3>
+                  <p className="order-status">Status: {order.status}</p>
+                  <p className="order-date">Date: {order.orderDate}</p>
+                  <p className="order-total">
+                    Total: $
+                    {order.total && !isNaN(order.total)
+                      ? order.total.toFixed(2)
+                      : 'N/A'}
+                  </p>
+                  <h4 className="order-details-title">Order Details:</h4>
+                  <ul className="order-details-list">
+                    {order.orderDetails.map(detail => (
+                      <li key={detail.menuId} className="order-detail-item">
+                        <p className="order-detail-dish-name">
+                          {detail.dishName}
+                        </p>
+                        <p className="order-detail-quantity">
+                          Quantity: {detail.quantity}
+                        </p>
+                        <p className="order-detail-price">
+                          Price: $
+                          {detail.price && !isNaN(detail.price)
+                            ? detail.price.toFixed(2)
+                            : 'N/A'}
+                        </p>
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       )}
 
