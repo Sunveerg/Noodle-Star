@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-console */
 import React, { useEffect, useState } from 'react';
 import { ReportResponseModel } from './model/reportResponseModel';
 import { ReportRequestModel } from './model/reportRequestModel';
@@ -24,7 +22,6 @@ const ReportList: React.FC = () => {
       try {
         // Fetch reports
         const reportResponse = await getAllReports(requestPayload);
-        console.log('API Response:', reportResponse.data);
 
         // Fetch menu items (menuResponseModel)
         const menuResponse = await getAllmenu(); // Assuming this API returns an array of { menuId, name }
