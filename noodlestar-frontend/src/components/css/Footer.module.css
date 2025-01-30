@@ -1,0 +1,116 @@
+/* Animated background */
+.footerBackground {
+    background: rgba(83, 9, 9, 1);
+    background-size: 300% 300%;
+    animation: gradientShift 5s ease infinite;
+    color: white;
+    padding: 2% 0;
+    text-align: center;
+    width: 100%;
+}
+
+
+/* Footer container - smooth fade-in */
+.footerContainer {
+    max-width: 1203px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 1s ease-out forwards;
+}
+
+/* Fade-in animation */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Footer sections */
+.footerSection {
+    flex: 1;
+    min-width: 250px;
+    color: white;
+}
+
+/* Heading Colors */
+.footerSection h3 {
+    color: #FFD700;
+}
+
+/* Logo */
+.logo {
+    font-family: 'Baloo Bhaijaan', sans-serif;
+    font-size: 28px;
+    color: #FFD700;
+}
+
+/* Tagline - Animated Bounce */
+.tagline {
+    font-style: italic;
+    font-size: 1.2rem;
+    color: #FFD700;
+    margin-top: 5px;
+    animation: bounce 1.5s infinite alternate;
+}
+
+@keyframes bounce {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(-5px);
+    }
+}
+
+/* Social Icons */
+.socialIcons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+/* Social Icon Styling */
+.icon {
+    color: rgba(201, 160, 22, 1);
+    font-size: 24px;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.icon:hover {
+    transform: scale(1.2);
+    color: #FFD700;
+}
+
+/* Review Button */
+.reviewButton {
+    padding: 15px 25px;
+    font-size: 1.5rem;
+    background: radial-gradient(circle, #f1c40f 30%, #e0a900 70%);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+/* Hover effect */
+.reviewButton:hover {
+    background: radial-gradient(circle, #e0a900 30%, #c78b00 70%);
+    transform: scale(1.05);
+}
+
+.reviewButton {
+    animation: pulse 2s infinite;
+}

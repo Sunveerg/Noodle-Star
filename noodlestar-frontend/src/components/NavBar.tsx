@@ -8,7 +8,6 @@ const navigationItems = [
   { label: 'About Us', path: PathRoutes.AboutUsPage },
   { label: 'Menu', path: '/menu' },
   { label: 'Order', path: '/menuOrder' },
-  { label: 'Contact', path: '/contact' },
   { label: 'Account', path: '/profile' },
 ];
 
