@@ -296,6 +296,12 @@ const Profile: React.FC = () => {
           <button className="owner-button" onClick={handleManageStaffClick}>
             Manage Staff
           </button>
+          <button
+            className="report-button"
+            onClick={() => navigate('/reports')}
+          >
+            Report
+          </button>
         </div>
       )}
 
