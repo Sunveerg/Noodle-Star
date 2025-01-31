@@ -16,6 +16,7 @@ import ManageStaffPage from './pages/ManageStaffPage';
 import UpdateStaff from './features/UpdateStaff';
 import AddStaffPage from './pages/AddStaffPage';
 import UpdateUserPage from './pages/UpdateUserPage';
+import ReportPage from './pages/ReportPage';
 
 const router = createBrowserRouter([
   {
@@ -84,6 +85,11 @@ const router = createBrowserRouter([
   {
     path: PathRoutes.UpdateUsers,
     element: <UpdateUserPage />,
+  },
+
+  {
+    path: PathRoutes.Reports,
+    element: <ReportPage />,
   },
 ]);
 

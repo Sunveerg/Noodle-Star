@@ -3,6 +3,8 @@ package com.noodlestar.noodlestar.utils;
 import com.noodlestar.noodlestar.MenuSubdomain.DataLayer.Menu;
 import com.noodlestar.noodlestar.MenuSubdomain.DataLayer.MenuRepository;
 import com.noodlestar.noodlestar.MenuSubdomain.DataLayer.Status;
+import com.noodlestar.noodlestar.ReportSubdomain.DataLayer.Report;
+import com.noodlestar.noodlestar.ReportSubdomain.DataLayer.ReportRepository;
 import com.noodlestar.noodlestar.ReviewSubdomain.DataLayer.Review;
 import com.noodlestar.noodlestar.ReviewSubdomain.DataLayer.ReviewRepo;
 import com.noodlestar.noodlestar.UserSubdomain.DataLayer.User;
@@ -28,6 +30,7 @@ public class DataSetupServiceReview implements CommandLineRunner {
     private final MenuRepository menuRepository;
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
+    private  final ReportRepository reportRepo;
 
 
     @Override
@@ -36,6 +39,7 @@ public class DataSetupServiceReview implements CommandLineRunner {
         setupMenu();
         setupOrders();
         setupUsers();
+        setupReports();
     }
 
 
@@ -94,7 +98,7 @@ public class DataSetupServiceReview implements CommandLineRunner {
         Mono<Order> order4 = buildOrder("orderId4", "44444444-4444-4444-4444-444444444444", "Canceled", LocalDate.now().minusDays(3),
                 buildOrderDetails("menuId7", 2), buildOrderDetails("menuId8", 1));
         Mono<Order> order5 = buildOrder("orderId5", "55555555-5555-5555-5555-555555555555", "Pending", LocalDate.now(),
-                buildOrderDetails("menuId9", 5), buildOrderDetails("menuId10", 3));
+                buildOrderDetails("menuId9", 7), buildOrderDetails("menuId10", 3));
         Mono<Order> order6 = buildOrder("orderId6", "auth0|67853224d6b220fc6b4f86d9", "Pending", LocalDate.now(),
                 buildOrderDetails("menuId10", 1), buildOrderDetails("menuId6", 1));
         Mono<Order> order7 = buildOrder("orderId7", "auth0|67853224d6b220fc6b4f86d9", "Pending", LocalDate.now(),
@@ -247,5 +251,48 @@ public class DataSetupServiceReview implements CommandLineRunner {
                 .permissions(permissions)
                 .build();
     }
+
+
+
+
+    private void setupReports() {
+        Report report1 = buildReport("reportId1", "Most Popular Menu Item", "Burger", 150L, "2024-01-01 10:00");
+        Report report2 = buildReport("reportId2", "Most Popular Menu Item", "Pizza", 120L, "2024-01-01 10:00");
+        Report report3 = buildReport("reportId3", "Highest Revenue Menu Item", "Pasta", 200L, "2024-01-01 10:00");
+        Report report4 = buildReport("reportId4", "Most Popular Menu Item", "Salad", 90L, "2024-01-01 10:00");
+        Report report5 = buildReport("reportId5", "Highest Revenue Menu Item", "Steak", 250L, "2024-01-01 10:00");
+        Report report6 = buildReport("reportId6", "Most Popular Menu Item", "Sushi", 130L, "2024-01-01 10:00");
+        Report report7 = buildReport("reportId7", "Highest Revenue Menu Item", "Burger", 300L, "2024-01-01 10:00");
+        Report report8 = buildReport("reportId8", "Most Popular Menu Item", "Tacos", 110L, "2024-01-01 10:00");
+        Report report9 = buildReport("reportId9", "Highest Revenue Menu Item", "Pizza", 230L, "2024-01-01 10:00");
+        Report report10 = buildReport("reportId10", "Most Popular Menu Item", "Pasta", 180L, "2024-01-01 10:00");
+
+        Flux.just(report1, report2, report3, report4, report5, report6, report7, report8, report9, report10)
+                .flatMap(report -> {
+                    System.out.println("Checking if report exists: " + report.getReportId());
+
+                    // Ensure report does not already exist by reportId
+                    return reportRepo.findByReportId(report.getReportId())
+                            .doOnTerminate(() -> System.out.println("Terminated: " + report.getReportId()))
+                            .switchIfEmpty(Mono.defer(() -> {
+                                System.out.println("Inserting report: " + report.getReportId());
+                                return reportRepo.save(report); // Save if report doesn't exist
+                            }));
+                })
+                .subscribe();
+    }
+
+    private Report buildReport(String reportId, String reportType, String menuItemName, Long itemCount, String generatedAt) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime parsedGeneratedAt = LocalDateTime.parse(generatedAt, formatter);
+        return Report.builder()
+                .reportId(reportId)
+                .reportType(reportType)
+                .menuItemName(menuItemName)
+                .itemCount(itemCount)
+                .generatedAt(parsedGeneratedAt)
+                .build();
+    }
+
 
 }

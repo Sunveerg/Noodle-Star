@@ -348,3 +348,28 @@
 .reviewButton:focus {
     outline: none;
 }
+
+
+/* Report Button */
+.report-button {
+    position: fixed;
+    bottom: 80px; /* Position it above the owner button */
+    right: 20px;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    background-color: #3498db; /* Blue color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+.report-button:hover {
+    background-color: #2980b9; /* Darker blue on hover */
+}
+
+.report-button:focus {
+    outline: none;
+}

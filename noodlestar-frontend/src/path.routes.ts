@@ -17,4 +17,5 @@ export enum PathRoutes {
   UpdateStaff = '/manageStaff/:staffId/update',
   ManageUsers = '/addStaff',
   UpdateUsers = '/updateUsers/:userId',
+  Reports = '/reports',
 }
