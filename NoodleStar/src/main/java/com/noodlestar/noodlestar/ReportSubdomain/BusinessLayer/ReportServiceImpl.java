@@ -3,6 +3,7 @@ package com.noodlestar.noodlestar.ReportSubdomain.BusinessLayer;
 import com.noodlestar.noodlestar.ReportSubdomain.DataLayer.Report;
 import com.noodlestar.noodlestar.ReportSubdomain.DataLayer.ReportRepository;
 import com.noodlestar.noodlestar.ReportSubdomain.PresentationLayer.ReportResponseModel;
+import com.noodlestar.noodlestar.ordersubdomain.datalayer.Order;
 import com.noodlestar.noodlestar.ordersubdomain.datalayer.OrderRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -54,6 +55,32 @@ public class ReportServiceImpl implements ReportService {
                             ));
                 });
     }
+
+    @Override
+    public Mono<ReportResponseModel> generateFinancialReport() {
+        return orderRepository.findAll()
+                .map(Order::getTotal) // Extract total revenue from each order
+                .reduce(0.0, Double::sum) // Sum all totals
+                .flatMap(totalRevenue -> {
+                    Report report = Report.builder()
+                            .reportId("FIN-REPORT-" + System.currentTimeMillis())
+                            .reportType("Financial Report")
+                            .menuItemName("Total Revenue") // Placeholder since it's a financial report
+                            .itemCount(totalRevenue.longValue()) // Convert to long for consistency
+                            .generatedAt(LocalDateTime.now())
+                            .build();
+
+                    return reportRepository.save(report)
+                            .map(savedReport -> new ReportResponseModel(
+                                    savedReport.getReportId(),
+                                    savedReport.getReportType(),
+                                    savedReport.getMenuItemName(),
+                                    savedReport.getItemCount(),
+                                    savedReport.getGeneratedAt()
+                            ));
+                });
+    }
+
 
 
     private static class ItemCount {

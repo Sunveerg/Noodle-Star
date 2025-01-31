@@ -10,6 +10,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
 
@@ -68,5 +69,35 @@ class ReportControllerUnitTest {
 
         // Verify that the reportService method was called once
         verify(reportService, times(1)).generateMenuItemOrderFrequencyReport();
+    }
+
+    @Test
+    void generateFinancialReport() {
+        // Arrange
+        LocalDateTime fixedDate = LocalDateTime.of(2024, 12, 10, 18, 38, 9, 0);
+
+        // Create mock report data for the financial report
+        ReportResponseModel financialReport = ReportResponseModel.builder()
+                .reportId("FIN-REPORT-1")
+                .reportType("Financial Report")
+                .menuItemName("Total Revenue")
+                .itemCount(5000L) // Example total revenue
+                .generatedAt(fixedDate)
+                .build();
+
+        // Mock the service to return the mock financial report data
+        when(reportService.generateFinancialReport()).thenReturn(Mono.just(financialReport));
+
+        // Act & Assert
+        webTestClient.post()
+                .uri("/api/reports/generate/financial")  // URI to the financial report endpoint
+                .accept(MediaType.APPLICATION_JSON)  // Accept JSON response
+                .exchange()
+                .expectStatus().isOk()  // Assert that the status is OK
+                .expectBody(ReportResponseModel.class)  // Assert that the response body is a single ReportResponseModel
+                .isEqualTo(financialReport);  // Assert that the response is the same as the expected financial report
+
+        // Verify that the reportService method was called once
+        verify(reportService, times(1)).generateFinancialReport();
     }
 }
