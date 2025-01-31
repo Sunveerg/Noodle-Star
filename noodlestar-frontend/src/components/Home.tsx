@@ -15,11 +15,13 @@ export const Home: React.FC = () => {
     <main className={styles.homePage}>
       {/* Left Section: Text Content */}
       <div className={styles.welcomeText}>
-        <h4>Welcome</h4>
-        <h1>
-          Noodle <br /> Star
+        <h4 translate="yes">Welcome to our restaurant</h4>
+
+        <h1 className="notranslate">
+          Nouilles <br /> Star
         </h1>
-        <p className={styles.paragraph}>
+
+        <p className={styles.paragraph} translate="yes">
           Delve into the rich flavors of authentic Chinese cuisine, ready for
           you to savor and enjoy.
         </p>
