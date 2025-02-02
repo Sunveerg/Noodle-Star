@@ -32,4 +32,12 @@ public class ReportController {
         return reportService.generateMenuItemOrderFrequencyReport();
     }
 
+    @PostMapping("/generate/financial")
+    public Mono<ResponseEntity<ReportResponseModel>> generateFinancialReport() {
+        return reportService.generateFinancialReport()
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
+    }
+
+
 }

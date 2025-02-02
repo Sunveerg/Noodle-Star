@@ -107,4 +107,61 @@ class ReportServiceUnitTest {
         verify(orderRepository, times(1)).findAll();
         verify(reportRepository, times(3)).save(any(Report.class)); // Verify save was called three times
     }
+
+    @Test
+    public void whenGenerateFinancialReport_thenTotalRevenueIsCalculated() {
+        // Arrange
+        Order order1 = Order.builder()
+                .id(UUID.randomUUID().toString())
+                .orderId(UUID.randomUUID().toString())
+                .customerId("customer1")
+                .status("COMPLETED")
+                .orderDate(LocalDate.now())
+                .total(95.0)
+                .build();
+
+        Order order2 = Order.builder()
+                .id(UUID.randomUUID().toString())
+                .orderId(UUID.randomUUID().toString())
+                .customerId("customer2")
+                .status("COMPLETED")
+                .orderDate(LocalDate.now())
+                .total(134.0)
+                .build();
+
+        Order order3 = Order.builder()
+                .id(UUID.randomUUID().toString())
+                .orderId(UUID.randomUUID().toString())
+                .customerId("customer3")
+                .status("COMPLETED")
+                .orderDate(LocalDate.now())
+                .total(71.5)
+                .build();
+
+        double expectedTotalRevenue = 95.0 + 134.0 + 71.5; // 300.5
+
+        // Mocking repository calls
+        when(orderRepository.findAll()).thenReturn(Flux.just(order1, order2, order3));
+        when(reportRepository.save(any(Report.class))).thenAnswer(invocation -> {
+            Report report = invocation.getArgument(0);
+            return Mono.just(report); // Return the same report for verification
+        });
+
+        // Act
+        Mono<ReportResponseModel> result = reportService.generateFinancialReport();
+
+        // Assert
+        StepVerifier.create(result)
+                .assertNext(report -> {
+                    assertThat(report.getReportType()).isEqualTo("Financial Report");
+                    assertThat(report.getMenuItemName()).isEqualTo("Total Revenue");
+                    assertThat(report.getItemCount()).isEqualTo((long) expectedTotalRevenue);
+                })
+                .expectComplete()
+                .verify();
+
+        verify(orderRepository, times(1)).findAll();
+        verify(reportRepository, times(1)).save(any(Report.class)); // Should be called once for total revenue report
+    }
+
 }

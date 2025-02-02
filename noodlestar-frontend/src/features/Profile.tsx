@@ -302,6 +302,12 @@ const Profile: React.FC = () => {
           >
             Report
           </button>
+          <button
+            className="financial-report-button"
+            onClick={() => navigate('/financial-report')}
+          >
+            Financial Report
+          </button>
         </div>
       )}
 

@@ -39,10 +39,18 @@ System_Boundary(NoodleStar, "NoodleStar Application") {
             Container(menuFeature3, "AddDish", "TSX", "Handle to add a menu item", $tags="service")
             Container(menuFeature4, "MenuDetails", "TSX", "Handle to retrieve one item from menu.", $tags="service")
             Container(menuFeature5, "ReviewList", "TSX", "Handle to retrieve all the reviews", $tags="service")
-            Container(orderFeature, "Order Feature", "TSX", "Handles order-related functionality.", $tags="service")
-            Container(profileFeature, "Profile Feature", "TSX", "User profile management.", $tags="service")
-            Container(cartFeature, "Cart Feature", "TSX", "Handles cart management.", $tags="service")
+            Container(orderFeature, "Order Summary", "TSX", "Handles order-related functionality.", $tags="service")
+            Container(profileFeature, "Profile", "TSX", "User profile management.", $tags="service")
+            Container(cartFeature, "Available Menu List", "TSX", "Handles cart management.", $tags="service")
             Container(reportFeature, "Report Feature", "TSX", "Handles reports management", $tags="service")
+            Container(loginFeature2, "Callback", "TSX", "Handles callback after the login", $tags="service")
+            Container(manageStaffFeature, "Manage Staff", "TSX", "Manage Staff Members", $tags="service")
+            Container(manageUserFeature, "Manage User", "TSX", "Manage User Members", $tags="service")
+            Container(emailsentFeature, "Email Sent", "TSX", "Show email sent message", $tags="service")
+            Container(updateStaff, "Update Staff", "TSX", "Shows modal to update staff", $tags="service")
+
+            Container(financialReport, "Financial Report", "TSX", "Shows the financial report generated", $tags="service")
+
         }
 
         rectangle "Layouts" as layouts {
@@ -62,6 +70,13 @@ System_Boundary(NoodleStar, "NoodleStar Application") {
             Container(contactUsPage, "Contact Us Page", "TSX", "Provides contact information.", $sprite="typescript", $tags="webPage")
             Container(checkoutPage, "Checkout Page", "TSX", "Provides payment options.", $sprite="typescript", $tags="webPage")
             Container(reportPage, "report Page", "TSX", "Shows reports generated", $sprite="typescript", $tags="webPage")
+            Container(manageStaffPage, "Manage Staff Page", "TSX", "Shows Staff", $sprite="typescript", $tags="webPage")
+            Container(manageUsersPage, "Add Staff Page", "TSX", "Shows Users", $sprite="typescript", $tags="webPage")
+            Container(callbackPage, "Callback Page", "TSX", "Shows Profile Page", $sprite="typescript", $tags="webPage")
+            Container(emailsentPage, "Email Sent Page", "TSX", "Shows Email Sent", $sprite="typescript", $tags="webPage")
+
+            Container(financialReportPage, "Financial Report Page", "TSX", "Shows Financial Report", $sprite="typescript", $tags="webPage")
+
         }
 
         rectangle "Shared" as shared {
@@ -92,6 +107,12 @@ Rel_L(router, profilePage, "Route to Profile Page")
 Rel_L(router, contactUsPage, "Route to Contact Us Page")
 Rel_L(router, checkoutPage, "Route to Checkout Page")
 Rel_L(router, reportPage, "Route to report Page")
+Rel_L(router, manageStaffPage, "Route to manage staff page")
+Rel_L(router, manageUsersPage, "Route to manage users page")
+Rel_L(router, callbackPage, "Route to profile page")
+Rel_L(router, emailsentPage, "Route to email sent page")
+Rel_L(router, financialReportPage, "Route to financial report page")
+
 
 Rel_L(axiosInstance, deliveryAPI, "Fetch data from", $tags="httpClient")
 Rel(router, userContext, "Authenticate user", $tags="httpClient")
@@ -104,14 +125,29 @@ Rel_D(menuFeature5, axiosInstance, "Fetch all reviews using Axios", $tags="httpC
 Rel_D(orderFeature, axiosInstance, "fetch order info using Axios", $tags="httpClient")
 Rel_D(cartFeature, axiosInstance, "fetch cart info using Axios", $tags="httpClient")
 Rel_D(reportFeature, axiosInstance, "generate report using Axios", $tags="httpClient")
+Rel_D(manageStaffFeature, axiosInstance, "get and delete staff", $tags="httpClient")
+Rel_D(manageUserFeature, axiosInstance, "get users and add staff role", $tags="httpClient")
 Rel_D(profileFeature, axiosInstance, "fetch user information with Axios", $tags="httpClient")
+Rel_D(loginFeature2, axiosInstance, "send Auth0 logins to the database", $tags="httpClient")
+Rel_D(emailsentFeature, axiosInstance, "sends email to user", $tags="httpClient")
+
+Rel_D(financialReport, axiosInstance, "generates a financial report", $tags="httpClient")
+
+Rel_D(updateStaff, axiosInstance, "updates staff info", $tags="httpClient")
+
 
 Rel_R(menuPage, menuFeature, "Displays menu items", $tags="webPage")
 Rel_R(cartPage, cartFeature, "Displays cart contents", $tags="webPage")
 Rel_R(orderStatusPage, orderFeature, "Displays order status", $tags="webPage")
 Rel_R(profilePage, profileFeature, "Displays user profile", $tags="webPage")
 Rel_R(reportPage, reportFeature, "Displays reports", $tags="webPage")
+Rel_R(manageStaffPage, manageStaffFeature, "Displays staff members", $tags="webPage")
+Rel_R(manageUsersPage, manageUserFeature, "Displays users", $tags="webPage")
 Rel_R(orderStatusPage4, menuFeature5, "Displays reviews", $tags="webPage")
+Rel_R(callbackPage, loginFeature2, "Displays profile page", $tags="webPage")
+Rel_R(emailsentPage, emailsentFeature, "Displays email sent", $tags="webPage")
+
+Rel_R(financialReportPage, financialReport, "Displays generated financial report", $tags="webPage")
 
 
 
