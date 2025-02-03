@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Top Clothing</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
   </head>
   <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
   <body>
@@ -19,9 +19,21 @@
             <p id="address-label">Enter your address below</p>
           </div>
           <form onsubmit="return false">
-            <div class="address-wrap"> 
-              <input type="text" placeholder="Street" id="street" name="street" required />
-              <input type="text" placeholder="City" id="city" name="city" required/>
+            <div class="address-wrap">
+              <input
+                type="text"
+                placeholder="Street"
+                id="street"
+                name="street"
+                required
+              />
+              <input
+                type="text"
+                placeholder="City"
+                id="city"
+                name="city"
+                required
+              />
               <input
                 type="text"
                 placeholder="Zipcode"
@@ -61,11 +73,7 @@
         <!-- Container for dynamic menu items -->
         <div class="menu-items" id="menu-items-container">
           <h2>Menu Items</h2>
-          <input
-          type="checkbox"
-          name="items"
-          value="9900"
-        />
+          <input type="checkbox" name="items" value="9900" />
           <!-- Menu items will be dynamically added here -->
         </div>
 
@@ -94,10 +102,20 @@
               Place Order
             </button>
 
-            <button id="backBtn" onclick="goBack()" style="background-color: black; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+            <button
+              id="backBtn"
+              onclick="goBack()"
+              style="
+                background-color: black;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+              "
+            >
               Back
             </button>
-            
           </div>
         </div>
       </div>

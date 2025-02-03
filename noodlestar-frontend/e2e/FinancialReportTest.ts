@@ -13,8 +13,16 @@ test('financialReportTest', async ({ page }) => {
   await page.getByRole('button', { name: 'Financial Report' }).click();
   await page.getByRole('button', { name: 'Generate Report' }).click();
   await expect(page.getByText('Report Type: Financial Report')).toBeVisible();
-  await page.locator('#webpack-dev-server-client-overlay').contentFrame().getByText('Uncaught runtime errors:×').click();
-  await page.locator('#webpack-dev-server-client-overlay').contentFrame().getByLabel('Dismiss').click();
+  await page
+    .locator('#webpack-dev-server-client-overlay')
+    .contentFrame()
+    .getByText('Uncaught runtime errors:×')
+    .click();
+  await page
+    .locator('#webpack-dev-server-client-overlay')
+    .contentFrame()
+    .getByLabel('Dismiss')
+    .click();
   await expect(page.getByText('Report Name: Total Revenue')).toBeVisible();
   await expect(page.getByText('$$$: 799')).toBeVisible();
 });

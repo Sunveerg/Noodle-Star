@@ -17,5 +17,7 @@ test('test', async ({ page }) => {
   await page.getByRole('button', { name: 'Update' }).click();
   await expect(page.getByText('Staff updated successfully')).toBeVisible();
   await page.goto('http://localhost:3000/manageStaff');
-  await expect(page.getByRole('heading', { name: 'Felix Zhang' })).toBeVisible();
+  await expect(
+    page.getByRole('heading', { name: 'Felix Zhang' })
+  ).toBeVisible();
 });

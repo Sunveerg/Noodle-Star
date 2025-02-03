@@ -2,140 +2,140 @@
 
 /* Container for the entire report list component */
 .report-container {
-    padding: 30px;
-    background: rgba(166, 0, 7, 0.9); /* Red background */
-    border-radius: 12px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    max-width: 1200px;
-    margin: 40px auto;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #ffd700; /* Gold text */
+  padding: 30px;
+  background: rgba(166, 0, 7, 0.9); /* Red background */
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  max-width: 1200px;
+  margin: 40px auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #ffd700; /* Gold text */
 }
-
-
 
 /* Header section */
 .report-header {
-    text-align: center;
-    margin-bottom: 30px;
-    font-size: 28px;
-    font-weight: 600;
-    color: #ffd700; /* Gold text */
-    letter-spacing: 0.5px;
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 28px;
+  font-weight: 600;
+  color: #ffd700; /* Gold text */
+  letter-spacing: 0.5px;
 }
 
 /* Table styles */
 .report-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    margin-top: 20px;
-    background-color: #ffffff; /* White background for the table */
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 20px;
+  background-color: #ffffff; /* White background for the table */
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .report-table th,
 .report-table td {
-    padding: 15px 20px;
-    text-align: left;
-    border-bottom: 1px solid #e0e0e0;
-    color: #8b0000; /* Dark red text for table content */
+  padding: 15px 20px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+  color: #8b0000; /* Dark red text for table content */
 }
 
 .report-table th {
-    background-color: #8b0000; /* Dark red background for table headers */
-    color: #ffd700; /* Gold text for table headers */
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 14px;
-    letter-spacing: 0.5px;
+  background-color: #8b0000; /* Dark red background for table headers */
+  color: #ffd700; /* Gold text for table headers */
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 14px;
+  letter-spacing: 0.5px;
 }
 
 .report-table tbody tr:nth-child(even) {
-    background-color: #f8f9fa; /* Light gray for even rows */
+  background-color: #f8f9fa; /* Light gray for even rows */
 }
 
 .report-table tbody tr:hover {
-    background-color: #ffe4e1; /* Light red for hover effect */
-    transition: background-color 0.3s ease;
+  background-color: #ffe4e1; /* Light red for hover effect */
+  transition: background-color 0.3s ease;
 }
 
 .report-table tbody tr:last-child td {
-    border-bottom: none;
+  border-bottom: none;
 }
 
 /* No reports available message */
 .no-reports {
-    text-align: center;
-    color: #ffd700; /* Gold text */
-    font-style: italic;
-    padding: 20px;
-    font-size: 16px;
+  text-align: center;
+  color: #ffd700; /* Gold text */
+  font-style: italic;
+  padding: 20px;
+  font-size: 16px;
 }
 
 /* Loading and error states */
 .loading-text,
 .error-text {
-    text-align: center;
-    font-size: 18px;
-    padding: 20px;
-    border-radius: 8px;
-    margin: 20px auto;
-    max-width: 500px;
+  text-align: center;
+  font-size: 18px;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px auto;
+  max-width: 500px;
 }
 
 .loading-text {
-    color: #ffd700; /* Gold text */
-    background-color: #8b0000; /* Dark red background */
+  color: #ffd700; /* Gold text */
+  background-color: #8b0000; /* Dark red background */
 }
 
 .error-text {
-    color: #ffd700; /* Gold text */
-    background-color: #8b0000; /* Dark red background */
+  color: #ffd700; /* Gold text */
+  background-color: #8b0000; /* Dark red background */
 }
 
 /* Add a subtle animation for loading text */
 @keyframes pulse {
-    0% {
-        opacity: 0.6;
-    }
-    50% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0.6;
-    }
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+  }
 }
 
 .loading-text {
-    animation: pulse 1.5s infinite;
+  animation: pulse 1.5s infinite;
 }
 
 /* Add a hover effect for the table rows */
 .report-table tbody tr {
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .report-table tbody tr:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Add a border radius to the first and last rows */
 .report-table tbody tr:first-child td:first-child {
-    border-top-left-radius: 8px;
+  border-top-left-radius: 8px;
 }
 
 .report-table tbody tr:first-child td:last-child {
-    border-top-right-radius: 8px;
+  border-top-right-radius: 8px;
 }
 
 .report-table tbody tr:last-child td:first-child {
-    border-bottom-left-radius: 8px;
+  border-bottom-left-radius: 8px;
 }
 
 .report-table tbody tr:last-child td:last-child {
-    border-bottom-right-radius: 8px;
+  border-bottom-right-radius: 8px;
 }

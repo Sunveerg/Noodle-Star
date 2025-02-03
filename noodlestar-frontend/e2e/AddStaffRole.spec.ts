@@ -21,8 +21,12 @@ test('addStaffRole', async ({ page }) => {
   await page.getByRole('button', { name: 'Continue', exact: true }).click();
   await page.getByRole('button', { name: 'Manage Staff' }).click();
   await page.getByRole('button', { name: 'Add Staff' }).click();
-  await page.locator('div:nth-child(11) > .user-actions > .btn-add-staff').click();
-  await expect(page.getByText('User has been successfully granted the Staff role.')).toBeVisible();
+  await page
+    .locator('div:nth-child(11) > .user-actions > .btn-add-staff')
+    .click();
+  await expect(
+    page.getByText('User has been successfully granted the Staff role.')
+  ).toBeVisible();
   await page.getByRole('menuitem', { name: 'Account' }).click();
   await page.getByRole('button', { name: 'Manage Staff' }).click();
 });

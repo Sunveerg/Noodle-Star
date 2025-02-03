@@ -1,112 +1,114 @@
 .menu-details-container {
-    padding: 20px;
-    max-width: 800px;
-    margin: 50px auto;
-    background: rgba(166, 0, 7, 0.9);
-    border-radius: 15px;
-    color: rgba(255, 193, 101, 1);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-    text-align: center;
-    position: relative;
-    overflow: hidden;
+  padding: 20px;
+  max-width: 800px;
+  margin: 50px auto;
+  background: rgba(166, 0, 7, 0.9);
+  border-radius: 15px;
+  color: rgba(255, 193, 101, 1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
 }
 
 .menu-item {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .menu-item-details {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 }
 
 .menu-item-image {
-    width: 100%;
-    max-width: 400px;
-    border-radius: 15px;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-    border: 3px solid rgba(255, 193, 101, 0.8);
+  width: 100%;
+  max-width: 400px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  border: 3px solid rgba(255, 193, 101, 0.8);
 }
 
 .menu-item-info p {
-    margin: 10px 0;
-    font: 400 20px 'Abhaya Libre', serif;
-    color: rgba(255, 193, 101, 1);
+  margin: 10px 0;
+  font:
+    400 20px 'Abhaya Libre',
+    serif;
+  color: rgba(255, 193, 101, 1);
 }
 
 .menu-status.available {
-    color: green;
-    font-size: 18px;
+  color: green;
+  font-size: 18px;
 }
 
 .menu-status.not-available {
-    color: red;
-    font-size: 18px;
+  color: red;
+  font-size: 18px;
 }
 
 .btn-back {
-    background-color: #d26a2e;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-bottom: 20px;
-    font-size: 16px;
-    transition: all 0.3s ease;
+  background-color: #d26a2e;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  font-size: 16px;
+  transition: all 0.3s ease;
 }
 
 .btn-back:hover {
-    opacity: 0.8;
-    background-color: #a4501f;
+  opacity: 0.8;
+  background-color: #a4501f;
 }
 
 .cloud-container {
-    position: absolute;
-    top: -50px;
-    left: 0;
-    width: 100%;
-    height: 300px;
-    pointer-events: none;
-    z-index: -1;
+  position: absolute;
+  top: -50px;
+  left: 0;
+  width: 100%;
+  height: 300px;
+  pointer-events: none;
+  z-index: -1;
 }
 
 .cloud-details {
-    position: absolute;
-    background-image: url('../components/assets/yellowcloud.png');
-    background-repeat: no-repeat;
-    background-size: contain;
-    opacity: 0.5;
+  position: absolute;
+  background-image: url('../components/assets/yellowcloud.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.5;
 }
 
 .cloud-details.cloud1 {
-    width: 250px;
-    height: 150px;
-    top: 50px;
-    left: 10%;
+  width: 250px;
+  height: 150px;
+  top: 50px;
+  left: 10%;
 }
 
 .cloud-details.cloud2 {
-    width: 300px;
-    height: 200px;
-    top: 20px;
-    right: 5%;
+  width: 300px;
+  height: 200px;
+  top: 20px;
+  right: 5%;
 }
 
 .cloud-details.cloud3 {
-    width: 200px;
-    height: 100px;
-    bottom: 0;
-    left: 30%;
+  width: 200px;
+  height: 100px;
+  bottom: 0;
+  left: 30%;
 }
 
 .menu-title {
-    font-size: 40px;
-    color: rgba(255, 193, 101, 1);
-    font-weight: bold;
-    margin-bottom: 20px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+  font-size: 40px;
+  color: rgba(255, 193, 101, 1);
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
 }

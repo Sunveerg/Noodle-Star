@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
 
 :root {
   --brown: #96562e;
@@ -12,7 +12,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Open Sans', sans-serif;
   color: var(--white);
 }
 
@@ -30,7 +30,7 @@
   font-size: 16px;
 }
 
-input[type="text"] {
+input[type='text'] {
   padding: 6px;
   margin: 6px 0;
   width: 100%;
@@ -39,13 +39,13 @@ input[type="text"] {
   color: var(--black);
 }
 
-input[type="checkbox"] {
+input[type='checkbox'] {
   accent-color: var(--brown);
   height: 20px;
   width: 20px;
 }
 
-input[type="radio"] {
+input[type='radio'] {
   accent-color: var(--brown);
   height: 16px;
   width: 16px;
@@ -168,12 +168,14 @@ button:hover {
 }
 
 button.spinning:before {
-  content: "";
+  content: '';
   border-radius: 50%;
   right: 10px;
   top: 50%;
   position: absolute;
-  animation: rotate360 0.5s infinite linear, exist 0.1s forwards ease;
+  animation:
+    rotate360 0.5s infinite linear,
+    exist 0.1s forwards ease;
 }
 
 #feeBtn.spinning:before {

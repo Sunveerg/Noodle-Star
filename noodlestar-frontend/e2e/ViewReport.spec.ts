@@ -10,5 +10,7 @@ test('viewReport', async ({ page }) => {
   await page.getByRole('button', { name: 'Continue', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Report' })).toBeVisible();
   await page.getByRole('button', { name: 'Report' }).click();
-  await expect(page.getByRole('heading', { name: 'Menu Item Order Frequency' })).toBeVisible();
+  await expect(
+    page.getByRole('heading', { name: 'Menu Item Order Frequency' })
+  ).toBeVisible();
 });

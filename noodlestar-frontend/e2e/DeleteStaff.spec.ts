@@ -10,13 +10,17 @@ test('test', async ({ page }) => {
   await page.getByRole('button', { name: 'Continue', exact: true }).click();
   await page.getByRole('button', { name: 'Manage Staff' }).click();
   const deleteButton = await page.getByRole('button', { name: 'Delete' });
-  page.on('dialog', async (dialog) => {
-    expect(dialog.message()).toBe('Are you sure you want to delete this staff member?');
+  page.on('dialog', async dialog => {
+    expect(dialog.message()).toBe(
+      'Are you sure you want to delete this staff member?'
+    );
     await dialog.accept();
   });
   await deleteButton.click();
-  const successDialog = await page.locator('text=Staff member deleted successfully');
-  page.on('dialog', async (dialog) => {
+  const successDialog = await page.locator(
+    'text=Staff member deleted successfully'
+  );
+  page.on('dialog', async dialog => {
     expect(dialog.message()).toBe('Staff member deleted successfully');
     await dialog.accept();
   });

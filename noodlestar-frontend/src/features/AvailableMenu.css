@@ -41,7 +41,9 @@
 }
 
 .logo {
-  font: 400 36px 'Baloo Bhaijaan', sans-serif;
+  font:
+    400 36px 'Baloo Bhaijaan',
+    sans-serif;
   color: #fff;
 }
 
@@ -49,7 +51,9 @@
   display: flex;
   gap: 60px;
   color: rgba(201, 160, 22, 1);
-  font: 500 20px Inter, sans-serif;
+  font:
+    500 20px Inter,
+    sans-serif;
 }
 
 .navLink {
@@ -61,7 +65,7 @@
   padding: 0;
 }
 
-.btnAdd{
+.btnAdd {
   padding-left: 4%;
 }
 
@@ -113,7 +117,9 @@
   border: none;
   border-radius: 13px 0 0 0;
   color: #fff;
-  font: 800 13px Mulish, sans-serif;
+  font:
+    800 13px Mulish,
+    sans-serif;
   padding: 10px 15px;
   position: absolute;
   bottom: 0;
@@ -155,7 +161,9 @@
 }
 
 .dishTitle {
-  font: 700 20px 'Mulish', sans-serif;
+  font:
+    700 20px 'Mulish',
+    sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   color: #000;
@@ -167,16 +175,19 @@
 
 .dishDescription {
   color: rgba(118, 109, 109, 1);
-  font: 400 14px/1.5 'Mulish', sans-serif;
+  font:
+    400 14px/1.5 'Mulish',
+    sans-serif;
   margin-bottom: 10px;
 }
 
 .price {
-  font: 700 16px 'Mulish', sans-serif;
+  font:
+    700 16px 'Mulish',
+    sans-serif;
   color: #000;
   margin-bottom: 10px;
 }
-
 
 .orderDetailsBox {
   background-color: rgba(128, 0, 0, 1);
@@ -194,7 +205,6 @@
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
 }
 
-
 .productDetails {
   display: flex;
   justify-content: space-between;
@@ -203,7 +213,9 @@
 
 .productLabel,
 .totalLabel {
-  font: 500 14px Inter, sans-serif;
+  font:
+    500 14px Inter,
+    sans-serif;
 }
 
 .totalDetails {
@@ -218,7 +230,9 @@
   background-color: #e86a12;
   border: none;
   border-radius: 5px;
-  font: 700 16px/1 'Mulish', sans-serif;
+  font:
+    700 16px/1 'Mulish',
+    sans-serif;
   color: #fff;
   cursor: pointer;
 }
@@ -240,7 +254,9 @@
   background-color: rgba(201, 0, 0, 1);
   border: none;
   border-radius: 5px;
-  font: 700 16px/1 'Mulish', sans-serif;
+  font:
+    700 16px/1 'Mulish',
+    sans-serif;
   color: #fff;
   cursor: pointer;
   margin-top: 10px;
@@ -262,7 +278,9 @@
   font-weight: bold;
   padding: 5px 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
   margin-left: 8px;
 }
 

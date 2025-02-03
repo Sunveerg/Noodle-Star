@@ -1,149 +1,145 @@
 /* Main Home Page */
 .homePage {
-    background: #A60007; /* Rich red background */
-    display: flex;
-    flex-direction: row; /* Horizontal layout */
-    justify-content: space-between; /* Space between text and image */
-    align-items: center; /* Center vertically */
-    padding: 50px; /* Padding around the content */
-    font-family: 'Inter', 'Abhaya Libre', sans-serif;
-    color: #FFC165; /* Gold text color */
-    height: 100vh; /* Full viewport height */
-    position: relative; /* Relative to position clouds and decorative elements */
-    overflow: hidden; /* Hide any overflow */
+  background: #a60007; /* Rich red background */
+  display: flex;
+  flex-direction: row; /* Horizontal layout */
+  justify-content: space-between; /* Space between text and image */
+  align-items: center; /* Center vertically */
+  padding: 50px; /* Padding around the content */
+  font-family: 'Inter', 'Abhaya Libre', sans-serif;
+  color: #ffc165; /* Gold text color */
+  height: 100vh; /* Full viewport height */
+  position: relative; /* Relative to position clouds and decorative elements */
+  overflow: hidden; /* Hide any overflow */
 }
 
 h4 {
-    font-size: 1.2rem;
-    color: #FFC165;
-    margin-bottom: 10px;
+  font-size: 1.2rem;
+  color: #ffc165;
+  margin-bottom: 10px;
 }
 
-
 h1 {
-    font-size: 4rem;
-    line-height: 1.2;
-    font-family: 'Abhaya Libre', serif;
-    margin-bottom: 20px;
-    color: #FFC165;
+  font-size: 4rem;
+  line-height: 1.2;
+  font-family: 'Abhaya Libre', serif;
+  margin-bottom: 20px;
+  color: #ffc165;
 }
 
 .paragraph {
-    font-size: 1rem;
-    max-width: 400px;
-    line-height: 1.6;
-    margin-bottom: 20px;
-    color: rgba(255, 193, 101, 0.9);
+  font-size: 1rem;
+  max-width: 400px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  color: rgba(255, 193, 101, 0.9);
 }
 
 .button {
-    background-color: #FFC165;
-    color: black;
-    border: none;
-    padding: 10px 20px;
-    font-size: 1rem;
-    font-weight: bold;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: transform 0.2s ease, background-color 0.2s ease;
+  background-color: #ffc165;
+  color: black;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .button:hover {
-    background-color: #FFAA00;
-    transform: scale(1.05);
+  background-color: #ffaa00;
+  transform: scale(1.05);
 }
 
 img {
-    max-width: 600px;
-    height: auto;
-    position: relative;
-    z-index: 2;
+  max-width: 600px;
+  height: auto;
+  position: relative;
+  z-index: 2;
 }
 
 .cloudThree,
 .cloudFour,
 .cloudFive,
 .cloudSix {
-    position: absolute;
-    opacity: 0.5;
-    background-repeat: no-repeat;
-    background-size: contain;
+  position: absolute;
+  opacity: 0.5;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 
 .cloudThree {
-    width: 250px;
-    height: 150px;
-    bottom: 20%;
-    left: 20%;
-    background-image: url('../assets/darkcloud.png');
+  width: 250px;
+  height: 150px;
+  bottom: 20%;
+  left: 20%;
+  background-image: url('../assets/darkcloud.png');
 }
 
 .cloudFour {
-    width: 300px;
-    height: 200px;
-    top: 10%;
-    left: 50%;
-    background-image: url('../assets/yellowcloud.png');
+  width: 300px;
+  height: 200px;
+  top: 10%;
+  left: 50%;
+  background-image: url('../assets/yellowcloud.png');
 }
 
 .cloudFive {
-    width: 200px;
-    height: 100px;
-    bottom: 5%;
-    right: 10%;
-    background-image: url('../assets/darkcloud.png');
+  width: 200px;
+  height: 100px;
+  bottom: 5%;
+  right: 10%;
+  background-image: url('../assets/darkcloud.png');
 }
 
 .cloudSix {
-    width: 350px;
-    height: 200px;
-    top: 50%;
-    right: 5%;
-    background-image: url('../assets/yellowcloud.png');
+  width: 350px;
+  height: 200px;
+  top: 50%;
+  right: 5%;
+  background-image: url('../assets/yellowcloud.png');
 }
 
 .topRightImage {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    width: 80px;
-    height: 200px;
-    background-image: url('../assets/chineseletters.png');
-    background-size: contain;
-    background-repeat: no-repeat;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 80px;
+  height: 200px;
+  background-image: url('../assets/chineseletters.png');
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
 .dragonImg {
-    right: 20%;
-    max-width: 600px;
-    height: auto;
+  right: 20%;
+  max-width: 600px;
+  height: auto;
 }
 
 .welcomeText {
-    margin-left: 10%;
+  margin-left: 10%;
 }
 
-
 .reviewButton {
-    padding: 15px 25px; /* Larger padding for a bigger button */
-    font-size: 1.5rem; /* Increased font size */
-    background-color: #f1c40f; /* Gold color */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: background-color 0.3s ease;
+  padding: 15px 25px; /* Larger padding for a bigger button */
+  font-size: 1.5rem; /* Increased font size */
+  background-color: #f1c40f; /* Gold color */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
 }
 
 .reviewButton:hover {
-    background-color: #e0a900; /* Darker gold on hover */
+  background-color: #e0a900; /* Darker gold on hover */
 }
 
 .reviewButton:focus {
-    outline: none;
+  outline: none;
 }
-
-
-
-
