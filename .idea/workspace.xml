@@ -5,22 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2d6d718b-2619-4c72-b295-a835bc5c8080" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/NoodleStar/src/main/java/com/noodlestar/noodlestar/TeamMemberSubdomain/BusinessLayer/TeamMemberService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/NoodleStar/src/main/java/com/noodlestar/noodlestar/TeamMemberSubdomain/BusinessLayer/TeamMemberServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/NoodleStar/src/main/java/com/noodlestar/noodlestar/TeamMemberSubdomain/DataLayer/TeamMember.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/NoodleStar/src/main/java/com/noodlestar/noodlestar/TeamMemberSubdomain/DataLayer/TeamMemberRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/NoodleStar/src/main/java/com/noodlestar/noodlestar/TeamMemberSubdomain/PresentationLayer/TeamMemberController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/NoodleStar/src/main/java/com/noodlestar/noodlestar/TeamMemberSubdomain/PresentationLayer/TeamMemberRequestModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/NoodleStar/src/main/java/com/noodlestar/noodlestar/TeamMemberSubdomain/PresentationLayer/TeamMemberResponseModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/NoodleStar/src/test/java/com/noodlestar/noodlestar/TeamMemberSubdomain/BusinessLayer/TeamMemberServiceUnitTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/NoodleStar/src/test/java/com/noodlestar/noodlestar/TeamMemberSubdomain/PresentationLayer/TeamMemberControllerUnitTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/noodlestar-frontend/src/features/model/teamMemberResponseModel.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NoodleStar/src/main/java/com/noodlestar/noodlestar/utils/DataSetupServiceReview.java" beforeDir="false" afterPath="$PROJECT_DIR$/NoodleStar/src/main/java/com/noodlestar/noodlestar/utils/DataSetupServiceReview.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NoodleStar/src/main/java/com/noodlestar/noodlestar/utils/EntityDTOUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/NoodleStar/src/main/java/com/noodlestar/noodlestar/utils/EntityDTOUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/noodlestar-frontend/src/components/AboutUs.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/noodlestar-frontend/src/components/AboutUs.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/noodlestar-frontend/src/components/TextBlock.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/noodlestar-frontend/src/components/TextBlock.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/noodlestar-frontend/src/components/css/AboutUs.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/noodlestar-frontend/src/components/css/AboutUs.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/noodlestar-frontend/src/components/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/noodlestar-frontend/src/components/types.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +47,7 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "spring.configuration.checksum": "7d25c2686ae7479951a9472e527715d8",
-    "ts.external.directory.path": "C:\\Users\\purea\\Downloads\\ECP\\Noodle-Star\\NoodleStar\\node_modules\\typescript\\lib",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\IntelliJ IDEA 2023.2.1\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -147,6 +133,7 @@
       <workItem from="1738555082390" duration="27000" />
       <workItem from="1738555205494" duration="48000" />
       <workItem from="1738555278845" duration="7374000" />
+      <workItem from="1738564806127" duration="53000" />
     </task>
     <servers />
   </component>

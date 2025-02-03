@@ -50,7 +50,7 @@ export const AboutUs: React.FC = () => {
   useEffect(() => {
     fetchTeamMembers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);  // Ignore exhaustive-deps warning
+  }, []);
 
   if (loading) {
     return <div className={styles.loadingMessage}>Loading team members...</div>;
