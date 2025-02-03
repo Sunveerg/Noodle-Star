@@ -1,0 +1,55 @@
+@startuml
+hide footbox
+actor Admin
+
+participant AddProfilePage as "<<View>>\nAddProfilePage"
+participant ProfileFeature as "<<View>>\nProfileFeature"
+participant AxiosInstance as "<<Utility>>\nAxiosInstance"
+participant ProfileController as "<<Controller>>\nProfileController"
+participant ProfileService as "<<Service>>\nProfileService"
+participant ProfileRepository as "<<Repository>>\nProfileRepository"
+participant Database as "<<Database>>\nDatabase"
+participant TeamMember as "<<Entity>>\nTeamMember"
+
+' Admin adds a new profile
+Admin -> AddProfilePage: Navigate to Add Profile Form
+activate AddProfilePage
+AddProfilePage -> ProfileFeature: showProfileForm()
+activate ProfileFeature
+Admin -> ProfileFeature: Fill in Profile Data (name, role, bio, photo)
+ProfileFeature -> ProfileFeature: Validate profile data
+ProfileFeature -> ProfileFeature: Check photo size/format
+ProfileFeature -> AxiosInstance: POST /api/v1/team-member
+activate AxiosInstance
+AxiosInstance -> ProfileController: POST /api/v1/team-member
+activate ProfileController
+ProfileController -> ProfileService: addProfile(Mono<TeamMemberRequestModel>)
+activate ProfileService
+
+' Map and save profile data
+ProfileService -> ProfileService: map TeamMemberRequestModel to TeamMember entity
+ProfileService -> TeamMember: create TeamMember instance
+activate TeamMember
+TeamMember --> ProfileService: return TeamMember instance
+deactivate TeamMember
+ProfileService -> ProfileRepository: insert(TeamMember)
+activate ProfileRepository
+ProfileRepository -> Database: insertTeamMember(TeamMember)
+activate Database
+Database --> ProfileRepository: confirm Insert
+deactivate Database
+ProfileRepository -> ProfileRepository: findById(savedTeamMemberId)
+ProfileRepository --> ProfileService: return Saved TeamMember Entity
+deactivate ProfileRepository
+ProfileService -> ProfileService: map TeamMember entity to TeamMemberResponseModel
+ProfileService --> ProfileController: return TeamMemberResponseModel
+deactivate ProfileService
+
+ProfileController --> AxiosInstance: return ResponseEntity<TeamMemberResponseModel>
+deactivate ProfileController
+AxiosInstance --> ProfileFeature: return ResponseEntity<TeamMemberResponseModel>
+deactivate AxiosInstance
+ProfileFeature --> AddProfilePage: showSuccessMessage()
+deactivate ProfileFeature
+deactivate AddProfilePage
+@enduml

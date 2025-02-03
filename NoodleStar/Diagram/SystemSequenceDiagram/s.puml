@@ -1,0 +1,50 @@
+@startuml
+hide footbox
+actor Owner
+
+participant StaffPage as "<<View>>\nStaffPage"
+participant GetStaff as "<<View>>\nGetStaff"
+participant AxiosInstance as "<<Utility>>\nAxiosInstance"
+participant UserController as "<<Controller>>\nUserController"
+participant UserService as "<<Service>>\nUserService"
+participant UserRepository as "<<Repository>>\nUserRepository"
+participant Database as "<<Database>>\nDatabase"
+participant User as "<<Entity>>\nUser"
+
+' Owner retrieves staff account details
+Owner -> StaffPage: Visit Manage Staff Page
+activate StaffPage
+StaffPage -> GetStaff: loadStaffData()
+activate GetStaff
+GetStaff -> AxiosInstance: fetchStaffData()
+activate AxiosInstance
+AxiosInstance -> UserController: GET /staff
+activate UserController
+UserController -> UserService: getStaff()
+activate UserService
+
+' Retrieve user entity data
+UserService -> UserRepository: findByUserIdAndRole(userId, "staff")
+activate UserRepository
+UserRepository -> Database: SELECT * FROM users WHERE user_id = userId AND roles LIKE '%staff%'
+activate Database
+Database --> UserRepository: return RawUserData
+deactivate Database
+UserRepository -> UserRepository: map RawUserData to User Entity
+UserRepository --> UserService: return User Entity
+deactivate UserRepository
+
+' Map response
+UserService -> UserService: instantiate User entity objects
+UserService -> User: create instances of User
+User --> UserService: return User Entity instances
+UserService -> UserService: map User to UserResponseModel
+UserService --> UserController: return UserResponseModel
+deactivate UserService
+
+AxiosInstance --> GetStaff: return UserResponseModel
+deactivate AxiosInstance
+GetStaff --> StaffPage: renderUserDetails()
+deactivate GetStaff
+deactivate StaffPage
+@enduml
