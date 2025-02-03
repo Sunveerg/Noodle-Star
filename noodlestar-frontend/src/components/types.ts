@@ -1,6 +1,6 @@
 export interface TextBlockProps {
   title: string;
-  content: string;
+  content: string | JSX.Element;
 }
 
 export interface NavigationItemProps {
