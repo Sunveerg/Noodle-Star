@@ -23,7 +23,8 @@ export const AboutUs: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
-  const fetchTeamMembers = async () => {
+  // Add return type: Promise<void>
+  const fetchTeamMembers = async (): Promise<void> => {
     try {
       const response = await fetch(`${backendUrl}/api/v1/team-members`, {
         method: 'GET',
