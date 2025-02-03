@@ -139,3 +139,24 @@
 .report-table tbody tr:last-child td:last-child {
     border-bottom-right-radius: 8px;
 }
+
+/* Button Styles */
+.report-button,
+.filter-controls button {
+    background-color: #8b0000; /* Dark red background */
+    color: #ffd700; /* Gold text */
+    font-size: 16px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 10px 0;
+    font-weight: 600;
+}
+
+/* Hover Effect */
+.report-button:hover,
+.filter-controls button:hover {
+    background-color: #660000; /* Darker red for hover effect */
+}
