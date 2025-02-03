@@ -7,6 +7,8 @@ import com.noodlestar.noodlestar.ReportSubdomain.DataLayer.Report;
 import com.noodlestar.noodlestar.ReportSubdomain.DataLayer.ReportRepository;
 import com.noodlestar.noodlestar.ReviewSubdomain.DataLayer.Review;
 import com.noodlestar.noodlestar.ReviewSubdomain.DataLayer.ReviewRepo;
+import com.noodlestar.noodlestar.TeamMemberSubdomain.DataLayer.TeamMember;
+import com.noodlestar.noodlestar.TeamMemberSubdomain.DataLayer.TeamMemberRepository;
 import com.noodlestar.noodlestar.UserSubdomain.DataLayer.User;
 import com.noodlestar.noodlestar.UserSubdomain.DataLayer.UserRepository;
 import com.noodlestar.noodlestar.ordersubdomain.datalayer.Order;
@@ -31,6 +33,7 @@ public class DataSetupServiceReview implements CommandLineRunner {
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
     private  final ReportRepository reportRepo;
+    private final TeamMemberRepository teamMemberRepository;
 
 
     @Override
@@ -40,6 +43,7 @@ public class DataSetupServiceReview implements CommandLineRunner {
         setupOrders();
         setupUsers();
         setupReports();
+        setupTeamMembers();
     }
 
 
@@ -294,5 +298,29 @@ public class DataSetupServiceReview implements CommandLineRunner {
                 .build();
     }
 
+    private void setupTeamMembers() {
+        List<TeamMember> teamMembers = List.of(
+                buildTeamMember("teamMemberId1", "John Doe", "Chef", "John is a professional chef with over 10 years of experience in the culinary arts.", "https://images.unsplash.com/photo-1654922207993-2952fec328ae?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"),
+                buildTeamMember("teamMemberId2", "Jane Doe", "Sous Chef", "Jane is a sous chef with a passion for creating delicious and innovative dishes.", "https://images.unsplash.com/photo-1595257841889-eca2678454e2?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"),
+                buildTeamMember("teamMemberId3", "Alice Smith", "Pastry Chef", "Alice is a talented pastry chef with a flair for creating beautiful and delicious desserts.", "https://images.unsplash.com/photo-1654922207993-2952fec328ae?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"),
+                buildTeamMember("teamMemberId4", "Bob Johnson", "Line Cook", "Bob is a skilled line cook with a passion for creating high-quality dishes.", "https://cdn.pixabay.com/photo/2016/03/09/09/22/workplace-1245776_960_720.jpg"),
+                buildTeamMember("teamMemberId5", "Sarah Williams", "Server", "Sarah is a friendly and attentive server with a passion for providing excellent customer service.", "https://cdn.pixabay.com/photo/2016/03/09/09/22/workplace-1245776_960_720.jpg")
+        );
+
+        teamMemberRepository.deleteAll() // Delete all existing records
+                .thenMany(Flux.fromIterable(teamMembers))
+                .flatMap(teamMemberRepository::insert) // Insert new records
+                .subscribe();
+    }
+
+    private TeamMember buildTeamMember(String teamMemberId, String name, String role, String bio,String photoUrl) {
+        TeamMember teamMember = new TeamMember();
+        teamMember.setTeamMemberId(teamMemberId);
+        teamMember.setName(name);
+        teamMember.setRole(role);
+        teamMember.setBio(bio);
+        teamMember.setPhotoUrl(photoUrl);
+        return teamMember;
+    }
 
 }
