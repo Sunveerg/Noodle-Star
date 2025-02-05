@@ -31,4 +31,9 @@ public class ReviewController {
         return reviewService.addReview(reviewRequestModel)
                 .map(response -> ResponseEntity.status(HttpStatus.CREATED).body(response));
     }
+
+    @GetMapping("/{userId}")
+    public Flux<ReviewResponseModel> getReviewByUserId(@PathVariable String userId) {
+        return reviewService.getReviewsByUserId(userId);
+    }
 }

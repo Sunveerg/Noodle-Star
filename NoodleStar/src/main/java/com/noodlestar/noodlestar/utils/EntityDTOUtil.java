@@ -38,6 +38,7 @@ public class EntityDTOUtil {
     public static Review toReviewEntity(ReviewRequestModel reviewRequestModel){
         return Review.builder()
                 .reviewId(generateReviewIdString())
+                .userId(reviewRequestModel.getUserId())
                 .rating(reviewRequestModel.getRating())
                 .reviewerName(reviewRequestModel.getReviewerName())
                 .review(reviewRequestModel.getReview())
