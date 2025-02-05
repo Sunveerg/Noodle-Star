@@ -46,5 +46,10 @@ public class ReviewServiceImpl implements ReviewService {
                 .doOnSuccess(response -> log.info("Review added successfully with ID: {}", response.getReviewId()));
     }
 
+    @Override
+    public Flux<ReviewResponseModel> getReviewsByUserId(String userId) {
+        return reviewRepo.findAllByUserId(userId).map(EntityDTOUtil::toReviewResponseDTO);
+    }
+
 
 }

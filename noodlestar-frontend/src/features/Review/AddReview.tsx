@@ -12,6 +12,7 @@ interface ApiError {
 const AddReview: React.FC = (): JSX.Element => {
   const [review, setReview] = useState<reviewRequestModel>({
     rating: 0,
+    userId: '',
     reviewerName: '',
     review: '',
     dateSubmitted: new Date(),
@@ -53,11 +54,34 @@ const AddReview: React.FC = (): JSX.Element => {
     setShowNotification(false);
 
     try {
-      await addReview(review);
+      // Retrieve access token from localStorage
+      const accessToken = localStorage.getItem('access_token'); // Adjust to your token key
+      if (!accessToken) {
+        throw new Error('User is not authenticated');
+      }
+
+      // Decode the token to get userId from the payload (JWT)
+      const base64Url = accessToken.split('.')[1];
+      const decodedPayload = JSON.parse(atob(base64Url));
+
+      const userId = decodedPayload.sub;
+      if (!userId) {
+        throw new Error('User ID not found in token');
+      }
+
+      // Prepare review data with userId
+      const reviewData: reviewRequestModel = {
+        ...review,
+        userId, // Add userId to review data
+      };
+
+      // Make API call to add the review
+      await addReview(reviewData);
+
       setSuccessMessage('Review added successfully');
       setShowNotification(true);
       setTimeout(() => {
-        navigate('/review');
+        navigate('/profile'); // Redirect after success
       }, 2000);
     } catch (error) {
       const apiError = error as ApiError;

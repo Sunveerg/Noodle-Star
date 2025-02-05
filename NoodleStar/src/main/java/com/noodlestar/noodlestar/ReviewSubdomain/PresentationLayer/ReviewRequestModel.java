@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 public class ReviewRequestModel {
 
     private int rating;
+    private String userId;
     private String reviewerName;
     private String review;
     private LocalDateTime dateSubmitted;
