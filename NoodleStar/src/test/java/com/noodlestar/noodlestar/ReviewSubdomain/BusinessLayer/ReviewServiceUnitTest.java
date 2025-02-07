@@ -128,4 +128,50 @@ class ReviewServiceUnitTest {
         verify(reviewRepository, never()).findById(anyString());
     }
 
+
+    @Test
+    public void whenGetReviewsByUserId_thenReturnReviewsForThatUser() {
+        // Arrange
+        String userId = "user-123";
+
+        Review review1 = Review.builder()
+                .id(UUID.randomUUID().toString())
+                .reviewId(UUID.randomUUID().toString())
+                .userId(userId)
+                .rating(5)
+                .reviewerName("John Doe")
+                .review("Excellent service")
+                .dateSubmitted(LocalDateTime.now())
+                .build();
+
+        Review review2 = Review.builder()
+                .id(UUID.randomUUID().toString())
+                .reviewId(UUID.randomUUID().toString())
+                .userId(userId)
+                .rating(4)
+                .reviewerName("Jane Doe")
+                .review("Very good experience")
+                .dateSubmitted(LocalDateTime.now())
+                .build();
+
+        when(reviewRepository.findAllByUserId(userId)).thenReturn(Flux.just(review1, review2));
+
+        // Act
+        Flux<ReviewResponseModel> result = reviewService.getReviewsByUserId(userId);
+
+        // Assert
+        StepVerifier
+                .create(result)
+                .expectNextMatches(response -> response.getReviewId().equals(review1.getReviewId()) &&
+                        response.getReviewerName().equals("John Doe") &&
+                        response.getUserId().equals(userId))
+                .expectNextMatches(response -> response.getReviewId().equals(review2.getReviewId()) &&
+                        response.getReviewerName().equals("Jane Doe") &&
+                        response.getUserId().equals(userId))
+                .verifyComplete();
+
+        verify(reviewRepository, times(1)).findAllByUserId(userId);
+    }
+
+
 }

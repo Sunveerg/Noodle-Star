@@ -46,6 +46,7 @@ class ReviewControllerUnitTest {
         // Create mock review data with the fixed date
         ReviewResponseModel review2 = ReviewResponseModel.builder()
                 .reviewId("1")
+                .userId("23")
                 .rating(4)
                 .reviewerName("Jane Doe")
                 .review("Very good experience")
@@ -54,6 +55,7 @@ class ReviewControllerUnitTest {
 
         ReviewResponseModel review3 = ReviewResponseModel.builder()
                 .reviewId("2")
+                .userId("24")
                 .rating(3)
                 .reviewerName("Jane Doe2")
                 .review("Good experience")
@@ -74,9 +76,9 @@ class ReviewControllerUnitTest {
                 .hasSize(2)  // Assert that the list has exactly 2 items
                 .contains(
                         // Assert the first review, ignoring dateSubmitted field
-                        new ReviewResponseModel("1", 4, "Jane Doe", "Very good experience", fixedDate),
+                        new ReviewResponseModel("1", "23", 4, "Jane Doe", "Very good experience", fixedDate),
                         // Assert the second review, ignoring dateSubmitted field
-                        new ReviewResponseModel("2", 3, "Jane Doe2", "Good experience", fixedDate)
+                        new ReviewResponseModel("2", "24", 3, "Jane Doe2", "Good experience", fixedDate)
                 );
 
 
@@ -118,5 +120,52 @@ class ReviewControllerUnitTest {
         // Verify that the reviewService method was called once
         verify(reviewService, times(1)).addReview(any(Mono.class));
     }
+
+
+    @Test
+    void getReviewByUserId() {
+        LocalDateTime fixedDate = LocalDateTime.of(2024, 12, 10, 18, 38, 9, 0);
+
+        // Create mock review data
+        ReviewResponseModel review1 = ReviewResponseModel.builder()
+                .reviewId("1")
+                .userId("23")
+                .rating(4)
+                .reviewerName("John Doe")
+                .review("Very good experience")
+                .dateSubmitted(fixedDate)
+                .build();
+
+        ReviewResponseModel review2 = ReviewResponseModel.builder()
+                .reviewId("2")
+                .userId("23")
+                .rating(5)
+                .reviewerName("Jane Doe")
+                .review("Amazing service")
+                .dateSubmitted(fixedDate)
+                .build();
+
+        // Mock the service to return the mock reviews for the userId "23"
+        when(reviewService.getReviewsByUserId("23")).thenReturn(Flux.just(review1, review2));
+
+        // Perform the actual test using WebTestClient
+        webTestClient.get()
+                .uri("/api/v1/review/23")  // URI to the controller endpoint with userId "23"
+                .accept(MediaType.APPLICATION_JSON)  // Accept JSON response
+                .exchange()
+                .expectStatus().isOk()  // Assert that the status is OK
+                .expectBodyList(ReviewResponseModel.class)  // Assert that the response body is a list of ReviewResponseModel
+                .hasSize(2)  // Assert that the list has exactly 2 items
+                .contains(
+                        // Assert the first review
+                        new ReviewResponseModel("1", "23", 4, "John Doe", "Very good experience", fixedDate),
+                        // Assert the second review
+                        new ReviewResponseModel("2", "23", 5, "Jane Doe", "Amazing service", fixedDate)
+                );
+
+        // Verify that the reviewService method was called once with the userId "23"
+        verify(reviewService, times(1)).getReviewsByUserId("23");
+    }
+
 
 }

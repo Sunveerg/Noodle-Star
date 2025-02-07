@@ -17,6 +17,7 @@ public class Review {
     @Id
     private String id;
     private String reviewId;
+    private String userId;
     private int rating;
     private String reviewerName;
     private String review;

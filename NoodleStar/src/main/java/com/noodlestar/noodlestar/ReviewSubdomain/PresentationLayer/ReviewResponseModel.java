@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class ReviewResponseModel {
     private String reviewId;
+    private String userId;
     private int rating;
     private String reviewerName;
     private String review;
