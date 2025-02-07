@@ -176,15 +176,12 @@ class ReviewServiceUnitTest {
 
     @Test
     public void whenDeleteReview_thenReviewIsDeleted() {
-        // Arrange
         String reviewId = review1.getReviewId();
         when(reviewRepository.findReviewByReviewId(reviewId)).thenReturn(Mono.just(review1));
         when(reviewRepository.delete(review1)).thenReturn(Mono.empty());
 
-        // Act
         Mono<Void> result = reviewService.deleteReview(reviewId);
 
-        // Assert
         StepVerifier
                 .create(result)
                 .verifyComplete();
@@ -195,14 +192,11 @@ class ReviewServiceUnitTest {
 
     @Test
     public void whenDeleteNonExistentReview_thenNotFoundExceptionIsThrown() {
-        // Arrange
         String reviewId = UUID.randomUUID().toString();
         when(reviewRepository.findReviewByReviewId(reviewId)).thenReturn(Mono.empty());
 
-        // Act
         Mono<Void> result = reviewService.deleteReview(reviewId);
 
-        // Assert
         StepVerifier
                 .create(result)
                 .expectErrorMatches(throwable -> throwable instanceof NotFoundException &&
