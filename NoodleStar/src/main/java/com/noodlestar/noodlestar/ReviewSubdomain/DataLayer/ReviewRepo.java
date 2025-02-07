@@ -10,7 +10,7 @@ import reactor.core.publisher.Mono;
 @Repository
 public interface ReviewRepo extends ReactiveMongoRepository<Review, String> {
 
-    Mono<Review> findReviewById(String reviewId);
+    Mono<Review> findReviewByReviewId(String reviewId);
 
     Mono<Review> findReviewByIdAndReviewerName(String reviewId, String reviewerName);
 

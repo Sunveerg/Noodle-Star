@@ -5,6 +5,7 @@ import com.noodlestar.noodlestar.ReviewSubdomain.DataLayer.ReviewRepo;
 import com.noodlestar.noodlestar.ReviewSubdomain.PresentationLayer.ReviewRequestModel;
 import com.noodlestar.noodlestar.ReviewSubdomain.PresentationLayer.ReviewResponseModel;
 import com.noodlestar.noodlestar.utils.EntityDTOUtil;
+import com.noodlestar.noodlestar.utils.exceptions.NotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -172,6 +173,46 @@ class ReviewServiceUnitTest {
 
         verify(reviewRepository, times(1)).findAllByUserId(userId);
     }
+
+    @Test
+    public void whenDeleteReview_thenReviewIsDeleted() {
+        // Arrange
+        String reviewId = review1.getReviewId();
+        when(reviewRepository.findReviewByReviewId(reviewId)).thenReturn(Mono.just(review1));
+        when(reviewRepository.delete(review1)).thenReturn(Mono.empty());
+
+        // Act
+        Mono<Void> result = reviewService.deleteReview(reviewId);
+
+        // Assert
+        StepVerifier
+                .create(result)
+                .verifyComplete();
+
+        verify(reviewRepository, times(1)).findReviewByReviewId(reviewId);
+        verify(reviewRepository, times(1)).delete(review1);
+    }
+
+    @Test
+    public void whenDeleteNonExistentReview_thenNotFoundExceptionIsThrown() {
+        // Arrange
+        String reviewId = UUID.randomUUID().toString();
+        when(reviewRepository.findReviewByReviewId(reviewId)).thenReturn(Mono.empty());
+
+        // Act
+        Mono<Void> result = reviewService.deleteReview(reviewId);
+
+        // Assert
+        StepVerifier
+                .create(result)
+                .expectErrorMatches(throwable -> throwable instanceof NotFoundException &&
+                        throwable.getMessage().equals("Re with ID '" + reviewId + "' not found."))
+                .verify();
+
+        verify(reviewRepository, times(1)).findReviewByReviewId(reviewId);
+        verify(reviewRepository, never()).delete(any());
+    }
+
 
 
 }
