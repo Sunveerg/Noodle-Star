@@ -174,7 +174,7 @@ class ReviewControllerUnitTest {
         webTestClient.delete()
                 .uri("/api/v1/review/1")
                 .exchange()
-                .expectStatus().isNoContent(); 
+                .expectStatus().isNoContent();
 
         verify(reviewService, times(1)).deleteReview("1");
     }
