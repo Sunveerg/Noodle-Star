@@ -13,4 +13,6 @@ public interface ReviewService {
     Mono<ReviewResponseModel> addReview(Mono<ReviewRequestModel> reviewRequestModel);
 
     Flux<ReviewResponseModel> getReviewsByUserId(String userId);
+    Mono<Void> deleteReview(String reviewId);
+
 }

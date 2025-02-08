@@ -12,6 +12,29 @@ const AllReviewByUserId: React.FC = (): JSX.Element => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
+  const API_URL = 'http://localhost:8080/api/v1/review'; // Adjust port if needed
+
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  const handleDelete = async (reviewId: string) => {
+    try {
+      const response = await fetch(`${API_URL}/${reviewId}`, {
+        method: 'DELETE',
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to delete review (status: ${response.status})`);
+      }
+
+      // Remove the deleted review from state
+      setReviews(prevReviews =>
+        prevReviews.filter(review => review.reviewId !== reviewId)
+      );
+    } catch (err) {
+      console.error('Failed to delete review:', err);
+      alert('Error deleting review');
+    }
+  };
 
   const decodeAccessToken = (accessToken: string): string | null => {
     try {
@@ -109,6 +132,12 @@ const AllReviewByUserId: React.FC = (): JSX.Element => {
                 <p className="review-date">
                   {new Date(review.dateSubmitted).toLocaleDateString()}
                 </p>
+                <button
+                  className="delete-btn"
+                  onClick={() => handleDelete(review.reviewId)}
+                >
+                  ❌
+                </button>
               </div>
             </div>
           ))

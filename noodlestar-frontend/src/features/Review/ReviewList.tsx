@@ -6,6 +6,8 @@ import { reviewResponseModel } from '../model/reviewResponseModel';
 import { getAllReview } from '../api/Review/getAllReview';
 import noodleImg from '../../components/assets/noodle.png';
 
+const API_URL = 'http://localhost:8080/api/v1/review'; // Adjust port if needed
+
 const ReviewList: React.FC = (): JSX.Element => {
   const [reviews, setReviews] = useState<reviewResponseModel[]>([]);
 
@@ -29,22 +31,36 @@ const ReviewList: React.FC = (): JSX.Element => {
   }, []);
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  const handleDelete = async (reviewId: string) => {
+    try {
+      const response = await fetch(`${API_URL}/${reviewId}`, {
+        method: 'DELETE',
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to delete review (status: ${response.status})`);
+      }
+
+      // Remove the deleted review from state
+      setReviews(prevReviews =>
+        prevReviews.filter(review => review.reviewId !== reviewId)
+      );
+    } catch (err) {
+      console.error('Failed to delete review:', err);
+      alert('Error deleting review');
+    }
+  };
+
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const generateStars = (rating: number) => {
     const stars = [];
     for (let i = 0; i < 5; i++) {
-      if (i < rating) {
-        stars.push(
-          <span key={i} className="star filled">
-            ★
-          </span>
-        ); // Filled star (gold)
-      } else {
-        stars.push(
-          <span key={i} className="star empty">
-            ★
-          </span>
-        ); // Empty star (gray)
-      }
+      stars.push(
+        <span key={i} className={i < rating ? 'star filled' : 'star empty'}>
+          ★
+        </span>
+      );
     }
     return stars;
   };
@@ -65,21 +81,20 @@ const ReviewList: React.FC = (): JSX.Element => {
           reviews.map(review => (
             <div className="review-item" key={review.reviewId}>
               <div className="review-item-content">
-                {/* Rating at the top */}
                 <div className="review-rating">
                   {generateStars(review.rating)}
                 </div>
-
-                {/* Name below rating */}
                 <div className="reviewer-name">{review.reviewerName}</div>
-
-                {/* Review text */}
                 <p className="review-text">{review.review}</p>
-
-                {/* Review date */}
                 <p className="review-date">
                   {new Date(review.dateSubmitted).toLocaleDateString()}
                 </p>
+                <button
+                  className="delete-btn"
+                  onClick={() => handleDelete(review.reviewId)}
+                >
+                  ❌
+                </button>
               </div>
             </div>
           ))

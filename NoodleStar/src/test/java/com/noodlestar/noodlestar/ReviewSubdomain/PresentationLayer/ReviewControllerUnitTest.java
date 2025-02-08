@@ -6,6 +6,7 @@ import com.noodlestar.noodlestar.MenuSubdomain.PresentationLayer.MenuController;
 import com.noodlestar.noodlestar.MenuSubdomain.PresentationLayer.MenuResponseModel;
 import com.noodlestar.noodlestar.ReviewSubdomain.BusinessLayer.ReviewService;
 import com.noodlestar.noodlestar.ReviewSubdomain.DataLayer.Review;
+import com.noodlestar.noodlestar.utils.exceptions.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -165,6 +166,29 @@ class ReviewControllerUnitTest {
 
         // Verify that the reviewService method was called once with the userId "23"
         verify(reviewService, times(1)).getReviewsByUserId("23");
+    }
+    @Test
+    void deleteReview_Success() {
+        when(reviewService.deleteReview("1")).thenReturn(Mono.empty());
+
+        webTestClient.delete()
+                .uri("/api/v1/review/1")
+                .exchange()
+                .expectStatus().isNoContent();
+
+        verify(reviewService, times(1)).deleteReview("1");
+    }
+
+    @Test
+    void deleteReview_NotFound() {
+        when(reviewService.deleteReview("1")).thenReturn(Mono.error(new NotFoundException("Review not found")));
+
+        webTestClient.delete()
+                .uri("/api/v1/review/1")
+                .exchange()
+                .expectStatus().isNotFound();
+
+        verify(reviewService, times(1)).deleteReview("1");
     }
 
 

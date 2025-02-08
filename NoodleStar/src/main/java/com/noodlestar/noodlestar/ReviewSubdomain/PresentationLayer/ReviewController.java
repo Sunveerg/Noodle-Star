@@ -1,6 +1,7 @@
 package com.noodlestar.noodlestar.ReviewSubdomain.PresentationLayer;
 
 import com.noodlestar.noodlestar.ReviewSubdomain.BusinessLayer.ReviewService;
+import com.noodlestar.noodlestar.utils.exceptions.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -36,4 +37,13 @@ public class ReviewController {
     public Flux<ReviewResponseModel> getReviewByUserId(@PathVariable String userId) {
         return reviewService.getReviewsByUserId(userId);
     }
-}
+
+    @DeleteMapping("/{reviewId}")
+    public Mono<ResponseEntity<Void>> deleteReview(@PathVariable String reviewId) {
+            return reviewService.deleteReview(reviewId)
+                    .then(Mono.just(new ResponseEntity<Void>(HttpStatus.NO_CONTENT)))
+                    .onErrorResume(NotFoundException.class, e -> Mono.just(new ResponseEntity<Void>(HttpStatus.NOT_FOUND)));
+        }
+
+
+    }

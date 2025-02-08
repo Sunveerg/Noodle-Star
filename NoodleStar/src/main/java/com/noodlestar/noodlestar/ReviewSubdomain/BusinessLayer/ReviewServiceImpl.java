@@ -10,6 +10,7 @@ import com.noodlestar.noodlestar.utils.EntityDTOUtil;
 import com.noodlestar.noodlestar.utils.exceptions.InvalidDishDescriptionException;
 import com.noodlestar.noodlestar.utils.exceptions.InvalidDishNameException;
 import com.noodlestar.noodlestar.utils.exceptions.InvalidDishPriceException;
+import com.noodlestar.noodlestar.utils.exceptions.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -49,6 +50,12 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public Flux<ReviewResponseModel> getReviewsByUserId(String userId) {
         return reviewRepo.findAllByUserId(userId).map(EntityDTOUtil::toReviewResponseDTO);
+    }
+    @Override
+    public Mono<Void> deleteReview(String reviewId) {
+        return reviewRepo.findReviewByReviewId(reviewId)
+                .switchIfEmpty(Mono.error(new NotFoundException("Re with ID '" + reviewId + "' not found.")))
+                .flatMap(reviewRepo::delete);
     }
 
 
