@@ -110,35 +110,34 @@ package "Order Management" <<Rectangle>> {
             + addOrder(orderRequest: OrderRequestModel) : Mono<OrderResponseModel>
             + updateOrder(orderId: UUID, orderRequest: OrderRequestModel) : Mono<OrderResponseModel>
             + cancelOrder(orderId: UUID) : Mono<Void>
+            + getOrdersByCustomerId(customerId: UUID) : Flux<OrderResponseModel>
         }
 
         class OrderServiceImpl {
             - orderRepository : OrderRepository
-            - orderRequestMapper : EntityDtoUitls
-            - orderResponseMapper : EntityDtoUitls
             + getAllOrders() : Flux<OrderResponseModel>
             + getOrder(orderId: UUID) : Mono<OrderResponseModel>
             + addOrder(orderRequest: OrderRequestModel) : Mono<OrderResponseModel>
             + updateOrder(orderId: UUID, orderRequest: OrderRequestModel) : Mono<OrderResponseModel>
             + cancelOrder(orderId: UUID) : Mono<Void>
+            + getOrdersByCustomerId(customerId: UUID) : Flux<OrderResponseModel>
         }
     }
 
     package "datalayer" {
         class Order {
-            - orderId : UUID
-            - customerId : UUID
-            - status : String
-            - orderDate : Date
-            - orderDetails : List<OrderDetails>
+            - orderId: UUID
+            - customerId: UUID
+            - status: String
+            - orderDate: LocalDate
+            - orderDetails: List<OrderDetails>
+            - total: Double
         }
 
         class OrderDetails {
-            - orderDetailsId : UUID
-            - itemId : UUID
-            - quantity : Integer
-            - price : Decimal
-            - orderId: UUID
+            - menuId: String
+            - quantity: Integer
+            - price: Double
         }
 
         interface OrderRepository {
@@ -146,6 +145,7 @@ package "Order Management" <<Rectangle>> {
             + findById(orderId: UUID) : Mono<Order>
             + save(order: Order) : Mono<Order>
             + deleteById(orderId: UUID) : Mono<Void>
+            + findByCustomerId(customerId: UUID) : Flux<Order>
         }
     }
 
@@ -160,25 +160,35 @@ package "Order Management" <<Rectangle>> {
 
     package "presentationlayer" {
         class OrderRequestModel {
-            - customerId : UUID
-            - itemId : UUID
-            - quantity : int
-            - orderDate : Date
-            - status : Status
-            - price: int
+        - customerId: UUID
+        - status: String
+        - orderDate: LocalDate
+        - orderDetails: List<OrderDetails>
+        - total: Double
         }
 
 
 
         class OrderResponseModel {
-            - orderId : UUID
-            - customerId : UUID
-            - itemId : UUID
-            - quantity : int
-            - orderDate : Date
-            - status : Status
-            - price: int
+            - orderId: UUID
+            - customerId: UUID
+            - status: String
+            - orderDate: LocalDate
+            - orderDetails: List<OrderDetails>
+            - total: Double
         }
+
+        class OrderDetailsResponseModel {
+                    - menuId: String
+                    - quantity: Integer
+                    - price: Double
+                }
+
+        class OrderDetailsRequestModel {
+                    - menuId: String
+                    - quantity: Integer
+                    - price: Double
+                }
 
 
 
@@ -189,11 +199,14 @@ package "Order Management" <<Rectangle>> {
             + addOrder(orderRequest: OrderRequestModel) : ResponseEntity<Mono<OrderResponseModel>>
             + updateOrder(orderId: UUID, orderRequest: OrderRequestModel) : ResponseEntity<Mono<OrderResponseModel>>
             + cancelOrder(orderId: UUID) : ResponseEntity<Mono<Void>>
+            + getOrdersByCustomerId(customerId: UUID) : ResponseEntity<Flux<OrderResponseModel>>
         }
     }
 
        OrderServiceImpl -down-> OrderRequestModel : uses
         OrderServiceImpl -down-> OrderResponseModel : uses
+        OrderRequestModel -down-> OrderDetailsRequestModel : uses
+        OrderResponseModel -down-> OrderDetailsResponseModel : uses
             EntityDtoUitls -left- OrderRequestModel : uses
             EntityDtoUitls -left- OrderResponseModel : uses
 

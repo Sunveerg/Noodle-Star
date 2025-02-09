@@ -43,6 +43,7 @@ public class EntityDTOUtil {
                 .reviewerName(reviewRequestModel.getReviewerName())
                 .review(reviewRequestModel.getReview())
                 .dateSubmitted(reviewRequestModel.getDateSubmitted())
+                .isEdited(reviewRequestModel.isEdited())
                 .build();
     }
 

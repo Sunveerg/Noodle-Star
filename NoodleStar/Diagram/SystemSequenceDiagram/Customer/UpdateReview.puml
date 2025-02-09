@@ -1,0 +1,19 @@
+@startuml
+hide footbox
+actor Customer
+participant "Noodle Star System" as System
+
+' Login Flow '
+ref over Customer, System : Login.puml
+
+' Fetch Reviews '
+Customer -> System: getAllReviews()
+System -> System: fetchAllReviews()
+System --> Customer: displayAllReviews()
+
+' Update a Review '
+Customer -> System: updateReview(reviewId, reviewRequestModel)
+System -> System: updateReview(reviewId, reviewRequestModel)
+System --> Customer: displayAllReviews()
+
+@enduml

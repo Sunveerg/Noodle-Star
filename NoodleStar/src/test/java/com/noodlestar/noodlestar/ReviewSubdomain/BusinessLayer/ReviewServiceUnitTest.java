@@ -207,6 +207,102 @@ class ReviewServiceUnitTest {
         verify(reviewRepository, never()).delete(any());
     }
 
+    @Test
+    public void whenUpdateReview_thenReturnUpdatedReview() {
+        // Arrange
+        String reviewId = review1.getReviewId();
+        ReviewRequestModel requestModel = new ReviewRequestModel();
+        requestModel.setRating(3);
+        requestModel.setReview("Good but could be better");
+
+        Review updatedReview = Review.builder()
+                .id(review1.getId())
+                .reviewId(review1.getReviewId())
+                .rating(requestModel.getRating())
+                .review(requestModel.getReview())
+                .reviewerName(review1.getReviewerName())
+                .dateSubmitted(LocalDateTime.now())
+                .isEdited(true)
+                .build();
+
+        when(reviewRepository.findReviewByReviewId(reviewId)).thenReturn(Mono.just(review1));
+        when(reviewRepository.save(any(Review.class))).thenReturn(Mono.just(updatedReview));
+
+        // Act
+        Mono<ReviewResponseModel> result = reviewService.updateReview(Mono.just(requestModel), reviewId);
+
+        // Assert
+        StepVerifier
+                .create(result)
+                .expectNextMatches(response -> response.getRating() == 3 &&
+                        response.getReview().equals("Good but could be better") &&
+                        response.isEdited())
+                .verifyComplete();
+
+        verify(reviewRepository, times(1)).findReviewByReviewId(reviewId);
+        verify(reviewRepository, times(1)).save(any(Review.class));
+    }
+
+    @Test
+    public void whenUpdateNonExistentReview_thenReturnNotFoundException() {
+        // Arrange
+        String reviewId = UUID.randomUUID().toString();
+        ReviewRequestModel requestModel = new ReviewRequestModel();
+        requestModel.setRating(3);
+        requestModel.setReview("Good but could be better");
+
+        when(reviewRepository.findReviewByReviewId(reviewId)).thenReturn(Mono.empty());
+
+        // Act
+        Mono<ReviewResponseModel> result = reviewService.updateReview(Mono.just(requestModel), reviewId);
+
+        // Assert
+        StepVerifier
+                .create(result)
+                .expectErrorMatches(throwable -> throwable instanceof NotFoundException &&
+                        throwable.getMessage().equals("Review not found with id: " + reviewId))
+                .verify();
+
+        verify(reviewRepository, times(1)).findReviewByReviewId(reviewId);
+        verify(reviewRepository, never()).save(any(Review.class));
+    }
+
+    @Test
+    public void whenGetReviewById_thenReturnReview() {
+        // Arrange
+        String reviewId = review1.getReviewId();
+        when(reviewRepository.findReviewByReviewId(reviewId)).thenReturn(Mono.just(review1));
+
+        // Act
+        Mono<ReviewResponseModel> result = reviewService.getReviewById(reviewId);
+
+        // Assert
+        StepVerifier
+                .create(result)
+                .expectNextMatches(response -> response.getReviewId().equals(review1.getReviewId()) &&
+                        response.getReviewerName().equals(review1.getReviewerName()))
+                .verifyComplete();
+
+        verify(reviewRepository, times(1)).findReviewByReviewId(reviewId);
+    }
+
+    @Test
+    public void whenGetNonExistentReviewById_thenReturnNotFoundException() {
+        // Arrange
+        String reviewId = UUID.randomUUID().toString();
+        when(reviewRepository.findReviewByReviewId(reviewId)).thenReturn(Mono.empty());
+
+        // Act
+        Mono<ReviewResponseModel> result = reviewService.getReviewById(reviewId);
+
+        // Assert
+        StepVerifier
+                .create(result)
+                .expectNextCount(0)
+                .verifyComplete();
+
+        verify(reviewRepository, times(1)).findReviewByReviewId(reviewId);
+    }
 
 
 }

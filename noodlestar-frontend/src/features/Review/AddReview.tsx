@@ -16,6 +16,7 @@ const AddReview: React.FC = (): JSX.Element => {
     reviewerName: '',
     review: '',
     dateSubmitted: new Date(),
+    isEdited: false,
   });
 
   const [error, setError] = useState<{ [key: string]: string }>({});

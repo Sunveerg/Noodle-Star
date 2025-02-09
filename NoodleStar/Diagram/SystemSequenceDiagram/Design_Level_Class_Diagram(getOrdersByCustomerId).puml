@@ -1,0 +1,47 @@
+@startuml
+hide footbox
+actor Customer
+
+participant OrderPage as "<<View>>\nOrderPage"
+participant OrderFeature as "<<View>>\nOrderFeature"
+participant AxiosInstance as "<<Utility>>\nAxiosInstance"
+participant OrderController as "<<Controller>>\nOrderController"
+participant OrderService as "<<Service>>\nOrderService"
+participant OrderRepository as "<<Repository>>\nOrderRepository"
+participant Database as "<<Database>>\nDatabase"
+participant Order as "<<Entity>>\nOrder"
+
+' get all orders '
+Customer -> OrderPage: Visit Order Page
+activate OrderPage
+OrderPage -> OrderFeature: loadOrderData()
+activate OrderFeature
+OrderFeature -> AxiosInstance: fetchOrderData()
+activate AxiosInstance
+AxiosInstance -> OrderController: GET /orders
+activate OrderController
+OrderController -> OrderService: getAllOrders()
+activate OrderService
+OrderService -> OrderRepository: findAllOrders()
+activate OrderRepository
+OrderRepository -> Database: getAllOrders()
+activate Database
+Database --> OrderRepository: return RawOrderData
+deactivate Database
+OrderRepository -> OrderRepository: map RawOrderData to List<Order>
+OrderRepository --> OrderService: return List<Order>
+deactivate OrderRepository
+OrderService -> OrderService: instantiate Order entity objects
+OrderService -> Order: create instances of Order
+Order --> OrderService: return Order Entity instances
+OrderService -> OrderService: map List<Order> to List<OrderResponseModel>
+OrderService --> OrderController: return List<OrderResponseModel>
+deactivate OrderService
+OrderController --> AxiosInstance: return List<OrderResponseModel>
+deactivate OrderController
+AxiosInstance --> OrderFeature: return List<OrderResponseModel>
+deactivate AxiosInstance
+OrderFeature --> OrderPage: renderOrderList()
+deactivate OrderFeature
+deactivate OrderPage
+@enduml
