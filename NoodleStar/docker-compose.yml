@@ -8,8 +8,8 @@ services:
       - "8888:8888"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - AUTH0_CLIENT_ID=iwoE6qDi2cW9txKIbyDXKRZMAriuEhoc
-      - AUTH0_CLIENT_SECRET=sbyXUbSuZNY9QimrLfcmKA7K0l4mDVJS4w0ITkITkYe2BkB5ty8EteU4Qsvw3BSs
+      - AUTH0_CLIENT_ID=Pr9b4hkdMFcmkjKK2dpbLimUJplCuwSM
+      - AUTH0_CLIENT_SECRET=GyxnjU36qFE3xf0dOOT8Fq_yqCfNCy-zbh_9D8p2RVPznckkeuzVwb3V2fB5WgHF
       - SPRING_DATA_MONGODB_URI=mongodb+srv://doadmin:WQ723ZxOJ81T90I5@db-mongodb-noodlestar-e6ec5c6f.mongo.ondigitalocean.com/admin?retryWrites=true&w=majority
       - SPRING_PROFILES_ACTIVE=prod
     depends_on:
