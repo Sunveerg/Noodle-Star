@@ -18,6 +18,7 @@ import AddStaffPage from './pages/AddStaffPage';
 import UpdateUserPage from './pages/UpdateUserPage';
 import ReportPage from './pages/ReportPage';
 import FinancialReportPage from './pages/FinancialReportPage';
+import UpdateReview from './features/Review/UpdateReview';
 
 const router = createBrowserRouter([
   {
@@ -99,6 +100,10 @@ const router = createBrowserRouter([
   {
     path: PathRoutes.FinancialReport,
     element: <FinancialReportPage />,
+  },
+  {
+    path: PathRoutes.UpdateReview,
+    element: <UpdateReview />,
   },
 ]);
 

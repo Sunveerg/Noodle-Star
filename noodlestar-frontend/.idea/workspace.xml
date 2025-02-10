@@ -5,7 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bb02f192-7689-46bf-8afb-b72c115edcaf" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../NoodleStar/Diagram/C4Diagram/C4_L3_Database.puml" beforeDir="false" afterPath="$PROJECT_DIR$/../NoodleStar/Diagram/C4Diagram/C4_L3_Database.puml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../NoodleStar/Diagram/DDD-NoodleStar.puml" beforeDir="false" afterPath="$PROJECT_DIR$/../NoodleStar/Diagram/DDD-NoodleStar.puml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,9 +42,10 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/finalProject2/Noodle-Star/noodlestar-frontend",
+    "last_opened_file_path": "C:/Users/Sunve/Noodle-Star/noodlestar-frontend",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -52,21 +55,6 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager">
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="noodlestar-frontend" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="noodlestar-frontend" />
-      <option name="filePath" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -89,6 +77,7 @@
       <workItem from="1737471486582" duration="65000" />
       <workItem from="1737566614817" duration="660000" />
       <workItem from="1737567283761" duration="13000" />
+      <workItem from="1738525016178" duration="10000" />
     </task>
     <servers />
   </component>

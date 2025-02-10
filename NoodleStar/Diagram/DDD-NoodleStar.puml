@@ -20,18 +20,18 @@ rectangle "Noodle Star Domain" as BoundedContextNoodleStar #line.dashed {
             orderId: UUID
             customerId: UUID
             status: String
-            orderDate: Date
+            orderDate: LocalDate
+            orderDetails: List<OrderDetails>
+            total: Double
         }
 note right of Order
     "Uses API"
 end note
 
         VALUE_OBJECT(OrderDetails) #FFF9C4 {
-            orderDetailsId: UUID
-            itemId: UUID
-            orderId: UUID
+            menuId: String
             quantity: Integer
-            price: Decimal
+            price: Double
 
         }
 

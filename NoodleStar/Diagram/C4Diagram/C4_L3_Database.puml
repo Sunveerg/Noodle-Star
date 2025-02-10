@@ -11,10 +11,10 @@ Database "MongoDB" as MongoDB #f29111 {
 
     COLLECTION(Orders) {
         FIELD(order_id, ObjectId)
-        FIELD(customer, Embedded Document) // Includes customer_id, name, email
-        FIELD(order_items, Array of Documents) // Links to OrderDetails
-        FIELD(status, String)
-        FIELD(order_date, DateTime)
+        FIELD(customer_id, String)
+        FIELD(status, String) // Links to OrderDetails
+        FIELD(order_details, List<OrderDetails>) // Links to OrderDetails with many items
+        FIELD(total, Double)
     }
 
     COLLECTION(Customers) {
@@ -36,11 +36,9 @@ Database "MongoDB" as MongoDB #f29111 {
     }
 
     COLLECTION(OrderDetails) {
-        FIELD(order_detail_id, ObjectId)
-        FIELD(order_id, ObjectId) // Reference to Orders
-        FIELD(item_id, ObjectId) // Reference to Menu
+        FIELD(menu_id, String) // Reference to Menu
         FIELD(quantity, Integer)
-        FIELD(price, Decimal)
+        FIELD(price, Double)
     }
 
     COLLECTION(Reports) {

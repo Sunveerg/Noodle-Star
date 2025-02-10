@@ -43,7 +43,19 @@ public class ReviewController {
             return reviewService.deleteReview(reviewId)
                     .then(Mono.just(new ResponseEntity<Void>(HttpStatus.NO_CONTENT)))
                     .onErrorResume(NotFoundException.class, e -> Mono.just(new ResponseEntity<Void>(HttpStatus.NOT_FOUND)));
-        }
-
-
     }
+
+    @PutMapping("/{reviewId}")
+    public Mono<ResponseEntity<ReviewResponseModel>> updateReview(@RequestBody Mono<ReviewRequestModel> reviewRequestModel, @PathVariable String reviewId) {
+        return reviewService.updateReview(reviewRequestModel, reviewId)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("reviewId/{reviewId}")
+    public Mono<ResponseEntity<ReviewResponseModel>> getReviewById(@PathVariable String reviewId) {
+        return reviewService.getReviewById(reviewId)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
+    }
+}

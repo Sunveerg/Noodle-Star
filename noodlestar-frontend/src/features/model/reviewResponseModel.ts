@@ -5,4 +5,5 @@ export interface reviewResponseModel {
   review: string;
   rating: number;
   dateSubmitted: Date;
+  isEdited: boolean;
 }

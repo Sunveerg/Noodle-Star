@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { reviewResponseModel } from '../model/reviewResponseModel';
 import { getReviewByUserId } from '../api/Review/getReviewByUserId';
 import './ReviewList.css';
+import { useNavigate } from 'react-router-dom';
 
 interface ApiError {
   message: string;
@@ -13,6 +14,7 @@ const AllReviewByUserId: React.FC = (): JSX.Element => {
   const [error, setError] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
   const API_URL = 'http://localhost:8080/api/v1/review'; // Adjust port if needed
+  const navigate = useNavigate();
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const handleDelete = async (reviewId: string) => {
@@ -131,12 +133,24 @@ const AllReviewByUserId: React.FC = (): JSX.Element => {
                 {/* Review date */}
                 <p className="review-date">
                   {new Date(review.dateSubmitted).toLocaleDateString()}
+                  {review.isEdited && (
+                    <span className="edited-label"> • (Edited)</span>
+                  )}
                 </p>
                 <button
                   className="delete-btn"
                   onClick={() => handleDelete(review.reviewId)}
                 >
                   ❌
+                </button>
+                <button
+                  onClick={e => {
+                    e.stopPropagation();
+                    navigate(`review/${review.reviewId}/update`);
+                  }}
+                  className="btn-edit"
+                >
+                  ✏️
                 </button>
               </div>
             </div>

@@ -58,5 +58,24 @@ public class ReviewServiceImpl implements ReviewService {
                 .flatMap(reviewRepo::delete);
     }
 
+    @Override
+    public Mono<ReviewResponseModel> updateReview(Mono<ReviewRequestModel> reviewRequestModel, String reviewId) {
+        return reviewRepo.findReviewByReviewId(reviewId)
+                .flatMap(existingReview -> reviewRequestModel.map(requestModel -> {
+                    existingReview.setRating(requestModel.getRating());
+                    existingReview.setReview(requestModel.getReview());
+                    existingReview.setDateSubmitted(LocalDateTime.now());
+                    existingReview.setEdited(true);
+                    return existingReview;
+                }))
+                .switchIfEmpty(Mono.error(new NotFoundException("Review not found with id: " + reviewId)))
+                .flatMap(reviewRepo::save)
+                .map(EntityDTOUtil::toReviewResponseDTO);
+    }
+
+    @Override
+    public Mono<ReviewResponseModel> getReviewById(String reviewId) {
+        return reviewRepo.findReviewByReviewId(reviewId).map(EntityDTOUtil::toReviewResponseDTO);
+    }
 
 }

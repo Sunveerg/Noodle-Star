@@ -1,5 +1,6 @@
 package com.noodlestar.noodlestar.ReviewSubdomain.PresentationLayer;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,4 +18,7 @@ public class ReviewResponseModel {
     private String reviewerName;
     private String review;
     private LocalDateTime dateSubmitted;
+
+    @JsonProperty("isEdited")
+    private boolean isEdited;
 }

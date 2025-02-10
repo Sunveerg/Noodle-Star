@@ -209,6 +209,7 @@ public class DataSetupServiceReview implements CommandLineRunner {
                 .reviewerName(reviewerName)
                 .review(review)
                 .dateSubmitted(parsedReviewDate)
+                .isEdited(false)
                 .build();
     }
 
