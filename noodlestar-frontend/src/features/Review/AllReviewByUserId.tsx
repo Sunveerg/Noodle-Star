@@ -150,7 +150,7 @@ const AllReviewByUserId: React.FC = (): JSX.Element => {
                   }}
                   className="btn-edit"
                 >
-                  ✏️
+                  ✏️️
                 </button>
               </div>
             </div>
