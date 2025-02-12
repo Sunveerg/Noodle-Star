@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './css/Navigation.module.css';
 import { PathRoutes } from '../path.routes';
 import { NavLink } from 'react-router-dom';
@@ -13,10 +13,15 @@ const navigationItems = [
 
 export const NavBar: React.FC = () => {
   const [loading, setLoading] = useState(false);
-  const [currentLanguage, setCurrentLanguage] = useState('EN'); // State to track current language
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [currentLanguage, setCurrentLanguage] = useState('EN');
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  const handleLoginRedirect = () => {
+  useEffect(() => {
+    const token = localStorage.getItem('access_token');
+    setIsAuthenticated(!!token);
+  }, []);
+
+  const handleLoginRedirect = (): void => {
     setLoading(true);
     const audience = 'https://dev-5kbvxb8zgblo1by3.us.auth0.com/api/v2/';
     const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
@@ -32,8 +37,14 @@ export const NavBar: React.FC = () => {
       `prompt=login`;
   };
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  const handleLanguageChange = (lang: string) => {
+  const handleLogout = (): void => {
+    localStorage.removeItem('access_token');
+    sessionStorage.removeItem('access_token');
+    setIsAuthenticated(false);
+    window.location.reload();
+  };
+
+  const handleLanguageChange = (lang: string): void => {
     const googleTranslateElement = document.querySelector(
       '.goog-te-combo'
     ) as HTMLSelectElement;
@@ -41,7 +52,7 @@ export const NavBar: React.FC = () => {
     if (googleTranslateElement) {
       googleTranslateElement.value = lang;
       googleTranslateElement.dispatchEvent(new Event('change'));
-      setCurrentLanguage(lang === 'en' ? 'EN' : 'FR'); // Update the language state
+      setCurrentLanguage(lang === 'en' ? 'EN' : 'FR');
     } else {
       console.error('Google Translate dropdown not found');
     }
@@ -53,8 +64,7 @@ export const NavBar: React.FC = () => {
       role="navigation"
       aria-label="Main navigation"
     >
-      <div id="google_translate_element" style={{ display: 'none' }}></div>{' '}
-      {/* Hidden Google Translate element */}
+      <div id="google_translate_element" style={{ display: 'none' }}></div>
       <div className={styles.navContainer}>
         <div className={`${styles.logo} notranslate`}>Nouilles Star</div>
         <div className={styles.navItems} role="menubar">
@@ -71,9 +81,7 @@ export const NavBar: React.FC = () => {
             </NavLink>
           ))}
           <div className={styles.dropdown}>
-            <button className={styles.navItem}>
-              {currentLanguage} {/* Display current language */}
-            </button>
+            <button className={styles.navItem}>{currentLanguage}</button>
             <div className={styles.dropdownContent}>
               <button onClick={() => handleLanguageChange('en')}>
                 English
@@ -81,13 +89,19 @@ export const NavBar: React.FC = () => {
               <button onClick={() => handleLanguageChange('fr')}>French</button>
             </div>
           </div>
-          <button
-            onClick={handleLoginRedirect}
-            disabled={loading}
-            className={styles.navItem}
-          >
-            {loading ? 'Redirecting to Auth0...' : 'Login'}
-          </button>
+          {loading ? (
+            <button className={styles.navItem} disabled>
+              Redirecting to Auth0...
+            </button>
+          ) : isAuthenticated ? (
+            <button onClick={handleLogout} className={styles.navItem}>
+              Logout
+            </button>
+          ) : (
+            <button onClick={handleLoginRedirect} className={styles.navItem}>
+              Login
+            </button>
+          )}
         </div>
       </div>
     </nav>

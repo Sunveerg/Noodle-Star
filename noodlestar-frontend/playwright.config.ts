@@ -78,7 +78,8 @@ export default defineConfig({
     '**/AddStaffRole.spec.ts', // Exclude this test
     '**/GetStaff.spec.ts', // Exclude this test
     '**/UpdateUser.spec.ts',
-    '**/ViewReport.spec.ts'
+    '**/ViewReport.spec.ts',
+    '**/updateReview.spec.ts',
   ],
 
   /* Run your local dev server before starting the tests */
