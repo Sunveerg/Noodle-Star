@@ -1,9 +1,33 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useEffect } from 'react';
+import axiosInstance from '../Shared/Api/axiosInstance';
+import { useNavigate } from 'react-router-dom';
 
 const Callback: React.FC = () => {
+  const navigate = useNavigate();
+
   useEffect(() => {
+    const handleUserLogin = async (userId: string, accessToken: string) => {
+      try {
+        const encodedUserId = encodeURIComponent(userId).replace(/\|/g, '%7C');
+        const backendUrl = process.env.REACT_APP_BACKEND_URL;
+        await axiosInstance.post(
+          `${backendUrl}/api/v1/users/${encodedUserId}/login`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        console.log('User successfully logged in or created in the backend.');
+      } catch (error) {
+        console.error('Error during user login:', error);
+      }
+    };
+
     const fetchUserInfo = async (accessToken: string) => {
       try {
         const response = await fetch(
@@ -17,22 +41,15 @@ const Callback: React.FC = () => {
         );
 
         if (!response.ok) {
-          if (response.status === 429) {
-            console.error('Rate limit exceeded. Please try again later.');
-            return;
-          }
           throw new Error('Failed to fetch user info');
         }
 
         const userInfo = await response.json();
-        console.log('User Info:', userInfo);
-
-        // Get the userId directly from Auth0
-        const userId = userInfo.sub || userInfo.userId;
+        const userId = userInfo.sub;
 
         if (userId) {
-          console.log('User ID:', userId);
-          //await handleUserLogin(userId, accessToken); // Pass accessToken and userId here
+          // Call the /login endpoint to create the user in the backend
+          await handleUserLogin(userId, accessToken);
         } else {
           console.error('User ID is missing.');
         }
@@ -41,47 +58,18 @@ const Callback: React.FC = () => {
       }
     };
 
-    /*const handleUserLogin = async (userId: string, accessToken: string) => {
-          try {
-              // Explicitly replace '|' with '%7C' for encoding the userId
-              const encodedUserId = encodeURIComponent(userId).replace(/\|/g, '%7C');
-              console.log("Access Token:", accessToken);
-              console.log("User ID:", encodedUserId);
-      
-              // Use axiosInstance to make the POST request
-              const response = await axiosInstance.post(
-                  `http://localhost:8080/api/v1/users/${encodedUserId}/login`, // Directly passing userId here
-                  {}, // Empty body (adjust if necessary)
-                  {
-                      headers: {
-                          Authorization: `Bearer ${accessToken}`,
-                          "Content-Type": "application/json",
-                      },
-                  }
-              );
-      
-              console.log("Response data:", response.data);
-              console.log("User successfully logged in:", response.data);
-      
-          } catch (error) {
-              console.error("Error during user login:", error);
-          }
-      };
-  */
     const hash = window.location.hash;
-    console.log('Hash:', hash); // Log the full hash for debugging
     const params = new URLSearchParams(hash.replace('#', '?'));
     const accessToken = params.get('access_token');
 
     if (accessToken) {
-      console.log('Access Token:', accessToken); // Log the access token
       localStorage.setItem('access_token', accessToken);
-      fetchUserInfo(accessToken); // Fetch user info using the access token
-      window.location.href = '/profile'; // Redirect to home or
+      fetchUserInfo(accessToken); // Fetch user info and call /login endpoint
+      navigate('/profile'); // Redirect to profile page
     } else {
       console.error('Authentication failed.');
     }
-  }, []);
+  }, [navigate]);
 
   return <div>Redirecting...</div>;
 };
