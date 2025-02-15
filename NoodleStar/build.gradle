@@ -36,9 +36,6 @@ dependencies {
 	implementation("com.google.api-client:google-api-client-jackson2:1.20.0")
 	implementation 'com.google.api-client:google-api-client:2.0.0'
 	implementation 'com.google.oauth-client:google-oauth-client-jetty:1.34.1'
-	implementation 'com.google.apis:google-api-services-gmail:v1-rev20220404-2.0.0'
-	implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
-	implementation 'com.sun.mail:javax.mail:1.6.2'
 
 	implementation 'com.auth0:java-jwt:3.18.2'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -60,6 +57,9 @@ dependencies {
 	testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 	testImplementation 'io.projectreactor:reactor-test'
 	testImplementation('de.flapdoodle.embed:de.flapdoodle.embed.mongo.spring3x:4.12.3')
+
+	implementation("org.springframework.boot:spring-boot-starter-mail:3.4.2")
+
 }
 
 jacocoTestReport {
@@ -73,7 +73,7 @@ jacocoTestReport {
 					'**/HttpErrorInfo*',
 					'**/auth0/**',
 					'**/security/**',
-					'**/GmailSubdomain/**',
+					'**/EmailSubdomain/**',
 					'**/utils/**',
 					'**/NoodleStarApplication.class'
 			])
