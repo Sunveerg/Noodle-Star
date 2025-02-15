@@ -50,41 +50,153 @@ public class DataSetupServiceReview implements CommandLineRunner {
 
     private void setupMenu() {
         List<Menu> menus = List.of(
-            buildMenu("menuId1", "Fried Rice", "Stir-frying rice with eggs and seafood.", 11.99, "Main Course", "https://cookingmadehealthy.com/wp-content/uploads/2021/03/Ratio-1-1-Baked-Chinese-Honey-Chicken-640x640.jpg", Status.AVAILABLE),
-            buildMenu("menuId2", "Won Soup", "Dumplings filled with seasoned pork.", 5.99, "Appetizer", "https://png.pngtree.com/png-vector/20241120/ourlarge/pngtree-traditional-chinese-food-vector-illustration-png-image_14496318.png", Status.AVAILABLE),
-            buildMenu("menuId3", "Fu Pot", "A seafood pot.", 15.99, "Main Course", "https://png.pngtree.com/png-vector/20241118/ourlarge/pngtree-chinese-food-on-white-background-png-image_14463713.png", Status.AVAILABLE),
-            buildMenu("menuId4", "Pad Thai", "Thai Stir-fried noodle dish.", 15.99, "Main Course", "https://png.pngtree.com/png-vector/20240901/ourlarge/pngtree-chinese-food-kung-pao-chicken-in-transparent-background-png-image_13705724.png", Status.NOT_AVAILABLE),
-            buildMenu("menuId5", "Kung Pao Chicken", "A spicy and savory Sichuan.", 12.99, "Main Course", "https://png.pngtree.com/png-vector/20241120/ourlarge/pngtree-chinese-food-vector-illustration-design-png-image_14496321.png", Status.NOT_AVAILABLE),
+                buildMenu("menuId6", "Won Ton Soup (Pork)", "Won Ton soup with pork", 4.00, "Appetizers & Soups", "", Status.AVAILABLE),
+        buildMenu("menuId7", "Hot & Sour Soup", "A classic hot and sour soup", 4.00, "Appetizers & Soups", "", Status.AVAILABLE),
+        buildMenu("menuId8", "Tom Yum Soup with Tofu", "Spicy and sour Tom Yum soup with tofu", 4.00, "Appetizers & Soups", "", Status.AVAILABLE),
+        buildMenu("menuId9", "Tom Yum Soup with Shrimp", "Spicy and sour Tom Yum soup with shrimp", 5.00, "Appetizers & Soups", "", Status.AVAILABLE),
+        buildMenu("menuId10", "Tom Yum Soup with Seafood", "Spicy and sour Tom Yum soup with seafood", 5.50, "Appetizers & Soups", "", Status.AVAILABLE),
+        buildMenu("menuId11", "Seafood Soup", "A flavorful seafood soup", 5.50, "Appetizers & Soups", "", Status.AVAILABLE),
+        buildMenu("menuId12", "Chicken & Sweet Corn Soup", "Chicken soup with sweet corn", 4.00, "Appetizers & Soups", "", Status.AVAILABLE),
+        buildMenu("menuId13", "Tofu & Sweet Corn Soup", "Tofu soup with sweet corn", 4.00, "Appetizers & Soups", "", Status.AVAILABLE),
+        buildMenu("menuId14", "Vegetarian Imperial Rolls (2)", "Crispy vegetarian imperial rolls", 4.00, "Appetizers & Soups", "", Status.AVAILABLE),
+        buildMenu("menuId15", "Vietnamese Fried Spring Rolls (2, Pork)", "Crispy Vietnamese-style fried spring rolls with pork", 4.00, "Appetizers & Soups", "", Status.AVAILABLE),
+        buildMenu("menuId16", "Peanut Butter Dumplings (Pork)", "Steamed dumplings with a peanut butter sauce", 7.00, "Appetizers & Soups", "", Status.AVAILABLE),
+        buildMenu("menuId17", "Fried Wonton (Shrimp & Pork)", "Crispy fried wontons filled with shrimp and pork", 8.00, "Appetizers & Soups", "", Status.AVAILABLE),
+        buildMenu("menuId18", "Fried Dumplings (Chicken) (6)", "Crispy pan-fried dumplings with chicken", 7.00, "Appetizers & Soups", "", Status.AVAILABLE),
+        buildMenu("menuId19", "Salt & Pepper Calamari Rings", "Crispy calamari rings with salt and pepper seasoning", 9.00, "Appetizers & Soups", "", Status.AVAILABLE),
+        buildMenu("menuId20", "Sesame Seed Balls (6)", "Sweet sesame seed-coated rice balls", 3.00, "Appetizers & Soups", "", Status.AVAILABLE),
+        buildMenu("menuId21", "Crispy Spinach", "Crispy-fried spinach leaves", 7.00, "Appetizers & Soups", "", Status.AVAILABLE),
 
-            buildMenu("menuId6", "Spring Rolls",
-                    "A filling of vegetables.",
-                    4.99, "Appetizer",
-                    "https://lh3.googleusercontent.com/xX6_jY_mEcWapvchfiaDLLGrW6xpEB89M5KvyGMYg5pDAY8EqMygoQmQjBanf90pgouj000fIAcjxIBq7A3Jo_xJVp-64W442g=w640-h640-c-rw-v1-e365",
-                    Status.AVAILABLE),
+                buildMenu("menuId22", "Well-Done Beef Noodles Soup", "Rice noodle soup with well-done beef", 12.50, "Soup & Noodles", "", Status.AVAILABLE),
+        buildMenu("menuId23", "Chicken & Vegetables Noodles Soup", "Rice noodle soup with chicken and mixed vegetables", 12.50, "Soup & Noodles", "", Status.AVAILABLE),
+        buildMenu("menuId24", "Chicken Noodles Soup", "Rice noodle soup with chicken", 12.50, "Soup & Noodles", "", Status.AVAILABLE),
+        buildMenu("menuId25", "Tom Yum Noodles Soup with Shrimp", "Spicy and sour Tom Yum noodle soup with shrimp", 14.00, "Soup & Noodles", "", Status.AVAILABLE),
+        buildMenu("menuId26", "Tom Yum Noodles Soup with Seafood", "Spicy and sour Tom Yum noodle soup with seafood", 15.00, "Soup & Noodles", "", Status.AVAILABLE),
+        buildMenu("menuId27", "Tom Yum Noodles Soup with Chicken", "Spicy and sour Tom Yum noodle soup with chicken", 14.00, "Soup & Noodles", "", Status.AVAILABLE),
+        buildMenu("menuId28", "Cantonese Won Ton Noodles Soup", "Noodle soup with shrimp and pork wontons", 13.00, "Soup & Noodles", "", Status.AVAILABLE),
+        buildMenu("menuId29", "Cantonese Style Beef Flank Noodles Soup", "Noodle soup with Cantonese-style beef flank", 14.00, "Soup & Noodles", "", Status.AVAILABLE),
+        buildMenu("menuId30", "Chicken Ramen", "Japanese-style ramen with chicken", 14.00, "Soup & Noodles", "", Status.AVAILABLE),
+        buildMenu("menuId31", "Beef Ramen", "Japanese-style ramen with beef", 15.00, "Soup & Noodles", "", Status.AVAILABLE),
+        buildMenu("menuId32", "Shanghai Style Noodles Soup (Minced Pork)", "Shanghai-style noodle soup with minced pork", 13.00, "Soup & Noodles", "", Status.AVAILABLE),
 
-            buildMenu("menuId7", "Sichuan Fish",
-                    "Fish cooked in a hot sauce.",
-                    18.99, "Main Course",
-                    "https://cookingmadehealthy.com/wp-content/uploads/2021/08/Baked-Sesame-Chicken-7-640x640.jpg",
-                    Status.AVAILABLE),
+        buildMenu("menuId33", "Chicken Teriyaki with Rice & Salad", "Grilled teriyaki chicken served with rice and salad", 14.00, "Asia Specialties", "", Status.AVAILABLE),
+        buildMenu("menuId34", "Beef Teriyaki with Rice & Salad", "Grilled teriyaki beef served with rice and salad", 14.00, "Asia Specialties", "", Status.AVAILABLE),
+        buildMenu("menuId35", "Chicken BBQ with Rice & Salad", "Vietnamese-style BBQ chicken served with rice and salad", 14.00, "Asia Specialties", "", Status.AVAILABLE),
+        buildMenu("menuId36", "Beef BBQ with Rice & Salad", "Vietnamese-style BBQ beef served with rice and salad", 14.00, "Asia Specialties", "", Status.AVAILABLE),
+        buildMenu("menuId37", "Tofu and Basil with Shrimps & Minced Pork", "Thai-style tofu with shredded basil, shrimp, and pork meat sauce", 15.00, "Asia Specialties", "", Status.AVAILABLE),
+        buildMenu("menuId38", "Stir-Fried Chicken with Basil & Hot Peppers", "Thai-style spicy stir-fried chicken with basil and fresh hot peppers", 15.00, "Asia Specialties", "", Status.AVAILABLE),
+        buildMenu("menuId39", "Sweet & Sour Fried Fish Fillet", "Crispy fried fish fillet in sweet & sour sauce", 15.00, "Asia Specialties", "", Status.AVAILABLE),
+        buildMenu("menuId40", "Thai Style Yellow Curry Chicken", "Tender chicken cooked in Thai yellow curry", 15.00, "Asia Specialties", "", Status.AVAILABLE),
+        buildMenu("menuId41", "Thai Style Yellow Curry Beef", "Tender beef cooked in Thai yellow curry", 15.00, "Asia Specialties", "", Status.AVAILABLE),
+        buildMenu("menuId42", "Thai Style Yellow Curry Beef Flanks", "Slow-cooked beef flanks in Thai yellow curry", 15.00, "Asia Specialties", "", Status.AVAILABLE),
+        buildMenu("menuId43", "Thai Style Yellow Curry Fish Fillet", "Fried fish fillet in Thai yellow curry sauce", 15.00, "Asia Specialties", "", Status.AVAILABLE),
+        buildMenu("menuId44", "Beef Stir-Fried with Thai Satay", "Savory stir-fried beef in Thai satay sauce", 15.00, "Asia Specialties", "", Status.AVAILABLE),
+        buildMenu("menuId45", "Chicken Stir-Fried with Thai Satay", "Savory stir-fried chicken in Thai satay sauce", 15.00, "Asia Specialties", "", Status.AVAILABLE),
 
-            buildMenu("menuId8", "Beef and Broccoli",
-                    "Chinese stir-fry dish.",
-                    13.49, "Main Course",
-                    "https://cookingmadehealthy.com/wp-content/uploads/2021/08/Healthy-Lemon-Chicken-Stir-Fry-10-640x640.jpg",
-                    Status.AVAILABLE),
+        buildMenu("menuId46", "Seafood Hot Pot", "Hot pot with fish fillet, shrimp, squids, scallops, and tofu", 18.00, "Hot Pot or Sizzling Iron Plate", "", Status.AVAILABLE),
+        buildMenu("menuId47", "Seafood Hot Pot with Vermicelli and Tofu", "Hot pot with seafood, vermicelli, and tofu", 18.00, "Hot Pot or Sizzling Iron Plate", "", Status.AVAILABLE),
+        buildMenu("menuId48", "Seafood Hot Pot with Eggplants and Tofu", "Hot pot with seafood, eggplants, and tofu", 18.00, "Hot Pot or Sizzling Iron Plate", "", Status.AVAILABLE),
+        buildMenu("menuId49", "Seafood Hot Pot with Spicy Basil", "Hot pot with seafood and tofu cooked with spicy basil", 18.00, "Hot Pot or Sizzling Iron Plate", "", Status.AVAILABLE),
+        buildMenu("menuId50", "Beef Flank Hot Pot", "Hot pot with beef flank", 16.00, "Hot Pot or Sizzling Iron Plate", "", Status.AVAILABLE),
+        buildMenu("menuId51", "Chicken, Tofu, and Mushrooms Hot Pot", "Hot pot with chicken, tofu, and mushrooms", 16.00, "Hot Pot or Sizzling Iron Plate", "", Status.AVAILABLE),
+        buildMenu("menuId52", "Vegetables, Soft Tofu, and Eggplants Hot Pot", "Hot pot with vegetables, soft tofu, and eggplants", 16.00, "Hot Pot or Sizzling Iron Plate", "", Status.AVAILABLE),
+        buildMenu("menuId53", "Sizzling Beef with Black Pepper", "Sizzling beef stir-fried with black pepper sauce", 19.00, "Hot Pot or Sizzling Iron Plate", "", Status.AVAILABLE),
+        buildMenu("menuId54", "Sizzling Pork Chops with Black Pepper", "Sizzling pork chops stir-fried with black pepper sauce", 19.00, "Hot Pot or Sizzling Iron Plate", "", Status.AVAILABLE),
+        buildMenu("menuId55", "Sizzling Seafood with Thai Sauce", "Sizzling seafood stir-fried with spicy Thai sauce", 19.00, "Hot Pot or Sizzling Iron Plate", "", Status.AVAILABLE),
 
-            buildMenu("menuId9", "Dumplings",
-                    "Chinese dumplings with meat.",
-                    7.99, "Appetizer",
-                    "https://cdn.pixabay.com/photo/2024/02/21/06/48/ai-generated-8586854_640.png",
-                    Status.AVAILABLE),
+        buildMenu("menuId56", "General Tao Chicken", "General Tao chicken", 14.00, "Cantonese Style", "", Status.AVAILABLE),
+        buildMenu("menuId57", "Sesame Chicken", "Sesame chicken", 14.00, "Cantonese Style", "", Status.AVAILABLE),
+        buildMenu("menuId58", "Crispy Chicken with Ginger Sauce", "Crispy chicken with ginger sauce", 14.00, "Cantonese Style", "", Status.AVAILABLE),
+        buildMenu("menuId59", "Salt and Pepper Chicken", "Salt and pepper chicken", 14.00, "Cantonese Style", "", Status.AVAILABLE),
+        buildMenu("menuId60", "Peanut Butter Chicken", "Peanut butter chicken", 15.00, "Cantonese Style", "", Status.AVAILABLE),
+        buildMenu("menuId61", "Five Spices Chicken", "Five spices chicken", 15.00, "Cantonese Style", "", Status.AVAILABLE),
+        buildMenu("menuId62", "Broccoli Stir Fried with Chicken", "Broccoli stir fried with chicken", 15.00, "Cantonese Style", "", Status.AVAILABLE),
+        buildMenu("menuId63", "Chicken with Hot Garlic Sauce", "Chicken with hot garlic sauce", 15.00, "Cantonese Style", "", Status.AVAILABLE),
+        buildMenu("menuId64", "Chicken Stir Fried with Wild Mushrooms", "Chicken stir fried with wild mushrooms", 15.00, "Cantonese Style", "", Status.AVAILABLE),
+        buildMenu("menuId65", "Chicken Stir Fried with Black Bean Sauce", "Chicken stir fried with black bean sauce", 15.00, "Cantonese Style", "", Status.AVAILABLE),
+        buildMenu("menuId66", "Chicken Stir Fried with Curry Sauce", "Chicken stir fried with curry sauce", 15.00, "Cantonese Style", "", Status.AVAILABLE),
+        buildMenu("menuId67", "Chicken Stir Fried with Ginger and Shallot", "Chicken stir fried with ginger and shallot", 15.00, "Cantonese Style", "", Status.AVAILABLE),
+        buildMenu("menuId68", "Chicken with Szechuanese Pepper Sauce", "Chicken with Szechuanese pepper sauce", 15.00, "Cantonese Style", "", Status.AVAILABLE),
 
-            buildMenu("menuId10", "Mongolian Beef",
-                    "Stir-fried dish made with beef.",
-                    14.49, "Main Course",
-                    "https://www.chilihousesf.com/wp-content/uploads/2020/07/24091392.jpg",
-                    Status.NOT_AVAILABLE)
+        buildMenu("menuId69", "Orange Beef", "Orange beef", 15.00, "Cantonese Style", "", Status.AVAILABLE),
+        buildMenu("menuId70", "Sesame Beef", "Sesame beef", 15.00, "Cantonese Style", "", Status.AVAILABLE),
+        buildMenu("menuId71", "Broccoli Stir Fried with Beef", "Broccoli stir fried with beef", 15.00, "Cantonese Style", "", Status.AVAILABLE),
+        buildMenu("menuId72", "Beef with Hot Garlic Sauce", "Beef with hot garlic sauce", 15.00, "Cantonese Style", "", Status.AVAILABLE),
+        buildMenu("menuId73", "Beef Stir Fried with Wild Mushrooms", "Beef stir fried with wild mushrooms", 15.00, "Cantonese Style", "", Status.AVAILABLE),
+        buildMenu("menuId74", "Beef Stir Fried with Black Bean Sauce", "Beef stir fried with black bean sauce", 15.00, "Cantonese Style", "", Status.AVAILABLE),
+        buildMenu("menuId75", "Beef Stir Fried with Curry Sauce", "Beef stir fried with curry sauce", 15.00, "Cantonese Style", "", Status.AVAILABLE),
+        buildMenu("menuId76", "Beef Stir Fried with Ginger and Shallot", "Beef stir fried with ginger and shallot", 15.00, "Cantonese Style", "", Status.AVAILABLE),
+
+        buildMenu("menuId77", "Garlic Shrimps (Fried)", "Garlic shrimps (Fried)", 16.00, "Cantonese Style", "", Status.AVAILABLE),
+        buildMenu("menuId78", "Salt and Pepper Shrimps (Fried)", "Salt and pepper shrimps (fried)", 16.00, "Cantonese Style", "", Status.AVAILABLE),
+        buildMenu("menuId79", "Salt and Pepper Squids (Fried)", "Salt and pepper squids (fried)", 16.00, "Cantonese Style", "", Status.AVAILABLE),
+        buildMenu("menuId80", "Salt and Pepper Shrimps and Squids (Fried)", "Salt and pepper shrimps and squids (fried)", 16.00, "Cantonese Style", "", Status.AVAILABLE),
+        buildMenu("menuId81", "Salt and Pepper Fish Fillet (Fried)", "Salt and pepper fish fillet (fried)", 16.00, "Cantonese Style", "", Status.AVAILABLE),
+        buildMenu("menuId82", "Stir Fried Chicken and Shrimps with Cashews", "Stir fried chicken and shrimps with cashews", 16.00, "Cantonese Style", "", Status.AVAILABLE),
+        buildMenu("menuId83", "Broccoli Stir Fried with Shrimps", "Broccoli stir fried with shrimps", 16.00, "Cantonese Style", "", Status.AVAILABLE),
+        buildMenu("menuId84", "Broccoli Stir Fried with Shrimps and Scallops", "Broccoli stir fried with shrimps and scallops", 16.00, "Cantonese Style", "", Status.AVAILABLE),
+        buildMenu("menuId85", "Broccoli Stir Fried with Fish Fillet", "Broccoli stir fried with fish fillet", 16.00, "Cantonese Style", "", Status.AVAILABLE),
+        buildMenu("menuId86", "Fish Fillet with Sweet Corn Sauce", "Fish fillet with sweet corn sauce", 16.00, "Cantonese Style", "", Status.AVAILABLE),
+        buildMenu("menuId87", "Fish Fillet Stir Fried with Ginger and Shallot", "Fish fillet stir fried with ginger and shallot", 16.00, "Cantonese Style", "", Status.AVAILABLE),
+        buildMenu("menuId88", "Szechuan Style Shrimps", "Szechuan style shrimps", 16.00, "Cantonese Style", "", Status.AVAILABLE),
+
+        buildMenu("menuId89", "Spare Ribs", "Spare ribs", 17.00, "Cantonese Style", "", Status.AVAILABLE),
+        buildMenu("menuId90", "Deep Fried Pork", "Deep fried pork", 16.00, "Cantonese Style", "", Status.AVAILABLE),
+        buildMenu("menuId91", "Salt and Pepper Pork Chops", "Salt and pepper pork chops", 16.00, "Cantonese Style", "", Status.AVAILABLE),
+        buildMenu("menuId92", "Pork Chops Stir Fried with Ginger and Shallot", "Pork chops stir fried with ginger and shallot", 16.00, "Cantonese Style", "", Status.AVAILABLE),
+        buildMenu("menuId93", "Ma Po Tofu (Stir Fried with Minced Pork and Hot Sauce)", "Ma Po Tofu (stir fried with minced pork and hot sauce)", 13.00, "Cantonese Style", "", Status.AVAILABLE),
+        buildMenu("menuId94", "Yu Tsang Eggplants (Minced Pork with Hot and Sour Sauce)", "Yu Tsang eggplants (minced pork with hot and sour sauce)", 13.00, "Cantonese Style", "", Status.AVAILABLE),
+        buildMenu("menuId95", "Shrimps with Lobster Sauce (Minced Pork)", "Shrimps with lobster sauce (minced pork)", 15.00, "Cantonese Style", "", Status.AVAILABLE),
+
+        buildMenu("menuId96", "General Tao Tofu (Fried)", "General Tao Tofu (fried)", 13.00, "Cantonese Style", "", Status.AVAILABLE),
+        buildMenu("menuId97", "Peanut Butter Tofu (Fried)", "Peanut butter tofu (fried)", 13.00, "Cantonese Style", "", Status.AVAILABLE),
+        buildMenu("menuId98", "Salt and Pepper Tofu (Fried)", "Salt and pepper tofu (fried)", 13.00, "Cantonese Style", "", Status.AVAILABLE),
+        buildMenu("menuId99", "Vegetable and Tofu Curry", "Vegetable and tofu curry", 13.00, "Cantonese Style", "", Status.AVAILABLE),
+
+        buildMenu("menuId106", "Cantonese Style Noodles (Shrimps, Chicken, Beef)", "Cantonese Style noodles (Shrimps, Chicken, Beef)", 15.00, "Cantonese Style Noodles or Rice", "", Status.AVAILABLE),
+        buildMenu("menuId107", "Seafood and Vegetables", "Seafood and vegetables", 15.00, "Cantonese Style Noodles or Rice", "", Status.AVAILABLE),
+        buildMenu("menuId108", "Shrimps and Vegetables", "Shrimps and vegetables", 15.00, "Cantonese Style Noodles or Rice", "", Status.AVAILABLE),
+        buildMenu("menuId109", "Chicken or Beef and Vegetables", "Chicken or Beef and vegetables", 14.00, "Cantonese Style Noodles or Rice", "", Status.AVAILABLE),
+        buildMenu("menuId110", "Chicken or Beef with Vegetables and Wild Mushrooms", "Chicken or Beef with vegetables and wild mushrooms", 14.00, "Cantonese Style Noodles or Rice", "", Status.AVAILABLE),
+        buildMenu("menuId111", "Vegetables and Wild Mushrooms", "Vegetables and wild mushrooms", 14.00, "Cantonese Style Noodles or Rice", "", Status.AVAILABLE),
+        buildMenu("menuId112", "Mixed Vegetables", "Mixed vegetables", 14.00, "Cantonese Style Noodles or Rice", "", Status.AVAILABLE),
+        buildMenu("menuId113", "Chicken or Beef with Black Bean Sauce", "Chicken or Beef with black bean sauce", 14.00, "Cantonese Style Noodles or Rice", "", Status.AVAILABLE),
+        buildMenu("menuId114", "Shrimps and Beef with Eggs Sauce", "Shrimps and Beef with eggs sauce", 14.00, "Cantonese Style Noodles or Rice", "", Status.AVAILABLE),
+        buildMenu("menuId115", "Curry Chicken or Beef", "Curry Chicken or Beef", 14.00, "Cantonese Style Noodles or Rice", "", Status.AVAILABLE),
+        buildMenu("menuId116", "Chicken or Beef and Oyster Sauce", "Chicken or Beef and oyster sauce", 14.00, "Cantonese Style Noodles or Rice", "", Status.AVAILABLE),
+        buildMenu("menuId117", "Chicken and Tomato Sauce Stir Fried with Rice", "Chicken and tomato sauce stir fried with rice", 14.00, "Cantonese Style Noodles or Rice", "", Status.AVAILABLE),
+
+        buildMenu("menuId118", "House Special Fried Rice (Shrimps, Chicken, Beef)", "House special fried rice (shrimp, chicken, beef)", 14.00, "Fried Rice", "", Status.AVAILABLE),
+        buildMenu("menuId119", "Thai Style Shrimp Fried Rice (Spicy)", "Thai style shrimp fried rice (spicy)", 14.00, "Fried Rice", "", Status.AVAILABLE),
+        buildMenu("menuId120", "Thai Style Chicken Fried Rice (Spicy)", "Thai style chicken fried rice (spicy)", 14.00, "Fried Rice", "", Status.AVAILABLE),
+        buildMenu("menuId121", "Yang Chau Style Fried Rice (Shrimps, Ham)", "Yang Chau style fried rice (shrimp, ham)", 14.00, "Fried Rice", "", Status.AVAILABLE),
+        buildMenu("menuId122", "Chicken Fried Rice", "Chicken fried rice", 13.00, "Fried Rice", "", Status.AVAILABLE),
+        buildMenu("menuId123", "Beef Fried Rice", "Beef fried rice", 13.00, "Fried Rice", "", Status.AVAILABLE),
+        buildMenu("menuId124", "Shrimps Fried Rice", "Shrimp fried rice", 14.00, "Fried Rice", "", Status.AVAILABLE),
+        buildMenu("menuId125", "Seafood Fried Rice", "Seafood fried rice", 14.00, "Fried Rice", "", Status.AVAILABLE),
+        buildMenu("menuId126", "Vegetables Fried Rice", "Vegetables fried rice", 13.00, "Fried Rice", "", Status.AVAILABLE),
+        buildMenu("menuId127", "Egg Fried Rice", "Egg fried rice", 10.00, "Fried Rice", "", Status.AVAILABLE),
+
+        buildMenu("menuId128", "Shrimps Pad Thai", "Shrimps Pad Thai", 14.00, "Asia Noodles", "", Status.AVAILABLE),
+        buildMenu("menuId129", "Chicken Pad Thai", "Chicken Pad Thai", 14.00, "Asia Noodles", "", Status.AVAILABLE),
+        buildMenu("menuId130", "Singapore Style Vermicelli", "Singapore Style Vermicelli", 14.00, "Asia Noodles", "", Status.AVAILABLE),
+        buildMenu("menuId131", "Fujiyama Spaghetti with Chicken and Beef", "Fujiyama Spaghetti with chicken and beef", 14.00, "Asia Noodles", "", Status.AVAILABLE),
+        buildMenu("menuId132", "Shanghai Style Noodles (Minced Pork)", "Shanghai Style Noodles (minced pork)", 14.00, "Asia Noodles", "", Status.AVAILABLE),
+        buildMenu("menuId133", "Malaysian Rice Noodles with Chicken and Shrimps", "Malaysian rice noodles with chicken and shrimps", 14.00, "Asia Noodles", "", Status.AVAILABLE),
+        buildMenu("menuId134", "Stir Fried Beef and Rice Noodles with Soy Sauce", "Stir fried beef and rice noodles with soy sauce", 14.00, "Asia Noodles", "", Status.AVAILABLE),
+        buildMenu("menuId135", "Bean Sprouts Stir Fried with Noodles and Soy Sauce", "Bean sprouts stir fried with noodles and soy sauce", 12.00, "Asia Noodles", "", Status.AVAILABLE),
+
+        buildMenu("menuId136", "Steam rice", "Steam rice", 3.50, "Extra", "", Status.AVAILABLE),
+        buildMenu("menuId137", "Steam rice changed to fried rice", "Steam rice changed to fried rice", 4.50, "Extra", "", Status.AVAILABLE),
+        buildMenu("menuId138", "Steam rice changed to noodles", "Steam rice changed to noodles", 4.50, "Extra", "", Status.AVAILABLE),
+        buildMenu("menuId139", "Extra vegetables", "Extra vegetables", 4.00, "Extra", "", Status.AVAILABLE),
+        buildMenu("menuId140", "Extra meat", "Extra meat", 5.00, "Extra", "", Status.AVAILABLE),
+        buildMenu("menuId141", "Extra seafood", "Extra seafood", 6.00, "Extra", "", Status.AVAILABLE),
+        buildMenu("menuId142", "Extra peanut butter sauce", "Extra peanut butter sauce", 4.00, "Extra", "", Status.AVAILABLE),
+        buildMenu("menuId143", "Tea", "Tea", 2.00, "Drinks", "", Status.AVAILABLE),
+        buildMenu("menuId144", "Soft drinks", "Soft drinks", 2.50, "Drinks", "", Status.AVAILABLE),
+        buildMenu("menuId145", "Bottles of water", "Bottles of water", 2.00, "Drinks", "", Status.AVAILABLE)
+
         );
 
         Flux.fromIterable(menus)
@@ -94,19 +206,19 @@ public class DataSetupServiceReview implements CommandLineRunner {
     }
     private void setupOrders() {
         Mono<Order> order1 = buildOrder("orderId1", "11111111-1111-1111-1111-111111111111", "Pending", LocalDate.now(),
-                buildOrderDetails("menuId1", 2), buildOrderDetails("menuId2", 1));
+                buildOrderDetails("menuId6", 2), buildOrderDetails("menuId22", 1));
         Mono<Order> order2 = buildOrder("orderId2", "22222222-2222-2222-2222-222222222222", "Completed", LocalDate.now().minusDays(1),
-                buildOrderDetails("menuId3", 1), buildOrderDetails("menuId4", 3));
+                buildOrderDetails("menuId88", 1), buildOrderDetails("menuId41", 3));
         Mono<Order> order3 = buildOrder("orderId3", "33333333-3333-3333-3333-333333333333", "Pending", LocalDate.now().minusDays(2),
-                buildOrderDetails("menuId5", 1), buildOrderDetails("menuId6", 4));
+                buildOrderDetails("menuId7", 1), buildOrderDetails("menuId63", 4));
         Mono<Order> order4 = buildOrder("orderId4", "44444444-4444-4444-4444-444444444444", "Canceled", LocalDate.now().minusDays(3),
-                buildOrderDetails("menuId7", 2), buildOrderDetails("menuId8", 1));
+                buildOrderDetails("menuId42", 2), buildOrderDetails("menuId83", 1));
         Mono<Order> order5 = buildOrder("orderId5", "55555555-5555-5555-5555-555555555555", "Pending", LocalDate.now(),
-                buildOrderDetails("menuId9", 7), buildOrderDetails("menuId10", 3));
+                buildOrderDetails("menuId22", 7), buildOrderDetails("menuId101", 3));
         Mono<Order> order6 = buildOrder("orderId6", "auth0|67853224d6b220fc6b4f86d9", "Pending", LocalDate.now(),
-                buildOrderDetails("menuId10", 1), buildOrderDetails("menuId6", 1));
+                buildOrderDetails("menuId10", 1), buildOrderDetails("menuId62", 1));
         Mono<Order> order7 = buildOrder("orderId7", "auth0|67853224d6b220fc6b4f86d9", "Pending", LocalDate.now(),
-                buildOrderDetails("menuId8", 1), buildOrderDetails("menuId1", 1));
+                buildOrderDetails("menuId8", 1), buildOrderDetails("menuId100", 1));
 
         Flux.just(order1, order2, order3, order4, order5, order6, order7)
                 .flatMap(orderMono -> orderMono
