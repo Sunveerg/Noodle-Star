@@ -173,6 +173,96 @@ body {
     height: 100%;
 }
 
+
+.category-filter {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .category-filters {
+    display: flex;
+    justify-content: flex-start; /* Align categories to the start */
+    gap: 15px;
+    margin-bottom: 20px;
+    overflow-x: auto; /* Enable horizontal scrolling */
+    white-space: nowrap; /* Prevent the items from wrapping onto the next line */
+    padding: 10px 0;
+  }
+  
+  .category-button {
+    background-color: #FFC165;
+    color: black;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    white-space: nowrap; /* Ensure the category name doesn’t wrap */
+  }
+  
+  .category-button.active {
+    background-color: #0056b3;
+    color: white;
+  }
+  
+  .category-button:hover {
+    background-color: #e9a02a;
+  }
+
+  .category-filters::-webkit-scrollbar {
+    height: 8px; /* Adjust height for horizontal scrollbar */
+  }
+  
+  .category-filters::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+  }
+  
+  .category-filters::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+  }
+  
+  
+  .btn-category {
+    padding: 10px 20px;
+    background-color: rgba(0, 0, 0, 0.1);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-category:hover {
+    background-color: rgba(255, 193, 101, 0.7);
+  }
+  
+  .btn-category.active {
+    background-color: rgba(255, 193, 101, 0.9);
+  }
+  
+  .menu-item-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+    border-radius: 12px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .menu-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 12px 24px rgba(0, 0, 0, 0.3);
+  }
+  
+
 .btn-edit {
     display: inline-block;
     margin-top: 10px;

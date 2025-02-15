@@ -11,8 +11,10 @@ import { deleteMenuItem } from './api/deleteMenuItem';
 
 const MenuList: React.FC = (): JSX.Element => {
   const [menuItems, setMenuItems] = useState<menuResponseModel[]>([]);
+  const [filteredItems, setFilteredItems] = useState<menuResponseModel[]>([]); // for filtered items
   const [isStaff, setIsStaff] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null); // track the selected category
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,7 +30,6 @@ const MenuList: React.FC = (): JSX.Element => {
         const base64Url = accessToken.split('.')[1];
         const decodedPayload = JSON.parse(atob(base64Url));
         const roles = decodedPayload['https://noodlestar/roles'] || [];
-
         setIsStaff(roles.includes('Staff')); // Check if the user has the "Staff" role
       } catch (err) {
         console.error('Error decoding user roles:', err);
@@ -42,6 +43,7 @@ const MenuList: React.FC = (): JSX.Element => {
         const response = await getAllmenu();
         if (Array.isArray(response)) {
           setMenuItems(response);
+          setFilteredItems(response); // initially show all items
         } else {
           console.error('Fetched data is not an array:', response);
         }
@@ -64,7 +66,6 @@ const MenuList: React.FC = (): JSX.Element => {
     const confirmDelete = window.confirm(
       'Are you sure you want to delete this menu item?'
     );
-
     if (!confirmDelete) return;
 
     try {
@@ -72,6 +73,9 @@ const MenuList: React.FC = (): JSX.Element => {
       setMenuItems(prevItems =>
         prevItems.filter(item => item.menuId !== menuId)
       );
+      setFilteredItems(prevItems =>
+        prevItems.filter(item => item.menuId !== menuId)
+      ); // Remove from filtered list as well
       alert('Menu item deleted successfully!');
     } catch (error) {
       console.error('Error deleting menu item:', error);
@@ -79,9 +83,21 @@ const MenuList: React.FC = (): JSX.Element => {
     }
   };
 
+  const handleCategoryClick = (category: string) => {
+    if (selectedCategory === category) {
+      setSelectedCategory(null); // Reset filter if the same category is clicked
+      setFilteredItems(menuItems); // Show all items
+    } else {
+      setSelectedCategory(category); // Apply filter for the selected category
+      setFilteredItems(menuItems.filter(item => item.category === category)); // Filter by category
+    }
+  };
+
   if (loading) {
     return <div>Loading menu items...</div>;
   }
+
+  const categories = Array.from(new Set(menuItems.map(item => item.category))); // Extract unique categories
 
   return (
     <div className="titleSection">
@@ -97,6 +113,19 @@ const MenuList: React.FC = (): JSX.Element => {
       {/* Show the Add Dish button only if the user is a staff member */}
       {isStaff && <AddDish />}
 
+      {/* Category filter section */}
+      <div className="category-filters">
+        {categories.map(category => (
+          <button
+            key={category}
+            className={`category-button ${selectedCategory === category ? 'active' : ''}`}
+            onClick={() => handleCategoryClick(category)}
+          >
+            {category}
+          </button>
+        ))}
+      </div>
+
       <div className="menu-list">
         <div className="cloud-container">
           <div className="cloud4"></div>
@@ -106,8 +135,8 @@ const MenuList: React.FC = (): JSX.Element => {
 
         <div className="topRightImage"></div>
 
-        {menuItems.length > 0 ? (
-          menuItems.map(item => (
+        {filteredItems.length > 0 ? (
+          filteredItems.map(item => (
             <div
               className="menu-item"
               key={item.menuId}
