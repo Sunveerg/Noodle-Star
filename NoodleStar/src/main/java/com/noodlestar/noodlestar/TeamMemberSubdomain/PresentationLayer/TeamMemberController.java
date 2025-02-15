@@ -2,12 +2,13 @@ package com.noodlestar.noodlestar.TeamMemberSubdomain.PresentationLayer;
 
 
 import com.noodlestar.noodlestar.TeamMemberSubdomain.BusinessLayer.TeamMemberService;
+import com.noodlestar.noodlestar.utils.exceptions.NotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("api/v1/team-members")
@@ -24,6 +25,13 @@ public class TeamMemberController {
     @GetMapping("")
     public Flux<TeamMemberResponseModel> getAllTeamMembers() {
         return teamMemberService.getAllTeamMembers();
+    }
+
+    @DeleteMapping("/{teamMemberId}")
+    public Mono<ResponseEntity<Void>> deleteReview(@PathVariable String teamMemberId) {
+        return teamMemberService.deleteTeamMember(teamMemberId)
+                .then(Mono.just(new ResponseEntity<Void>(HttpStatus.NO_CONTENT)))
+                .onErrorResume(NotFoundException.class, e -> Mono.just(new ResponseEntity<Void>(HttpStatus.NOT_FOUND)));
     }
 
 }

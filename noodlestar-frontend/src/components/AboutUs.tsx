@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useState, useEffect, useCallback } from 'react';
 import styles from './css/AboutUs.module.css';
 import { TextBlock } from './TextBlock';
@@ -21,8 +22,29 @@ export const AboutUs: React.FC = () => {
   const [teamMembers, setTeamMembers] = useState<teamMemberResponseModel[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [isOwner, setIsOwner] = useState<boolean>(false);
   const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
+  // Fetch user role from the JWT token
+  useEffect(() => {
+    const accessToken = localStorage.getItem('access_token');
+    if (!accessToken) {
+      setIsOwner(false);
+      return;
+    }
+
+    try {
+      const base64Url = accessToken.split('.')[1];
+      const decodedPayload = JSON.parse(atob(base64Url));
+      const roles = decodedPayload['https://noodlestar/roles'] || [];
+      setIsOwner(roles.includes('Owner'));
+    } catch (err) {
+      console.error('Error decoding user roles:', err);
+      setIsOwner(false);
+    }
+  }, []);
+
+  // Fetch team members from the backend
   const fetchTeamMembers = useCallback(async (): Promise<void> => {
     try {
       const response = await fetch(`${backendUrl}/api/v1/team-members`, {
@@ -47,10 +69,41 @@ export const AboutUs: React.FC = () => {
     }
   }, [backendUrl]);
 
+  // Delete a team member
+  const handleDelete = async (teamMemberId: string) => {
+    if (!window.confirm('Are you sure you want to delete this team member?')) {
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `${backendUrl}/api/v1/team-members/${teamMemberId}`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      if (!response.ok) {
+        alert('Failed to delete team member');
+        return;
+      }
+
+      // Update the state to reflect the deletion
+      setTeamMembers(prevMembers =>
+        prevMembers.filter(member => member.teamMemberId !== teamMemberId)
+      );
+    } catch (err) {
+      console.error('Error deleting team member:', err);
+      alert('Error deleting team member');
+    }
+  };
+
   useEffect(() => {
     fetchTeamMembers();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [fetchTeamMembers]);
 
   if (loading) {
     return <div className={styles.loadingMessage}>Loading team members...</div>;
@@ -115,6 +168,16 @@ export const AboutUs: React.FC = () => {
                       <strong>Role:</strong> {member.role}
                     </p>
                     <p>{member.bio}</p>
+
+                    {/* Show delete button only if user is an Owner */}
+                    {isOwner && (
+                      <button
+                        className={styles.deleteButton}
+                        onClick={() => handleDelete(member.teamMemberId)}
+                      >
+                        Delete
+                      </button>
+                    )}
                   </div>
                 </div>
               ))}

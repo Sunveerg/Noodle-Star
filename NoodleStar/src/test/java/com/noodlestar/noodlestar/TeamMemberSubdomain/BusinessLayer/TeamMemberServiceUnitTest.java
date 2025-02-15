@@ -38,6 +38,22 @@ class TeamMemberServiceUnitTest {
     @InjectMocks
     private TeamMemberServiceImpl teamMemberService;
 
+    TeamMember teamMember1 = TeamMember.builder()
+            .teamMemberId(UUID.randomUUID().toString())
+            .name("John Doe")
+            .role("Cook")
+            .bio("This is John's bio")
+            .photoUrl("http://example.com/photo1.jpg")
+            .build();
+
+    TeamMember teamMember2 = TeamMember.builder()
+            .teamMemberId(UUID.randomUUID().toString())
+            .name("Jane Smith")
+            .role("Chef")
+            .bio("This is Jane's bio")
+            .photoUrl("http://example.com/photo2.jpg")
+            .build();
+
     @Test
     void testGetAllTeamMembers() {
         // Given
@@ -71,6 +87,47 @@ class TeamMemberServiceUnitTest {
                 .expectNextMatches(teamMember -> teamMember.getName().equals("John Doe"))
                 .expectNextMatches(teamMember -> teamMember.getName().equals("Jane Smith"))
                 .verifyComplete();
+    }
+
+    @Test
+    void whenDeleteTeamMember_thenDeletesTeamMember() {
+
+        // Arrange
+        String teamMemberId = teamMember1.getTeamMemberId();
+
+        when(teamMemberRepository.findByTeamMemberId(teamMemberId)).thenReturn(Mono.just(teamMember1));
+
+        when(teamMemberRepository.delete(teamMember1)).thenReturn(Mono.empty());
+
+        // Act
+        Mono<Void> result = teamMemberService.deleteTeamMember(teamMemberId);
+
+        // Assert
+        result.subscribe();
+
+        // Verify
+        verify(teamMemberRepository, times(1)).findByTeamMemberId(teamMemberId);
+        verify(teamMemberRepository, times(1)).delete(teamMember1);
+
+        StepVerifier.create(result)
+                .verifyComplete();
+    }
+
+    @Test
+    void whenDeleteTeamMemberNotFound_thenThrowException() {
+        // Arrange
+        String teamMemberId = "nonexistentId";
+
+        when(teamMemberRepository.findByTeamMemberId(teamMemberId)).thenReturn(Mono.empty());
+
+        // Act & Assert
+        StepVerifier.create(teamMemberService.deleteTeamMember(teamMemberId))
+                .expectError(NotFoundException.class)
+                .verify();
+
+        // Verify
+        verify(teamMemberRepository, times(1)).findByTeamMemberId(teamMemberId);
+        verify(teamMemberRepository, times(0)).delete(any());
     }
 
 }
