@@ -1,24 +1,23 @@
-
-body{
-    background: rgba(166, 0, 7, 1);
+body {
+    background: linear-gradient(135deg, rgba(166, 0, 7, 1), rgba(120, 0, 5, 1));
+    font-family: 'Abhaya Libre', serif;
+    color: #fff;
 }
 
 .topRightImage {
-    position: absolute; /* Absolute positioning to place it relative to the parent */
-    top: 110px; /* Distance from the top */
-    right: 5%; /* Move it a bit more to the right (adjust the percentage or use px for more precision) */
-    width: 80px; /* Size of the image */
-    height: 200px; /* Height of the image */
+    position: absolute;
+    top: 110px;
+    right: 5%;
+    width: 80px;
+    height: 200px;
     background-image: url('../components/assets/chineseletters.png');
-    background-size: contain; /* Resize the background image to fit within the element */
-    background-repeat: no-repeat; /* Prevent repeating the image */
-    opacity: 0.9; /* Optional: Adjust transparency */
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0.9;
 }
 
-/* Header Section */
 .titleSection .pageTitle {
     font-size: 50px;
-    font-family: 'Abhaya Libre', serif;
     font-weight: 700;
     line-height: 1.2;
     display: flex;
@@ -26,64 +25,58 @@ body{
     gap: 20px;
     color: rgba(255, 193, 101, 1);
     padding-left: 3.5%;
-    padidng-top: 7%;
+    padding-top: 7%;
 }
-
-
 
 .menu-list {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2 equal-width columns */
-    gap: 20px 40px; /* Reduced gap between columns and rows */
-    padding: 0 20px; /* Added left and right padding to create space between the cards and borders */
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px 40px;
+    padding: 0 20px;
 }
-
 
 .menu-item {
     display: flex;
     flex-direction: column;
     gap: 10px;
     position: relative;
-    border-radius: 8px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
     padding: 20px;
-    margin-left: 10px; /* Optional: Additional margin on left */
-    margin-right: 10px; /* Optional: Additional margin on right */
-    overflow: hidden; /* Ensure content is clipped inside */
-    background: rgba(0, 0, 0, 0.8) url('../components/assets/clouds.png') no-repeat;
-    background-size: 100% 50%; /* Ensure the image covers the full width and has a fixed height */
-    background-position: bottom;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-
-
-
+.menu-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 12px 24px rgba(0, 0, 0, 0.3);
+}
 
 .menu-item-content {
     display: flex;
     align-items: center;
-    justify-content: flex-start; /* Align items to the left instead of centered */
-    gap: 15px; /* Reduced gap between image and details */
-    margin-top: 0; /* Removed margin to reduce space */
+    justify-content: flex-start;
+    gap: 15px;
+    margin-top: 0;
 }
 
 .menu-item img {
-    width: 30%;  /* Set width to 100% of the parent container */
-    height: auto;  /* Height adjusts automatically to maintain aspect ratio */
-    object-fit: cover;  /* Ensure the image covers the container without distorting */
-    border-radius: 8px;  /* Optional for rounded corners */
+    width: 50%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
 }
-
 
 .menu-name {
     font-size: 24px;
     font-weight: bold;
-    color: gold; /* Updated color to gold */
+    color: gold;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
-    margin-bottom: 10px; /* Added margin to space out name from the image */
+    margin-bottom: 10px;
     white-space: nowrap;
 }
-
 
 .menu-details {
     flex-grow: 1;
@@ -94,45 +87,42 @@ body{
 }
 
 .menu-price {
-    font-size: 30px; /* Reduced size for better spacing */
+    font-size: 30px;
     margin-top: 10px;
-    color: #FFD700; /* Gold color */
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6); /* Soft shadow for readability */
+    color: #FFD700;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 .menu-description {
     font-size: 20px;
-    margin-top: 10px; /* Adjusted margin for better spacing */
-    color: #E3C27E; /* Pale gold color */
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4); /* Subtle shadow for contrast */
+    margin-top: 10px;
+    color: #E3C27E;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
 }
-/* Menu Status - General Styling */
+
 .menu-status {
     font-size: 16px;
     font-weight: bold;
     margin: 5px 0;
     text-transform: uppercase;
-    padding: 5px 15px; /* Add padding around the status text for better readability */
-    border-radius: 4px; /* Rounded corners for better look */
-    display: inline-block; /* Ensures the background and padding apply properly */
-    font-family: 'Abhaya Libre', serif; /* Optional: Use a specific font family for the status */
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8); /* Strong text shadow for better visibility */
+    padding: 5px 15px;
+    border-radius: 4px;
+    display: inline-block;
+    font-family: 'Abhaya Libre', serif;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
 }
 
-/* Available Status */
 .menu-status.available {
-    color: white; /* White text for better contrast */
-    background-color: rgba(1, 31, 1, 0.8); /* Semi-transparent green for better readability */
-    border: 2px solid darkgreen; /* Darker border for a subtle effect */
+    color: white;
+    background-color: rgba(1, 31, 1, 0.8);
+    border: 2px solid darkgreen;
 }
 
-/* Not Available Status */
 .menu-status.not-available {
-    color: white; /* White text for better contrast */
-    background-color: rgba(63, 0, 0, 0.8); /* Semi-transparent red for better readability */
-    border: 2px solid darkred; /* Darker border for a subtle effect */
+    color: white;
+    background-color: rgba(63, 0, 0, 0.8);
+    border: 2px solid darkred;
 }
-
 
 .no-items {
     font-size: 18px;
@@ -156,33 +146,122 @@ body{
     opacity: 0.7;
 }
 
-
 .cloud4 {
-    width: 290px; /* Increased size */
-    height: 200px; /* Increased size */
-    bottom: 150px; /* Positioned higher */
-    right: 40%; /* Spread horizontally */
+    width: 290px;
+    height: 200px;
+    bottom: 150px;
+    right: 40%;
 }
 
 .cloud5 {
-    width: 290px; /* Increased size */
-    height: 200px; /* Increased size */
-    bottom: 110px; /* Positioned higher */
-    right: 15%; /* Spread horizontally */
+    width: 290px;
+    height: 200px;
+    bottom: 110px;
+    right: 15%;
 }
 
 .cloud6 {
-    width: 250px; /* Increased size */
-    height: 170px; /* Increased size */
-    bottom: 260px; /* Positioned higher */
-    right: 0%; /* Spread horizontally */
+    width: 250px;
+    height: 170px;
+    bottom: 260px;
+    right: 0%;
 }
 
 .cloud-container {
-    position: fixed; /* Allow child elements to position relative to this container */
+    position: fixed;
     width: 100%;
     height: 100%;
 }
+
+
+.category-filter {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .category-filters {
+    display: flex;
+    justify-content: flex-start; /* Align categories to the start */
+    gap: 15px;
+    margin-bottom: 20px;
+    overflow-x: auto; /* Enable horizontal scrolling */
+    white-space: nowrap; /* Prevent the items from wrapping onto the next line */
+    padding: 10px 0;
+  }
+  
+  .category-button {
+    background-color: #FFC165;
+    color: black;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    white-space: nowrap; /* Ensure the category name doesn’t wrap */
+  }
+  
+  .category-button.active {
+    background-color: #0056b3;
+    color: white;
+  }
+  
+  .category-button:hover {
+    background-color: #e9a02a;
+  }
+
+  .category-filters::-webkit-scrollbar {
+  height: 8px; /* Adjust height for horizontal scrollbar */
+}
+
+.category-filters::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 4px;
+}
+
+.category-filters::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+  
+  .btn-category {
+    padding: 10px 20px;
+    background-color: rgba(0, 0, 0, 0.1);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-category:hover {
+    background-color: rgba(255, 193, 101, 0.7);
+  }
+  
+  .btn-category.active {
+    background-color: rgba(255, 193, 101, 0.9);
+  }
+  
+  .menu-item-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+    border-radius: 12px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .menu-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 12px 24px rgba(0, 0, 0, 0.3);
+  }
+  
 
 .btn-edit {
     display: inline-block;
