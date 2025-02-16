@@ -1,5 +1,5 @@
 export interface teamMemberResponseModel {
-  teamMemberId: number;
+  teamMemberId: string;
   name: string;
   role: string;
   bio: string;

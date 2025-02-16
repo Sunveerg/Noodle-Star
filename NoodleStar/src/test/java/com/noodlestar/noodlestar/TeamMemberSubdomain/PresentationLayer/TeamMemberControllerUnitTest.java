@@ -61,5 +61,40 @@ class TeamMemberControllerUnitTest {
         verify(teamMemberService, times(1)).getAllTeamMembers();
     }
 
+    @Test
+    void deleteTeamMemberSuccessfully() {
+        // Arrange
+        String teamMemberId = "teamMemberId1";
+
+        when(teamMemberService.deleteTeamMember(teamMemberId)).thenReturn(Mono.empty());
+
+        // Act & Assert
+        webTestClient.delete()
+                .uri("/api/v1/team-members/{teamMemberId}", teamMemberId)
+                .exchange()
+                .expectStatus().isNoContent();
+
+        // Verify
+        verify(teamMemberService, times(1)).deleteTeamMember(teamMemberId);
+    }
+
+    @Test
+    void deleteTeamMemberNotFound() {
+        // Arrange
+        String teamMemberId = "nonExistentId";
+
+        when(teamMemberService.deleteTeamMember(teamMemberId))
+                .thenReturn(Mono.error(new NotFoundException("Team member not found")));
+
+        // Act & Assert
+        webTestClient.delete()
+                .uri("/api/v1/team-members/{teamMemberId}", teamMemberId)
+                .exchange()
+                .expectStatus().isNotFound();
+
+        // Verify
+        verify(teamMemberService, times(1)).deleteTeamMember(teamMemberId);
+    }
+
 }
 
