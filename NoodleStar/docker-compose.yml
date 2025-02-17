@@ -16,18 +16,18 @@ services:
     depends_on:
       - mongodb
 
-#  noodlestarFrontend:
-#    image: noodlestar-frontend
-#    container_name: noodlestar-frontend
-#    build:
-#      context: ../noodlestar-frontend
-#      dockerfile: Dockerfile
-#      args:
-#        - BUILD_MODE=development
-#    ports:
-#      - "3000:3000"
-#    volumes:
-#      - ../noodlestar-frontend/src:/app/src
+  noodlestarFrontend:
+    image: noodlestar-frontend
+    container_name: noodlestar-frontend
+    build:
+      context: ../noodlestar-frontend
+      dockerfile: Dockerfile
+      args:
+        - BUILD_MODE=development
+    ports:
+      - "3000:3000"
+    volumes:
+      - ../noodlestar-frontend/src:/app/src
 
 
   mongodb:

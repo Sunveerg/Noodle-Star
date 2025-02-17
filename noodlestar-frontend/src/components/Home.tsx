@@ -11,20 +11,6 @@ export const Home: React.FC = () => {
     navigate('/menuOrder');
   };
 
-  const handleUberEatsClick = () => {
-    window.open(
-      'https://www.ubereats.com/ca-fr/store/nouilles-star/4dgOlDWTUauXpap0GlatAg?srsltid=AfmBOopvtSQTJhwYru9IvwY9BfekLhvB7XNGKn9sPLoeu3P2QDJONgfB',
-      '_blank'
-    );
-  };
-
-  const handleFantuanClick = () => {
-    window.open(
-      'https://order.fantuan.ca/store/nouilles-star/ca-2545',
-      '_blank'
-    );
-  };
-
   return (
     <main className={styles.homePage}>
       {/* Left Section: Text Content */}
@@ -42,22 +28,6 @@ export const Home: React.FC = () => {
         <button className={styles.button} onClick={handleClick}>
           Order Now
         </button>
-
-        {/* Additional buttons for UberEats and Fantuan */}
-        <div className={styles.deliveryButtons}>
-          <button
-            className={`${styles.deliveryButton} ${styles.ubereats}`}
-            onClick={handleUberEatsClick}
-          >
-            UberEats
-          </button>
-          <button
-            className={`${styles.deliveryButton} ${styles.fantuan}`}
-            onClick={handleFantuanClick}
-          >
-            Fantuan
-          </button>
-        </div>
       </div>
 
       {/* Right Section: Dragon Image */}
