@@ -3,6 +3,7 @@ import { reviewResponseModel } from '../model/reviewResponseModel';
 import { getReviewByUserId } from '../api/Review/getReviewByUserId';
 import './ReviewList.css';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 interface ApiError {
   message: string;
@@ -13,28 +14,27 @@ const AllReviewByUserId: React.FC = (): JSX.Element => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
-  const API_URL = 'http://localhost:8080/api/v1/review'; // Adjust port if needed
   const navigate = useNavigate();
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const handleDelete = async (reviewId: string) => {
+    const backendUrl = process.env.REACT_APP_BACKEND_URL;
     try {
-      const response = await fetch(`${API_URL}/${reviewId}`, {
-        method: 'DELETE',
-        credentials: 'include',
-      });
-
-      if (!response.ok) {
-        throw new Error(`Failed to delete review (status: ${response.status})`);
-      }
-
-      // Remove the deleted review from state
+      const url = `${backendUrl}/api/v1/review/${reviewId}`;
+      await axios.delete(url);
       setReviews(prevReviews =>
         prevReviews.filter(review => review.reviewId !== reviewId)
       );
-    } catch (err) {
-      console.error('Failed to delete review:', err);
-      alert('Error deleting review');
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        throw new Error(
+          `Failed to delete review with id ${reviewId}: ${error.message}`
+        );
+      } else {
+        throw new Error(
+          `Failed to delete review with id ${reviewId}: Unknown error`
+        );
+      }
     }
   };
 

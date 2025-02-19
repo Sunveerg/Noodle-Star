@@ -5,8 +5,7 @@ import './ReviewList.css';
 import { reviewResponseModel } from '../model/reviewResponseModel';
 import { getAllReview } from '../api/Review/getAllReview';
 import noodleImg from '../../components/assets/noodle.png';
-
-const API_URL = 'http://localhost:8080/api/v1/review'; // Adjust port if needed
+import axios from 'axios';
 
 const ReviewList: React.FC = (): JSX.Element => {
   const [reviews, setReviews] = useState<reviewResponseModel[]>([]);
@@ -32,23 +31,20 @@ const ReviewList: React.FC = (): JSX.Element => {
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const handleDelete = async (reviewId: string) => {
+    const backendUrl = process.env.REACT_APP_BACKEND_URL;
     try {
-      const response = await fetch(`${API_URL}/${reviewId}`, {
-        method: 'DELETE',
-        credentials: 'include',
-      });
-
-      if (!response.ok) {
-        throw new Error(`Failed to delete review (status: ${response.status})`);
+      const url = `${backendUrl}/api/v1/review/${reviewId}`;
+      await axios.delete(url);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        throw new Error(
+          `Failed to delete review with id ${reviewId}: ${error.message}`
+        );
+      } else {
+        throw new Error(
+          `Failed to delete review with id ${reviewId}: Unknown error`
+        );
       }
-
-      // Remove the deleted review from state
-      setReviews(prevReviews =>
-        prevReviews.filter(review => review.reviewId !== reviewId)
-      );
-    } catch (err) {
-      console.error('Failed to delete review:', err);
-      alert('Error deleting review');
     }
   };
 
