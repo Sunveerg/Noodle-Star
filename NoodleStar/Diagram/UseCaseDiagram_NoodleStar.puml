@@ -31,6 +31,7 @@ rectangle "Noodle Star Restaurant System" {
     usecase "Generate Monthly Financial Report" as GMFR
     usecase "Generate Daily Order Summary" as GDOR
     usecase "Track Inventory Levels" as TIL
+    usecase "View Review" as VRU #LightCoral
 
 }
 
@@ -57,6 +58,7 @@ OF ..> VO : <<Include>>
 OF <.. (Modify Order): <<Extends>>
 OF ..> BM : <<Extends>>
 Customer -- UR
+UR ..> VRU : <<Extends>>
 Customer -- MA
 Customer -- VOH
 

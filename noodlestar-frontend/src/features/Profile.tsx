@@ -1,16 +1,16 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useEffect, useState, useRef } from 'react';
 import axiosInstance from '../Shared/Api/axiosInstance';
 import './Profile.css';
 import noodleImg from '../components/assets/noodle.png';
 import { useNavigate } from 'react-router-dom';
-import styles from '../components/css/HomePage.module.css';
 import { getOrderByCustomerId } from '../features/api/getOrderByCustomerId';
 import { getMenuItemById } from '../features/api/getMenuItemById';
 import { OrderResponseModel } from '../features/model/orderResponseModel';
 import { getUserById } from './api/updateUser';
 
 const Profile: React.FC = () => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [userData, setUserData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>('');
@@ -18,25 +18,22 @@ const Profile: React.FC = () => {
   const [isCustomer, setIsCustomer] = useState(false);
   const [isStaff, setIsStaff] = useState(false);
   const [orderHistory, setOrderHistory] = useState<OrderResponseModel[]>([]);
+  const [isNavbarExpanded, setIsNavbarExpanded] = useState(false); // State for navbar expansion
   const loginCalledRef = useRef(false);
   const navigate = useNavigate();
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const handleReviewClick = () => {
     navigate('/review');
   };
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const handleManageStaffClick = () => {
     navigate('/manageStaff');
   };
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const handleUpdateClick = (userId: string) => {
     navigate(`/updateUsers/${userId}`);
   };
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const handleUserLogin = async (userId: string, accessToken: string) => {
     try {
       if (loginCalledRef.current) {
@@ -61,7 +58,6 @@ const Profile: React.FC = () => {
   };
 
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     const fetchUserInfo = async () => {
       const accessToken = localStorage.getItem('access_token');
       if (!accessToken) {
@@ -71,7 +67,6 @@ const Profile: React.FC = () => {
       }
 
       try {
-        // Decode token to get the payload
         const base64Url = accessToken.split('.')[1];
         const decodedPayload = JSON.parse(atob(base64Url));
 
@@ -82,7 +77,6 @@ const Profile: React.FC = () => {
         setIsCustomer(roles.includes('Customer'));
         setIsStaff(roles.includes('Staff'));
 
-        // Fetch user info from Auth0
         const response = await fetch(
           'https://dev-5kbvxb8zgblo1by3.us.auth0.com/userinfo',
           {
@@ -98,11 +92,8 @@ const Profile: React.FC = () => {
         }
 
         const userInfo = await response.json();
-
-        // Fetch additional user data from getUserById
         const userInfo2 = await getUserById(userId);
 
-        // Merge the user data: Use picture and nickname from Auth0 user info, and other info from getUserById
         setUserData({
           ...userInfo2,
           picture: userInfo.picture,
@@ -152,23 +143,7 @@ const Profile: React.FC = () => {
 
         const orders = await getOrderByCustomerId(customerId);
 
-        const updatedOrders: Array<
-          Awaited<{
-            orderDetails: Array<
-              Awaited<{
-                quantity: number;
-                price: number;
-                menuId: string;
-                dishName: string;
-              }>
-            >;
-            total: number;
-            orderId: string;
-            customerId: string;
-            orderDate: string;
-            status: string;
-          }>
-        > = await Promise.all(
+        const updatedOrders = await Promise.all(
           orders.map(async order => {
             const updatedOrderDetails = await Promise.all(
               order.orderDetails.map(async detail => {
@@ -226,6 +201,44 @@ const Profile: React.FC = () => {
 
   return (
     <div className="profile-page">
+      {/* Side Navbar */}
+      <div className={`side-navbar ${isNavbarExpanded ? 'expanded' : ''}`}>
+        {(isOwner || isStaff) && (
+          <button
+            className="toggle-button"
+            onClick={() => setIsNavbarExpanded(!isNavbarExpanded)}
+          >
+            {isNavbarExpanded ? '✕' : '☰'}
+          </button>
+        )}
+        <div className="navbar-content">
+          {isOwner && (
+            <>
+              <button className="nav-button" onClick={handleManageStaffClick}>
+                Manage Staff
+              </button>
+              <button
+                className="nav-button"
+                onClick={() => navigate('/reports')}
+              >
+                Report
+              </button>
+              <button
+                className="nav-button"
+                onClick={() => navigate('/financial-report')}
+              >
+                Financial Report
+              </button>
+            </>
+          )}
+          {isStaff && (
+            <button className="nav-button" onClick={handleReviewClick}>
+              Go to Reviews
+            </button>
+          )}
+        </div>
+      </div>
+
       <h2 className="pageTitle">
         Account
         <img src={noodleImg} alt="Noodle" className="logo-img" />
@@ -291,26 +304,6 @@ const Profile: React.FC = () => {
         </div>
       )}
 
-      {isOwner && (
-        <div className="owner-section">
-          <button className="owner-button" onClick={handleManageStaffClick}>
-            Manage Staff
-          </button>
-          <button
-            className="report-button"
-            onClick={() => navigate('/reports')}
-          >
-            Report
-          </button>
-          <button
-            className="financial-report-button"
-            onClick={() => navigate('/financial-report')}
-          >
-            Financial Report
-          </button>
-        </div>
-      )}
-
       <div className="button-container">
         <button
           className="modify-button"
@@ -318,11 +311,6 @@ const Profile: React.FC = () => {
         >
           Modify
         </button>
-        {isStaff && (
-          <button className={styles.reviewButton} onClick={handleReviewClick}>
-            Go to Reviews
-          </button>
-        )}
       </div>
     </div>
   );

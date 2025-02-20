@@ -301,3 +301,20 @@ body {
     outline: none;
     box-shadow: 0 0 5px rgba(255, 77, 79, 0.5);
 }
+
+
+.menu-image {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin: 10px;
+    width: 200px; /* Adjust the width as needed */
+  }
+  
+  .menu-image img {
+    width: 100%; /* Make the image fill the container */
+    height: 150px; /* Set a fixed height for all images */
+    object-fit: cover; /* Ensure the image covers the container while maintaining aspect ratio */
+    border-radius: 8px; /* Optional: Add rounded corners */
+  }
