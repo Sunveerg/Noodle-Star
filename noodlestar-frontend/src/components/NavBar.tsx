@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useState, useEffect } from 'react';
 import styles from './css/Navigation.module.css';
 import { PathRoutes } from '../path.routes';
@@ -14,7 +15,12 @@ const navigationItems = [
 export const NavBar: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false); // State for mobile menu
   const [currentLanguage, setCurrentLanguage] = useState('EN');
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
 
   useEffect(() => {
     const token = localStorage.getItem('access_token');
@@ -67,7 +73,20 @@ export const NavBar: React.FC = () => {
       <div id="google_translate_element" style={{ display: 'none' }}></div>
       <div className={styles.navContainer}>
         <div className={`${styles.logo} notranslate`}>Nouilles Star</div>
-        <div className={styles.navItems} role="menubar">
+
+        {/* Hamburger menu button */}
+        <button
+          className={styles.hamburger}
+          onClick={toggleMenu}
+          aria-label="Toggle menu"
+        >
+          {menuOpen ? '❌' : '☰'}
+        </button>
+
+        <div
+          className={`${styles.navItems} ${menuOpen ? styles.navOpen : ''}`}
+          role="menubar"
+        >
           {navigationItems.map(item => (
             <NavLink
               key={item.label}
@@ -76,6 +95,7 @@ export const NavBar: React.FC = () => {
                 `${styles.navItem} ${isActive ? styles.activeNavItem : ''}`
               }
               role="menuitem"
+              onClick={() => setMenuOpen(false)}
             >
               {item.label}
             </NavLink>

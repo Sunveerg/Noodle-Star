@@ -13,31 +13,36 @@ export const Home: React.FC = () => {
 
   return (
     <main className={styles.homePage}>
-      {/* Left Section: Text Content */}
-      <div className={styles.welcomeText}>
-        <h4 translate="yes">Welcome to our restaurant</h4>
-
-        <h1 className="notranslate">
-          Nouilles <br /> Star
-        </h1>
-
-        <p className={styles.paragraph} translate="yes">
-          Delve into the rich flavors of authentic Chinese cuisine, ready for
-          you to savor and enjoy.
-        </p>
-        <button className={styles.button} onClick={handleClick}>
-          Order Now
-        </button>
+      {/* Logo Section */}
+      <div className={styles.logoContainer}>
+        <img
+          src="https://i.postimg.cc/WbzK9ttF/PART-1738873837223-removebg-preview.png"
+          alt="Restaurant Logo"
+        />
       </div>
 
-      {/* Right Section: Dragon Image */}
-      <img className={styles.dragonImg} src={dragonImg} alt="Dragon" />
+      {/* Content Wrapper for Center Alignment */}
+      <div className={styles.contentWrapper}>
+        {/* Left Section: Text Content */}
+        <div className={styles.welcomeText}>
+          <h4 translate="yes">Welcome to our restaurant</h4>
 
-      <div className={styles.cloudThree}></div>
-      <div className={styles.cloudFour}></div>
-      <div className={styles.cloudFive}></div>
-      <div className={styles.cloudSix}></div>
-      <div className={styles.topRightImage}></div>
+          <h1 className="notranslate">
+            Nouilles <br /> Star
+          </h1>
+
+          <p className={styles.paragraph} translate="yes">
+            Delve into the rich flavors of authentic Chinese cuisine, ready for
+            you to savor and enjoy.
+          </p>
+          <button className={styles.button} onClick={handleClick}>
+            Order Now
+          </button>
+        </div>
+
+        {/* Right Section: Dragon Image */}
+        <img className={styles.dragonImg} src={dragonImg} alt="Dragon" />
+      </div>
     </main>
   );
 };

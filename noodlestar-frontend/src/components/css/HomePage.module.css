@@ -5,7 +5,7 @@
     flex-direction: row; /* Horizontal layout */
     justify-content: space-between; /* Space between text and image */
     align-items: center; /* Center vertically */
-    padding: 50px; /* Padding around the content */
+    padding: 15%; /* Padding around the content */
     font-family: 'Inter', 'Abhaya Libre', sans-serif;
     color: #FFC165; /* Gold text color */
     height: 100vh; /* Full viewport height */
@@ -114,14 +114,10 @@ img {
 }
 
 .dragonImg {
-    right: 20%;
     max-width: 600px;
     height: auto;
 }
 
-.welcomeText {
-    margin-left: 10%;
-}
 
 
 .reviewButton {
@@ -142,4 +138,94 @@ img {
 
 .reviewButton:focus {
     outline: none;
+}
+
+/* Logo container aligned to the right */
+.logoContainer {
+    position: absolute;
+    top: 10%;
+    right: 10%;
+}
+
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .homePage {
+        flex-direction: column; /* Stack elements vertically */
+        text-align: center;
+        height: auto;
+        padding: 5%;
+    }
+
+    .contentWrapper {
+        flex-direction: column; /* Stack text & image */
+        text-align: center;
+        gap: 1.5rem;
+    }
+
+    h1 {
+        font-size: 3rem;
+    }
+
+    .paragraph {
+        font-size: 1rem;
+        max-width: 90%;
+    }
+
+    .button {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+
+    .dragonImg {
+        max-width: 80%;
+    }
+
+    .logoContainer {
+        position: relative;
+        top: 0;
+        right: 0;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    .paragraph {
+        font-size: 0.9rem;
+    }
+
+    .button {
+        font-size: 1rem;
+    }
+
+    .dragonImg {
+        max-width: 75%;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    .paragraph {
+        font-size: 0.85rem;
+    }
+
+    .button {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+    }
+
+    .dragonImg {
+        max-width: 70%;
+    }
+
+    .logoContainer img {
+        width: 120px;
+    }
 }
