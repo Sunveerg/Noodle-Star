@@ -61,7 +61,7 @@ const Profile: React.FC = () => {
     const fetchUserInfo = async () => {
       const accessToken = localStorage.getItem('access_token');
       if (!accessToken) {
-        setError('No access token found');
+        setError('Please log in to view your profile.');
         setLoading(false);
         return;
       }
@@ -201,44 +201,6 @@ const Profile: React.FC = () => {
 
   return (
     <div className="profile-page">
-      {/* Side Navbar */}
-      <div className={`side-navbar ${isNavbarExpanded ? 'expanded' : ''}`}>
-        {(isOwner || isStaff) && (
-          <button
-            className="toggle-button"
-            onClick={() => setIsNavbarExpanded(!isNavbarExpanded)}
-          >
-            {isNavbarExpanded ? '✕' : '☰'}
-          </button>
-        )}
-        <div className="navbar-content">
-          {isOwner && (
-            <>
-              <button className="nav-button" onClick={handleManageStaffClick}>
-                Manage Staff
-              </button>
-              <button
-                className="nav-button"
-                onClick={() => navigate('/reports')}
-              >
-                Report
-              </button>
-              <button
-                className="nav-button"
-                onClick={() => navigate('/financial-report')}
-              >
-                Financial Report
-              </button>
-            </>
-          )}
-          {isStaff && (
-            <button className="nav-button" onClick={handleReviewClick}>
-              Go to Reviews
-            </button>
-          )}
-        </div>
-      </div>
-
       <h2 className="pageTitle">
         Account
         <img src={noodleImg} alt="Noodle" className="logo-img" />
@@ -260,50 +222,6 @@ const Profile: React.FC = () => {
         <p className="profile-email">{userData.email}</p>
       </div>
 
-      {isCustomer && (
-        <div className="order-history-container">
-          <h2 className="order-history-title">Order History</h2>
-          {orderHistory.length === 0 ? (
-            <p className="order-history-empty">No orders found.</p>
-          ) : (
-            <ul className="order-history-list">
-              {orderHistory.map(order => (
-                <li key={order.orderId} className="order-item">
-                  <h3 className="order-id">Order ID: {order.orderId}</h3>
-                  <p className="order-status">Status: {order.status}</p>
-                  <p className="order-date">Date: {order.orderDate}</p>
-                  <p className="order-total">
-                    Total: $
-                    {order.total && !isNaN(order.total)
-                      ? order.total.toFixed(2)
-                      : 'N/A'}
-                  </p>
-                  <h4 className="order-details-title">Order Details:</h4>
-                  <ul className="order-details-list">
-                    {order.orderDetails.map(detail => (
-                      <li key={detail.menuId} className="order-detail-item">
-                        <p className="order-detail-dish-name">
-                          {detail.dishName}
-                        </p>
-                        <p className="order-detail-quantity">
-                          Quantity: {detail.quantity}
-                        </p>
-                        <p className="order-detail-price">
-                          Price: $
-                          {detail.price && !isNaN(detail.price)
-                            ? detail.price.toFixed(2)
-                            : 'N/A'}
-                        </p>
-                      </li>
-                    ))}
-                  </ul>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      )}
-
       <div className="button-container">
         <button
           className="modify-button"
@@ -312,6 +230,93 @@ const Profile: React.FC = () => {
           Modify
         </button>
       </div>
+
+      <div className="order-history-container">
+        <h2 className="order-history-title">Order History</h2>
+        {orderHistory.length === 0 ? (
+          <p className="order-history-empty">No orders found.</p>
+        ) : (
+          <ul className="order-history-list">
+            {orderHistory.map(order => (
+              <li key={order.orderId} className="order-item">
+                <h3 className="order-id">Order ID: {order.orderId}</h3>
+                <p className="order-status">Status: {order.status}</p>
+                <p className="order-date">Date: {order.orderDate}</p>
+                <p className="order-total">
+                  Total: $
+                  {order.total && !isNaN(order.total)
+                    ? order.total.toFixed(2)
+                    : 'N/A'}
+                </p>
+                <h4 className="order-details-title">Order Details:</h4>
+                <ul className="order-details-list">
+                  {order.orderDetails.map(detail => (
+                    <li key={detail.menuId} className="order-detail-item">
+                      <p className="order-detail-dish-name">
+                        {detail.dishName}
+                      </p>
+                      <p className="order-detail-quantity">
+                        Quantity: {detail.quantity}
+                      </p>
+                      <p className="order-detail-price">
+                        Price: $
+                        {detail.price && !isNaN(detail.price)
+                          ? detail.price.toFixed(2)
+                          : 'N/A'}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      {(isOwner || isStaff) && (
+        <div className={`side-navbar ${isNavbarExpanded ? 'expanded' : ''}`}>
+          {(isOwner || isStaff) && (
+            <button
+              className="toggle-button"
+              onClick={() => setIsNavbarExpanded(!isNavbarExpanded)}
+            >
+              {isNavbarExpanded ? '✕' : '☰'}
+            </button>
+          )}
+          <div className={`navbar-content ${isNavbarExpanded ? 'show' : ''}`}>
+            {isOwner && (
+              <>
+                <button className="nav-button" onClick={handleManageStaffClick}>
+                  Manage Staff
+                </button>
+                <button
+                  className="nav-button"
+                  onClick={() => navigate('/reports')}
+                >
+                  Dish Report
+                </button>
+                <button
+                  className="nav-button"
+                  onClick={() => navigate('/financial-report')}
+                >
+                  Financial Report
+                </button>
+                <button
+                  className="nav-button"
+                  onClick={() => navigate('/orders')}
+                >
+                  Orders
+                </button>
+              </>
+            )}
+            {isStaff && (
+              <button className="nav-button" onClick={handleReviewClick}>
+                Reviews
+              </button>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -60,7 +60,7 @@ const AllReviewByUserId: React.FC = (): JSX.Element => {
         setLoading(false);
       }
     } else {
-      setError('User not authenticated');
+      setError('🚫👤');
       setLoading(false);
     }
   }, []);
@@ -87,7 +87,7 @@ const AllReviewByUserId: React.FC = (): JSX.Element => {
   }
 
   if (error) {
-    return <p className="error-message">{error}</p>;
+    return <p className={'error-message'}>{error}</p>;
   }
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const generateStars = (rating: number) => {

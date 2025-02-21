@@ -392,56 +392,55 @@
     outline: none;
 }
 
-
-
-/* Side Navbar */
+/* Navbar */
 .side-navbar {
-  position: fixed;
-  top: 20px;
-  right: 0; /* Position it on the right side */
-  width: 60px; /* Collapsed width */
-  height: 100%;
-  transition: width 0.3s ease;
-  z-index: 1000;
+    position: fixed;
+    z-index: 5;
+    top: 20px;
+    right: 80px;
+    background-color: #f2c719a1;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    transition: transform 0.3s ease;
+    transform: translateX(100%);
 }
 
 .side-navbar.expanded {
-  width: 200px; /* Expanded width */
+    transform: translateX(0);
 }
 
 .toggle-button {
-  width: 100%;
-  padding: 10px;
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  text-align: right; /* Align the toggle button text to the right */
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
 }
 
 .navbar-content {
-  display: none; /* Hidden by default */
-  padding: 10px;
-  text-align: right; /* Align the content to the right */
+    display: none;
+    flex-direction: column;
+    margin-top: 20px;
 }
 
-.side-navbar.expanded .navbar-content {
-  display: block; /* Show when expanded */
+.navbar-content.show {
+    display: flex;
 }
 
 .nav-button {
-  width: 100%;
-  padding: 10px;
-  margin: 5px 0;
-  background-color: #f1c40f;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  text-align: right; /* Align the button text to the right */
-  transition: background-color 0.3s ease;
+    background-color: #8B0000;
+    color: white;
+    border: none;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .nav-button:hover {
-  background-color: #e0a900;
+    background-color: #cc5200;
 }
+
+

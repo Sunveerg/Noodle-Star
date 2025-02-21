@@ -16,5 +16,6 @@ public interface OrderService {
     Mono<Void> cancelOrder(String orderId);
 
     Flux<OrderResponseModel> getOrdersByCustomerId(String customerId);
+    Mono<OrderResponseModel> updateOrderStatus(String orderId, String newStatus);
 }
 

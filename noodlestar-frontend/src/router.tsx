@@ -19,6 +19,7 @@ import UpdateUserPage from './pages/UpdateUserPage';
 import ReportPage from './pages/ReportPage';
 import FinancialReportPage from './pages/FinancialReportPage';
 import UpdateReview from './features/Review/UpdateReview';
+import Orders from './features/Orders';
 
 const router = createBrowserRouter([
   {
@@ -48,7 +49,7 @@ const router = createBrowserRouter([
     element: <CallbackPage />,
   },
   {
-    path: `${PathRoutes.MenuDetails}/:menuId`,
+    path: PathRoutes.MenuDetails,
     element: <MenuDetails />,
   },
   {
@@ -70,6 +71,10 @@ const router = createBrowserRouter([
   {
     path: PathRoutes.OrderSummary,
     element: <OrderSummary />,
+  },
+  {
+    path: PathRoutes.Orders,
+    element: <Orders />,
   },
   {
     path: PathRoutes.EmailSent,

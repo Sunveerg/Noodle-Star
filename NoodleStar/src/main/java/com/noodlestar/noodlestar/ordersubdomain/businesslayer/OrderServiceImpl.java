@@ -86,4 +86,16 @@ public class OrderServiceImpl implements OrderService {
         return Flux.merge(priceMonoFlux)
                 .reduce(0.0, Double::sum);
     }
+
+    @Override
+    public Mono<OrderResponseModel> updateOrderStatus(String orderId, String newStatus) {
+        return orderRepository.findByOrderId(orderId)
+                .switchIfEmpty(Mono.error(new NotFoundException("Order with ID " + orderId + " not found")))
+                .flatMap(order -> {
+                    order.setStatus(newStatus); // Set the new status
+                    return orderRepository.save(order) // Save the updated order
+                            .map(EntityDTOUtil::toOrderResponseModel);
+                });
+    }
+
 }
