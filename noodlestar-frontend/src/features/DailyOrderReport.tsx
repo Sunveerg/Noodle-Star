@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-/* eslint-disable no-console */
 /* eslint-disable prettier/prettier */
 import React, { useState, useRef } from 'react';
 import { getDailyOrderReport } from '../features/api/getDailyOrderReport';
