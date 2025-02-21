@@ -201,50 +201,6 @@ const Profile: React.FC = () => {
 
   return (
     <div className="profile-page">
-      {/* Side Navbar */}
-      <div className={`side-navbar ${isNavbarExpanded ? 'expanded' : ''}`}>
-        {(isOwner || isStaff) && (
-          <button
-            className="toggle-button"
-            onClick={() => setIsNavbarExpanded(!isNavbarExpanded)}
-          >
-            {isNavbarExpanded ? '✕' : '☰'}
-          </button>
-        )}
-        <div className="navbar-content">
-          {isOwner && (
-            <>
-              <button className="nav-button" onClick={handleManageStaffClick}>
-                Manage Staff
-              </button>
-              <button
-                className="nav-button"
-                onClick={() => navigate('/reports')}
-              >
-                Dish Popularity
-              </button>
-              <button
-                className="nav-button"
-                onClick={() => navigate('/daily-order')}
-              >
-                Daily Order Total
-              </button>
-              <button
-                className="nav-button"
-                onClick={() => navigate('/financial-report')}
-              >
-                Financial Report
-              </button>
-            </>
-          )}
-          {isStaff && (
-            <button className="nav-button" onClick={handleReviewClick}>
-              Go to Reviews
-            </button>
-          )}
-        </div>
-      </div>
-
       <h2 className="pageTitle">
         Account
         <img src={noodleImg} alt="Noodle" className="logo-img" />
@@ -338,6 +294,12 @@ const Profile: React.FC = () => {
                   onClick={() => navigate('/reports')}
                 >
                   Dish Report
+                </button>
+                <button
+                  className="nav-button"
+                  onClick={() => navigate('/daily-order')}
+                >
+                  Daily Order Total
                 </button>
                 <button
                   className="nav-button"
