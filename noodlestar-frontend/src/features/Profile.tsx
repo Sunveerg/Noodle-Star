@@ -201,8 +201,6 @@ const Profile: React.FC = () => {
 
   return (
     <div className="profile-page">
-<<<<<<< HEAD
-=======
       {/* Side Navbar */}
       <div className={`side-navbar ${isNavbarExpanded ? 'expanded' : ''}`}>
         {(isOwner || isStaff) && (
@@ -247,7 +245,6 @@ const Profile: React.FC = () => {
         </div>
       </div>
 
->>>>>>> 5b4af09 (many changes)
       <h2 className="pageTitle">
         Account
         <img src={noodleImg} alt="Noodle" className="logo-img" />

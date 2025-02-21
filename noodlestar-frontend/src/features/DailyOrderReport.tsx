@@ -95,6 +95,7 @@ const DailyOrderReport: React.FC = () => {
       Date: new Date(generatedAt).toLocaleDateString(),
     }));
 
+    // eslint-disable-next-line import/no-named-as-default-member
     const csv = Papa.unparse(csvData);
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
