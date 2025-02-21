@@ -9,12 +9,12 @@ const textBlocks = [
   {
     title: 'History',
     content:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+      'Founded in the heart of Montreal, Nouilles Star has been serving authentic Chinese, Cantonese, Szechuanese, and Vietnamese cuisine for years. Formerly known as Soupe & Nouilles, our restaurant has built a reputation for bold flavors, handcrafted noodle dishes, and rich broths that bring a taste of Asia to every bowl. Inspired by traditional family recipes and modern culinary techniques, we take pride in delivering an unforgettable dining experience to our guests.',
   },
   {
-    title: 'Mission & Vision Statements',
+    title: 'Mission',
     content:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+      'At Nouilles Star, our mission is to bring the warmth and authenticity of Asian cuisine to Montreal, offering handcrafted noodles, flavorful broths, and a diverse menu that reflects our passion for culinary excellence. We are committed to using fresh ingredients, traditional cooking methods, and friendly service to create an inviting space where every meal feels like home.',
   },
 ];
 
@@ -115,11 +115,6 @@ export const AboutUs: React.FC = () => {
 
   return (
     <main className={styles.aboutUs}>
-      <div className={styles.cloud3}></div>
-      <div className={styles.cloud4}></div>
-      <div className={styles.cloud5}></div>
-      <div className={styles.cloud6}></div>
-
       <div className={styles.topRightImage}></div>
 
       <section className={styles.content}>

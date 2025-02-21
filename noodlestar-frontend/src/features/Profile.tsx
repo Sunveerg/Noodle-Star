@@ -297,6 +297,12 @@ const Profile: React.FC = () => {
                 </button>
                 <button
                   className="nav-button"
+                  onClick={() => navigate('/daily-order')}
+                >
+                  Daily Order Total
+                </button>
+                <button
+                  className="nav-button"
                   onClick={() => navigate('/financial-report')}
                 >
                   Financial Report

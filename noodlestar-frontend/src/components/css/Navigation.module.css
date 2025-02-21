@@ -17,6 +17,18 @@
     flex-wrap: nowrap;
 }
 
+/* Existing styles remain the same */
+
+.hamburger {
+    display: none;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+
+
 .logo {
     font-family: 'Baloo Bhaijaan', sans-serif;
     font-weight: 400;
@@ -110,3 +122,35 @@ button:hover {
 .dropdownContent button:hover {
     background-color: #f1f1f1;
 }
+
+
+@media screen and (max-width: 768px) {
+    .hamburger {
+        display: block;
+        font-size: 24px;
+    }
+
+    .navItems {
+        display: none; /* Hide by default */
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background-color: rgba(83, 9, 9, 0.95);
+        text-align: center;
+        flex-direction: column;
+        gap: 10px;
+        z-index: 10; /* Ensure it appears above other elements */
+    }
+
+    .navItems.navOpen {
+        display: flex; /* Ensure it appears when menu is open */
+    }
+
+    .navItem {
+        display: block;
+        padding: 15px;
+    }
+}
+
+

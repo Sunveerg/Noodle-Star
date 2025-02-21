@@ -39,5 +39,10 @@ public class ReportController {
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
+    @PostMapping("/generate/daily-orders")
+    public Flux<ReportResponseModel> generateDailyOrderReport() {
+        return reportService.generateDailyOrderReport();
+    }
+
 
 }

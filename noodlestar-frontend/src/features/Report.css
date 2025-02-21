@@ -12,7 +12,13 @@
     color: #ffd700; /* Gold text */
 }
 
-
+/* Export Buttons */
+.export-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
 
 /* Header section */
 .report-header {

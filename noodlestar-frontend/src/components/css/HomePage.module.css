@@ -1,17 +1,17 @@
-/* Main Home Page */
 .homePage {
     background: #A60007; /* Rich red background */
     display: flex;
-    flex-direction: row; /* Horizontal layout */
-    justify-content: space-between; /* Space between text and image */
-    align-items: center; /* Center vertically */
-    padding: 50px; /* Padding around the content */
+    flex-direction: column; /* Stack elements vertically */
+    justify-content: flex-start; /* Align content from the top */
+    align-items: center; /* Center horizontally */
+    padding: 5%; /* Adjust padding */
     font-family: 'Inter', 'Abhaya Libre', sans-serif;
     color: #FFC165; /* Gold text color */
-    height: 100vh; /* Full viewport height */
+    min-height: 100vh; /* Ensure it can expand */
     position: relative; /* Relative to position clouds and decorative elements */
-    overflow: hidden; /* Hide any overflow */
+    overflow-x: hidden; /* Allow vertical scrolling if needed */
 }
+
 
 h4 {
     font-size: 1.2rem;
@@ -113,15 +113,40 @@ img {
     background-repeat: no-repeat;
 }
 
+/* Make the ending elements appear at the bottom */
+.footerContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: auto; /* Push to the bottom */
+}
+.imageGallery {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding-top: 20%; /* Push the section lower */
+}
+
+.imageGallery img {
+    width: 200px; /* Square size */
+    height: 200px; /* Ensuring square aspect ratio */
+    object-fit: cover; /* Ensure images fill the square without distortion */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.imageGallery img:hover {
+    transform: scale(1.1);
+}
+
+
 .dragonImg {
-    right: 20%;
     max-width: 600px;
     height: auto;
 }
 
-.welcomeText {
-    margin-left: 10%;
-}
 
 
 .reviewButton {
@@ -142,4 +167,98 @@ img {
 
 .reviewButton:focus {
     outline: none;
+}
+
+/* Logo container aligned to the right */
+.logoContainer {
+    position: absolute;
+    top: 10%;
+    right: 10%;
+}
+
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .homePage {
+        flex-direction: column; /* Stack elements vertically */
+        text-align: center;
+        height: auto;
+        padding: 5%;
+    }
+
+    .footerContent {
+        margin-top: 40px; /* Add space before appearing at the bottom */
+    }
+
+    .contentWrapper {
+        flex-direction: column; /* Stack text & image */
+        text-align: center;
+        gap: 1.5rem;
+    }
+
+    h1 {
+        font-size: 3rem;
+    }
+
+    .paragraph {
+        font-size: 1rem;
+        max-width: 90%;
+    }
+
+    .button {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+
+    .dragonImg {
+        max-width: 80%;
+    }
+
+    .logoContainer {
+        position: relative;
+        top: 0;
+        right: 0;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    .paragraph {
+        font-size: 0.9rem;
+    }
+
+    .button {
+        font-size: 1rem;
+    }
+
+    .dragonImg {
+        max-width: 75%;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    .paragraph {
+        font-size: 0.85rem;
+    }
+
+    .button {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+    }
+
+    .dragonImg {
+        max-width: 70%;
+    }
+
+    .logoContainer img {
+        width: 120px;
+    }
 }
