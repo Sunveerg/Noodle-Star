@@ -1,6 +1,7 @@
 export interface OrderDetailsRequestModel {
   menuId: string;
   quantity: number;
+  price: number;
 }
 
 export interface OrderRequestModel {

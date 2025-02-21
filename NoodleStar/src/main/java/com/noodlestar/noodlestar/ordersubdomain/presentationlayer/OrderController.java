@@ -43,4 +43,9 @@ public class OrderController {
         return orderService.getOrdersByCustomerId(customerId);
     }
 
+    @PatchMapping("/{orderId}/status")
+    public Mono<OrderResponseModel> updateOrderStatus(@PathVariable String orderId, @RequestParam String newStatus) {
+        return orderService.updateOrderStatus(orderId, newStatus);
+    }
+
 }

@@ -132,3 +132,17 @@
     outline: 2px solid rgba(250, 178, 71, 0.7); /* Focus outline for accessibility */
     outline-offset: 2px;
 }
+
+.error-message {
+    color: rgb(250, 178, 71) !important; /* Matches the border color of review items */
+    background-color: rgba(83, 9, 9, 0.9); /* Same background as review items with some transparency */
+    padding: 15px;
+    border: 1px solid rgb(250, 178, 71); /* Matching border */
+    border-radius: 10px;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    max-width: 500px;
+    margin: 20px auto;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
