@@ -29,15 +29,20 @@ rectangle "Noodle Star Restaurant System" {
     usecase (ViewOrder) as VO #LightCoral
     usecase "Generate Weekly Report" as GWR
     usecase "Generate Monthly Financial Report" as GMFR
-    usecase "Generate Daily Order Summary" as GDOR
+    usecase "Generate Monthly Order Summary" as GDOR
     usecase "Track Inventory Levels" as TIL
     usecase "View Review" as VRU #LightCoral
+
+     usecase (View Team Members) as VTM #LightBlue
+     usecase (Delete Team Members) as DTM #LightBlue
 
 }
 
 
 Owner -- GR
 Owner -- MSA
+Owner -- VTM
+VTM ..> DTM : <<extends>>
 GR <.. VFR : <<extends>>
 MO ..> VIO : <<includes>>
 

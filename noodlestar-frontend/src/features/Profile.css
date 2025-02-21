@@ -322,7 +322,9 @@
     gap: 10px; /* Add space between buttons */
 }
   
-
+.order-detail-dish-name{
+  color: #333;
+}
 .modify-button {
     background-color: #f2c719a1; /* Golden Yellow */
     color: white;

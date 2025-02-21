@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import { menuResponseModel } from './model/menuResponseModel';
 import noodleImg from '../components/assets/noodle.png';
 import styles from '../components/css/AboutUs.module.css';
-
 import './AvailableMenu.css';
 import { createOrder } from '../features/api/createOrder';
 import { getAllmenu } from '../features/api/getAllMenu';
@@ -55,7 +54,7 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
       let updatedCartItems;
       if (existingItem) {
         updatedCartItems = prevCartItems.map(item =>
-          String(item.menuId) === String(menuItem.menuId) // Ensure both are strings
+          String(item.menuId) === String(menuItem.menuId)
             ? { ...item, quantity: item.quantity + 1 }
             : item
         ) as CartItem[];
@@ -63,7 +62,7 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
         updatedCartItems = [
           ...prevCartItems,
           {
-            menuId: String(menuItem.menuId), // Convert number to string
+            menuId: String(menuItem.menuId),
             name: menuItem.name,
             price: menuItem.price,
             quantity: 1,
@@ -71,10 +70,7 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
         ];
       }
 
-      // Save updated cart items to a cookie
       document.cookie = `cartItems=${JSON.stringify(updatedCartItems)}; path=/;`;
-
-      // Log the cookie to see its value
       console.log('Updated Cart Items Cookie:', document.cookie);
 
       return updatedCartItems;
@@ -89,7 +85,6 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
         item => item.menuId !== menuId
       );
 
-      // Recalculate the total price after removing the item
       const removedItem = prevCartItems.find(item => item.menuId === menuId);
       if (removedItem) {
         setTotalPrice(
@@ -113,6 +108,23 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
       return;
     }
 
+    // Retrieve access token from localStorage
+    const accessToken = localStorage.getItem('access_token'); // Adjust to your token key
+    if (!accessToken) {
+      setCheckoutMessage('User is not authenticated');
+      return;
+    }
+
+    // Decode the token to get customerId from the payload (JWT)
+    const base64Url = accessToken.split('.')[1];
+    const decodedPayload = JSON.parse(atob(base64Url));
+
+    const customerId = decodedPayload.sub; // Assuming 'sub' contains the customerId
+    if (!customerId) {
+      setCheckoutMessage('Customer ID not found in token');
+      return;
+    }
+
     const orderDetails = Object.values(cartItems).map(item => ({
       menuId: item.menuId,
       quantity: item.quantity,
@@ -120,7 +132,7 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
 
     const orderRequest = {
       orderId: `orderId-${Date.now()}`,
-      customerId: 'guestCustomerId',
+      customerId, // Use the customerId from the token
       status: 'Pending',
       orderDate: new Date().toISOString().split('T')[0],
       orderDetails,
