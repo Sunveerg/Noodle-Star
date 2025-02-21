@@ -7,5 +7,5 @@ import reactor.core.publisher.Mono;
 public interface ReportService {
     Flux<ReportResponseModel> generateMenuItemOrderFrequencyReport();
     Mono<ReportResponseModel> generateFinancialReport();
-
+    Flux<ReportResponseModel> generateDailyOrderReport();
 }

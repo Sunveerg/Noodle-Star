@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 
@@ -80,6 +81,54 @@ public class ReportServiceImpl implements ReportService {
                             ));
                 });
     }
+
+    @Override
+    public Flux<ReportResponseModel> generateDailyOrderReport() {
+        return orderRepository.findAll()
+                .groupBy(Order::getOrderDate) // Group orders by date
+                .flatMap(groupedFlux -> groupedFlux
+                        .count()
+                        .map(count -> new DailyOrderCount(groupedFlux.key(), count)))
+                .sort(Comparator.comparing(DailyOrderCount::getDate)) // Sort by date
+                .flatMap(dailyCount -> {
+                    Report report = Report.builder()
+                            .reportId("DAILY-ORDERS-" + System.currentTimeMillis())
+                            .reportType("Daily Order Report")
+                            .menuItemName(dailyCount.getDate().toString()) // Use date as the name
+                            .itemCount(dailyCount.getCount())
+                            .generatedAt(LocalDateTime.now())
+                            .build();
+
+                    return reportRepository.save(report)
+                            .map(savedReport -> new ReportResponseModel(
+                                    savedReport.getReportId(),
+                                    savedReport.getReportType(),
+                                    savedReport.getMenuItemName(),
+                                    savedReport.getItemCount(),
+                                    savedReport.getGeneratedAt()
+                            ));
+                });
+    }
+
+    // Helper class
+    private static class DailyOrderCount {
+        private final LocalDate date;
+        private final Long count;
+
+        public DailyOrderCount(LocalDate date, Long count) {
+            this.date = date;
+            this.count = count;
+        }
+
+        public LocalDate getDate() {
+            return date;
+        }
+
+        public Long getCount() {
+            return count;
+        }
+    }
+
 
 
 
