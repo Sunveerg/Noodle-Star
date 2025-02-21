@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { getFinancialReport } from '../features/api/financialReports';
 import { FinancialReportResponseModel } from '../features/model/financialReportModels';
 import {
@@ -12,6 +12,9 @@ import {
   Bar,
   ResponsiveContainer,
 } from 'recharts';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import Papa from 'papaparse';
 import './Report.css';
 
 const FinancialReport: React.FC = () => {
@@ -24,6 +27,7 @@ const FinancialReport: React.FC = () => {
   const [endDate, setEndDate] = useState<string>('');
   const [filteredReport, setFilteredReport] =
     useState<FinancialReportResponseModel | null>(null);
+  const reportRef = useRef<HTMLDivElement>(null); // Reference for PDF export
 
   const handleGenerateReport = async () => {
     setLoading(true);
@@ -34,7 +38,7 @@ const FinancialReport: React.FC = () => {
         reportType: 'Financial Report',
         menuItemName: 'Total Revenue',
         itemCount: 0, // Placeholder value
-        generatedAt: new Date('Z').toLocaleString('en-CA', {
+        generatedAt: new Date().toLocaleString('en-CA', {
           weekday: 'long',
           year: 'numeric',
           month: 'long',
@@ -45,8 +49,8 @@ const FinancialReport: React.FC = () => {
         }),
       });
 
-      setReport(response.data); // Assuming response.data has the report data
-      setFilteredReport(response.data); // Initially, the filtered report is the same as the generated one
+      setReport(response.data);
+      setFilteredReport(response.data);
     } catch (err) {
       setError('Failed to fetch financial report');
       console.error(err);
@@ -64,21 +68,20 @@ const FinancialReport: React.FC = () => {
     const start = new Date(startDate);
     const end = new Date(endDate);
 
-    // Check if the report generated date is within the selected range
     if (start <= reportDate && reportDate <= end) {
-      setFilteredReport(report); // Show the report if it is within the range
+      setFilteredReport(report);
     } else {
-      setFilteredReport(null); // Hide the report if it is outside the range
+      setFilteredReport(null);
     }
   };
 
   const handleResetFilter = () => {
     setStartDate('');
     setEndDate('');
-    setFilteredReport(report); // Reset to the original report
+    setFilteredReport(report);
   };
 
-  // Transform the report data into a format suitable for Recharts
+  // Transform data for the chart
   const chartData = filteredReport
     ? [
         {
@@ -87,6 +90,45 @@ const FinancialReport: React.FC = () => {
         },
       ]
     : [];
+
+  // Export Report as PDF (Using html2canvas)
+  const exportToPDF = () => {
+    if (!filteredReport || !reportRef.current) return;
+
+    html2canvas(reportRef.current, { scale: 2 }).then(canvas => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const imgWidth = 190; // Adjust width to fit
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      pdf.text('Financial Report', 15, 10);
+      pdf.addImage(imgData, 'PNG', 10, 20, imgWidth, imgHeight);
+      pdf.save('Financial_Report.pdf');
+    });
+  };
+
+  // Export Report as CSV
+  const exportToCSV = () => {
+    if (!filteredReport) return;
+
+    // eslint-disable-next-line import/no-named-as-default-member
+    const csv = Papa.unparse([
+      {
+        'Report Type': filteredReport.reportType,
+        'Menu Item': filteredReport.menuItemName,
+        'Item Count': filteredReport.itemCount,
+        'Generated At': filteredReport.generatedAt,
+      },
+    ]);
+
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.setAttribute('download', 'Financial_Report.csv');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   return (
     <div className="report-container">
@@ -127,8 +169,7 @@ const FinancialReport: React.FC = () => {
       </div>
 
       {filteredReport && (
-        <div className="report-content">
-          {/* Bar Chart to visualize the revenue */}
+        <div className="report-content" ref={reportRef}>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart
               data={chartData}
@@ -142,6 +183,12 @@ const FinancialReport: React.FC = () => {
               <Bar dataKey="value" fill="#8884d8" />
             </BarChart>
           </ResponsiveContainer>
+
+          {/* Export Buttons */}
+          <div className="export-buttons">
+            <button onClick={exportToPDF}>Export as PDF</button>
+            <button onClick={exportToCSV}>Export as CSV</button>
+          </div>
         </div>
       )}
 

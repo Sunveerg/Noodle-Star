@@ -20,5 +20,6 @@ export enum PathRoutes {
   UpdateUsers = '/updateUsers/:userId',
   Reports = '/reports',
   FinancialReport = '/financial-report',
+  DailyReport = '/daily-order',
   UpdateReview = 'profile/review/:reviewId/update',
 }
