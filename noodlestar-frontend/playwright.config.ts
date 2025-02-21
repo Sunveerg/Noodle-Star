@@ -80,6 +80,7 @@ export default defineConfig({
     '**/UpdateUser.spec.ts',
     '**/ViewReport.spec.ts',
     '**/updateReview.spec.ts',
+    '**/*.spec.ts',
   ],
 
   /* Run your local dev server before starting the tests */
