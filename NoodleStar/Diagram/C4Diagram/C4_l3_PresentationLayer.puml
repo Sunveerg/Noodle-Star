@@ -48,6 +48,7 @@ System_Boundary(NoodleStar, "NoodleStar Application") {
             Container(manageUserFeature, "Manage User", "TSX", "Manage User Members", $tags="service")
             Container(emailsentFeature, "Email Sent", "TSX", "Show email sent message", $tags="service")
             Container(updateStaff, "Update Staff", "TSX", "Shows modal to update staff", $tags="service")
+            Container(updateStaff2, "AllReviewByUserId", "TSX", "Shows modal to update staff", $tags="service")
 
             Container(financialReport, "Financial Report", "TSX", "Shows the financial report generated", $tags="service")
 

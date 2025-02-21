@@ -2,6 +2,16 @@
 import React, { useState } from 'react';
 import { getFinancialReport } from '../features/api/financialReports';
 import { FinancialReportResponseModel } from '../features/model/financialReportModels';
+import {
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  BarChart,
+  Bar,
+  ResponsiveContainer,
+} from 'recharts';
 import './Report.css';
 
 const FinancialReport: React.FC = () => {
@@ -24,7 +34,15 @@ const FinancialReport: React.FC = () => {
         reportType: 'Financial Report',
         menuItemName: 'Total Revenue',
         itemCount: 0, // Placeholder value
-        generatedAt: new Date().toISOString(),
+        generatedAt: new Date('Z').toLocaleString('en-CA', {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          timeZone: 'America/Toronto',
+        }),
       });
 
       setReport(response.data); // Assuming response.data has the report data
@@ -59,6 +77,16 @@ const FinancialReport: React.FC = () => {
     setEndDate('');
     setFilteredReport(report); // Reset to the original report
   };
+
+  // Transform the report data into a format suitable for Recharts
+  const chartData = filteredReport
+    ? [
+        {
+          name: 'Revenue',
+          value: filteredReport.itemCount,
+        },
+      ]
+    : [];
 
   return (
     <div className="report-container">
@@ -100,19 +128,20 @@ const FinancialReport: React.FC = () => {
 
       {filteredReport && (
         <div className="report-content">
-          <p>
-            <strong>Report Type:</strong> {filteredReport.reportType}
-          </p>
-          <p>
-            <strong>Report Name:</strong> {filteredReport.menuItemName}
-          </p>
-          <p>
-            <strong>$$$:</strong> {filteredReport.itemCount}
-          </p>
-          <p>
-            <strong>Generated At:</strong>{' '}
-            {new Date(filteredReport.generatedAt).toLocaleString()}
-          </p>
+          {/* Bar Chart to visualize the revenue */}
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart
+              data={chartData}
+              margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Bar dataKey="value" fill="#8884d8" />
+            </BarChart>
+          </ResponsiveContainer>
         </div>
       )}
 
