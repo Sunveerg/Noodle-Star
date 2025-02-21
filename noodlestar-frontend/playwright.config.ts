@@ -69,19 +69,7 @@ export default defineConfig({
     //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
     // },
   ],
-  testIgnore: [
-    '**/DoordashApi.spec.ts', // Exclude this test
-    '**/DeleteStaff.spec.ts', // Exclude this test
-    '**/tests/AddMenuItemsToCart.spec.ts', // Exclude this test
-    '**/tests/CancelOrder.spec.ts', // Exclude this test
-    '**/tests/GetOrderSummary.spec.ts', // Exclude this test
-    '**/AddStaffRole.spec.ts', // Exclude this test
-    '**/GetStaff.spec.ts', // Exclude this test
-    '**/UpdateUser.spec.ts',
-    '**/ViewReport.spec.ts',
-    '**/updateReview.spec.ts',
-    '**/*.spec.ts',
-  ],
+  testMatch: '**/LoginSucess.spec.ts',
 
   /* Run your local dev server before starting the tests */
   // webServer: {
