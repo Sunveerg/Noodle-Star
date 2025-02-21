@@ -46,7 +46,7 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
   }, []);
 
   const handleAddToCart = (menuItem: menuResponseModel) => {
-    console.log("Adding item to cart:", menuItem);
+    console.log('Adding item to cart:', menuItem);
     setCartItems((prevCartItems: CartItem[]) => {
       const existingItem = prevCartItems.find(
         item => String(item.menuId) === String(menuItem.menuId)
@@ -109,7 +109,7 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
       return;
     }
 
-    console.log("Cart Items before checkout:", cartItems);
+    console.log('Cart Items before checkout:', cartItems);
 
     // Retrieve access token from localStorage
     const accessToken = localStorage.getItem('access_token'); // Adjust to your token key
@@ -143,7 +143,7 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
       total: totalPrice,
     };
 
-    console.log("Order Request:", orderRequest);
+    console.log('Order Request:', orderRequest);
 
     try {
       await createOrder(orderRequest);
