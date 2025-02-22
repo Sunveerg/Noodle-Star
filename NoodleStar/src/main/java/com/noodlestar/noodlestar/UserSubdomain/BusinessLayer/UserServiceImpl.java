@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
                 .flatMap(auth0User ->
                         userRepository.findByUserId(auth0UserId)
                                 .switchIfEmpty(
-                                        auth0Service.assignRoleToUser(auth0UserId, "rol_yNoNEH6304xc31YW")
+                                        auth0Service.assignRoleToUser(auth0UserId, "rol_u24yYe5H0NveA454")
                                                 .doOnSuccess(unused -> log.info("Successfully assigned 'Customer' role to User ID: {}", auth0UserId))
                                                 .doOnError(error -> log.error("Failed to assign 'Customer' role to User ID: {}", auth0UserId, error))
                                                 .then(auth0Service.getUserById(auth0UserId)

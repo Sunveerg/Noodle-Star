@@ -58,7 +58,7 @@ class UserServiceUnitTest {
                 .build();
 
         when(auth0Service.getUserById(auth0UserId)).thenReturn(Mono.just(auth0User));
-        when(auth0Service.assignRoleToUser(auth0UserId, "rol_yNoNEH6304xc31YW")).thenReturn(Mono.empty());
+        when(auth0Service.assignRoleToUser(auth0UserId, "rol_u24yYe5H0NveA454")).thenReturn(Mono.empty());
         when(userRepository.findByUserId(auth0UserId)).thenReturn(Mono.empty());
         when(userRepository.save(any(User.class))).thenReturn(Mono.just(savedUser));
 
@@ -389,7 +389,7 @@ class UserServiceUnitTest {
 
         // Mock repository and service interactions
         when(userRepository.findByUserId(userId)).thenReturn(Mono.just(existingUser));
-        when(auth0Service.assignRoleToUser(userId, "rol_1DSAOq7EC8sfW0KF")).thenReturn(Mono.empty()); // Simulate successful role assignment
+        when(auth0Service.assignRoleToUser(userId, "rol_u24yYe5H0NveA454")).thenReturn(Mono.empty()); // Simulate successful role assignment
         when(userRepository.save(updatedUser)).thenReturn(Mono.just(updatedUser)); // Simulate saving the updated user
 
         // Act and Assert: Use StepVerifier to validate the outcome
@@ -402,7 +402,7 @@ class UserServiceUnitTest {
 
         // Verify interactions with mocks
         verify(userRepository, times(1)).findByUserId(userId); // Ensure the user lookup was performed once
-        verify(auth0Service, times(1)).assignRoleToUser(userId, "rol_1DSAOq7EC8sfW0KF"); // Ensure role assignment was called
+        verify(auth0Service, times(1)).assignRoleToUser(userId, "rol_u24yYe5H0NveA454"); // Ensure role assignment was called
         verify(userRepository, times(1)).save(updatedUser); // Ensure the updated user was saved
     }
 
