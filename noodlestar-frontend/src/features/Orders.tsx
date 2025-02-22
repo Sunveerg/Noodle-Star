@@ -14,7 +14,12 @@ const Orders: React.FC = () => {
     const fetchOrders = async (): Promise<void> => {
       try {
         const fetchedOrders = await getAllOrders();
-        setOrders(fetchedOrders);
+        // Sort orders by date (newest first)
+        const sortedOrders = fetchedOrders.sort(
+          (a, b) =>
+            new Date(b.orderDate).getTime() - new Date(a.orderDate).getTime()
+        );
+        setOrders(sortedOrders);
       } catch (err) {
         console.error('Error fetching orders:', err);
         setError('Failed to fetch orders.');
