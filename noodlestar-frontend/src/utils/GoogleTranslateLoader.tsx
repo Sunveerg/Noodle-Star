@@ -20,7 +20,7 @@ export default function GoogleTranslateLoader(): null {
         {
           pageLanguage: 'en',
           autoDisplay: false,
-          includedLanguages: 'en,fr', // Specify supported languages
+          includedLanguages: 'en,fr,zh-CN',
         },
         'google_translate_element'
       );

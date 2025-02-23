@@ -1,0 +1,13 @@
+@startuml
+hide footbox
+actor Owner
+participant "Noodle Star System" as System
+
+ref over Owner, System : Login.puml
+Owner -> System: getTeamMember(teamMemberId)
+System --> Owner: returnTeamMember(teamMemberId)
+
+Owner -> System: deleteTeamMember(teamMemberId)
+System -> System: removeTeamMember(teamMemberId)
+System -> Owner: teamMemberDeletionConfirmation
+@enduml
