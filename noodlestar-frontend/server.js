@@ -10,7 +10,7 @@ import "dotenv/config";
 
 // Create an Express application
 const app = express();
-const port = 3001;
+const port = process.port || 3001;
 
 
 let externalDeliveryId = null;
@@ -62,7 +62,7 @@ app.post('/auth/token', async (req, res) => {
 });
 
 // Start the Express server
-app.listen(port, (err) => {
+app.listen(port, "0.0.0.0", (err) => {
   if (err) {
     return console.log("Error", err);
   }
