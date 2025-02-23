@@ -30,7 +30,8 @@ const OrderSummary: React.FC = (): JSX.Element => {
   const navigate = useNavigate();
 
   const handleReviewClick = () => {
-    window.location.href = 'http://localhost:3001';
+    const backendUrl = process.env.REACT_APP_BACKEND_URL;
+    window.location.href = `${backendUrl}:3001`;
   };
 
   const handlePickupClick = async () => {
