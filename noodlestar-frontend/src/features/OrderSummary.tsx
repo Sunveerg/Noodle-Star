@@ -30,7 +30,7 @@ const OrderSummary: React.FC = (): JSX.Element => {
   const navigate = useNavigate();
 
   const handleReviewClick = () => {
-    window.location.href = 'http://localhost:443';
+    window.location.href = 'https://plankton-app-v6rpd.ondigitalocean.app:443';
   };
 
   const handlePickupClick = async () => {
