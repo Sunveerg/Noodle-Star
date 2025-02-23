@@ -30,7 +30,6 @@ rectangle "Noodle Star Restaurant System" {
     usecase "Generate Weekly Report" as GWR
     usecase "Generate Monthly Financial Report" as GMFR
     usecase "Generate Monthly Order Summary" as GDOR
-    usecase "Track Inventory Levels" as TIL
     usecase "View Review" as VRU #LightCoral
 
      usecase (View Team Members) as VTM #LightBlue
@@ -71,6 +70,5 @@ Customer -- VOH
 time -- GWR
 time -- GMFR
 time -- GDOR
-time -- TIL
 
 @enduml
