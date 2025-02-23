@@ -31,7 +31,7 @@ const OrderSummary: React.FC = (): JSX.Element => {
 
   const handleReviewClick = () => {
     const backendUrl = process.env.REACT_APP_BACKEND_URL;
-    window.location.href = `${backendUrl}: 443`;
+    window.location.href = `${backendUrl}:443`;
   };
 
   const handlePickupClick = async () => {
