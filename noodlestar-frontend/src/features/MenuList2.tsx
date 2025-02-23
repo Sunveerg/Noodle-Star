@@ -149,46 +149,30 @@ const MenuList: React.FC = (): JSX.Element => {
                 <div className="menu-image">
                   <h3 className="menu-name">{item.name}</h3>
                   <img src={item.itemImage} alt={item.name} />
-                </div>
-                <div className="menu-details">
-                  <p className="menu-price">{item.price}$</p>
-                  <p className="menu-description">{item.description}</p>
-                  <p
-                    className={`menu-status ${
-                      item.status === 'AVAILABLE'
-                        ? 'available'
-                        : 'not-available'
-                    }`}
-                  >
-                    {item.status}
-                  </p>
-
-                  {/* Show the Delete button only if the user is a staff member */}
+                  {/* Show the Delete and Edit buttons side by side */}
                   {isStaff && (
-                    <button
-                      className="btn-delete"
-                      onClick={e => {
-                        e.stopPropagation();
-                        handleDelete(item.menuId);
-                      }}
-                    >
-                      Delete
-                    </button>
+                    <div className="button-container">
+                      <button
+                        className="btn-delete"
+                        onClick={e => {
+                          e.stopPropagation();
+                          handleDelete(item.menuId);
+                        }}
+                      >
+                        Delete
+                      </button>
+                      <button
+                        onClick={e => {
+                          e.stopPropagation();
+                          navigate(`${item.menuId}/update`);
+                        }}
+                        className="btn-edit"
+                      >
+                        Edit
+                      </button>
+                    </div>
                   )}
                 </div>
-
-                {/* Show the Edit button only if the user is a staff member */}
-                {isStaff && (
-                  <button
-                    onClick={e => {
-                      e.stopPropagation();
-                      navigate(`${item.menuId}/update`);
-                    }}
-                    className="btn-edit"
-                  >
-                    Edit
-                  </button>
-                )}
               </div>
             </div>
           ))
