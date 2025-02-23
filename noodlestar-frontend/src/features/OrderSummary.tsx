@@ -31,7 +31,7 @@ const OrderSummary: React.FC = (): JSX.Element => {
 
   const handleReviewClick = () => {
     const backendUrl = process.env.REACT_APP_BACKEND_URL;
-    const portURl = process.env.Port;
+    const portURl = process.env.Porting;
     window.location.href = `${backendUrl}: ${portURl}`;
   };
 
