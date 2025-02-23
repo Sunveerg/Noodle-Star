@@ -10,7 +10,7 @@ import "dotenv/config";
 
 // Create an Express application
 const app = express();
-const port = process.port || 3001;
+const port = process.env.Port;
 
 
 let externalDeliveryId = null;
