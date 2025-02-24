@@ -331,6 +331,13 @@ const Profile: React.FC = () => {
                 >
                   Financial Report
                 </button>
+              </>
+            )}
+            {(isOwner || isStaff) && (
+              <>
+                <button className="nav-button" onClick={handleReviewClick}>
+                  Reviews
+                </button>
                 <button
                   className="nav-button"
                   onClick={() => navigate('/orders')}
@@ -338,11 +345,6 @@ const Profile: React.FC = () => {
                   Orders
                 </button>
               </>
-            )}
-            {isStaff && (
-              <button className="nav-button" onClick={handleReviewClick}>
-                Reviews
-              </button>
             )}
           </div>
         </div>
