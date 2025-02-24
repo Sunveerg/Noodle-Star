@@ -1,217 +1,216 @@
 body {
-    background: linear-gradient(135deg, rgba(166, 0, 7, 1), rgba(120, 0, 5, 1));
-    font-family: 'Abhaya Libre', serif;
-    color: #fff;
+  background: linear-gradient(135deg, rgba(166, 0, 7, 1), rgba(120, 0, 5, 1));
+  font-family: 'Abhaya Libre', serif;
+  color: #fff;
 }
 
 .topRightImage {
-    position: absolute;
-    top: 110px;
-    right: 5%;
-    width: 80px;
-    height: 200px;
-    background-image: url('../components/assets/chineseletters.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    opacity: 0.9;
+  position: absolute;
+  top: 110px;
+  right: 5%;
+  width: 80px;
+  height: 200px;
+  background-image: url('../components/assets/chineseletters.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.9;
 }
 
 .titleSection .pageTitle {
-    font-size: 50px;
-    font-weight: 700;
-    line-height: 1.2;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    color: rgba(255, 193, 101, 1);
-    padding-left: 3.5%;
-    padding-top: 7%;
+  font-size: 50px;
+  font-weight: 700;
+  line-height: 1.2;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  color: rgba(255, 193, 101, 1);
+  padding-left: 3.5%;
+  padding-top: 7%;
 }
 
 .menu-list {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px 40px;
-    padding: 0 20px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px 40px;
+  padding: 0 20px;
 }
 
 .menu-item {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    position: relative;
-    border-radius: 12px;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+  border-radius: 12px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .menu-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0px 12px 24px rgba(0, 0, 0, 0.3);
+  transform: translateY(-5px);
+  box-shadow: 0px 12px 24px rgba(0, 0, 0, 0.3);
 }
 
 .menu-item-content {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 15px;
-    margin-top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 15px;
+  margin-top: 0;
 }
 
 .menu-item img {
-    width: 50%;
-    height: auto;
-    object-fit: cover;
-    border-radius: 8px;
+  width: 50%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
 }
 
 .menu-name {
-    font-size: 24px;
-    font-weight: bold;
-    color: gold;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
-    margin-bottom: 10px;
-    white-space: nowrap;
+  font-size: 24px;
+  font-weight: bold;
+  color: gold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+  margin-bottom: 10px;
+  white-space: nowrap;
 }
 
 .menu-details {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding-left: 52px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-left: 52px;
 }
 
 .menu-price {
-    font-size: 30px;
-    margin-top: 10px;
-    color: #FFD700;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+  font-size: 30px;
+  margin-top: 10px;
+  color: #FFD700;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 .menu-description {
-    font-size: 20px;
-    margin-top: 10px;
-    color: #E3C27E;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+  font-size: 20px;
+  margin-top: 10px;
+  color: #E3C27E;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
 }
 
 .menu-status {
-    font-size: 16px;
-    font-weight: bold;
-    margin: 5px 0;
-    text-transform: uppercase;
-    padding: 5px 15px;
-    border-radius: 4px;
-    display: inline-block;
-    font-family: 'Abhaya Libre', serif;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+  font-size: 16px;
+  font-weight: bold;
+  margin: 5px 0;
+  text-transform: uppercase;
+  padding: 5px 15px;
+  border-radius: 4px;
+  display: inline-block;
+  font-family: 'Abhaya Libre', serif;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
 }
 
 .menu-status.available {
-    color: white;
-    background-color: rgba(1, 31, 1, 0.8);
-    border: 2px solid darkgreen;
+  color: white;
+  background-color: rgba(1, 31, 1, 0.8);
+  border: 2px solid darkgreen;
 }
 
 .menu-status.not-available {
-    color: white;
-    background-color: rgba(63, 0, 0, 0.8);
-    border: 2px solid darkred;
+  color: white;
+  background-color: rgba(63, 0, 0, 0.8);
+  border: 2px solid darkred;
 }
 
 .no-items {
-    font-size: 18px;
-    margin-top: 20px;
+  font-size: 18px;
+  margin-top: 20px;
 }
 
 .cloud5,
 .cloud4 {
-    position: absolute;
-    background-image: url('../components/assets/yellowcloud.png');
-    background-repeat: no-repeat;
-    background-size: contain;
-    opacity: 0.7;
+  position: absolute;
+  background-image: url('../components/assets/yellowcloud.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.7;
 }
 
 .cloud6 {
-    position: absolute;
-    background-image: url('../components/assets/darkcloud.png');
-    background-repeat: no-repeat;
-    background-size: contain;
-    opacity: 0.7;
+  position: absolute;
+  background-image: url('../components/assets/darkcloud.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.7;
 }
 
 .cloud4 {
-    width: 290px;
-    height: 200px;
-    bottom: 150px;
-    right: 40%;
+  width: 290px;
+  height: 200px;
+  bottom: 150px;
+  right: 40%;
 }
 
 .cloud5 {
-    width: 290px;
-    height: 200px;
-    bottom: 110px;
-    right: 15%;
+  width: 290px;
+  height: 200px;
+  bottom: 110px;
+  right: 15%;
 }
 
 .cloud6 {
-    width: 250px;
-    height: 170px;
-    bottom: 260px;
-    right: 0%;
+  width: 250px;
+  height: 170px;
+  bottom: 260px;
+  right: 0%;
 }
 
 .cloud-container {
-    position: fixed;
-    width: 100%;
-    height: 100%;
+  position: fixed;
+  width: 100%;
+  height: 100%;
 }
 
-
 .category-filter {
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-  }
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
 
-  .category-filters {
-    display: flex;
-    justify-content: flex-start; /* Align categories to the start */
-    gap: 15px;
-    margin-bottom: 20px;
-    overflow-x: auto; /* Enable horizontal scrolling */
-    white-space: nowrap; /* Prevent the items from wrapping onto the next line */
-    padding: 10px 0;
-  }
-  
-  .category-button {
-    background-color: #FFC165;
-    color: black;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    white-space: nowrap; /* Ensure the category name doesn’t wrap */
-  }
-  
-  .category-button.active {
-    background-color: #0056b3;
-    color: white;
-  }
-  
-  .category-button:hover {
-    background-color: #e9a02a;
-  }
+.category-filters {
+  display: flex;
+  justify-content: flex-start; /* Align categories to the start */
+  gap: 15px;
+  margin-bottom: 20px;
+  overflow-x: auto; /* Enable horizontal scrolling */
+  white-space: nowrap; /* Prevent the items from wrapping onto the next line */
+  padding: 10px 0;
+}
 
-  .category-filters::-webkit-scrollbar {
+.category-button {
+  background-color: #FFC165;
+  color: black;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  white-space: nowrap; /* Ensure the category name doesn’t wrap */
+}
+
+.category-button.active {
+  background-color: #0056b3;
+  color: white;
+}
+
+.category-button:hover {
+  background-color: #e9a02a;
+}
+
+.category-filters::-webkit-scrollbar {
   height: 8px; /* Adjust height for horizontal scrollbar */
 }
 
@@ -224,97 +223,107 @@ body {
   background-color: #555;
 }
 
-  
-  .btn-category {
-    padding: 10px 20px;
-    background-color: rgba(0, 0, 0, 0.1);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .btn-category:hover {
-    background-color: rgba(255, 193, 101, 0.7);
-  }
-  
-  .btn-category.active {
-    background-color: rgba(255, 193, 101, 0.9);
-  }
-  
-  .menu-item-content {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    position: relative;
-    border-radius: 12px;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .menu-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0px 12px 24px rgba(0, 0, 0, 0.3);
-  }
-  
+.btn-category {
+  padding: 10px 20px;
+  background-color: rgba(0, 0, 0, 0.1);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-category:hover {
+  background-color: rgba(255, 193, 101, 0.7);
+}
+
+.btn-category.active {
+  background-color: rgba(255, 193, 101, 0.9);
+}
+
+.menu-item-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+  border-radius: 12px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.menu-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 12px 24px rgba(0, 0, 0, 0.3);
+}
 
 .btn-edit {
-    display: inline-block;
-    margin-top: 10px;
-    padding: 8px 16px;
-    background-color: #FFC165;
-    color: black;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    text-align: center;
-    pointer-events: auto;
-    z-index: 10;
+  display: inline-block;
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #FFC165;
+  color: black;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  pointer-events: auto;
+  z-index: 10;
 }
 
 .btn-edit:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }
 
 .btn-delete {
-    background-color: #ff4d4f;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 8px 12px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 .btn-delete:hover {
-    background-color: #d9363e;
-    transform: scale(1.05);
+  background-color: #d9363e;
+  transform: scale(1.05);
 }
 
 .btn-delete:focus {
-    outline: none;
-    box-shadow: 0 0 5px rgba(255, 77, 79, 0.5);
+  outline: none;
+  box-shadow: 0 0 5px rgba(255, 77, 79, 0.5);
 }
 
+/* Align Edit and Delete buttons side by side */
+.menu-item-content .btn-edit,
+.menu-item-content .btn-delete {
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+.menu-item-content .btn-edit,
+.menu-item-content .btn-delete {
+  display: inline-block;
+  margin-top: 10px;
+}
 
 .menu-image {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    margin: 10px;
-    width: 200px; /* Adjust the width as needed */
-  }
-  
-  .menu-image img {
-    width: 100%; /* Make the image fill the container */
-    height: 150px; /* Set a fixed height for all images */
-    object-fit: cover; /* Ensure the image covers the container while maintaining aspect ratio */
-    border-radius: 8px; /* Optional: Add rounded corners */
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: 10px;
+  width: 200px; /* Adjust the width as needed */
+}
+
+.menu-image img {
+  width: 100%; /* Make the image fill the container */
+  height: 150px; /* Set a fixed height for all images */
+  object-fit: cover; /* Ensure the image covers the container while maintaining aspect ratio */
+  border-radius: 8px; /* Optional: Add rounded corners */
+}

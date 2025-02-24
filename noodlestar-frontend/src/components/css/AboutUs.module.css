@@ -119,11 +119,11 @@
 
 /* "Our Team" section styling */
 .teamSection h3 {
-  font-size: 40px;
+  font-size: 36px;
   font-family: 'Abhaya Libre', serif;
   font-weight: 700;
   margin-bottom: 30px;
-  color: rgba(255, 193, 101, 1);
+  color: rgba(255, 193, 101, 1); /* Gold color for text */
 }
 
 .teamMembers {
@@ -132,62 +132,74 @@
     auto-fill,
     minmax(280px, 1fr)
   ); /* 4 cards per row */
-  gap: 20px;
+  gap: 30px;
   margin-top: 40px;
 }
 
 .teamMember {
-  background: rgba(255, 221, 51, 1); /* Yellow card color */
+  background: rgba(140, 0, 4, 1); /* Darker red inside the card */
   padding: 20px;
-  border-radius: 10px;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.1); /* Light shadow for a clean effect */
   text-align: center;
-  transition: transform 0.3s ease-in-out;
-  color: rgba(0, 0, 0, 1);
-}
-
-.teamMember:hover {
-  transform: translateY(-10px); /* Hover effect for interaction */
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  color: rgba(255, 193, 101, 1); /* Gold text for contrast */
+  border: 2px solid rgba(255, 193, 101, 1); /* Gold border to tie it all together */
+  width: 100%; /* Ensure the width of the card is consistent */
+  box-sizing: border-box; /* Include padding and border in the element's total width/height */
 }
 
 .teamMemberPhoto {
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
   object-fit: cover;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+
+.teamMember:hover {
+  transform: translateY(-8px); /* Slight lift effect */
+  box-shadow: 6px 6px 25px rgba(0, 0, 0, 0.15); /* Slightly deeper shadow on hover */
 }
 
 .teamMemberInfo {
-  color: rgba(0, 0, 0, 1);
+  color: rgba(255, 193, 101, 1); /* Gold text for bio */
 }
 
 .teamMemberInfo h4 {
   font-size: 18px;
-  font-weight: 700;
+  font-family: 'Abhaya Libre', serif;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: rgba(255, 193, 101, 1); /* Gold for name */
 }
 
 .teamMemberInfo p {
   font-size: 14px;
-  margin-bottom: 5px;
+  line-height: 1.4;
+  margin-bottom: 10px;
+  color: rgba(255, 193, 101, 0.9); /* Slightly muted gold for the bio */
 }
 
 .deleteButton {
-  background-color: #d9534f; /* Red background */
+  background-color: #f5b041; /* Gold button */
   color: white; /* White text */
   border: none;
-  padding: 8px 12px;
+  padding: 10px 15px;
   font-size: 14px;
   font-weight: bold;
-  border-radius: 5px;
+  border-radius: 8px; /* Rounded corners */
   cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
+  transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+  margin-top: 15px;
 }
 
 .deleteButton:hover {
-  background-color: #c9302c; /* Darker red on hover */
+  background-color: #e67e22; /* Darker gold on hover */
+  transform: scale(1.05); /* Slight scale effect */
 }
 
 .deleteButton:active {
-  background-color: #ac2925; /* Even darker red on click */
+  background-color: #d35400; /* Even darker gold on click */
 }

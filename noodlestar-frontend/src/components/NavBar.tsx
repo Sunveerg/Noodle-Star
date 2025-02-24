@@ -58,7 +58,15 @@ export const NavBar: React.FC = () => {
     if (googleTranslateElement) {
       googleTranslateElement.value = lang;
       googleTranslateElement.dispatchEvent(new Event('change'));
-      setCurrentLanguage(lang === 'en' ? 'EN' : 'FR');
+      setCurrentLanguage(
+        lang === 'en'
+          ? 'EN'
+          : lang === 'fr'
+            ? 'FR'
+            : lang === 'zh-CN'
+              ? 'ZH'
+              : ''
+      );
     } else {
       console.error('Google Translate dropdown not found');
     }
@@ -107,6 +115,10 @@ export const NavBar: React.FC = () => {
                 English
               </button>
               <button onClick={() => handleLanguageChange('fr')}>French</button>
+              <button onClick={() => handleLanguageChange('zh-CN')}>
+                Chinese
+              </button>{' '}
+              {/* Added Chinese option */}
             </div>
           </div>
           {loading ? (

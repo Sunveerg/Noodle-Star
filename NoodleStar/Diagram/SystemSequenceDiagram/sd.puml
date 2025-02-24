@@ -1,0 +1,40 @@
+@startuml
+hide footbox
+actor Owner
+
+participant AboutUsPage as "<<View>>\nAboutUsPage"
+participant TeamMemberFeature as "<<View>>\nTeamMemberFeature"
+participant AxiosInstance as "<<Utility>>\nAxiosInstance"
+participant TeamMemberController as "<<Controller>>\nTeamMemberController"
+participant TeamMemberService as "<<Service>>\nTeamMemberService"
+participant TeamMemberRepository as "<<Repository>>\nTeamMemberRepository"
+participant Database as "<<Database>>\nDatabase"
+
+' delete a team member '
+Owner -> AboutUsPage: Submit Delete Request
+activate AboutUsPage
+AboutUsPage -> TeamMemberFeature: deleteTeamMember(teamMemberId)
+activate TeamMemberFeature
+TeamMemberFeature -> AxiosInstance: DELETE /api/v1/team-members(teamMemberId)
+activate AxiosInstance
+AxiosInstance -> TeamMemberController: DELETE /api/v1/team-members/{teamMemberId}
+activate TeamMemberController
+TeamMemberController -> TeamMemberService: deleteTeamMember(teamMemberId)
+activate TeamMemberService
+TeamMemberService -> TeamMemberRepository: deleteTeamMember(teamMemberId)
+activate TeamMemberRepository
+TeamMemberRepository -> Database: Delete Team Member Entry
+activate Database
+    Database -> TeamMemberRepository: Confirm deletion
+    TeamMemberRepository -> TeamMemberService: Acknowledge deletion
+    TeamMemberService -> TeamMemberController: Deletion Successful
+deactivate Database
+deactivate TeamMemberService
+TeamMemberController --> AxiosInstance: return ResponseEntity(Void)
+deactivate TeamMemberController
+AxiosInstance --> TeamMemberFeature: Handle Deletion Response
+deactivate AxiosInstance
+TeamMemberFeature --> AboutUsPage: showSuccessMessage()
+deactivate TeamMemberFeature
+deactivate AboutUsPage
+@enduml

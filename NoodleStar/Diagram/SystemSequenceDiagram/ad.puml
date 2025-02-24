@@ -1,0 +1,79 @@
+@startuml
+title Team Member Class Diagram within the Restaurant Subdomain
+
+package "TeamMemberSubdomain" {
+
+    package "businesslayer" {
+        interface TeamMemberService {
+            + getAllTeamMembers() : Flux<TeamMemberResponseModel>
+            + deleteTeamMember(teamMemberId: String) : Mono<Void>
+        }
+
+        class TeamMemberServiceImpl {
+            - teamMemberRepository : TeamMemberRepository
+            + getAllTeamMembers() : Flux<TeamMemberResponseModel>
+            + deleteTeamMember(teamMemberId: String) : Mono<Void>
+        }
+    }
+
+    package "datalayer" {
+        class TeamMember {
+            - teamMemberId : String
+            - name : String
+            - role : String
+            - bio : String
+            - photoUrl : String
+        }
+
+        interface TeamMemberRepository extends MongoRepository {
+            + findByTeamMemberId(teamMemberId: String) : Mono<TeamMember>
+        }
+    }
+
+    package "Utils" {
+        interface EntityDto {
+            + requestModelToEntity(teamMemberRequest: TeamMemberRequestModel) : TeamMember
+            + entityToResponseModel(teamMember: TeamMember) : TeamMemberResponseModel
+        }
+    }
+
+    package "presentationlayer" {
+        class TeamMemberRequestModel {
+            - name : String
+            - role : String
+            - bio : String
+            - photoUrl : String
+        }
+
+        class TeamMemberResponseModel {
+            - teamMemberId : String
+            - name : String
+            - role : String
+            - bio : String
+            - photoUrl : String
+        }
+
+        class TeamMemberController {
+            - teamMemberService : TeamMemberService
+            + getAllTeamMembers() : ResponseEntity<Flux<TeamMemberResponseModel>>
+            + deleteTeamMember(teamMemberId: String) : ResponseEntity<Mono<Void>>
+        }
+    }
+
+    TeamMemberServiceImpl -down-|> TeamMemberService : implements
+    TeamMemberServiceImpl -down-> TeamMemberRepository : uses
+    TeamMemberServiceImpl -down-> EntityDto : uses
+    TeamMemberServiceImpl -down-> TeamMemberRequestModel : uses
+    TeamMemberServiceImpl -down-> TeamMemberResponseModel : uses
+    EntityDto -left- TeamMemberRequestModel : uses
+    EntityDto -left- TeamMemberResponseModel : uses
+
+    EntityDto -left- TeamMember : data conversion
+    EntityDto -right- TeamMember : data conversion
+    TeamMemberRepository -[hidden]-> TeamMember : data persistence
+    TeamMemberController -right-> TeamMemberService : uses
+    TeamMemberController -down-> TeamMemberRequestModel : uses
+    TeamMemberController -down-> TeamMemberResponseModel : uses
+}
+
+@enduml
