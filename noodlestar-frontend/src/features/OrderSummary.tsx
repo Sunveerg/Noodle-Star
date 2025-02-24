@@ -30,7 +30,7 @@ const OrderSummary: React.FC = (): JSX.Element => {
   const navigate = useNavigate();
 
   const handleReviewClick = () => {
-    window.location.href = 'https://orca-app-5zos8.ondigitalocean.app:80';
+    window.location.href = 'https://orca-app-5zos8.ondigitalocean.app';
   };
 
   const handlePickupClick = async () => {
