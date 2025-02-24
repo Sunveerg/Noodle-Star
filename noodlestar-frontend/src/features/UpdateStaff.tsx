@@ -27,16 +27,10 @@ const UpdateStaff: React.FC = (): JSX.Element => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log('Component mounted. userId from useParams:', staffId);
     const fetchStaff = async (): Promise<void> => {
       if (staffId) {
-        // eslint-disable-next-line no-console
-        console.log('Fetching staff data for userId:', staffId);
         try {
           const response = await getStaff(staffId);
-          // eslint-disable-next-line no-console
-          console.log('Staff data fetched successfully:', response);
           setStaff({
             firstName: response.firstName,
             lastName: response.lastName,
