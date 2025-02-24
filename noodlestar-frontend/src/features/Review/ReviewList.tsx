@@ -35,6 +35,9 @@ const ReviewList: React.FC = (): JSX.Element => {
     try {
       const url = `${backendUrl}/api/v1/review/${reviewId}`;
       await axios.delete(url);
+      setReviews(prevReviews =>
+        prevReviews.filter(review => review.reviewId !== reviewId)
+      );
     } catch (error: unknown) {
       if (error instanceof Error) {
         throw new Error(
