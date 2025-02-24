@@ -72,7 +72,6 @@ const AvailableMenuList: React.FC = (): JSX.Element => {
       }
 
       document.cookie = `cartItems=${JSON.stringify(updatedCartItems)}; path=/;`;
-      console.log('Updated Cart Items Cookie:', document.cookie);
 
       return updatedCartItems;
     });
