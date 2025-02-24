@@ -4,19 +4,20 @@ function getFormValues() {
     const fieldArray = Array.from(fieldList);
 
     const payload = fieldArray.reduce((obj, field) => {
-        if (field.type === "checkbox" && field.checked) {
-            // Add checkbox value to order_value
-            obj["order_value"] += parseFloat(field.value) || 0;
-        } else if (field.name) { // Ensure only valid fields are added
-            obj[field.name] = field.value;
+        if (field.name) { // Ensure only valid fields are added
+            if (field.type === "checkbox") {
+                // Include all checkbox values, regardless of whether they are checked
+                obj[field.name] = field.value;
+            } else {
+                obj[field.name] = field.value;
+            }
         }
         return obj;
-    }, { order_value: 0 });
+    }, {});
 
     console.log("payload", JSON.stringify(payload)); // Log the complete payload
     return payload;
 }
-
 
 
 async function getFee() {
