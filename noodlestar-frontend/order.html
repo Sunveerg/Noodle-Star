@@ -106,7 +106,8 @@
     <script src="delivery.js"></script>
     <script>
       function goBack() {
-        window.location.href = 'http://localhost:3000/home';
+        const backendUrl = process.env.REACT_APP_BACKEND_URL;
+        window.location.href = `${backendUrl}/home`;
       }
     </script>
   </body>
